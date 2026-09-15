@@ -301,3 +301,26 @@ export const DOCTOR_MEDIA_HEIGHT_PERCENT = 62;
  * entry) — the cycle exists so a future real roster expands into this
  * automatically, without new engineering. */
 export const DOCTOR_SCENE_VARIANT_COUNT = 5;
+
+/**
+ * TEAM JOURNEY rework — `team-journey.tsx`'s own, deliberately smaller
+ * horizontal system: all 10 roster members, one consistent scene layout,
+ * no Hero/Consult/CTA/Form panels folded in, no connecting-line thread,
+ * no per-scene scale/opacity settle. That system reuses
+ * `DOCTORS_DESKTOP_QUERY`, `normalizedDelta` and the real-`getBoundingClientRect`
+ * "distance from viewport centre" measurement technique above; the two
+ * values below are the only genuinely new numbers it needs. See
+ * `team-journey.tsx`'s own top comment for the full account of what was
+ * reused from this file versus deliberately left out.
+ */
+/** Below this height the team journey's pin never engages even at a
+ * `DOCTORS_DESKTOP_QUERY`-eligible width — paired with that width query
+ * (not replacing it) via a combined `@media` in `team-journey.tsx`'s own
+ * CSS gate, so a wide-but-short window (the brief's own "short desktop"
+ * example, 1440×650) falls back to the vertical directory before content
+ * ever has to actually overflow to be caught. */
+export const TEAM_SCENE_MIN_HEIGHT_QUERY = "(min-height: 700px)";
+/** Max px of the optional portrait depth drift — "approximately 8–12px,"
+ * per the brief; applied only to a scene's own clipped image layer via
+ * `normalizedDelta`'s existing -1..1 output, never to its text. */
+export const TEAM_SCENE_PORTRAIT_DRIFT_PX = 10;

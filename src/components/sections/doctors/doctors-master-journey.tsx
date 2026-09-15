@@ -2,12 +2,12 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import type { CSSProperties, ReactNode } from "react";
-import { doctors, doctorsJourneyIntro, doctorsEnquiryForm } from "@/content/doctors-content";
+import { doctorsJourneyRoster, doctorsJourneyIntro } from "@/content/doctors-content";
 import { DoctorsHero } from "@/components/sections/doctors/doctors-hero";
 import { WhoShouldYouConsult } from "@/components/sections/doctors/who-should-you-consult";
 import { MultidisciplinaryCare } from "@/components/sections/doctors/multidisciplinary-care";
 import { DoctorsAppointmentCta } from "@/components/sections/doctors/doctors-appointment-cta";
-import { DoctorsEnquiryForm } from "@/components/sections/doctors/doctors-enquiry-form";
+import { DoctorsEnquiryFormSection } from "@/components/sections/doctors/doctors-enquiry-form-section";
 import {
   HeroScene,
   InterstitialScene,
@@ -77,18 +77,29 @@ import {
  *   1" pitfall.
  *
  * Panel sequence and widths are data-driven from `doctors-content.ts`,
- * not a fixed eleven-panel layout: this page has real, approved copy for
- * exactly six editorial moments today (Hero, the doctor scene(s), the
- * merged Allied/Connected Care chapter, Who Should You Consult, the
- * Appointment CTA, and the closing Form) — see `PANEL_SEQUENCE` below and
- * this file's own doctor-scene mapping for why the doctor-roster portion
- * scales with `doctors.length` rather than a hard-coded "Founder + four
- * clinical doctors" split doctors-content.ts's own single real entry
- * can't honestly support (its own header comment is explicit: several
- * team names surfaced during this rework are "known context," deliberately
- * still not used). The variant-cycling `DoctorScene` system supports five
- * distinct editorial layouts the moment more real doctors are approved,
- * with no further engineering.
+ * not a fixed panel count: the doctor-roster portion of the track scales
+ * with `doctorsJourneyRoster.length` (the Founder plus the four Medical
+ * & Clinical Team members — see that array's own comment in
+ * doctors-content.ts for why the journey deliberately doesn't include
+ * the Allied Care Team, or all 10 confirmed people, as panels). The
+ * variant-cycling `DoctorScene` system already supports five distinct
+ * editorial layouts, one per roster member, with no further engineering.
+ * Allied Care Team, and the full 10-person directory generally, live in
+ * their own normal-flow sections (medical-team-directory.tsx,
+ * allied-team-directory.tsx, founder-section.tsx) — not inside the pinned
+ * track at all.
+ *
+ * TEAM DIRECTORY REWORK: this component is no longer rendered by
+ * `app/doctors/page.tsx` — that page now composes the standalone sections
+ * below directly (Hero, Founder, the two profile-row directories,
+ * Multidisciplinary Care, Who Should You Consult, the Appointment CTA and
+ * `doctors-enquiry-form-section.tsx`), replacing both this file's pinned
+ * desktop track AND its own `DoctorsVerticalJourney` fallback, which
+ * duplicated the same Founder+Medical roster as the grids below it. Kept
+ * in the tree, not deleted — its GSAP/ScrollTrigger mechanics
+ * (doctors-journey-scenes.tsx, motion/doctors-journey.ts) are a real,
+ * substantial, self-contained system with no other confirmed use today,
+ * but removing it was outside this rework's own scope.
  *
  * Below `lg`, and under `prefers-reduced-motion: reduce` at any width: no
  * pin, no track, no horizontal scroll at all — `DoctorsVerticalJourney`
@@ -116,7 +127,7 @@ function useJourneyPanels(): PanelDef[] {
       { key: "hero", widthVw: 100, render: () => <HeroScene /> },
       { key: "interstitial", widthVw: 16, render: () => <InterstitialScene /> },
     ];
-    doctors.forEach((doctor, index) => {
+    doctorsJourneyRoster.forEach((doctor, index) => {
       panels.push({
         key: doctor.slug,
         widthVw: DOCTOR_SCENE_WIDTH_VW[index % DOCTOR_SCENE_WIDTH_VW.length],
@@ -457,12 +468,19 @@ function DoctorsMasterTrackDesktop() {
  * vertical editorial sequence — no pinning, no forced heights, no
  * sideways swipe requirement. Reuses the already-approved standalone
  * section components for Hero/Consult/Multidisciplinary-Care/CTA
- * verbatim, adds the doctor list (alternating portrait/text, same rhythm
- * the desktop track's own variant cycle carries) and a plain vertical
- * form section — "maintain: Hero, Founder, Clinical Doctors, Allied Care,
- * Consult Guidance, Connected Care, CTA, Form, Footer," per the brief,
- * mapped onto this page's own real content the same way the desktop
- * track is (see this file's own top comment).
+ * verbatim, adds the doctor list (Founder + Medical & Clinical Team —
+ * the SAME `doctorsJourneyRoster` the desktop track's own panels read,
+ * alternating portrait/text in the same rhythm the desktop track's own
+ * variant cycle carries) and a plain vertical form section.
+ *
+ * The Allied Care Team, and the full 10-person directory generally, are
+ * NOT part of either path here — `FounderSection`, `MedicalTeamGrid` and
+ * `AlliedTeamGrid` render once, unconditionally, as ordinary responsive
+ * sections in `app/doctors/page.tsx` itself, right after
+ * `<DoctorsMasterJourney />` — they don't need a separate desktop/mobile
+ * split of their own (they're plain CSS grids, not pinned), so
+ * duplicating them into both this function and the desktop track would
+ * only be two copies of the same content to keep in sync.
  */
 function DoctorsVerticalJourney() {
   return (
@@ -476,6 +494,7 @@ function DoctorsVerticalJourney() {
     </>
   );
 }
+
 
 /** Alignment + mobile-horizontal rework: a short, local, static thread
  * fragment shown only below `sm` — the brief's own "no huge desktop
@@ -508,7 +527,7 @@ function DoctorsVerticalDoctorList() {
       </div>
 
       <div className="container-birthwave flex flex-col gap-16 pb-(--space-section) sm:gap-20">
-        {doctors.map((doctor, index) => {
+        {doctorsJourneyRoster.map((doctor, index) => {
           const imageOnRight = index % 2 === 1;
           const gradient = [
             "linear-gradient(155deg, var(--color-paper-dim) 0%, var(--color-terracotta) 100%)",
@@ -557,35 +576,6 @@ function DoctorsVerticalDoctorList() {
             </div>
           );
         })}
-      </div>
-    </section>
-  );
-}
-
-function DoctorsEnquiryFormSection() {
-  return (
-    <section
-      id="doctors-enquiry"
-      aria-labelledby="doctors-enquiry-heading"
-      className="relative isolate bg-paper-dim section-pad"
-    >
-      <div className="container-birthwave grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-16">
-        <div className="max-w-md">
-          <p className="eyebrow">{doctorsEnquiryForm.eyebrow}</p>
-          <h2
-            id="doctors-enquiry-heading"
-            className="mt-4 text-[clamp(2rem,1.6rem+1.8vw,2.75rem)] leading-[1.1] font-semibold text-ink"
-          >
-            {doctorsEnquiryForm.headingLines.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-          </h2>
-          <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{doctorsEnquiryForm.supporting}</p>
-        </div>
-
-        <DoctorsEnquiryForm />
       </div>
     </section>
   );

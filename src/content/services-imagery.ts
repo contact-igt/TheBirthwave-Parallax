@@ -1,6 +1,34 @@
 /** Temporary AI illustrations used only on /services. Replace each asset here with approved clinic photography. */
 export const servicesImagery = {
   "services-hero": { src: "/images/services/services-hero-ai-preview-v1.webp", alt: "AI-generated illustration: A mother cradles her sleeping newborn beside a softly lit window." },
+  // Pregnancy & Antenatal Care landing page — its own dedicated hero
+  // background, copied in from the approved visual reference (see
+  // pregnancy-antenatal-landing-content.ts's own header comment) and
+  // three keys that deliberately REUSE existing /services image files
+  // rather than duplicating the binary asset — a different `imageKey`
+  // per usage context, so each carries its own accurate alt/caption text
+  // for where it actually appears on this page, without a second copy of
+  // the file itself.
+  "pregnancy-antenatal-hero": {
+    src: "/images/services/pregnancy-antenatal-care-hero-ai-preview-v1.webp",
+    alt: "AI-generated illustration: A pregnant woman in a softly lit, warm interior.",
+  },
+  "pregnancy-antenatal-checkins-scans": {
+    src: "/images/services/pregnancy-antenatal-care-ai-preview-v1.webp",
+    alt: "AI-generated illustration: A pregnant woman talks with a clinician during an antenatal consultation.",
+  },
+  "pregnancy-antenatal-wellbeing-birth-prep": {
+    src: "/images/services/birth-preparation-ai-preview-v1.webp",
+    alt: "AI-generated illustration: An expectant couple practises calm breathing with a childbirth educator.",
+  },
+  "pregnancy-antenatal-first-consultation": {
+    src: "/images/services/gynaecology-ai-preview-v1.webp",
+    alt: "AI-generated illustration: A woman discusses her health with a clinician in a calm consultation room.",
+  },
+  "pregnancy-antenatal-care-team": {
+    src: "/images/services/connected-care-ai-preview-v1.webp",
+    alt: "AI-generated illustration: Three care professionals discuss care together around a table.",
+  },
   "fertility-preconception": { src: "/images/services/fertility-preconception-ai-preview-v1.webp", alt: "AI-generated illustration: A couple talks with a clinician about planning a pregnancy." },
   "vaginismus": { src: "/images/services/vaginismus-ai-preview-v1.webp", alt: "AI-generated illustration: A woman has a private, supportive conversation with a clinician." },
   "gynaecology": { src: "/images/services/gynaecology-ai-preview-v1.webp", alt: "AI-generated illustration: A woman discusses her health with a clinician in a calm consultation room." },
