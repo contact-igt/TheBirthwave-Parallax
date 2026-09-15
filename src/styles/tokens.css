@@ -1,0 +1,101 @@
+/**
+ * Design tokens — The Birth Wave
+ *
+ * Source of truth for every color, type, spacing, radius and motion value
+ * used on the site. See docs/implementation-brief.md §1 for which values
+ * are confirmed from the brand guide vs. authored to fill a documented gap.
+ *
+ * Confirmed from Reference/Birthwave Brand Guideline (2) (2).pdf:
+ *   --color-terracotta, --color-sky, --color-coral (exact hex from the
+ *   guide's "Color Palette" page) and the two type families in
+ *   src/app/layout.tsx.
+ *
+ * Authored (not in the guide, disclosed here rather than guessed):
+ *   --color-ink, --color-paper and every derived tint/shade, the full type
+ *   scale, spacing rhythm, radii and motion curves.
+ */
+
+:root {
+  /* ---- Brand color (confirmed) ---- */
+  --color-terracotta: #ca9585;
+  --color-sky: #5daedb;
+  --color-coral: #f88379;
+
+  /* ---- Foundation neutrals (authored — see brief) ---- */
+  --color-ink: #241a17; /* warm near-black, never pure #000 */
+  --color-ink-soft: #5b4a43; /* muted body/secondary text on paper */
+  --color-paper: #fbf4f1; /* warm off-white surface */
+  --color-paper-dim: #f3e3dd; /* alternate section surface */
+
+  /* ---- Accessible text variants of the brand hues ----
+     The raw brand hues sit at ~2.3:1 on paper — decorative only.
+     These darkened variants clear 4.5:1+ for use as colored text/links. */
+  --color-terracotta-deep: #8c5a4a;
+  --color-sky-deep: #2e6e93;
+
+  /* ---- Semantic roles ---- */
+  --color-surface: var(--color-paper);
+  --color-surface-alt: var(--color-paper-dim);
+  --color-text: var(--color-ink);
+  --color-text-muted: var(--color-ink-soft);
+  --color-on-brand: var(--color-ink); /* text placed on terracotta/coral/sky fills */
+  --color-on-ink: var(--color-paper); /* text/logo placed on ink fills */
+  --color-border: color-mix(in srgb, var(--color-ink) 14%, transparent);
+  --color-border-strong: color-mix(in srgb, var(--color-ink) 28%, transparent);
+  --color-focus-ring: var(--color-ink);
+
+  /* ---- Type scale (fluid) ---- */
+  --text-xs: 0.8125rem; /* 13px */
+  --text-sm: 0.9375rem; /* 15px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.375rem; /* 22px */
+  --text-2xl: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  --text-3xl: clamp(2.25rem, 1.7rem + 2.2vw, 3.375rem);
+  --text-4xl: clamp(2.75rem, 1.9rem + 3.6vw, 4.75rem);
+  --text-5xl: clamp(3.25rem, 1.8rem + 6.2vw, 6.75rem);
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.03em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.08em;
+  --tracking-wider: 0.18em;
+
+  /* ---- Spacing rhythm ---- */
+  --space-section: clamp(4rem, 3rem + 5vw, 8rem);
+  --space-section-sm: clamp(2.5rem, 2rem + 2.5vw, 4.5rem);
+  --space-gutter: clamp(1.25rem, 1rem + 2vw, 3rem);
+
+  /* ---- Radii — the single-deep-corner panel is the site's structural
+     signature, lifted from the brand guide's own recurring layout device
+     (see brief §1). Applied per-corner in components, not as one token. ---- */
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.625rem;
+  --radius-md: 1.25rem;
+  --radius-panel: clamp(2.5rem, 2rem + 4vw, 5.5rem);
+
+  /* ---- Motion ---- */
+  --ease-signature: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 180ms;
+  --duration-base: 420ms;
+  --duration-slow: 900ms;
+  --duration-ambient: 110s; /* the page-wide backdrop drift — barely perceptible */
+
+  /* ---- Section-to-section blend distance ---- */
+  --space-fade-soft: clamp(2.5rem, 2rem + 2vw, 4rem);
+  --space-fade-strong: clamp(4rem, 3rem + 5vw, 7rem);
+  /* Originally widened for Final CTA's warm→dark-brown transition (see
+     motion/section-transitions.ts's finalCtaEmergence) — a longer, more
+     held approach than the strong distance used elsewhere. Reused by
+     Immersive's own entry/exit bands too (interaction-correction pass) so
+     the site's two full-bleed dark moments share one graduated distance. */
+  --space-fade-final: clamp(6rem, 4.5rem + 7.5vw, 11rem);
+
+  /* ---- Layout ---- */
+  --container-max: 87.5rem; /* 1400px */
+  --header-height: 5rem;
+}

@@ -1,26 +1,244 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Bridge design tokens into Tailwind v4's theme so utilities like
+   bg-terracotta, text-ink, font-display, rounded-panel etc. exist. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-terracotta: var(--color-terracotta);
+  --color-terracotta-deep: var(--color-terracotta-deep);
+  --color-sky: var(--color-sky);
+  --color-sky-deep: var(--color-sky-deep);
+  --color-coral: var(--color-coral);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-paper: var(--color-paper);
+  --color-paper-dim: var(--color-paper-dim);
+  --color-surface: var(--color-surface);
+  --color-surface-alt: var(--color-surface-alt);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-panel: var(--radius-panel);
+
+  --container-birthwave: var(--container-max);
+
+  --ease-signature: var(--ease-signature);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------------------------------------------------------------------- */
+/* Base                                                                    */
+/* ---------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
 }
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: var(--color-text);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  font-weight: 600;
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background-color: var(--color-terracotta);
+  color: var(--color-on-brand);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Focus — visible everywhere, never suppressed                           */
+/* ---------------------------------------------------------------------- */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+/* A double-ring variant for controls sitting on brand-color fills
+   (terracotta/coral buttons), so the ring reads against any surface. */
+.focus-ring-on-brand:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--color-paper);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Motion primitives — used sparingly (hero load-in, one parallax moment) */
+/* ---------------------------------------------------------------------- */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.motion-rise-in {
+  animation: rise-in var(--duration-slow) var(--ease-signature) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Ambient background — one continuous layer behind the whole homepage.   */
+/* See components/ambient-background.tsx. Pure CSS: no scroll listener,   */
+/* no JS at all, so there's nothing to gate except the animation itself.  */
+/* ---------------------------------------------------------------------- */
+
+@keyframes ambient-drift {
+  0% {
+    transform: scale(1.35) translate(-2.5%, -1.5%);
+  }
+  100% {
+    transform: scale(1.35) translate(2.5%, 2%);
+  }
+}
+
+.ambient-drift {
+  animation: ambient-drift var(--duration-ambient) ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-drift {
+    animation: none;
+    transform: scale(1.35);
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Layout utilities                                                       */
+/* ---------------------------------------------------------------------- */
+
+.container-birthwave {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-gutter);
+}
+
+.section-pad {
+  padding-block: var(--space-section);
+}
+
+/* Mobile responsive rework (docs/implementation-brief.md §38): a shorter
+   header on small screens only — 5rem (80px) reads oversized against a
+   360–430px viewport; this brings it to 4.25rem (68px), inside the
+   requested 64–72px range. Scoped to exactly the same <768px range
+   site-header.tsx's own `md:hidden`/`md:flex` split already uses, so the
+   header's rendered height and its own mobile-vs-desktop layout switch
+   change at the same boundary. Every other use of `--header-height`
+   (Hero's top clearance, Care's desktop-only sticky offset) reads this
+   same token, so both scale down consistently on mobile rather than
+   needing their own separate overrides — Care's is `lg:sticky`-gated
+   anyway, so it never sees the mobile value in practice. */
+@media (max-width: 767px) {
+  :root {
+    --header-height: 4.25rem;
+  }
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-terracotta-deep);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Hero → Philosophy crossover                                            */
+/* ---------------------------------------------------------------------- */
+
+/* No CSS left to carry here — retired, in order: a negative-margin section
+   overlap (`.hero-philosophy-overlap`) and its paired background mask
+   (`.philosophy-crossfade-mask`); a later attempt at sharing one sticky
+   viewport stage between Hero and Philosophy's first statement (split
+   Philosophy into two pieces); after that, Hero's own dedicated sticky
+   "exit stage" with a scroll-scrubbed video/text/veil timeline followed by
+   Philosophy's own separate pinned, sentence-by-sentence timeline (both
+   reserved real scroll distance visitors had to pass through before
+   Philosophy's wording ever appeared — confirmed on screenshot as the
+   reported empty/logo-only interval, then a long pinned read). Hero
+   (hero-section.tsx) and Philosophy (philosophy-section.tsx) are now both
+   normal, non-pinned, content-driven sections in plain document flow, one
+   directly after the other — no shared progress, no pin-spacer, no
+   negative-margin overlap. A short, static, hand-authored wave/fabric
+   shape at Hero's own bottom edge (no separate module, no scroll-scrubbed
+   geometry) is the entire transition device between them now. */
+
+/* The Care & Trust reduced-motion image-switching fallback that used to
+   live here (`.care-inline-visual`/`.care-sticky-visual`, §33) was
+   removed in docs/implementation-brief.md §37: Care now uses a single
+   companion video that never switches, so there's nothing left to fall
+   back between — see care-section.tsx's own `CareVisual`. */
