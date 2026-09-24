@@ -16,7 +16,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const doctor = getDoctorBySlug(slug);
   return {
-    title: doctor ? `${doctor.name}: The Birth Wave` : "Our Team: The Birth Wave",
+    title: doctor ? `${doctor.name}: The Birthwave` : "Our Team: The Birthwave",
   };
 }
 

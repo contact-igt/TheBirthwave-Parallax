@@ -39,8 +39,33 @@ export interface DoctorContent {
   specialFocus?: string;
   /** Confirmed profile copy for `/doctors/[slug]`'s own longer read —
    * only the Founder has approved copy today. Optional; omitted (not
-   * "information coming soon") everywhere else. */
+   * "information coming soon") everywhere else. Read by
+   * `doctor-profile-template.tsx` (the full `/doctors/[slug]` page,
+   * unchanged by this pass) — `description` below is the separate field
+   * the LISTING contexts (team rows, journey scenes) read instead, since
+   * those two contexts have different "if missing" contracts (see
+   * `description`'s own comment). */
   bio?: string;
+  /** Doctor-profile visual-redesign pass: the listing-context read for
+   * the same kind of short biography copy `bio` carries for the full
+   * profile page — but with a DIFFERENT "if missing" contract, by design.
+   * `bio` above is simply omitted when absent (per this file's own
+   * header comment); `description` is explicitly typed nullable
+   * (`string | null`, not just optional) so `DoctorProfileContent` can
+   * tell "no confirmed copy yet" apart from "field not filled in" and
+   * render an honest, professionally-styled placeholder in a team-row/
+   * journey-scene card instead of an empty gap. Only the Founder has
+   * confirmed copy today — her value below is the exact same approved
+   * sentence `bio` already carries, not new copy. Never invent one for
+   * anybody else: leave `null` until the real thing is approved. */
+  description: string | null;
+  /** A short editorial quote/philosophy line, distinct from `description`
+   * — optional AND nullable, but unlike `description` this one is simply
+   * NOT RENDERED at all when absent (no placeholder), since a fabricated
+   * "quote coming soon" would read strangely quoted. No one has a
+   * confirmed quote today — left unset (not `null`) everywhere below;
+   * never invent one. */
+  quote?: string | null;
   /** A short (1 sentence) care-philosophy line for the horizontal
    * journey's own editorial scene — distinct from `bio`. Unset for every
    * entry below (none confirmed); left in the type since
@@ -71,6 +96,15 @@ export interface DoctorContent {
      * deliberately not the person's name a second time). */
     placeholderLabel: string;
   };
+  /** Optional per-photo focal point (a CSS `object-position` value, e.g.
+   * `"50% 25%"`) — threaded through to `PortraitPlaceholder`'s own
+   * `<Image>`. Unset for every entry below (`object-cover`'s own default
+   * center crop hasn't shown a real problem for any of these photos);
+   * exists so a future crop issue can be fixed by adding one value here,
+   * the same "confirmed via screenshot, not guessed" spirit the
+   * services-imagery `focalPoint` overrides elsewhere on this site
+   * already follow. */
+  photoPosition?: string;
   /** Which of the three page groupings this person belongs to — the
    * Featured Founder section, the Medical & Clinical Team grid, or the
    * Allied Care Team grid. Also what `doctorsJourneyRoster` below filters
@@ -97,8 +131,18 @@ export const doctors: DoctorContent[] = [
     credentials: "MBBS, DNB – Obstetrics & Gynaecology",
     role: "Founder · Obstetrician & Gynaecologist",
     specialFocus: "Natural Birth & VBAC Specialist · Holistic Fertility Coach",
-    bio: "The BirthWave is designed as one continuous care journey, with space for questions, preferences, preparation and follow-up — across pregnancy, birth and recovery.",
-    photo: photoFor("Dr. Santoshi Nandigam"),
+    bio: "The Birthwave is designed as one continuous care journey, with space for questions, preferences, preparation and follow-up — across pregnancy, birth and recovery.",
+    // Same approved sentence `bio` above carries — not new copy. See
+    // `description`'s own comment on the interface for why the listing
+    // context reads this separate field.
+    description:
+      "The Birthwave is designed as one continuous care journey, with space for questions, preferences, preparation and follow-up — across pregnancy, birth and recovery.",
+    photo: {
+      src: "/images/clinic/dr-santoshi.JPG",
+      alt: "Dr. Santoshi Nandigam",
+      placeholderLabel: "Dr. Santoshi Nandigam",
+    },
+
     team: "founder",
   },
   {
@@ -108,7 +152,12 @@ export const doctors: DoctorContent[] = [
     role: "Gynaecologist · Laparoscopic Surgeon · Advanced Fertility Specialist",
     relatedCareSlugs: ["fertility-preconception", "gynaecology"],
     careAreas: ["Fertility & Preconception", "Gynaecology & Women's Wellness"],
-    photo: photoFor("Dr. Bharathy Kandasamy"),
+    description: null,
+    photo: {
+      src: "/images/clinic/dr-bharathy.jpeg",
+      alt: "Dr. Bharathy Kandasamy",
+      placeholderLabel: "Dr. Bharathy Kandasamy",
+    },
     team: "medical",
   },
   {
@@ -118,7 +167,12 @@ export const doctors: DoctorContent[] = [
     role: "Paediatrician",
     relatedCareSlugs: ["newborn-pediatric-care"],
     careAreas: ["Newborn & Pediatric Care"],
-    photo: photoFor("Dr. Deepika Sivathanu"),
+    description: null,
+    photo: {
+      src: "/images/clinic/dr-deepika.PNG",
+      alt: "Dr. Deepika Sivathanu",
+      placeholderLabel: "Dr. Deepika Sivathanu",
+    },
     team: "medical",
   },
   {
@@ -128,7 +182,12 @@ export const doctors: DoctorContent[] = [
     role: "Naturopathy & Yoga · Prenatal & Postpartum Yoga Specialist",
     relatedCareSlugs: ["pregnancy-antenatal-care", "birth-preparation", "postpartum-care"],
     careAreas: ["Pregnancy & Antenatal Care", "Birth Preparation", "Postpartum Recovery"],
-    photo: photoFor("Dr. Amudha Varshini"),
+    description: null,
+    photo: {
+      src: "/images/clinic/Dr._Amudha_Varshini.JPG",
+      alt: "Dr. Amudha Varshini",
+      placeholderLabel: "Dr. Amudha Varshini",
+    },
     team: "medical",
   },
   {
@@ -138,7 +197,12 @@ export const doctors: DoctorContent[] = [
     role: "Pelvic Floor Therapy · Vaginismus Coach",
     relatedCareSlugs: ["vaginismus", "postpartum-care"],
     careAreas: ["Vaginismus & Intimate Wellness", "Postpartum Recovery"],
-    photo: photoFor("Dr. Adithi Nair"),
+    description: null,
+    photo: {
+      src: "/images/clinic/Dr_Adithi_Nair.jpg",
+      alt: "Dr. Adithi Nair",
+      placeholderLabel: "Dr. Adithi Nair",
+    },
     team: "medical",
   },
   {
@@ -148,7 +212,12 @@ export const doctors: DoctorContent[] = [
     specialFocus: "Childbirth Educator · Lactation Consultant",
     relatedCareSlugs: ["birth-preparation", "lactation", "pregnancy-antenatal-care"],
     careAreas: ["Birth Preparation", "Lactation", "Pregnancy & Antenatal Care"],
-    photo: photoFor("Sheethal Sathya"),
+    description: null,
+    photo: {
+      src: "/images/clinic/sheethal-sathya.png",
+      alt: "Dr. Sheethal Sathya",
+      placeholderLabel: "Dr. Sheethal Sathya",
+    },
     team: "allied",
   },
   {
@@ -158,21 +227,36 @@ export const doctors: DoctorContent[] = [
     role: "Emotional Well-being Support",
     relatedCareSlugs: ["nutrition-emotional-wellbeing"],
     careAreas: ["Nutrition & Emotional Well-being"],
-    photo: photoFor("Deepa"),
+    description: null,
+    photo: {
+      src: "/images/clinic/deepa.jpeg",
+      alt: "Dr. Deepa",
+      placeholderLabel: "Dr. Deepa",
+    },
     team: "allied",
   },
   {
     slug: "rakshitha",
     name: "Rakshitha",
     role: "School Psychology",
-    photo: photoFor("Rakshitha"),
+    description: null,
+    photo: {
+      src: "/images/clinic/dr-rakshitha.jpeg",
+      alt: "Dr. Rakshitha",
+      placeholderLabel: "Dr. Rakshitha",
+    },
     team: "allied",
   },
   {
     slug: "coach-tilak",
     name: "Coach Tilak",
     role: "Strength & Conditioning",
-    photo: photoFor("Coach Tilak"),
+    description: null,
+    photo: {
+      src: "/images/clinic/coach_tilak.JPG",
+      alt: "Dr. Coach-tilak",
+      placeholderLabel: "Dr. Coach-tilak",
+    },
     team: "allied",
   },
   {
@@ -181,7 +265,12 @@ export const doctors: DoctorContent[] = [
     role: "Nutritionist",
     relatedCareSlugs: ["nutrition-emotional-wellbeing"],
     careAreas: ["Nutrition & Emotional Well-being"],
-    photo: photoFor("Sherene"),
+    description: null,
+    photo: {
+      src: "/images/clinic/dr-sherene.jpeg",
+      alt: "Dr. Sherene",
+      placeholderLabel: "Dr. Sherene",
+    },
     team: "allied",
   },
 ];
@@ -217,7 +306,7 @@ export const doctorsHero = {
   eyebrow: "Our Care Team",
   headlineLines: ["Care shaped by the right people,", "at the right stage."],
   supporting:
-    "BirthWave brings together specialists across women's health, pregnancy, birth, recovery and newborn care so that support continues across the full journey.",
+    "The Birthwave brings together specialists across women's health, pregnancy, birth, recovery and newborn care so that support continues across the full journey.",
   primaryCta: {
     label: "Book a Consultation",
     href: "/#connect",
@@ -243,13 +332,22 @@ export const doctorsJourneyIntro = {
 } as const;
 
 /**
- * "Who should you consult?" — wayfinding by care concern, not a second
- * doctor grid and not a diagnosis: each line names a *kind* of
- * conversation or specialist, never a specific claim about what's wrong
- * or what to do about it. Concerns are the same care-area language
- * `about-content.ts`'s own `aboutProblem.stages` and the homepage's
- * `journey.stages` already use — not new categories invented for this
- * page.
+ * "Who should you consult?" — a SHORT decision helper (lower-page
+ * refinement), not a second doctor grid and not a diagnosis: five
+ * high-value life-stage questions, each resolving to a real confirmed
+ * `/services/[slug]` route via `answers` — not a duplicate of the
+ * Services page's own "Find the right care" (that section covers all 11
+ * services; this one stays intentionally short). Concern-specific
+ * wayfinding (a gynaecological concern, pelvic pain) now lives in
+ * `whoCanSupportYourCare` below instead, routed to the actual clinician
+ * rather than a service link, so the two sections no longer overlap.
+ *
+ * `guidance` and `cta` are kept (not just decorative — read by the
+ * pre-existing, out-of-scope horizontal-journey fallback in
+ * doctors-journey-scenes.tsx, untouched by this pass); the live page's
+ * own `WhoShouldYouConsult` component renders `answers` instead and omits
+ * the bottom `cta` (redundant on a page the visitor already scrolled the
+ * team on).
  */
 export const whoShouldYouConsult = {
   eyebrow: "Where To Start",
@@ -257,20 +355,92 @@ export const whoShouldYouConsult = {
   intro:
     "Every concern below points toward the kind of conversation to start with — not a diagnosis, just a place to begin.",
   concerns: [
-    { question: "Planning a pregnancy?", guidance: "Start with a preconception and fertility conversation." },
-    { question: "Already pregnant?", guidance: "Ongoing antenatal care with a pregnancy-focused obstetrician." },
-    { question: "Preparing for birth?", guidance: "Birth planning support, including natural birth and VBAC." },
-    { question: "A gynaecological concern?", guidance: "General gynaecology and women's health." },
-    { question: "Pelvic pain or discomfort?", guidance: "Pelvic health support." },
-    { question: "Finding breastfeeding hard?", guidance: "Lactation guidance." },
-    { question: "Recovering after birth?", guidance: "Postpartum recovery care." },
-    { question: "Caring for a newborn?", guidance: "Newborn and paediatric care." },
+    {
+      question: "Planning a pregnancy?",
+      guidance: "Start with a preconception and fertility conversation.",
+      answers: [{ label: "Fertility & Preconception", slug: "fertility-preconception" }],
+    },
+    {
+      question: "Already pregnant?",
+      guidance: "Ongoing antenatal care with a pregnancy-focused obstetrician.",
+      answers: [{ label: "Pregnancy & Antenatal Care", slug: "pregnancy-antenatal-care" }],
+    },
+    {
+      question: "Preparing for birth?",
+      guidance: "Birth planning support, including natural birth and VBAC.",
+      answers: [{ label: "Birth Preparation & Childbirth Education", slug: "birth-preparation" }],
+    },
+    {
+      question: "Recovering after birth?",
+      guidance: "Postpartum recovery care.",
+      answers: [{ label: "Postpartum Recovery & Care", slug: "postpartum-care" }],
+    },
+    {
+      question: "Need feeding or newborn support?",
+      guidance: "Lactation guidance and newborn or paediatric care.",
+      answers: [
+        { label: "Lactation & Breastfeeding Support", slug: "lactation" },
+        { label: "Newborn & Pediatric Care", slug: "newborn-pediatric-care" },
+      ],
+    },
   ],
   cta: {
     label: "Meet our doctors & care team",
     href: "#team-directory",
   },
 } as const;
+
+/**
+ * "Who can support this part of your care?" — lower-page refinement,
+ * Section 01. Specialty-to-clinician wayfinding, not a second "View
+ * Profile" grid: the visitor is already on this page, so each group
+ * routes to the relevant SERVICE (a confirmed `/services/[slug]` route,
+ * resolved at render time from `services-content.ts`) rather than back to
+ * a doctor's own profile page. `slugs` reference `doctors`' own real
+ * `slug` field above — resolved at render time (name/role/photo never
+ * duplicated here) — and every group below matches that roster's own
+ * confirmed `relatedCareSlugs`/role, nothing invented. The Founder has no
+ * confirmed `relatedCareSlugs` (see `doctors` above), so her group
+ * carries no `careSlugs` here either — the component falls back to a
+ * generic "Book a Consultation" link rather than guessing one. The last
+ * group (three people) is intentionally left without a per-person care
+ * link — with three professionals under one heading, a link per person
+ * added clutter without adding clarity.
+ */
+export const whoCanSupportYourCare = {
+  eyebrow: "Care By Specialty",
+  heading: "Who can support this part of your care?",
+  intro:
+    "Different needs. Different people to support you. The Birthwave brings medical and allied-care professionals together across women's health, pregnancy, birth, recovery and newborn care.",
+  groups: [
+    { label: "Pregnancy, Birth & VBAC", slugs: ["dr-santoshi-nandigam"] },
+    { label: "Gynaecology & Fertility", slugs: ["dr-bharathy-kandasamy"] },
+    { label: "Newborn & Pediatric Care", slugs: ["dr-deepika-sivathanu"] },
+    { label: "Prenatal & Postpartum Yoga / Naturopathy", slugs: ["dr-amudha-varshini"] },
+    { label: "Pelvic Floor & Vaginismus Support", slugs: ["dr-adithi-nair"] },
+    { label: "Lactation / Emotional Well-being / Nutrition", slugs: ["sheethal-sathya", "deepa", "sherene"] },
+  ],
+} as const;
+
+/** `whoCanSupportYourCare.groups` resolved against the real `doctors`
+ * roster above — the group data only ever stores a `slug`, never a
+ * duplicated name/role/photo, so this can't drift out of sync with the
+ * roster the way a hand-copied name could. Throws at module load if a
+ * slug doesn't match, the same fail-fast pattern services-content.ts's
+ * own `buildChapter` uses for its comparable slug lookup. */
+export interface WhoCanSupportGroup {
+  label: string;
+  members: DoctorContent[];
+}
+
+export const whoCanSupportGroups: WhoCanSupportGroup[] = whoCanSupportYourCare.groups.map((group) => {
+  const members = group.slugs.map((slug) => {
+    const doctor = doctors.find((d) => d.slug === slug);
+    if (!doctor) throw new Error(`doctors-content.ts: whoCanSupportYourCare references unknown slug "${slug}"`);
+    return doctor;
+  });
+  return { label: group.label, members };
+});
 
 /**
  * "Multidisciplinary care" — the same "one continuous journey of care"
@@ -335,10 +505,10 @@ export const doctorsAppointmentCta = {
  * destination (an email address, an API route) meanwhile.
  */
 export const doctorsEnquiryForm = {
-  eyebrow: "Get In Touch",
-  headingLines: ["Still deciding who to see?", "Send us a few details."],
+  eyebrow: "Start With A Conversation",
+  headingLines: ["You don't need to know exactly", "who you need before reaching out."],
   supporting:
-    "Share a little about where you are, and the right person on our team will follow up with next steps.",
+    "Tell The Birthwave team what you would like help with, and they can guide you toward the appropriate care pathway.",
   fields: {
     name: "Full name",
     contact: "Email or phone number",

@@ -3,8 +3,8 @@ import { PageShell } from "@/components/layout/page-shell";
 import { RoutePlaceholder } from "@/components/layout/route-placeholder";
 
 export const metadata: Metadata = {
-  title: "The Experience: The Birth Wave",
-  description: "The Birth Wave Experience, in full. Page in development.",
+  title: "The Experience: The Birthwave",
+  description: "The Birthwave Experience, in full. Page in development.",
 };
 
 // TODO(content): a fuller, dedicated telling of the journey the homepage's
@@ -15,7 +15,7 @@ export default function TheExperiencePage() {
       <RoutePlaceholder
         eyebrow="The Journey"
         title="This page is on its way."
-        note="A fuller telling of The Birth Wave Experience belongs here once its copy and structure are approved. See the homepage's Experience section for the current summary."
+        note="A fuller telling of The Birthwave Experience belongs here once its copy and structure are approved. See the homepage's Experience section for the current summary."
       />
     </PageShell>
   );

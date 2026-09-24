@@ -7,9 +7,9 @@ import { AboutTeamPreview } from "@/components/sections/about/about-team-preview
 import { AboutAppointmentCta } from "@/components/sections/about/about-appointment-cta";
 
 export const metadata: Metadata = {
-  title: "About: The Birth Wave",
+  title: "About: The Birthwave",
   description:
-    "Why BirthWave exists: one continuous journey of care across fertility, pregnancy, birth, recovery and newborn care.",
+    "Why The Birthwave exists: one continuous journey of care across fertility, pregnancy, birth, recovery and newborn care.",
 };
 
 /**

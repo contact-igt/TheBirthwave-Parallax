@@ -28,7 +28,7 @@ export const pregnancyLandingHero = {
   // src/app/contact/page.tsx's own TODO) — kept as the same explicit
   // bracketed placeholder the approved preview itself uses, not a
   // fabricated address.
-  location: "The Birth Wave · [Verified clinic location]",
+  location: "The Birthwave · [Verified clinic location]",
 } as const;
 
 export const pregnancyLandingIntro = {
@@ -135,7 +135,7 @@ export const pregnancyLandingClinician = {
 } as const;
 
 export const pregnancyLandingApproach = {
-  eyebrow: "The BirthWave approach",
+  eyebrow: "The Birthwave approach",
   heading: "Care that keeps you informed.",
   imageKey: "pregnancy-antenatal-care-team",
   values: [
@@ -179,7 +179,7 @@ export const pregnancyLandingFaq = {
  * field below is left as the same explicit bracketed placeholder the
  * approved preview uses, never a fabricated address. */
 export const pregnancyLandingVisit = {
-  eyebrow: "Visit BirthWave",
+  eyebrow: "Visit The Birthwave",
   heading: "Plan your visit.",
   note: "The practical details, before you set out.",
   info: [
@@ -220,4 +220,25 @@ export const pregnancyLandingAppointment = {
 export const pregnancyLandingMobileCta = {
   label: "Request a consultation",
   href: "#appointment",
+} as const;
+
+/**
+ * Related Care — site-architecture audit: every other dedicated service
+ * landing page (birth-preparation, normal-birth-delivery, vbac,
+ * fertility-preconception, vaginismus, gynaecology, lactation,
+ * postpartum-care, nutrition-emotional-wellbeing, newborn-pediatric-care)
+ * already carries this exact section; this was the one page missing it —
+ * a real internal-linking gap on the site's single most-linked-to service.
+ * Same restrained pattern as the other ten: four separate, existing
+ * services, names/slugs/hrefs all read from `services-content.ts` rather
+ * than re-typed. Chosen to mirror the reciprocal links already pointing
+ * AT this page from `birth-preparation`, `normal-birth-delivery` and
+ * `vbac`'s own Related Care sections, plus `nutrition-emotional-wellbeing`
+ * (a confirmed pregnancy-adjacent service, already linking back here).
+ */
+export const pregnancyLandingRelatedCare = {
+  eyebrow: "Related Care",
+  heading: "Explore related, separate services.",
+  note: "These are separate services at The Birthwave, not automatically included in antenatal care.",
+  slugs: ["birth-preparation", "natural-birth", "normal-birth-delivery", "vbac", "nutrition-emotional-wellbeing"],
 } as const;

@@ -38,7 +38,13 @@ export function SiteFooter() {
           </div>
 
           <nav aria-label="Footer" className="flex flex-wrap gap-x-8 gap-y-3">
-            {navigation.links.map((link) => (
+            {/* Site-architecture audit: the footer intentionally offers a
+                wider crawlable path than the header's own confirmed
+                4-link set — `navigation.links` (shared with the header)
+                plus `footer.secondaryLinks` (footer-only; see that
+                field's own comment on why `/faq` is here and `/contact`/
+                `/privacy` are not, yet). */}
+            {[...navigation.links, ...footer.secondaryLinks].map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
