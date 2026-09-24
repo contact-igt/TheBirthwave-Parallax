@@ -25,9 +25,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 // exists yet. Full metadata (OG image, canonical, structured data) is
 // explicitly out of scope for this phase per the implementation brief.
 export const metadata: Metadata = {
-  title: "The Birth Wave",
+  title: "The Birthwave",
   description:
-    "The Birth Wave: site in development. Placeholder description pending approved copy.",
+    "The Birthwave: site in development. Placeholder description pending approved copy.",
 };
 
 export default function RootLayout({

@@ -14,8 +14,8 @@
  */
 
 export const brand = {
-  name: "The Birth Wave",
-  shortName: "Birth Wave",
+  name: "The Birthwave",
+  shortName: "Birthwave",
   // TODO(brand): confirm whether "The Birth Wave" or "Birthwave" is the
   // preferred written form outside the logo lockup — the guide's business
   // card footer prints "thebirthwave.com" as one word.
@@ -24,7 +24,7 @@ export const brand = {
     wordmarkCream: "/brand/wordmark-cream.png",
     iconMauve: "/brand/icon-mauve.png",
     iconCream: "/brand/icon-cream.png",
-    alt: "The Birth Wave",
+    alt: "The Birthwave",
   },
 } as const;
 
@@ -38,7 +38,7 @@ export const hero = {
   headlineEmphasis: "with you.",
   // Approved (docs/implementation-brief.md §29).
   subhead:
-    "From women's health and pregnancy to birth, recovery and newborn care — BirthWave brings every stage into one connected journey.",
+    "From women's health and pregnancy to birth, recovery and newborn care — The Birthwave brings every stage into one connected journey.",
   primaryCta: {
     label: "Book a Consult",
     href: "#contact",
@@ -92,7 +92,7 @@ export const philosophy = {
   // cropped atmosphere layer behind the typography, never the section's
   // means of conveying meaning), so alt stays empty.
   media: {
-    src: "/images/generated/maternal-editorial-daylight-16x9.png",
+    src: "/images/philosophy/birthwave-philosophy-background.png",
     alt: "",
   },
 } as const;
@@ -130,7 +130,7 @@ export const philosophy = {
  * frame the parallax's own small vertical travel trades away first.
  */
 export const journey = {
-  eyebrow: "The BirthWave Journey",
+  eyebrow: "The Birthwave Journey",
   heading: "One continuous journey of care.",
   stages: [
     {
@@ -309,7 +309,7 @@ export const finalCta = {
     "we can begin there.",
   ] as const,
   supporting:
-    "From planning a pregnancy to navigating postpartum and newborn care, start with a conversation with the BirthWave team.",
+    "From planning a pregnancy to navigating postpartum and newborn care, start with a conversation with The Birthwave team.",
   primaryCta: {
     label: "Book an appointment",
     href: "#connect",
@@ -336,4 +336,17 @@ export const footer = {
   tagline: "Care that meets you where you are.",
   // TODO(legal): privacy policy / terms are not yet available — no links
   // are rendered for them rather than pointing somewhere fake.
+  //
+  // Site-architecture audit: `/faq` exists, renders real content (the
+  // same confirmed `faq-content.ts` the homepage's own FAQ section
+  // uses), and was reachable from nowhere on the site — no header link,
+  // no footer link, no inline reference. `secondaryLinks` is deliberately
+  // separate from `navigation.links` (shared by the header) rather than
+  // added there: the footer is the right place for a real-but-secondary
+  // page like this without changing the header's own confirmed 4-link
+  // set. `/contact` and `/privacy` are NOT added here — both are still
+  // genuine "page in development" placeholders with no confirmed content
+  // (see each route's own comment), and linking a thin/placeholder page
+  // is a worse outcome than not linking it yet.
+  secondaryLinks: [{ label: "FAQ", href: "/faq" }],
 } as const;

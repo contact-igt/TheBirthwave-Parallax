@@ -14,7 +14,7 @@ const MEDIA = {
   },
   portrait: {
     src: "/images/about/team-portrait-ai-preview-v1.webp",
-    alt: "AI-generated portrait of a fictional woman clinician; not a BirthWave team member.",
+    alt: "AI-generated portrait of a fictional woman clinician; not a member of The Birthwave team.",
     caption: "AI-generated portrait · Not a real team member",
     aspect: "aspect-[4/5]",
     sizes: "(min-width: 1024px) 38vw, (min-width: 640px) 70vw, 100vw",

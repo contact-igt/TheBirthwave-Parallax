@@ -21,7 +21,7 @@ export const faq = {
         "As early as you'd like — many people start the conversation during preconception planning, others once pregnancy is confirmed. There's no wrong time to begin.",
     },
     {
-      question: "Does BirthWave support natural birth and VBAC?",
+      question: "Does The Birthwave support natural birth and VBAC?",
       answer:
         "Yes. Every birth plan is built around your individual circumstances and clinical needs, including natural birth and VBAC, worked through together with your care team.",
     },

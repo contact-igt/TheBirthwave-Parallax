@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AboutPreviewImage } from "./about-preview-image";
 import { aboutTeamPreview, aboutDoctorsCta } from "@/content/about-content";
 import { doctors } from "@/content/doctors-content";
-import { MediaPlaceholder } from "@/components/ui/media-placeholder";
+import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { CtaLink } from "@/components/ui/cta-link";
 import { cx } from "@/lib/cx";
 
@@ -11,10 +11,7 @@ import { cx } from "@/lib/cx";
  * composition (visual architecture rework) — no cards, no uniform grid.
  * Three positional "slots" (large/primary, medium/offset-down,
  * small/partly bleeding off the right edge) cycle over whatever roster
- * exists in doctors-content.ts; with today's single placeholder entry
- * that reads as one large, intentional portrait rather than a sparse
- * grid cell, and it fills in naturally as real entries are approved —
- * still no invented 3–5 people (see about-content.ts's own note).
+ * exists in doctors-content.ts.
  *
  * Section 08 (Doctors CTA) is folded directly into this scene's close
  * — a large directional statement + link, not a separate banner section
@@ -25,11 +22,6 @@ const SLOTS = [
   { width: "w-full sm:w-[42%]", aspect: "aspect-[4/5]", corner: "tr" as const, offset: "" },
   { width: "w-full sm:w-[30%]", aspect: "aspect-[4/5]", corner: "bl" as const, offset: "sm:mt-20" },
   { width: "w-full sm:w-[22%]", aspect: "aspect-[3/4]", corner: "br" as const, offset: "sm:mt-8 sm:-mr-6 lg:-mr-12" },
-];
-const SLOT_GRADIENTS = [
-  "linear-gradient(155deg, var(--color-paper-dim) 0%, var(--color-terracotta) 100%)",
-  "linear-gradient(155deg, var(--color-paper-dim) 0%, var(--color-sky) 100%)",
-  "linear-gradient(155deg, var(--color-paper-dim) 0%, var(--color-coral) 100%)",
 ];
 
 export function AboutTeamPreview() {
@@ -72,13 +64,12 @@ export function AboutTeamPreview() {
               {preview[0].slug === "doctor-name-placeholder" ? (
                 <AboutPreviewImage kind="portrait" />
               ) : (
-                <MediaPlaceholder
-                alt={preview[0].photo.alt}
-                gradient={SLOT_GRADIENTS[0]}
-                corner={SLOTS[0].corner}
-                aspect={SLOTS[0].aspect}
-                className="transition-[transform] duration-[var(--duration-base)] ease-[var(--ease-signature)] group-hover:scale-[1.015]"
-              />
+                <PortraitPlaceholder
+                  photo={preview[0].photo}
+                  index={0}
+                  corner={SLOTS[0].corner}
+                  className="transition-[transform] duration-[var(--duration-base)] ease-[var(--ease-signature)] group-hover:scale-[1.015]"
+                />
               )}
               <p className="mt-4 font-body text-base font-medium text-ink transition-colors duration-[var(--duration-fast)] group-hover:text-terracotta-deep">
                 {preview[0].name}
@@ -108,13 +99,12 @@ export function AboutTeamPreview() {
                     {doctor.slug === "doctor-name-placeholder" ? (
                       <AboutPreviewImage kind="portrait" />
                     ) : (
-                      <MediaPlaceholder
-                      alt={doctor.photo.alt}
-                      gradient={SLOT_GRADIENTS[index % SLOT_GRADIENTS.length]}
-                      corner={slot.corner}
-                      aspect={slot.aspect}
-                      className="transition-[transform] duration-[var(--duration-base)] ease-[var(--ease-signature)] group-hover:scale-[1.015]"
-                    />
+                      <PortraitPlaceholder
+                        photo={doctor.photo}
+                        index={index}
+                        corner={slot.corner}
+                        className="transition-[transform] duration-[var(--duration-base)] ease-[var(--ease-signature)] group-hover:scale-[1.015]"
+                      />
                     )}
                     <p className="mt-4 font-body text-base font-medium text-ink transition-colors duration-[var(--duration-fast)] group-hover:text-terracotta-deep">
                       {doctor.name}

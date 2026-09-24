@@ -1,7 +1,6 @@
 import { PageShell } from "@/components/layout/page-shell";
 import { DotFieldRegion } from "@/components/layout/dot-field-region";
-import { HeroSection } from "@/components/sections/home/hero-section";
-import { PhilosophySection } from "@/components/sections/home/philosophy-section";
+import { HeroPhilosophyScrollScene } from "@/components/sections/home/hero-philosophy-scroll-scene";
 import { JourneySection } from "@/components/sections/home/journey-section";
 import { ImmersiveSection } from "@/components/sections/home/immersive-section";
 import { CareSection } from "@/components/sections/home/care-section";
@@ -18,8 +17,7 @@ import { FinalCtaSection } from "@/components/sections/home/final-cta-section";
 export default function Home() {
   return (
     <PageShell>
-      <HeroSection />
-      <PhilosophySection />
+      <HeroPhilosophyScrollScene />
       <JourneySection />
       <ImmersiveSection />
       <CareSection />

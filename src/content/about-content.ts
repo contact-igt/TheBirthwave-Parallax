@@ -71,10 +71,10 @@ export const aboutCinematicVideo = {
 } as const;
 
 export const aboutHero = {
-  eyebrow: "About BirthWave",
+  eyebrow: "About The Birthwave",
   headlineLines: ["Every stage of care", "used to live in its own room."],
   supporting:
-    "Fertility. Pregnancy. Birth. Recovery. Newborn care. BirthWave exists to carry a woman through all of it as one story — not five separate ones.",
+    "Fertility. Pregnancy. Birth. Recovery. Newborn care. The Birthwave exists to carry a woman through all of it as one story — not five separate ones.",
   media: {
     // Approved (Phase 4): the cinematic video's own opening moment — a
     // real extracted frame (~3s in), not separately-sourced photography.
@@ -82,14 +82,14 @@ export const aboutHero = {
     // data is available or under reduced motion/mobile, where this exact
     // frame is what's shown instead of the video at all.
     posterSrc: "/brand/about/about-hero-poster.jpg",
-    alt: "A woman sitting by a window in soft daylight, the opening moment of BirthWave's cinematic story.",
+    alt: "A woman sitting by a window in soft daylight, the opening moment of The Birthwave's cinematic story.",
   },
 } as const;
 
 export const aboutProblem = {
   eyebrow: "The Problem",
   heading: "Care, one appointment at a time.",
-  body: "Fertility. Pregnancy. Birth. Recovery. Newborn care. Each stage often arrives with its own doctor, its own file and its own waiting room — as if the story restarts every time. BirthWave was created around a simpler belief: a woman moving through these stages shouldn't have to reintroduce herself at every door.",
+  body: "Fertility. Pregnancy. Birth. Recovery. Newborn care. Each stage often arrives with its own doctor, its own file and its own waiting room — as if the story restarts every time. The Birthwave was created around a simpler belief: a woman moving through these stages shouldn't have to reintroduce herself at every door.",
   stages: ["Fertility", "Pregnancy", "Birth", "Recovery", "Newborn Care"],
   media: {
     // Approved (Phase 4): real extracted frame (~14s in) from the same
@@ -107,7 +107,7 @@ export const aboutBelief = {
   // same reuse). The paragraph beneath it is new wording, not a restatement
   // of Philosophy's three-line poetic build.
   heading: "One continuous journey of care.",
-  body: "In practice, it means one team who already knows your history when you walk in. One thread of care that carries from a fertility conversation, through pregnancy, into birth and past it — instead of handing you off at every milestone. Continuity isn't an add-on to how BirthWave works. It's the model itself.",
+  body: "In practice, it means one team who already knows your history when you walk in. One thread of care that carries from a fertility conversation, through pregnancy, into birth and past it — instead of handing you off at every milestone. Continuity isn't an add-on to how The Birthwave works. It's the model itself.",
   media: {
     // Approved (Phase 4): real extracted frame (~23s in) from the same
     // cinematic video — the consultation moment resolving into connection.
@@ -124,7 +124,7 @@ export const aboutFounderIntro = {
   // placeholder, not drafted-but-unapproved prose: do not present any of
   // it as a real person's real story.
   introLabel: "Our Founder",
-  story: "A short introduction to why BirthWave was founded belongs here: approved founder story pending.",
+  story: "A short introduction to why The Birthwave was founded belongs here: approved founder story pending.",
   quote: "A short, attributed founder quote belongs here: approved copy pending.",
   media: {
     // The cinematic video's own final consultation frame (~29s in) is
@@ -148,13 +148,13 @@ export const aboutFounderStory = {
   // Distinct from `aboutFounderIntro.introLabel` above on purpose — this
   // is the fuller story below the cinematic/editorial boundary, not a
   // second copy of that shorter teaser's own heading.
-  heading: "The story behind BirthWave",
+  heading: "The story behind The Birthwave",
   // TODO(content): same status as `aboutFounderIntro` above — structural
   // placeholders, approved copy pending, no invented history. A longer,
   // separately-approved quote belongs here too, distinct from the shorter
   // teaser quote in `aboutFounderIntro` above.
   body: [
-    "A longer founder story paragraph belongs here: approved copy pending, describing the specific gap in care that led to BirthWave.",
+    "A longer founder story paragraph belongs here: approved copy pending, describing the specific gap in care that led to The Birthwave.",
     "A second paragraph continuing the founder's own vision for what care should feel like belongs here: approved copy pending.",
   ],
   quote: "A second, longer founder quote belongs here: approved copy pending, distinct from the shorter one above.",
@@ -210,7 +210,7 @@ export const aboutTeamPreview = {
   // 3–5 representative people the Phase 1 brief describes as a
   // possibility. Add real entries there once approved; nothing here needs
   // to change to pick them up.
-  note: "The full BirthWave team, with complete profiles, lives on our doctors & care team page.",
+  note: "The Birthwave's full team, with complete profiles, lives on our doctors & care team page.",
 } as const;
 
 export const aboutDoctorsCta = {

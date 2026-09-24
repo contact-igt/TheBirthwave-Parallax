@@ -9,6 +9,7 @@ import {
   PregnancyAntenatalVisit,
 } from "./pregnancy-antenatal-info-sections";
 import { PregnancyAntenatalAppointment, PregnancyMobileAppointmentBar } from "./pregnancy-antenatal-appointment";
+import { PregnancyAntenatalRelatedCare } from "./pregnancy-antenatal-related-care";
 
 /**
  * Pregnancy & Antenatal Care — dedicated landing page, implementing the
@@ -57,6 +58,7 @@ export function PregnancyAntenatalLandingPage() {
       <PregnancyAntenatalFaq />
       <PregnancyAntenatalVisit />
       <PregnancyAntenatalAppointment />
+      <PregnancyAntenatalRelatedCare />
       <PregnancyMobileAppointmentBar />
     </div>
   );

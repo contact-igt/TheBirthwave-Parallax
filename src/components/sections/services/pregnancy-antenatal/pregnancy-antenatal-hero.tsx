@@ -3,6 +3,7 @@ import { pregnancyLandingHero } from "@/content/pregnancy-antenatal-landing-cont
 import { servicesImagery } from "@/content/services-imagery";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
+import { heroFocalPointClassName } from "@/lib/hero-focal-point";
 
 /**
  * Section 1 — full-width hero, following the approved reference's own
@@ -42,8 +43,10 @@ export function PregnancyAntenatalHero() {
           sizes="100vw"
           // Mobile keeps the subject lower and further right in the
           // (shorter, inset-from-the-top) crop, clear of the text column
-          // above it; desktop uses the reference's own `65% center`.
-          className="object-cover object-[75%_30%] sm:object-[65%_center]"
+          // above it; desktop uses the reference's own `65% center`. Values
+          // now live in `services-imagery.ts`'s own `focalPoint` field
+          // (see `hero-focal-point.ts`) rather than duplicated here.
+          className={`object-cover ${heroFocalPointClassName(image.focalPoint)}`}
         />
       </div>
       {/* Readability gradient — mobile-first: base (below `sm`) is a

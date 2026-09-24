@@ -4,7 +4,7 @@
  * Our Care / Treatments master page (Phase 1). The 11 services below are
  * the confirmed, approved list — names, order and slugs are the source of
  * truth for both this file and the `/services` master page
- * (`services-sticky-showcase.tsx` and its siblings). Descriptions,
+ * (`services-care-journey.tsx` and its siblings). Descriptions,
  * overviews and highlights are newly written here (none existed before —
  * the previous version of this file was three unrelated structural
  * placeholders, "Your First/Second/Third Service"), kept deliberately
@@ -53,7 +53,7 @@ export const servicesIntro = {
   body: "From women's health and pregnancy to birth, recovery and newborn care, explore the support available throughout your journey.",
 } as const;
 
-/** The 11 confirmed services, in their own approved 01–11 order. This
+/** The 12 confirmed services, in their own approved order. This
  * order is the source of truth for routing (`generateStaticParams`),
  * the plain listing, and Quick Care Overview — never reordered. */
 export const services: ServiceContent[] = [
@@ -152,6 +152,19 @@ export const services: ServiceContent[] = [
     group: "birth-preparation",
   },
   {
+    slug: "natural-birth",
+    eyebrow: "Birth Preparation",
+    name: "Natural Birth",
+    shortDescription:
+      "Planning and support around birth preferences, preparation and informed choices while allowing for flexibility if circumstances change.",
+    heroStatement: "Prepare for the birth you hope for — with space for informed choices and flexibility along the way.",
+    overview:
+      "Natural birth support covers birth preferences, preparation and informed-choice conversations, while remaining flexible if your circumstances or labour change.",
+    highlights: ["Birth-preference conversations", "Preparation for informed choices", "Flexibility if plans need to change"],
+    media: { alt: "Natural birth planning and support — approved photography pending" },
+    group: "birth-preparation",
+  },
+  {
     slug: "postpartum-care",
     eyebrow: "After Birth",
     name: "Postpartum Recovery & Care",
@@ -213,15 +226,45 @@ export function getServiceBySlug(slug: string): ServiceContent | undefined {
 export interface CareChapter {
   id: CareGroup;
   label: string;
+  /** One short, factual line introducing the chapter — read by the Care
+   * Journey section's own chapter spread, alongside its one chapter image.
+   * Not a clinical claim or outcome, same restraint as `shortDescription`
+   * above. */
+  intro: string;
   slugs: string[];
 }
 
 const CARE_CHAPTERS_RAW: CareChapter[] = [
-  { id: "before", label: "Before / Women's Health", slugs: ["fertility-preconception", "vaginismus", "gynaecology"] },
-  { id: "pregnancy", label: "Pregnancy", slugs: ["pregnancy-antenatal-care", "nutrition-emotional-wellbeing"] },
-  { id: "birth-preparation", label: "Birth Preparation", slugs: ["birth-preparation"] },
-  { id: "birth", label: "Birth", slugs: ["normal-birth-delivery", "vbac"] },
-  { id: "after-birth", label: "After Birth", slugs: ["postpartum-care", "lactation", "newborn-pediatric-care"] },
+  {
+    id: "before",
+    label: "Before / Women's Health",
+    intro: "Preconception planning, gynaecological care and intimate wellness — women's health support before pregnancy begins.",
+    slugs: ["fertility-preconception", "vaginismus", "gynaecology"],
+  },
+  {
+    id: "pregnancy",
+    label: "Pregnancy",
+    intro: "Regular antenatal care alongside nutrition and emotional wellbeing guidance, through every trimester.",
+    slugs: ["pregnancy-antenatal-care", "nutrition-emotional-wellbeing"],
+  },
+  {
+    id: "birth-preparation",
+    label: "Birth Preparation",
+    intro: "Childbirth education and preparation conversations, so you feel ready for what's ahead.",
+    slugs: ["birth-preparation", "natural-birth"],
+  },
+  {
+    id: "birth",
+    label: "Birth",
+    intro: "Support through labour and delivery, including guidance for a vaginal birth after caesarean.",
+    slugs: ["normal-birth-delivery", "vbac"],
+  },
+  {
+    id: "after-birth",
+    label: "After Birth",
+    intro: "Recovery, breastfeeding support and newborn care, continuing well beyond the birth itself.",
+    slugs: ["postpartum-care", "lactation", "newborn-pediatric-care"],
+  },
 ];
 
 function buildChapter(chapter: CareChapter): CareChapter & { services: ServiceContent[] } {
@@ -235,27 +278,9 @@ function buildChapter(chapter: CareChapter): CareChapter & { services: ServiceCo
 
 export const careChapters = CARE_CHAPTERS_RAW.map(buildChapter);
 
-/** Flat presentation order (all 11, chapter by chapter) — read by Quick
- * Overview's own full listing and by the normal-flow vertical fallback,
- * which always shows every service regardless of prototype scope. */
+/** Flat presentation order (all 11, chapter by chapter) — read by the Care
+ * Journey section for each service link's own global 01–11 index. */
 export const servicesShowcaseOrder: ServiceContent[] = careChapters.flatMap((c) => c.services);
-
-/** Each chapter's own contiguous 0-based scene-index range within
- * `servicesShowcaseOrder` — derived from the real per-chapter service
- * counts above, not hand-duplicated, so it can't silently drift out of
- * sync with `careChapters` the way a separately hardcoded table could.
- * Drives the Sticky Treatment Showcase's background-wash blend. */
-export const careChapterSceneRanges: Record<string, [number, number]> = (() => {
-  const ranges: Record<string, [number, number]> = {};
-  let cursor = 0;
-  for (const chapter of careChapters) {
-    const start = cursor;
-    const end = cursor + chapter.services.length - 1;
-    ranges[chapter.id] = [start, end];
-    cursor = end + 1;
-  }
-  return ranges;
-})();
 
 export const servicesHero = {
   eyebrow: "Our Care",
@@ -267,40 +292,66 @@ export const servicesHero = {
   media: { alt: "A mother and newborn together — approved photography pending" },
 } as const;
 
-export const servicesQuickOverview = {
+/**
+ * Care Journey — Section 02 (chapter-level editorial refinement). Replaces
+ * the earlier Quick Overview + Sticky Showcase pair: one editorial spread
+ * per chapter (one image, asymmetric service links) instead of a plain
+ * link directory followed by a separately image-heavy, per-service
+ * showcase.
+ */
+export const careJourneyIntro = {
   eyebrow: "At A Glance",
-  heading: "Eleven areas of care, one connected journey.",
-  /** Visible skip link, targeting Section 04 (Find the Right Care) —
-   * lets a keyboard/screen-reader visitor bypass the Treatment Showcase
-   * entirely rather than tabbing through its own (long) reading
-   * sequence. Points at `#find-the-right-care`, the id that section's
-   * own `<section>` carries. */
-  skipLabel: "Skip treatment showcase",
-  skipHref: "#find-the-right-care",
+  heading: "Eleven areas of care, five connected stages.",
+  /** Visible jump link to Find the Right Care, for a visitor who wants a
+   * direct answer rather than reading all five chapters. Points at
+   * `#find-the-right-care`, the id that section's own `<section>` carries. */
+  jumpLabel: "Not sure where to start?",
+  jumpHref: "#find-the-right-care",
 } as const;
 
-export const servicesShowcaseIntro = {
-  eyebrow: "Explore Our Care",
-  heading: "Every stage, closely supported.",
-} as const;
-
-/** "Find the Right Care" — the confirmed concern → service pairings,
- * reusing `services`' own real names/slugs rather than inventing new
- * category labels. No diagnosis language: each answer names where the
- * conversation starts, not a clinical determination. */
+/** "Find the Right Care" — a decision helper, not a second directory: five
+ * plain-language starting points for a visitor who doesn't know which
+ * service name they need, each pointing at `services`' own real name(s)/
+ * slug(s) rather than inventing new category labels. Every service NOT
+ * named here already has its own direct link in the Care Journey section
+ * above — this section doesn't need to repeat that full listing, only
+ * cover the handful of starting questions visitors actually arrive with.
+ * A `secondary` answer (VBAC, under "Preparing for birth?") renders at
+ * lower visual weight — a related, high-intent route worth surfacing
+ * without competing with the row's own primary answer. No diagnosis
+ * language: each answer names where the conversation starts, not a
+ * clinical determination. */
 export const findTheRightCare = {
   eyebrow: "Not Sure Where To Start?",
   heading: "Find the right care.",
-  intro: "A few common starting points — not a diagnosis, just a place to begin the conversation.",
+  intro: "A few common starting points if you're not sure which service fits.",
   pairings: [
-    { question: "Planning a pregnancy?", answerLabel: "Fertility & Preconception", slug: "fertility-preconception" },
-    { question: "Already pregnant?", answerLabel: "Pregnancy & Antenatal Care", slug: "pregnancy-antenatal-care" },
-    { question: "Planning for birth?", answerLabel: "Birth Preparation & Childbirth Education", slug: "birth-preparation" },
-    { question: "Considering VBAC?", answerLabel: "VBAC", slug: "vbac" },
-    { question: "Recovering after birth?", answerLabel: "Postpartum Recovery & Care", slug: "postpartum-care" },
-    { question: "Breastfeeding support?", answerLabel: "Lactation & Breastfeeding Support", slug: "lactation" },
-    { question: "Concern about women's health?", answerLabel: "Gynaecology & Women's Wellness", slug: "gynaecology" },
-    { question: "Need newborn support?", answerLabel: "Newborn & Pediatric Care", slug: "newborn-pediatric-care" },
+    {
+      question: "Planning a pregnancy?",
+      answers: [{ label: "Fertility & Preconception", slug: "fertility-preconception" }],
+    },
+    {
+      question: "Already pregnant?",
+      answers: [{ label: "Pregnancy & Antenatal Care", slug: "pregnancy-antenatal-care" }],
+    },
+    {
+      question: "Preparing for birth?",
+      answers: [
+        { label: "Birth Preparation & Childbirth Education", slug: "birth-preparation" },
+        { label: "VBAC", slug: "vbac", secondary: true },
+      ],
+    },
+    {
+      question: "Recovering after birth?",
+      answers: [{ label: "Postpartum Recovery & Care", slug: "postpartum-care" }],
+    },
+    {
+      question: "Need feeding or newborn support?",
+      answers: [
+        { label: "Lactation & Breastfeeding Support", slug: "lactation" },
+        { label: "Newborn & Pediatric Care", slug: "newborn-pediatric-care" },
+      ],
+    },
   ],
 } as const;
 
@@ -308,9 +359,9 @@ export const findTheRightCare = {
  * this page, deliberately not About's own cinematic treatment (per the
  * brief). */
 export const connectedCare = {
-  eyebrow: "Why BirthWave",
+  eyebrow: "Why The Birthwave",
   heading: "Care changes as your needs change.",
-  body: "BirthWave brings different areas of care together so that your journey does not have to restart at every stage.",
+  body: "The Birthwave brings different areas of care together so that your journey does not have to restart at every stage.",
   media: { alt: "Care team in conversation — approved photography pending" },
 } as const;
 

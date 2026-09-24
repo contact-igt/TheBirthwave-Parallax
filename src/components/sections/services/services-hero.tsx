@@ -11,7 +11,7 @@ import { useParallax } from "@/motion/image-motion";
  * One strong maternal/care image, large type, generous whitespace — no
  * service-card collage, no icon grid, no floating boxes. This page's own
  * motion identity is "vertical scroll + sticky split-screen," which
- * starts one section down (`services-sticky-showcase.tsx`); this hero is
+ * starts one section down (`services-care-journey.tsx`); this hero is
  * deliberately calm by comparison, the same restrained-opening approach
  * Doctors' own hero (`doctors-hero.tsx`) and Hero's own homepage entry
  * both already take.

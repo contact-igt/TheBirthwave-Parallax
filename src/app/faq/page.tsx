@@ -3,8 +3,8 @@ import { PageShell } from "@/components/layout/page-shell";
 import { FaqSection } from "@/components/sections/home/faq-section";
 
 export const metadata: Metadata = {
-  title: "FAQ: The Birth Wave",
-  description: "Frequently asked questions for The Birth Wave.",
+  title: "FAQ: The Birthwave",
+  description: "Frequently asked questions for The Birthwave.",
 };
 
 // Reuses the homepage's FaqSection directly (same component, same

@@ -3,8 +3,8 @@ import { PageShell } from "@/components/layout/page-shell";
 import { RoutePlaceholder } from "@/components/layout/route-placeholder";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy: The Birth Wave",
-  description: "The Birth Wave's privacy policy, page in development.",
+  title: "Privacy Policy: The Birthwave",
+  description: "The Birthwave's privacy policy, page in development.",
 };
 
 // TODO(legal): no approved privacy policy or terms text exists yet — this

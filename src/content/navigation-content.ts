@@ -25,10 +25,11 @@ export const navigation = {
   // from anywhere, matching the `/#connect` convention already used by
   // doctors-content.ts's own CTAs.
   links: [
+    { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Our Care", href: "/services" },
     { label: "Doctors", href: "/doctors" },
-    { label: "Contact", href: "/#connect" },
+    { label: "Contact", href: "/contact" },
   ],
   cta: {
     label: "Book a Consult",
