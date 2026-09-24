@@ -344,9 +344,21 @@ export const footer = {
   // separate from `navigation.links` (shared by the header) rather than
   // added there: the footer is the right place for a real-but-secondary
   // page like this without changing the header's own confirmed 4-link
-  // set. `/contact` and `/privacy` are NOT added here — both are still
-  // genuine "page in development" placeholders with no confirmed content
-  // (see each route's own comment), and linking a thin/placeholder page
-  // is a worse outcome than not linking it yet.
-  secondaryLinks: [{ label: "FAQ", href: "/faq" }],
+  // set.
+  //
+  // Footer refresh: "Explore" lists existing routes only — `/contact` is
+  // now a real page. Column labels are the footer's own wayfinding names
+  // for the same destinations the header links to.
+  exploreLinks: [
+    { label: "About Us", href: "/about" },
+    { label: "Our Care Team", href: "/doctors" },
+    { label: "Services Hub", href: "/services" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Contact Us", href: "/contact" },
+  ],
+  // Only routes that exist. `/privacy` is live (a reviewed policy is still
+  // pending — see that route). TODO(legal): Terms & Conditions and a
+  // Medical Disclaimer have no pages or approved copy yet — add them here
+  // once they exist rather than linking somewhere fake.
+  legalLinks: [{ label: "Privacy Policy", href: "/privacy" }],
 } as const;
