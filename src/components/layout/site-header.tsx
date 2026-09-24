@@ -152,7 +152,15 @@ export function SiteHeader() {
         {/* Desktop Primary Nav Pill */}
         <nav
           aria-label="Primary"
-          className="hidden items-center gap-1 rounded-full bg-paper/75 px-2 py-2 shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md md:flex"
+          className={cx(
+            "hidden items-center gap-1 rounded-full bg-paper/75 px-2 py-2 shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md md:flex",
+            // Homepage, desktop, motion allowed: leave room left of the pill
+            // for the Hero logo, which settles there on scroll (see
+            // hero-philosophy-scroll-scene.tsx — LOGO_* constants). Clears
+            // the logo chip by ~12px: max(95px, 155px − container edge).
+            pathname === "/" &&
+              "lg:motion-safe:ml-[max(95px,calc(155px_-_var(--space-gutter)_-_max(0px,(100vw_-_var(--container-max))/2)))]",
+          )}
         >
           {navigation.links.map((link) => {
             if (link.label === "Our Care") {
