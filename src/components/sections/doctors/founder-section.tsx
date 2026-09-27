@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { doctors } from "@/content/doctors-content";
 import { DoctorProfileContent } from "@/components/sections/doctors/doctor-profile-content";
 
@@ -31,12 +32,19 @@ export function FounderSection() {
   if (!founder) return null;
 
   return (
-    <section aria-labelledby="founder-heading" className="relative isolate bg-paper section-pad">
+    <section aria-labelledby="founder-heading" className="relative isolate overflow-hidden bg-paper section-pad">
+      <Image
+        src="/images/clinic/doctors-team-bg.jpg"
+        alt=""
+        fill
+        sizes="100vw"
+        className="object-cover object-center opacity-30 select-none pointer-events-none"
+      />
       {/* `overflow-x-hidden` — see DoctorProfileRow's own comment: clips
           the portrait's soft accent-wash bleed at this block's own
           boundary so it can never push a fraction of a px past the
           viewport edge on a narrow phone. */}
-      <div className="container-birthwave grid gap-12 overflow-x-hidden sm:grid-cols-[0.8fr_1.2fr] sm:items-start sm:gap-16">
+      <div className="container-birthwave relative z-10 grid gap-12 overflow-x-hidden sm:grid-cols-[0.8fr_1.2fr] sm:items-start sm:gap-16">
         <DoctorProfileContent
           doctor={founder}
           index={0}

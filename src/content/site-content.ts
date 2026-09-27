@@ -39,6 +39,9 @@ export const hero = {
   // Approved (docs/implementation-brief.md §29).
   subhead:
     "From women's health and pregnancy to birth, recovery and newborn care — The Birthwave brings every stage into one connected journey.",
+  // Mobile/tablet only: small cue at the bottom of the full-screen Hero,
+  // faded out as soon as scrolling starts (hero-philosophy-scroll-scene.tsx).
+  scrollCue: "Scroll to discover",
   primaryCta: {
     label: "Book a Consult",
     href: "#contact",

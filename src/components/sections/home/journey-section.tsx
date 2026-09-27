@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { journey } from "@/content/site-content";
 import { useReducedMotion } from "@/motion/reduced-motion";
 import { cx } from "@/lib/cx";
-import { ensureScrollTriggerRegistered, gsap, ScrollTrigger, SIGNATURE_EASE } from "@/motion/gsap-scroll";
+import { ensureScrollTriggerRegistered, gsap, ScrollTrigger } from "@/motion/gsap-scroll";
 
 /**
  * The BirthWave Journey — six stages in normal document flow (no pin),
@@ -26,7 +26,7 @@ import { ensureScrollTriggerRegistered, gsap, ScrollTrigger, SIGNATURE_EASE } fr
  *
  * Motion: one scrubbed ScrollTrigger (top 70% → bottom 70%) draws the
  * progress stroke and moves the marker along the same path via
- * getPointAtLength. Stages get a simple one-time reveal.
+ * getPointAtLength. Each stage has scrubbed, reversible reveals (see REVEAL).
  */
 
 const STAGE_COUNT = journey.stages.length;
@@ -56,6 +56,37 @@ const ATMOSPHERE_GRADIENT = `linear-gradient(to bottom, ${ATMOSPHERE_HUES[0]} 0%
   (hue, i) => `${hue} ${(((i + 0.5) / STAGE_COUNT) * 100).toFixed(1)}%`,
 ).join(", ")}, ${ATMOSPHERE_HUES[ATMOSPHERE_HUES.length - 1]} 100%)`;
 
+/**
+ * Atmospheric backdrop: one existing still — a cloud/fabric frame from the
+ * Hero → Philosophy sequence (warm ivory, peach, dusty rose; no subject).
+ * Frame 101 is one every breakpoint's scrub already loads (phones paint
+ * every second frame), so `unoptimized` lets it come straight from cache.
+ *
+ * The section is ~5–6k px tall, so the image sits in a viewport-sized
+ * CSS-sticky layer inside the section (released at the section's end)
+ * instead of being stretched ~8× over the whole height. It's oversized and
+ * anchored toward the upper-left of the frame so the source's
+ * bottom-right corner (an AI-generator sparkle mark) is always cropped out.
+ */
+const BACKDROP_SRC = "/images/about/hero-transition/frame_000101.jpg";
+/** The existing atmosphere gradient, now a translucent veil over the image. */
+const BACKDROP_VEIL_OPACITY = 0.66;
+
+/**
+ * Step reveals: the story elements carry the motion, the backdrop stays
+ * still. Each photo slides in from its own side of the route and settles;
+ * its label, heading and copy follow. Scrubbed (reversible) against the
+ * step's own grid cells, so scrolling back gently un-settles them.
+ */
+const REVEAL = {
+  desktop: { imageX: 28, imageY: 18, imageScale: 0.97, textY: 18 },
+  tablet: { imageX: 20, imageY: 18, imageScale: 0.97, textY: 16 },
+  mobile: { imageX: 0, imageY: 20, imageScale: 0.98, textY: 14 },
+} as const;
+const REVEAL_SCRUB = 0.5;
+/** Photo micro-parallax inside its card (768px and up): scale + yPercent drift. */
+const PHOTO_PARALLAX = { scale: 1.04, yPercent: 0.9 };
+
 const DESKTOP_QUERY = "(min-width: 1024px)";
 /** Mobile route x (px from the wrapper's left edge) and its slight waver. */
 const MOBILE_PATH_X = 24;
@@ -64,7 +95,6 @@ const MOBILE_WAVER = 3;
 const DESKTOP_BEND_MAX = 44;
 const DESKTOP_BEND_RATIO = 0.03;
 
-const REVEAL_Y = 24;
 
 type Point = { x: number; y: number };
 
@@ -86,6 +116,7 @@ export function JourneySection() {
   const basePathRef = useRef<SVGPathElement>(null);
   const progressPathRef = useRef<SVGPathElement>(null);
   const markerRef = useRef<SVGGElement>(null);
+  const introRef = useRef<HTMLParagraphElement>(null);
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
@@ -193,22 +224,72 @@ export function JourneySection() {
         },
       });
 
-      // Subtle one-time reveal per stage.
-      steps.forEach((step) => {
-        const parts = step.querySelectorAll("[data-journey-reveal]");
-        gsap.fromTo(
-          parts,
-          { autoAlpha: 0, y: REVEAL_Y },
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.9,
-            ease: SIGNATURE_EASE,
-            stagger: 0.12,
-            scrollTrigger: { trigger: step, start: "top 80%", once: true },
-          },
-        );
-      });
+      // Step reveals + photo micro-parallax, per breakpoint.
+      const intro = introRef.current;
+      const mm = gsap.matchMedia();
+      const addReveals = (cfg: (typeof REVEAL)[keyof typeof REVEAL], parallax: boolean) => {
+        if (intro) {
+          gsap.fromTo(
+            intro,
+            { autoAlpha: 0, y: 20 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              ease: "power2.out",
+              scrollTrigger: { trigger: intro, start: "top 88%", end: "top 66%", scrub: REVEAL_SCRUB },
+            },
+          );
+        }
+        steps.forEach((step) => {
+          const imageCell = step.querySelector<HTMLElement>("[data-journey-image]");
+          const card = step.querySelector<HTMLElement>("[data-journey-card]");
+          const photo = step.querySelector<HTMLElement>("[data-journey-photo]");
+          const textCell = step.querySelector<HTMLElement>("[data-journey-text-block]");
+          const textParts = step.querySelectorAll<HTMLElement>("[data-journey-text]");
+          if (!imageCell || !card || !textCell) return;
+          const fromSide = imageCell.dataset.side === "left" ? -1 : 1;
+
+          // Photo: in from its own side, settling as its cell rises from 78% to 52% of the viewport.
+          gsap.fromTo(
+            card,
+            { autoAlpha: 0, x: cfg.imageX * fromSide, y: cfg.imageY, scale: cfg.imageScale },
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              scale: 1,
+              ease: "power2.out",
+              scrollTrigger: { trigger: imageCell, start: "top 78%", end: "top 52%", scrub: REVEAL_SCRUB },
+            },
+          );
+          // Copy follows: label, then heading, then body, a short stagger behind the photo.
+          gsap.fromTo(
+            textParts,
+            { autoAlpha: 0, y: cfg.textY },
+            {
+              autoAlpha: 1,
+              y: 0,
+              ease: "power2.out",
+              stagger: 0.12,
+              scrollTrigger: { trigger: textCell, start: "top 76%", end: "top 50%", scrub: REVEAL_SCRUB },
+            },
+          );
+          if (parallax && photo) {
+            gsap.fromTo(
+              photo,
+              { scale: PHOTO_PARALLAX.scale, yPercent: -PHOTO_PARALLAX.yPercent },
+              {
+                yPercent: PHOTO_PARALLAX.yPercent,
+                ease: "none",
+                scrollTrigger: { trigger: imageCell, start: "top bottom", end: "bottom top", scrub: true },
+              },
+            );
+          }
+        });
+      };
+      mm.add(DESKTOP_QUERY, () => addReveals(REVEAL.desktop, true));
+      mm.add("(min-width: 768px) and (max-width: 1023px)", () => addReveals(REVEAL.tablet, true));
+      mm.add("(max-width: 767px)", () => addReveals(REVEAL.mobile, false));
     }, wrapper);
 
     return () => {
@@ -218,8 +299,41 @@ export function JourneySection() {
   }, [reducedMotion]);
 
   return (
-    <section id="journey" aria-labelledby="journey-heading" className="relative isolate overflow-x-clip">
-      <div aria-hidden="true" className="absolute inset-0 -z-10" style={{ backgroundImage: ATMOSPHERE_GRADIENT }} />
+    <section
+      id="journey"
+      aria-labelledby="journey-heading"
+      className="relative isolate overflow-x-clip"
+    >
+      {/* Backdrop (behind path + content): sticky still → veil → edge fades.
+          `overflow-clip`, not `hidden`, so the sticky child still sticks. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-clip">
+        <div className="sticky top-0 h-screen w-full overflow-clip supports-[height:100dvh]:h-dvh">
+          {/* Static: no scroll or pointer motion. The Journey steps move instead. */}
+          <div className="absolute -top-[4%] -left-[2%] h-[132%] w-[128%]">
+            <Image
+              src={BACKDROP_SRC}
+              alt=""
+              fill
+              unoptimized
+              sizes="128vw"
+              className="object-cover object-[30%_30%] lg:object-[20%_30%]"
+            />
+          </div>
+        </div>
+        <div className="absolute inset-0" style={{ backgroundImage: ATMOSPHERE_GRADIENT, opacity: BACKDROP_VEIL_OPACITY }} />
+        {/* Edge blending into the sections above/below — same colours the
+            old opaque gradient started and ended on, so the seams match. */}
+        <div
+          className="absolute inset-x-0 top-0 h-[clamp(8rem,18vh,12rem)]"
+          style={{ backgroundImage: `linear-gradient(to bottom, ${ATMOSPHERE_HUES[0]}, transparent)` }}
+        />
+        <div
+          className="absolute inset-x-0 bottom-0 h-[clamp(8rem,18vh,12rem)]"
+          style={{
+            backgroundImage: `linear-gradient(to top, ${ATMOSPHERE_HUES[ATMOSPHERE_HUES.length - 1]}, transparent)`,
+          }}
+        />
+      </div>
 
       {/* Intro — the eyebrow only; journey.heading stays the accessible
           name (Philosophy directly above already lands the same line). */}
@@ -227,7 +341,9 @@ export function JourneySection() {
         <h2 id="journey-heading" className="sr-only">
           {journey.heading}
         </h2>
-        <p className="eyebrow">{journey.eyebrow}</p>
+        <p ref={introRef} className="eyebrow">
+          {journey.eyebrow}
+        </p>
       </div>
 
       <div ref={wrapperRef} className="container-birthwave relative pb-[clamp(4rem,3rem+5vw,7rem)]">
@@ -292,7 +408,8 @@ function JourneyStage({ index, stage }: { index: number; stage: (typeof journey.
     >
       {/* Image — first in source order so mobile reads image → text. */}
       <div
-        data-journey-reveal
+        data-journey-image
+        data-side={textLeft ? "right" : "left"}
         className={cx(
           "lg:row-start-1",
           textLeft ? "lg:col-start-3 lg:justify-self-start" : "lg:col-start-1 lg:justify-self-end",
@@ -300,6 +417,7 @@ function JourneyStage({ index, stage }: { index: number; stage: (typeof journey.
         )}
       >
         <div
+          data-journey-card
           className={cx(
             "relative aspect-[1122/1402] w-full overflow-hidden",
             textLeft
@@ -307,25 +425,28 @@ function JourneyStage({ index, stage }: { index: number; stage: (typeof journey.
               : "rounded-tl-panel rounded-tr-xs rounded-br-xs rounded-bl-xs",
           )}
         >
-          <Image
-            src={stage.image}
-            alt={stage.alt}
-            fill
-            sizes="(min-width: 1024px) 40vw, 90vw"
-            className="object-cover"
-            style={{ objectPosition: stage.objectPosition }}
-          />
+          <div data-journey-photo className="absolute inset-0">
+            <Image
+              src={stage.image}
+              alt={stage.alt}
+              fill
+              sizes="(min-width: 1024px) 40vw, 90vw"
+              className="object-cover"
+              style={{ objectPosition: stage.objectPosition }}
+            />
+          </div>
         </div>
       </div>
 
       {/* Text — same row as its image on desktop, facing it across the route. */}
       <div
-        data-journey-reveal
+        data-journey-text-block
         className={cx(
           "max-w-[30rem] lg:row-start-1",
           textLeft ? "lg:col-start-1 lg:justify-self-end" : "lg:col-start-3 lg:justify-self-start",
         )}
       >
+        <div data-journey-text>
         <p
           data-journey-label
           className="flex items-baseline gap-3 motion-safe:opacity-[0.72] transition-[opacity,transform] duration-700 ease-(--ease-signature) motion-safe:translate-y-2 data-[active]:translate-y-0 data-[active]:opacity-100"
@@ -340,8 +461,10 @@ function JourneyStage({ index, stage }: { index: number; stage: (typeof journey.
             {stage.title}
           </span>
         </p>
+        </div>
 
         <h3
+          data-journey-text
           className={cx(
             "mt-4 leading-[1.1] font-semibold text-ink lg:mt-5",
             isBirth
@@ -356,7 +479,7 @@ function JourneyStage({ index, stage }: { index: number; stage: (typeof journey.
           ))}
         </h3>
 
-        <p className="mt-5 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft lg:mt-6">
+        <p data-journey-text className="mt-5 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft lg:mt-6">
           {stage.supporting}
         </p>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { doctors, type DoctorContent, type TeamCategory } from "@/content/doctors-content";
 import { DoctorProfileContent } from "@/components/sections/doctors/doctor-profile-content";
@@ -350,6 +351,16 @@ function TeamJourneyDesktop({
       </a>
 
       <div ref={pinRef} className="relative h-svh w-full overflow-hidden bg-paper">
+        <Image
+          src="/images/clinic/doctors-team-bg.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center opacity-35 select-none pointer-events-none z-0"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-paper/40 via-transparent to-paper/40 pointer-events-none z-[1]" />
+
         <div ref={trackRef} className="relative z-10 flex h-full w-max will-change-transform">
           {roster.map((doctor, index) => (
             <TeamJourneyScene
@@ -414,7 +425,7 @@ function TeamJourneyScene({
       data-team-scene
       className={cx(
         "relative flex h-full w-screen shrink-0 items-center overflow-hidden px-6 pt-[var(--header-height)] sm:px-10",
-        index % 2 === 1 ? "bg-[var(--color-paper-dim)]" : "bg-paper",
+        index % 2 === 1 ? "bg-[var(--color-paper-dim)]/75 backdrop-blur-xs" : "bg-paper/75 backdrop-blur-xs",
       )}
     >
       <div

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { preload } from "react-dom";
+import { ArrowDown } from "lucide-react";
 import { hero, brand, philosophy } from "@/content/site-content";
 import { CtaLink } from "@/components/ui/cta-link";
 import { useReducedMotion } from "@/motion/reduced-motion";
@@ -61,9 +62,22 @@ const LOGO_MIN_LEFT = 36;
 const LOGO_OUTSET = 24;
 /** Horizontal padding of the paper chip behind the settled logo. */
 const LOGO_CHIP_PAD_X = 12;
-/** Tablet/mobile: no header slot — the logo lifts and shrinks, then fades with the eyebrow as before. */
+/**
+ * Below 1024px (homepage): the Hero logo travels straight up into the
+ * compact header's brand slot — left edge on the container gutter,
+ * vertically centred on the hamburger — and shrinks only slightly (the
+ * Hero logo is already small there: 88px phones / 114px ≥640px).
+ */
+const LOGO_COMPACT_MOVE_END = 0.34;
+const LOGO_COMPACT_SHRINK_AT = 0.22;
+const LOGO_COMPACT_FINAL_SCALE: Record<Exclude<Bucket, "desktop">, number> = { tablet: 0.88, mobile: 0.95 };
+/** Small warm-ivory backdrop padding around the settled compact logo. */
+const LOGO_COMPACT_CHIP_PAD = { x: 8, y: 6 };
+/** Fallback only (compact header not found): lift, shrink, fade as before. */
 const LOGO_COMPACT_LIFT: Record<Exclude<Bucket, "desktop">, number> = { tablet: -16, mobile: -12 };
 const LOGO_COMPACT_SCALE = 0.9;
+/** "Scroll to discover" cue (below 1024px only) fades out early. */
+const SCROLL_CUE_FADE: readonly [number, number] = [0.05, 0.13];
 
 function getBucket(): Bucket {
   const w = window.innerWidth;
@@ -230,6 +244,7 @@ function AnimatedScene() {
     const heroBody = q("[data-hero-body]");
     const heroCta = q("[data-hero-cta]");
     const heroScrim = q("[data-hero-scrim]");
+    const scrollCue = q("[data-hero-scroll-cue]");
     const philScrim = q("[data-philosophy-scrim]");
     const philEyebrow = q("[data-philosophy-eyebrow]");
     const phil1 = q("[data-philosophy-statement-1]");
@@ -254,6 +269,7 @@ function AnimatedScene() {
     const allTargets = [
       heroLogo, heroEyebrow, heroHeading, heroBody, heroCta, heroScrim,
       philScrim, ...philTargets, traveler, travelerChip,
+      ...(scrollCue ? [scrollCue] : []),
     ];
 
     let bucket = getBucket();
@@ -387,34 +403,82 @@ function AnimatedScene() {
     // ── Text timeline (paused; progress set from the rAF loop) ───────────
     let tl: gsap.core.Timeline | null = null;
 
-    // ── Logo geometry (desktop): measured start → header slot ───────────
+    // ── Logo geometry: measured start → header slot ─────────────────────
     // Must be called with the logo's own transforms cleared.
-    function measureLogo(): { dx: number; dy: number } | null {
-      if (!stage || !heroLogo || !heroLogoImg || !traveler || !travelerChip) return null;
-      const pill = document.querySelector<HTMLElement>('header#top nav[aria-label="Primary"]');
-      const row = pill?.parentElement;
-      if (!pill || !row || pill.offsetParent === null) return null;
 
-      // Start: the Hero logo's resting position inside the sticky stage
-      // (stage-relative, so it's valid wherever the page is scrolled),
-      // minus any in-progress load-in translate on its column.
+    // Start: the Hero logo's resting position inside the sticky stage
+    // (stage-relative, so it's valid wherever the page is scrolled), minus
+    // any in-progress load-in translate on its column. Also places the
+    // traveller there.
+    function measureLogoStart() {
+      if (!stage || !heroLogo || !heroLogoImg || !traveler) return null;
       const stageRect = stage.getBoundingClientRect();
       const imgRect = heroLogoImg.getBoundingClientRect();
       if (imgRect.width === 0) return null;
       const riseEl = heroLogo.closest<HTMLElement>(".motion-rise-in");
       const riseTransform = riseEl ? getComputedStyle(riseEl).transform : "none";
       const riseY = riseTransform && riseTransform !== "none" ? new DOMMatrixReadOnly(riseTransform).m42 : 0;
-      const startLeft = imgRect.left - stageRect.left;
-      const startTop = imgRect.top - stageRect.top - riseY;
-      traveler.style.left = `${startLeft}px`;
-      traveler.style.top = `${startTop}px`;
+      const left = imgRect.left - stageRect.left;
+      const top = imgRect.top - stageRect.top - riseY;
+      traveler.style.left = `${left}px`;
+      traveler.style.top = `${top}px`;
+      return { left, top, width: imgRect.width, height: imgRect.height };
+    }
+
+    function contentLeftOf(row: HTMLElement) {
+      return row.getBoundingClientRect().left + parseFloat(getComputedStyle(row).paddingLeft || "0");
+    }
+
+    // Below 1024px: into the compact header's brand slot, opposite the hamburger.
+    function measureCompactLogo(): { dx: number; dy: number; scale: number } | null {
+      if (bucket === "desktop" || !travelerChip) return null;
+      const toggle = document.querySelector<HTMLElement>("header#top [data-mobile-menu-toggle]");
+      const row = toggle?.parentElement;
+      if (!toggle || !row || toggle.offsetParent === null) return null;
+      const start = measureLogoStart();
+      if (!start) return null;
+
+      const s = LOGO_COMPACT_FINAL_SCALE[bucket];
+      const toggleRect = toggle.getBoundingClientRect();
+      const finalW = start.width * s;
+      const finalH = start.height * s;
+      const endLeft = contentLeftOf(row);
+      const endTop = toggleRect.top + toggleRect.height / 2 - finalH / 2;
+
+      const { x: padX, y: padY } = LOGO_COMPACT_CHIP_PAD;
+      Object.assign(travelerChip.style, {
+        left: `${-padX / s}px`,
+        top: `${-padY / s}px`,
+        width: `${(finalW + padX * 2) / s}px`,
+        height: `${(finalH + padY * 2) / s}px`,
+      });
+
+      const gap = toggleRect.left - (endLeft + finalW + padX);
+      if (gap < 8) debug.warn(`compact logo target is ${gap.toFixed(1)}px from the menu button.`);
+      debug.update({
+        logoStart: `${start.left.toFixed(1)},${start.top.toFixed(1)} ${start.width.toFixed(0)}w`,
+        logoEnd: `${endLeft.toFixed(1)},${endTop.toFixed(1)} ×${s}`,
+        logoNavGap: `${gap.toFixed(1)}px`,
+      });
+      return { dx: endLeft - start.left, dy: endTop - start.top, scale: s };
+    }
+
+    // Desktop: just outside the container edge, left of the nav pill.
+    function measureLogo(): { dx: number; dy: number } | null {
+      if (!travelerChip) return null;
+      const pill = document.querySelector<HTMLElement>('header#top nav[aria-label="Primary"]');
+      const row = pill?.parentElement;
+      if (!pill || !row || pill.offsetParent === null) return null;
+      const start = measureLogoStart();
+      if (!start) return null;
+      const startLeft = start.left;
+      const startTop = start.top;
 
       // End: just outside the container edge, vertically centred on the nav pill.
-      const rowRect = row.getBoundingClientRect();
-      const containerLeft = rowRect.left + parseFloat(getComputedStyle(row).paddingLeft || "0");
+      const containerLeft = contentLeftOf(row);
       const pillRect = pill.getBoundingClientRect();
-      const finalW = imgRect.width * LOGO_FINAL_SCALE;
-      const finalH = imgRect.height * LOGO_FINAL_SCALE;
+      const finalW = start.width * LOGO_FINAL_SCALE;
+      const finalH = start.height * LOGO_FINAL_SCALE;
       const endLeft = Math.max(LOGO_MIN_LEFT, containerLeft - LOGO_OUTSET);
       const endTop = pillRect.top + pillRect.height / 2 - finalH / 2;
 
@@ -434,7 +498,7 @@ function AnimatedScene() {
         debug.warn(`logo target overlaps nav pill (gap ${gap.toFixed(1)}px) — check header slot.`);
       }
       debug.update({
-        logoStart: `${startLeft.toFixed(1)},${startTop.toFixed(1)} ${imgRect.width.toFixed(0)}w`,
+        logoStart: `${startLeft.toFixed(1)},${startTop.toFixed(1)} ${start.width.toFixed(0)}w`,
         logoEnd: `${endLeft.toFixed(1)},${endTop.toFixed(1)} ×${s}`,
         logoNavGap: `${gap.toFixed(1)}px`,
       });
@@ -453,9 +517,28 @@ function AnimatedScene() {
 
       // Logo — geometry is scrubbed linearly so scroll stays predictable.
       const logoTravel = bucket === "desktop" ? measureLogo() : null;
-      if (sceneGroup) sceneGroup.dataset.logoTraveler = logoTravel ? "on" : "off";
+      const compactTravel = bucket === "desktop" ? null : measureCompactLogo();
+      if (sceneGroup) {
+        sceneGroup.dataset.logoTraveler = logoTravel || compactTravel ? "on" : "off";
+      }
       const moveDuration = LOGO_MOVE_END - LOGO_MOVE_START;
-      if (logoTravel) {
+      if (compactTravel) {
+        // Straight up into the compact header, shrinking only at the end.
+        gsap.set(traveler, { transformOrigin: "0 0" });
+        t.fromTo(
+          traveler,
+          { x: 0, y: 0 },
+          { x: compactTravel.dx, y: compactTravel.dy, ease: "none", duration: LOGO_COMPACT_MOVE_END - LOGO_MOVE_START },
+          LOGO_MOVE_START,
+        );
+        t.fromTo(
+          traveler,
+          { scale: 1 },
+          { scale: compactTravel.scale, ease: "none", duration: LOGO_COMPACT_MOVE_END - LOGO_COMPACT_SHRINK_AT },
+          LOGO_COMPACT_SHRINK_AT,
+        );
+        t.fromTo(travelerChip, { opacity: 0 }, { opacity: 1, ease: "none", duration: 0.08 }, LOGO_COMPACT_MOVE_END - 0.08);
+      } else if (logoTravel) {
         gsap.set(traveler, { transformOrigin: "0 0" });
         t.fromTo(traveler, { x: 0, y: 0 }, { x: logoTravel.dx, y: logoTravel.dy, ease: "none", duration: moveDuration }, LOGO_MOVE_START);
         t.fromTo(traveler, { scale: 1 }, { scale: LOGO_SETTLE_SCALE, ease: "none", duration: LOGO_SETTLE_AT - LOGO_MOVE_START }, LOGO_MOVE_START);
@@ -477,6 +560,7 @@ function AnimatedScene() {
 
       const at = (key: keyof TextTiming) => timing[key][0];
       const dur = (key: keyof TextTiming) => timing[key][1];
+      if (scrollCue) t.to(scrollCue, { opacity: 0, duration: SCROLL_CUE_FADE[1] }, SCROLL_CUE_FADE[0]);
       t.to(heroBody, { opacity: 0, y: heroY, duration: dur("heroBody") }, at("heroBody"));
       t.to(heroCta, { autoAlpha: 0, y: heroY, duration: dur("heroCta") }, at("heroCta"));
       t.to(heroEyebrow, { opacity: 0, y: heroY, duration: dur("heroEyebrow") }, at("heroEyebrow"));
@@ -694,24 +778,37 @@ function AnimatedScene() {
 
         <HeroContent />
         <PhilosophyContent animated />
+
+        {/* Below 1024px only; fades out by 0.18 progress. */}
+        <p
+          data-hero-scroll-cue
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-[calc(env(safe-area-inset-bottom)+1.5rem)] left-(--space-gutter) z-20 flex items-center gap-2 font-body text-[0.6875rem] font-semibold tracking-[var(--tracking-wider)] text-ink-soft uppercase lg:hidden"
+        >
+          <ArrowDown aria-hidden="true" className="size-3.5" />
+          {hero.scrollCue}
+        </p>
       </div>
     </div>
 
-    {/* Desktop logo traveller. It has to live outside the scene's
+    {/* Logo traveller (all widths). It has to live outside the scene's
         isolated/transformed layers to be `fixed` and stay above later
         sections once it settles in the header. Hidden until JS has
         measured the Hero logo; then CSS swaps it in at the identical
         position (the Hero copy goes invisible in the same frame), so only
-        one logo is ever visible. Not a link — matches the Hero logo. */}
+        one logo is ever visible. Not a link — matches the Hero logo.
+        Settled backdrop: desktop pill chip; below 1024px a small
+        warm-ivory tile, needed where the header passes the dark Immersive
+        section. */}
     <div
       ref={travelerRef}
       data-hero-logo-traveler
-      className="pointer-events-none invisible fixed top-0 left-0 z-40 hidden lg:block lg:group-data-[logo-traveler=on]/scene:visible"
+      className="pointer-events-none invisible fixed top-0 left-0 z-40 group-data-[logo-traveler=on]/scene:visible"
     >
       <div
         ref={travelerChipRef}
         aria-hidden="true"
-        className="absolute rounded-full bg-paper/75 opacity-0 shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md"
+        className="absolute rounded-[14px] bg-paper/80 opacity-0 backdrop-blur-[8px] lg:rounded-full lg:bg-paper/75 lg:shadow-[0_1px_2px_rgba(36,26,23,0.08)] lg:backdrop-blur-md"
       />
       <div className="motion-rise-in relative">
         <Image
@@ -748,7 +845,7 @@ function HeroContent({ className }: { className?: string }) {
 
       <div className="container-birthwave relative z-20 flex h-full items-center [padding-block:var(--header-height)]">
         <div className="motion-rise-in max-w-lg">
-          <div data-hero-logo className="lg:group-data-[logo-traveler=on]/scene:invisible">
+          <div data-hero-logo className="group-data-[logo-traveler=on]/scene:invisible">
             <Image
               src={brand.logo.wordmarkMauve}
               alt={brand.logo.alt}
@@ -926,6 +1023,11 @@ function ReducedMotionScene() {
     const philText = root.querySelectorAll<HTMLElement>(
       "[data-philosophy-eyebrow], [data-philosophy-statement-1], [data-philosophy-statement-2], [data-philosophy-statement-3], [data-philosophy-closing]",
     );
+    // Below 1024px the header's compact wordmark stands in for the Hero
+    // logo once it's left — an opacity crossfade, never a travelling logo.
+    // (At ≥1024px it's display:none, so the tweens are inert there.)
+    const headerMark = document.querySelector<HTMLElement>("header#top [data-header-wordmark]");
+    const heroLogo = q("[data-hero-logo]");
     if (!heroImage || !philBlock || !philImage || !philScrim) {
       debug.destroy();
       return;
@@ -956,6 +1058,8 @@ function ReducedMotionScene() {
           .to(philIn, { autoAlpha: 1, duration: 0.25 }, 0.45)
           .to(philText, { autoAlpha: 1, duration: 0.2 }, 0.65)
           .set({}, {}, 1);
+        // Sequential, not overlapping: the Hero logo is gone by 0.55.
+        if (headerMark) tl.fromTo(headerMark, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.1 }, 0.55);
         debug.update({ layout: "short sticky crossfade" });
       });
 
@@ -973,6 +1077,15 @@ function ReducedMotionScene() {
           })
           .to(philIn, { autoAlpha: 1, duration: 0.6, ease: "power1.out" })
           .to(philText, { autoAlpha: 1, duration: 0.5, ease: "power1.out" }, "-=0.15");
+        if (headerMark && heroLogo) {
+          gsap.set(headerMark, { autoAlpha: 0 });
+          gsap.to(headerMark, {
+            autoAlpha: 1,
+            duration: 0.4,
+            ease: "power1.out",
+            scrollTrigger: { trigger: heroLogo, start: "bottom top", toggleActions: "play none none reverse" },
+          });
+        }
         debug.update({ layout: "normal flow fade-in" });
       });
     }, root);
