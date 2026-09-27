@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { doctorsHero } from "@/content/doctors-content";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
@@ -8,7 +9,7 @@ import { useParallax } from "@/motion/image-motion";
 
 /**
  * Section 01 — Doctors Hero. A premium editorial opening, not a doctor
- * collage: one large portrait placeholder, generous whitespace, large
+ * collage: one large portrait placeholder or hero photo, generous whitespace, large
  * type. No floating avatars, no glassmorphism, no medical iconography.
  *
  * This section's own motion is deliberately ordinary — the same subtle
@@ -38,6 +39,8 @@ import { useParallax } from "@/motion/image-motion";
  */
 export function DoctorsHero() {
   const imageParallaxRef = useParallax<HTMLDivElement>({ factor: 0.08, maxOffsetPx: 24 });
+
+  const heroMediaSrc = "src" in doctorsHero.media ? (doctorsHero.media as { src?: string }).src : undefined;
 
   return (
     <section
@@ -81,13 +84,26 @@ export function DoctorsHero() {
           style={{ transform: "translate3d(0, var(--parallax-y, 0px), 0)" }}
           className="-mt-8 ml-auto w-[78vw] sm:order-2 sm:mt-0 sm:ml-0 sm:w-auto"
         >
-          <MediaPlaceholder
-            alt={doctorsHero.media.alt}
-            gradient="linear-gradient(155deg, var(--color-paper-dim) 0%, var(--color-sky) 100%)"
-            corner="tr"
-            aspect="aspect-[4/5] lg:aspect-[3/4]"
-            className="lg:-mr-[2vw]"
-          />
+          {heroMediaSrc ? (
+            <div className="relative aspect-[4/5] lg:aspect-[3/4] w-full overflow-hidden rounded-tr-panel rounded-tl-xs rounded-br-xs rounded-bl-xs bg-paper-dim shadow-sm lg:-mr-[2vw]">
+              <Image
+                src={heroMediaSrc}
+                alt={doctorsHero.media.alt}
+                fill
+                sizes="(min-width: 1024px) 45vw, (min-width: 640px) 50vw, 78vw"
+                className="object-cover object-center"
+                priority
+              />
+            </div>
+          ) : (
+            <MediaPlaceholder
+              alt={doctorsHero.media.alt}
+              gradient="linear-gradient(155deg, var(--color-paper-dim) 0%, var(--color-sky) 100%)"
+              corner="tr"
+              aspect="aspect-[4/5] lg:aspect-[3/4]"
+              className="lg:-mr-[2vw]"
+            />
+          )}
         </div>
       </div>
     </section>

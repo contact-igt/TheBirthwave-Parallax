@@ -317,9 +317,8 @@ export const doctorsHero = {
     href: "#team-directory",
   },
   media: {
-    // TODO(content): approved team/editorial portrait pending — see this
-    // file's own header comment. Built visual placeholder only.
-    alt: "Care team portrait — approved photography pending",
+    src: "/images/clinic/doctor-hero.png",
+    alt: "Doctor consultation with patient at The Birthwave",
   },
 } as const;
 

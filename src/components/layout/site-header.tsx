@@ -131,14 +131,30 @@ export function SiteHeader() {
     };
   }, []);
 
+  // Homepage below 1024px: the compact "mobile" header (brand slot +
+  // hamburger only) replaces the nav pill on tablets too, and the Hero logo
+  // itself becomes the header brand on scroll (hero-philosophy-scroll-
+  // scene.tsx) — so this header's own wordmark stays invisible there
+  // unless the reduced-motion scene fades it in. Other pages unchanged.
+  const isHome = pathname === "/";
+
   return (
     <header id="top" className="fixed inset-x-0 top-0 z-50">
-      <div className="container-birthwave flex h-(--header-height) items-center justify-between gap-4">
+      <div
+        className={cx(
+          "container-birthwave flex h-(--header-height) items-center justify-between gap-4",
+          isHome && "max-lg:items-start max-lg:pt-[calc(env(safe-area-inset-top)+20px)]",
+        )}
+      >
         {/* Mobile Wordmark */}
         <Link
           href="/"
           aria-label={`${brand.name} — home`}
-          className="rounded-full bg-paper/75 px-2.5 py-2 shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md md:hidden"
+          data-header-wordmark=""
+          className={cx(
+            "rounded-full bg-paper/75 px-2.5 py-2 shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md",
+            isHome ? "invisible lg:hidden" : "md:hidden",
+          )}
         >
           <Image
             src={brand.logo.wordmarkMauve}
@@ -153,12 +169,13 @@ export function SiteHeader() {
         <nav
           aria-label="Primary"
           className={cx(
-            "hidden items-center gap-1 rounded-full bg-paper/75 px-2 py-2 shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md md:flex",
+            "hidden items-center gap-1 rounded-full bg-paper/75 px-2 py-2 shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md",
+            isHome ? "lg:flex" : "md:flex",
             // Homepage, desktop, motion allowed: leave room left of the pill
             // for the Hero logo, which settles there on scroll (see
             // hero-philosophy-scroll-scene.tsx — LOGO_* constants). Clears
             // the logo chip by ~12px: max(95px, 155px − container edge).
-            pathname === "/" &&
+            isHome &&
               "lg:motion-safe:ml-[max(95px,calc(155px_-_var(--space-gutter)_-_max(0px,(100vw_-_var(--container-max))/2)))]",
           )}
         >
@@ -270,7 +287,7 @@ export function SiteHeader() {
         </nav>
 
         {/* Desktop Book a Consult CTA */}
-        <div className="ml-auto hidden md:block">
+        <div className={cx("ml-auto hidden", isHome ? "lg:block" : "md:block")}>
           {isCrossPageHash(navigation.cta.href) ? (
             <a href={navigation.cta.href} className={cx(buttonClasses("primary"), "text-xs")}>
               {navigation.cta.label}
@@ -287,7 +304,13 @@ export function SiteHeader() {
           ref={toggleRef}
           type="button"
           data-mobile-menu-toggle=""
-          className="ml-auto inline-flex size-11 items-center justify-center rounded-full bg-paper/75 text-ink shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md md:hidden"
+          className={cx(
+            // The small translucent disc is kept because the fixed header
+            // passes over the dark Immersive section, where a bare ink icon
+            // would disappear.
+            "ml-auto inline-flex size-11 items-center justify-center rounded-full bg-paper/75 text-ink shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md",
+            isHome ? "mr-[env(safe-area-inset-right)] lg:hidden" : "md:hidden",
+          )}
           aria-expanded={open}
           aria-controls={menuId}
           aria-label={open ? "Close menu" : "Open menu"}
@@ -305,7 +328,12 @@ export function SiteHeader() {
       <div
         id={menuId}
         hidden={!open}
-        className="fixed inset-x-0 top-(--header-height) z-40 max-h-[calc(100dvh-var(--header-height))] overflow-y-auto border-t border-[var(--color-border)] bg-paper shadow-lg md:hidden"
+        className={cx(
+          "fixed inset-x-0 z-40 max-h-[calc(100dvh-var(--header-height))] overflow-y-auto border-t border-[var(--color-border)] bg-paper shadow-lg",
+          isHome
+            ? "top-[calc(var(--header-height)+env(safe-area-inset-top))] lg:hidden"
+            : "top-(--header-height) md:hidden",
+        )}
       >
         <nav aria-label="Mobile" className="container-birthwave flex flex-col gap-1 py-4">
           {navigation.links.map((link, index) => {
