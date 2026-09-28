@@ -15,6 +15,7 @@ import {
 } from "@/motion/gsap-scroll";
 import { cx } from "@/lib/cx";
 import { createSceneDebug } from "@/motion/scene-debug";
+import { SceneDebugOverlay } from "@/motion/scene-debug-overlay";
 
 // ---------------------------------------------------------------------------
 // Frame sequence — public/images/about/nested (99 × 1280×720 JPEG)
@@ -206,8 +207,13 @@ const HERO_SCRIM_STYLE = {
  */
 export function HeroPhilosophyScrollScene() {
   const reducedMotion = useReducedMotion();
-  if (reducedMotion) return <ReducedMotionScene />;
-  return <AnimatedScene />;
+  return (
+    <>
+      {reducedMotion ? <ReducedMotionScene /> : <AnimatedScene />}
+      {/* Visible only for an explicit `?debugScene=1` URL. */}
+      <SceneDebugOverlay label={DEBUG_LABEL} />
+    </>
+  );
 }
 
 // ---------------------------------------------------------------------------
