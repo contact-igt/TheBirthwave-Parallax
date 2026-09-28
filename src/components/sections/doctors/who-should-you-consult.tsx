@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { whoShouldYouConsult } from "@/content/doctors-content";
 import { useScrollReveal } from "@/motion/scroll-scenes";
 import { cx } from "@/lib/cx";
+import { DOCTORS_SURFACE_TONED } from "@/components/sections/doctors/doctors-surfaces";
 
 /**
  * Section 02 (lower-page refinement) — Not Sure Who To See First? A SHORT
@@ -28,7 +29,7 @@ export function WhoShouldYouConsult() {
     <section
       id="who-should-you-consult"
       aria-labelledby="who-should-you-consult-heading"
-      className="relative isolate bg-paper-dim section-pad"
+      className={`relative isolate section-pad ${DOCTORS_SURFACE_TONED}`}
     >
       <div className="container-birthwave">
         <div className="max-w-2xl">

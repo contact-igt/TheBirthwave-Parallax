@@ -1,5 +1,6 @@
 import { doctorsEnquiryForm } from "@/content/doctors-content";
 import { DoctorsEnquiryForm } from "@/components/sections/doctors/doctors-enquiry-form";
+import { DOCTORS_SURFACE_TONED } from "@/components/sections/doctors/doctors-surfaces";
 
 /**
  * The closing enquiry form section — extracted from
@@ -32,7 +33,7 @@ export function DoctorsEnquiryFormSection() {
     <section
       id="doctors-enquiry"
       aria-labelledby="doctors-enquiry-heading"
-      className="relative isolate overflow-hidden bg-paper-dim section-pad"
+      className={`relative isolate overflow-hidden section-pad ${DOCTORS_SURFACE_TONED}`}
     >
       {/* Subtle warm close — a single static gradient, only ever present
           (never scroll-driven or repainted), so "a cleaner visual ending"

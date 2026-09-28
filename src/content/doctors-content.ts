@@ -96,6 +96,7 @@ export interface DoctorContent {
      * deliberately not the person's name a second time). */
     placeholderLabel: string;
   };
+
   /** Optional per-photo focal point (a CSS `object-position` value, e.g.
    * `"50% 25%"`) — threaded through to `PortraitPlaceholder`'s own
    * `<Image>`. Unset for every entry below (`object-cover`'s own default
@@ -120,6 +121,7 @@ function photoFor(name: string): DoctorContent["photo"] {
   };
 }
 
+
 /** The confirmed 10-person roster, in page order (Founder, then Medical &
  * Clinical Team, then Allied Care Team) — the single source of truth for
  * routing (`generateStaticParams`), the Founder section, both team grids,
@@ -142,7 +144,6 @@ export const doctors: DoctorContent[] = [
       alt: "Dr. Santoshi Nandigam",
       placeholderLabel: "Dr. Santoshi Nandigam",
     },
-
     team: "founder",
   },
   {

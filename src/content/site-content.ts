@@ -243,59 +243,46 @@ export const immersive = {
 } as const;
 
 /**
- * Care — "What guides how we care for you," redesigned around a sticky
- * headline and three principles that take focus one at a time as they
- * scroll into view, rather than a static list. The testimonial that used
- * to sit under this section's commitments has been deliberately omitted:
- * no approved, attributable quote exists, and a placeholder styled like a
- * real review is worse than no testimonial at all. Re-add it here once
- * one is approved — nothing else about this section needs to change.
+ * Care — the "Our approach" section: a short editorial statement of how
+ * consultations work, beside one still photograph. Replaces the earlier
+ * "What guides how we care for you" copy and its companion video.
  *
- * Principles approved (docs/implementation-brief.md §29), replacing the
- * earlier structural placeholders — each `label` is the short all-caps
- * line the brief gave verbatim, `statement` the sentence beneath it.
+ * The testimonial that used to sit under this section has been
+ * deliberately omitted: no approved, attributable quote exists, and a
+ * placeholder styled like a real review is worse than none.
  *
- * The three per-principle photographs §32 added (`image`/`imageAlt`/
- * `objectPosition`, one per principle, switching as the visitor scrolled)
- * were removed in §37: a single approved companion video now sits under
- * the heading instead and never changes as principles come into focus —
- * see `media` below, and `CareVisual` in care-section.tsx for how it
- * replaced the old three-photo crossfade.
+ * `image` is an illustrative photograph (not The Birthwave's own clinic or
+ * team — the alt text describes the scene, never claims it's here). It is
+ * also the Doctors page hero image (doctors-content.ts); swap in approved
+ * clinic photography of a consultation when one exists.
  */
 export const care = {
-  headingLines: ["What guides", "how we care", "for you."],
+  eyebrow: "Our approach",
+  heading: "Care starts with listening.",
   principles: [
     {
       index: "01",
-      label: "Listen before recommending",
-      statement:
-        "Care begins with understanding your history, questions and what matters to you.",
+      title: "We listen.",
+      text: "Your history, questions and priorities shape the conversation.",
     },
     {
       index: "02",
-      label: "Explain before deciding",
-      statement:
-        "Your options and clinical considerations should be understandable before decisions are made.",
+      title: "We explain.",
+      text: "Understand your options and the reasons behind each recommendation.",
     },
     {
       index: "03",
-      label: "Support without pressure",
-      statement:
-        "Preparation should build confidence without forcing one idea of what birth or recovery must look like.",
+      title: "We respect your choices.",
+      text: "Discuss your preferences alongside your clinical needs.",
     },
   ],
-  // Approved (docs/implementation-brief.md §37): a manually-added video
-  // asset, found at `/public/brand/care.mp4` — not a .jpg. 720×1280
-  // (9:16, portrait — well suited to the narrow companion frame beneath
-  // the heading), 10s, 24fps, silent. Same unconditional-`<video>`/
-  // imperative-play pattern as Hero's own video and the dark scene's
-  // (immersive-section.tsx) — `posterSrc` is a real frame extracted from
-  // this exact clip. One stable companion for the whole section, not
-  // three cycling photos — it does not change as the principles on the
-  // right come into focus.
-  media: {
-    videoSrc: "/brand/care.mp4",
-    posterSrc: "/brand/care-video-poster.jpg",
+  image: {
+    src: "/images/clinic/doctor-hero.png",
+    width: 1086,
+    height: 1448,
+    alt: "A clinician in a white coat listening attentively to a woman during a calm consultation in a softly lit room.",
+    // Keeps both faces (upper third) in frame at every crop.
+    objectPosition: "50% 30%",
   },
 } as const;
 

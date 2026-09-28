@@ -1,50 +1,80 @@
-import Image from "next/image";
-import { doctors } from "@/content/doctors-content";
-import { DoctorProfileContent } from "@/components/sections/doctors/doctor-profile-content";
+"use client";
 
-/**
- * Featured Founder — the opening entry of the vertical directory (team-
- * directory rework), shown once. Large-portrait visual redesign: now
- * built on the SAME `DoctorProfileContent` every other profile uses
- * ("keep it part of the same profile system," per the brief) rather than
- * its own separate, duplicated markup — `featured` gives her a slightly
- * larger name, nothing else changes shape. The wrapper grid here is a
- * touch more generous than `DoctorProfileRow`'s own (`0.8fr/1.2fr`, ~40%/
- * 60%, vs. `DoctorProfileRow`'s ~43%/57%) — still inside the brief's own
- * 40–45%/55–60% range — reading as the featured entry without a
- * different visual system from the directory rows that follow it.
- *
- * Team-journey rework: this is now specifically the vertical FALLBACK's
- * own Founder presentation (`team-journey.tsx` renders it inside
- * `TeamJourneyVertical`) — the desktop horizontal journey presents the
- * Founder as its own first scene instead (`TeamJourneyScene`, unchanged
- * by this pass, built on the same shared `DoctorProfileContent`). The
- * `id="team-directory"` anchor both "Explore the Team" and "Who Should
- * You Consult?" target lives on `team-journey.tsx`'s own outer wrapper,
- * not here.
- *
- * Reads the Founder directly from `doctors` (the one `team: "founder"`
- * entry) rather than a separate constant — one source of truth, same as
- * every other section on this page.
- */
+import { useEffect, useRef } from "react";
+import { doctors } from "@/content/doctors-content";
+
+import { DoctorProfileContent } from "@/components/sections/doctors/doctor-profile-content";
+import { useReducedMotion } from "@/motion/reduced-motion";
+import { ensureScrollTriggerRegistered, gsap } from "@/motion/gsap-scroll";
+import { DOCTORS_SURFACE } from "@/components/sections/doctors/doctors-surfaces";
+
 export function FounderSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
   const founder = doctors.find((doctor) => doctor.team === "founder");
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const imgEl = el.querySelector<HTMLElement>("[data-doctor-image]");
+    const contentEl = el.querySelector<HTMLElement>("[data-doctor-content]");
+    if (!imgEl || !contentEl) return;
+
+    ensureScrollTriggerRegistered();
+    const ctx = gsap.context(() => {
+      const isMobile = window.innerWidth < 768;
+      const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+
+      const imgStartX = isMobile ? 0 : isTablet ? -28 : -48;
+      const imgStartY = isMobile ? 16 : 10;
+      const imgStartScale = isMobile ? 0.99 : 0.98;
+
+      const contentStartX = isMobile ? 0 : isTablet ? 28 : 48;
+      const contentStartY = isMobile ? 14 : 10;
+
+      gsap.set(imgEl, { opacity: 0, x: imgStartX, y: imgStartY, scale: imgStartScale });
+      gsap.set(contentEl, { opacity: 0, x: contentStartX, y: contentStartY });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start: "top 78%",
+          end: "top 48%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      tl.to(imgEl, {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        duration: 0.75,
+        ease: "power2.out",
+      }).to(
+        contentEl,
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          duration: 0.75,
+          ease: "power2.out",
+        },
+        "-=0.63",
+      );
+    }, el);
+
+    return () => ctx.revert();
+  }, [reducedMotion]);
+
+
   if (!founder) return null;
 
   return (
-    <section aria-labelledby="founder-heading" className="relative isolate overflow-hidden bg-paper section-pad">
-      <Image
-        src="/images/clinic/doctors-team-bg.jpg"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover object-center opacity-30 select-none pointer-events-none"
-      />
-      {/* `overflow-x-hidden` — see DoctorProfileRow's own comment: clips
-          the portrait's soft accent-wash bleed at this block's own
-          boundary so it can never push a fraction of a px past the
-          viewport edge on a narrow phone. */}
-      <div className="container-birthwave relative z-10 grid gap-12 overflow-x-hidden sm:grid-cols-[0.8fr_1.2fr] sm:items-start sm:gap-16">
+    <section ref={sectionRef} aria-labelledby="founder-heading" className={`relative isolate overflow-hidden section-pad ${DOCTORS_SURFACE}`}>
+      <div className="container-birthwave grid gap-12 overflow-x-hidden sm:grid-cols-[0.8fr_1.2fr] sm:items-start sm:gap-16">
         <DoctorProfileContent
           doctor={founder}
           index={0}
