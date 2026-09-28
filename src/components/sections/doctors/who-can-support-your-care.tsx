@@ -7,6 +7,7 @@ import { getServiceBySlug } from "@/content/services-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { useScrollReveal } from "@/motion/scroll-scenes";
 import { cx } from "@/lib/cx";
+import { DOCTORS_SURFACE } from "@/components/sections/doctors/doctors-surfaces";
 
 /**
  * Section 01 (lower-page refinement) — Who Can Support This Part Of Your
@@ -52,7 +53,7 @@ export function WhoCanSupportYourCare() {
     <section
       id="who-can-support-your-care"
       aria-labelledby="who-can-support-heading"
-      className="relative isolate bg-paper section-pad"
+      className={`relative isolate section-pad ${DOCTORS_SURFACE}`}
     >
       <div className="container-birthwave">
         <div className="max-w-2xl">

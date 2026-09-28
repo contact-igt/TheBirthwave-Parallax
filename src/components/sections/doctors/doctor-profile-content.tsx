@@ -45,6 +45,7 @@ export function DoctorProfileContent({
   index,
   portraitWrapperClassName,
   portraitAttrs,
+  contentClassName,
   drift = false,
   featured = false,
   headingId,
@@ -55,6 +56,8 @@ export function DoctorProfileContent({
   index: number;
   portraitWrapperClassName?: string;
   portraitAttrs?: Record<string, string>;
+  /** Overrides the profile column's width (default `max-w-[38rem]`). */
+  contentClassName?: string;
   drift?: boolean;
   /** A slightly stronger presentation — larger name, no effect on the
    * shared content structure itself. Used only by `FounderSection`. */
@@ -83,7 +86,7 @@ export function DoctorProfileContent({
 
   return (
     <>
-      <div className={portraitWrapperClassName ?? "block w-full"} {...portraitAttrs}>
+      <div className={portraitWrapperClassName ?? "block w-full"} data-doctor-image {...portraitAttrs}>
         <PortraitPlaceholder
           photo={doctor.photo}
           index={index}
@@ -95,7 +98,7 @@ export function DoctorProfileContent({
         />
       </div>
 
-      <div className="mt-8 max-w-[38rem] sm:mt-0">
+      <div className={cx("mt-8 sm:mt-0", contentClassName ?? "max-w-[38rem]")} data-doctor-content>
         <p className="font-body text-[0.6875rem] font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
           {CATEGORY_LABELS[doctor.team]}
         </p>

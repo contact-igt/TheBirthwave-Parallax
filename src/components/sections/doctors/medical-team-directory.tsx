@@ -1,5 +1,6 @@
 import { doctors, medicalTeamGridContent } from "@/content/doctors-content";
 import { DoctorProfileRow } from "@/components/sections/doctors/doctor-profile-row";
+import { DOCTORS_SURFACE_TONED } from "@/components/sections/doctors/doctors-surfaces";
 
 /**
  * Medical & Clinical Team directory — team rework: one full-width
@@ -13,7 +14,7 @@ export function MedicalTeamDirectory() {
   if (team.length === 0) return null;
 
   return (
-    <section aria-labelledby="medical-team-heading" className="relative isolate bg-paper-dim section-pad">
+    <section aria-labelledby="medical-team-heading" className={`relative isolate section-pad ${DOCTORS_SURFACE_TONED}`}>
       <div className="container-birthwave">
         <div className="max-w-2xl">
           <p className="eyebrow">{medicalTeamGridContent.eyebrow}</p>

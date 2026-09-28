@@ -1,5 +1,6 @@
 import { doctors, alliedTeamGridContent } from "@/content/doctors-content";
 import { DoctorProfileRow } from "@/components/sections/doctors/doctor-profile-row";
+import { DOCTORS_SURFACE } from "@/components/sections/doctors/doctors-surfaces";
 
 /**
  * Allied Care Team directory — same `DoctorProfileRow` system as
@@ -12,7 +13,7 @@ export function AlliedTeamDirectory() {
   if (team.length === 0) return null;
 
   return (
-    <section aria-labelledby="allied-team-heading" className="relative isolate bg-paper section-pad">
+    <section aria-labelledby="allied-team-heading" className={`relative isolate section-pad ${DOCTORS_SURFACE}`}>
       <div className="container-birthwave">
         <div className="max-w-2xl">
           <p className="eyebrow">{alliedTeamGridContent.eyebrow}</p>

@@ -17,14 +17,14 @@ import { cx } from "@/lib/cx";
 import { createSceneDebug } from "@/motion/scene-debug";
 
 // ---------------------------------------------------------------------------
-// Frame sequence — public/images/about/hero-transition (185 × 1280×720 JPEG)
+// Frame sequence — public/images/about/nested (99 × 1280×720 JPEG)
 // ---------------------------------------------------------------------------
 
-const FRAME_COUNT = 185;
+const FRAME_COUNT = 99;
 
-/** index 0 → frame_000001.jpg … index 184 → frame_000185.jpg */
+/** index 0 → frame_000001.jpg … index 98 → frame_000099.jpg */
 const getFrameSrc = (index: number) =>
-  `/images/about/hero-transition/frame_${String(index + 1).padStart(6, "0")}.jpg`;
+  `/images/about/nested/frame_${String(index + 1).padStart(6, "0")}.jpg`;
 
 /** Size of each background batch after the eager set. */
 const BATCH_SIZE = 12;
@@ -92,9 +92,11 @@ function getBucket(): Bucket {
  * frame while progress stays continuous — the last frame is always kept.
  */
 const RENDER_CONFIG: Record<Bucket, { maxDpr: number; eagerFrames: number; frameStep: number }> = {
-  desktop: { maxDpr: 2, eagerFrames: 28, frameStep: 1 },
-  tablet: { maxDpr: 1.75, eagerFrames: 28, frameStep: 1 },
-  mobile: { maxDpr: 1.5, eagerFrames: 20, frameStep: 2 },
+  desktop: { maxDpr: 2, eagerFrames: 20, frameStep: 1 },
+  tablet: { maxDpr: 1.75, eagerFrames: 18, frameStep: 1 },
+  // 99 frames over the 200vh phone track paint at about the density the old
+  // 185-frame set had with every-second-frame skipping, so no skipping here.
+  mobile: { maxDpr: 1.5, eagerFrames: 16, frameStep: 1 },
 };
 
 function stepFrame(index: number, step: number): number {
@@ -104,20 +106,24 @@ function stepFrame(index: number, step: number): number {
 /**
  * Tablet/mobile crop. On a portrait screen `cover` shows only a narrow
  * slice of the 16:9 frame, and the subject moves: the mother sits on the
- * right through the Hero frames and on the left in the Philosophy frames,
- * with only cloud/fabric in between. So the crop follows her — `fx` is
- * the source x (0–1) held at screen anchor `ax` (0–1) — and pans across
- * the cloud-only stretch, where no subject is on screen. Desktop keeps
- * the plain centred crop.
+ * right through the Hero frames (clouds and fabric build around her) and
+ * dissolves across to the left for the Philosophy frames. So the crop
+ * follows her — `fx` is the source x (0–1) held at screen anchor `ax`
+ * (0–1) — and pans during that dissolve. Desktop keeps the centred crop.
  */
 const FOCAL_HERO = { fx: 0.8, ax: 0.66 };
 const FOCAL_PHILOSOPHY = { fx: 0.22, ax: 0.5 };
-/** 0-based frame indices bracketing the cloud-only stretch. */
-const FOCAL_PAN_FROM = 80;
-const FOCAL_PAN_TO = 140;
+/**
+ * Sequence position (0–1, frame / (FRAME_COUNT − 1)) bracketing the
+ * right → left dissolve (frames ~57–72 of 99). Relative, so it survives a
+ * re-export at a different frame count.
+ */
+const FOCAL_PAN_FROM = 0.56;
+const FOCAL_PAN_TO = 0.72;
 
 function focalFor(frame: number) {
-  const t = Math.min(1, Math.max(0, (frame - FOCAL_PAN_FROM) / (FOCAL_PAN_TO - FOCAL_PAN_FROM)));
+  const at = frame / (FRAME_COUNT - 1);
+  const t = Math.min(1, Math.max(0, (at - FOCAL_PAN_FROM) / (FOCAL_PAN_TO - FOCAL_PAN_FROM)));
   const e = t * t * (3 - 2 * t);
   return {
     fx: FOCAL_HERO.fx + (FOCAL_PHILOSOPHY.fx - FOCAL_HERO.fx) * e,
@@ -132,33 +138,40 @@ type TextTiming = Record<
   readonly [number, number]
 >;
 
+/*
+ * Tuned to the 99-frame sequence (progress = frame index / 98): clouds
+ * begin ~0.21, fabric sweeps ~0.29–0.50, the mother dissolves right → left
+ * ~0.57–0.70, and the final Philosophy composition is established ~0.77.
+ * Hero copy is gone by ~0.42, before the fabric is at its densest;
+ * Philosophy copy starts only once the final composition is in place.
+ */
 const TIMING_DEFAULT: TextTiming = {
-  heroBody: [0.16, 0.12],
-  heroCta: [0.22, 0.12],
-  heroEyebrow: [0.28, 0.12],
-  heroHeading: [0.34, 0.14],
-  heroScrim: [0.36, 0.14],
-  philScrim: [0.58, 0.1],
-  philEyebrow: [0.62, 0.08],
-  phil1: [0.68, 0.09],
-  phil2: [0.74, 0.09],
-  phil3: [0.8, 0.09],
-  philClosing: [0.86, 0.1],
+  heroBody: [0.14, 0.1],
+  heroCta: [0.18, 0.1],
+  heroEyebrow: [0.24, 0.1],
+  heroHeading: [0.3, 0.12],
+  heroScrim: [0.32, 0.12],
+  philScrim: [0.7, 0.08],
+  philEyebrow: [0.74, 0.06],
+  phil1: [0.77, 0.07],
+  phil2: [0.81, 0.07],
+  phil3: [0.85, 0.07],
+  philClosing: [0.89, 0.07],
 };
 
 /** Phones: a shorter track, so beats are a touch quicker and earlier. */
 const TIMING_MOBILE: TextTiming = {
-  heroBody: [0.2, 0.1],
-  heroCta: [0.24, 0.1],
-  heroEyebrow: [0.28, 0.1],
-  heroHeading: [0.32, 0.12],
-  heroScrim: [0.34, 0.12],
-  philScrim: [0.56, 0.1],
-  philEyebrow: [0.6, 0.09],
-  phil1: [0.66, 0.09],
-  phil2: [0.72, 0.09],
-  phil3: [0.78, 0.09],
-  philClosing: [0.84, 0.1],
+  heroBody: [0.16, 0.1],
+  heroCta: [0.2, 0.1],
+  heroEyebrow: [0.24, 0.1],
+  heroHeading: [0.28, 0.12],
+  heroScrim: [0.3, 0.12],
+  philScrim: [0.69, 0.08],
+  philEyebrow: [0.73, 0.06],
+  phil1: [0.76, 0.07],
+  phil2: [0.8, 0.07],
+  phil3: [0.84, 0.07],
+  philClosing: [0.88, 0.07],
 };
 
 const NARRATIVE_STATEMENT_CLASS =
@@ -172,9 +185,9 @@ const HERO_SCRIM_STYLE = {
 /**
  * HeroPhilosophyScrollScene — one pinned scene for Home Hero → Philosophy.
  *
- *   track (360vh desktop / 300vh tablet / 230vh mobile)
+ *   track (360vh desktop / 240vh tablet / 200vh mobile)
  *   └── sticky h-dvh stage
- *       ├── <canvas>  185-frame sequence (hero → cloud/silk → philosophy)
+ *       ├── <canvas>  99-frame sequence (hero → cloud/silk → philosophy)
  *       ├── Hero layer
  *       └── Philosophy layer
  *
@@ -183,13 +196,13 @@ const HERO_SCRIM_STYLE = {
  * changes, and drives one paused GSAP timeline for the text so frames and
  * copy stay locked to the same smoothed value.
  *
- * Timeline (smoothed progress 0 → 1):
- *   0.00–0.16  Hero fully visible
- *   0.16–0.28  subhead fades       0.22–0.34  CTA fades
- *   0.28–0.40  logo + eyebrow fade 0.34–0.48  headline fades last
- *   0.62–0.70  Philosophy eyebrow  0.68–0.77  statement 1
- *   0.74–0.83  statement 2         0.80–0.89  statement 3
- *   0.86–0.96  closing line        0.88–1.00  final frames hold, then release
+ * Timeline (smoothed progress 0 → 1; desktop/tablet — phones in TIMING_MOBILE):
+ *   0.00–0.14  Hero fully visible  0.08–0.32  logo travels to the header
+ *   0.14–0.24  subhead fades       0.18–0.28  CTA fades
+ *   0.24–0.34  eyebrow fades       0.30–0.42  headline fades last
+ *   0.74–0.80  Philosophy eyebrow  0.77–0.84  statement 1
+ *   0.81–0.88  statement 2         0.85–0.92  statement 3
+ *   0.89–0.96  closing line        0.96–1.00  final frame holds, then release
  */
 export function HeroPhilosophyScrollScene() {
   const reducedMotion = useReducedMotion();
@@ -797,9 +810,8 @@ function AnimatedScene() {
         measured the Hero logo; then CSS swaps it in at the identical
         position (the Hero copy goes invisible in the same frame), so only
         one logo is ever visible. Not a link — matches the Hero logo.
-        Settled backdrop: desktop pill chip; below 1024px a small
-        warm-ivory tile, needed where the header passes the dark Immersive
-        section. */}
+        The measurement layer stays transparent so the wordmark sits directly
+        on the page without a badge or rounded background. */}
     <div
       ref={travelerRef}
       data-hero-logo-traveler
@@ -808,7 +820,7 @@ function AnimatedScene() {
       <div
         ref={travelerChipRef}
         aria-hidden="true"
-        className="absolute rounded-[14px] bg-paper/80 opacity-0 backdrop-blur-[8px] lg:rounded-full lg:bg-paper/75 lg:shadow-[0_1px_2px_rgba(36,26,23,0.08)] lg:backdrop-blur-md"
+        className="absolute opacity-0"
       />
       <div className="motion-rise-in relative">
         <Image
@@ -975,7 +987,7 @@ function PhilosophyContent({
 
 /**
  * prefers-reduced-motion: reduce — a short, opacity-only Hero → Philosophy
- * crossfade between two stills (frames 1 and 185). No canvas, no frame
+ * crossfade between two stills (frames 1 and 99). No canvas, no frame
  * sequence, no traveling logo, no transforms, no smoothing loop.
  *
  * ≥768px: a short sticky stage (desktop 190svh / tablet 170svh track, so

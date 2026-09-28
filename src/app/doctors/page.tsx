@@ -5,6 +5,7 @@ import { TeamJourney } from "@/components/sections/doctors/team-journey";
 import { WhoCanSupportYourCare } from "@/components/sections/doctors/who-can-support-your-care";
 import { WhoShouldYouConsult } from "@/components/sections/doctors/who-should-you-consult";
 import { DoctorsEnquiryFormSection } from "@/components/sections/doctors/doctors-enquiry-form-section";
+import { DoctorsAmbientBackdrop } from "@/components/sections/doctors/doctors-ambient-backdrop";
 
 export const metadata: Metadata = {
   title: "Our Care Team: The Birthwave",
@@ -55,10 +56,13 @@ export default function DoctorsPage() {
   return (
     <PageShell>
       <DoctorsHero />
-      <TeamJourney />
-      <WhoCanSupportYourCare />
-      <WhoShouldYouConsult />
-      <DoctorsEnquiryFormSection />
+      {/* Everything after the Hero shares one ambient Galaxy layer. */}
+      <DoctorsAmbientBackdrop>
+        <TeamJourney />
+        <WhoCanSupportYourCare />
+        <WhoShouldYouConsult />
+        <DoctorsEnquiryFormSection />
+      </DoctorsAmbientBackdrop>
     </PageShell>
   );
 }

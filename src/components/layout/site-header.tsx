@@ -49,23 +49,49 @@ export function SiteHeader() {
   const desktopCareTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const desktopCareDropdownRef = useRef<HTMLDivElement>(null);
   const desktopCareButtonRef = useRef<HTMLButtonElement>(null);
+  const desktopCarePanelId = useId();
+  // When hover opened the panel — a click right after that must not
+  // immediately toggle it shut again.
+  const desktopCareHoverOpenedAt = useRef(0);
+
+  // Close the panel on any route change (back/forward included).
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
+    setDesktopCareOpen(false);
+  }
 
   // Check if Our Care route is active (/services or /services/*)
   const isServicesActive = pathname === "/services" || pathname.startsWith("/services/");
 
-  // Close desktop mega-dropdown with slight delay
-  const handleDesktopCareEnter = () => {
+  // Hover intent — mouse only, so touch laptops rely on the click toggle.
+  const handleDesktopCareEnter = (event: React.PointerEvent) => {
+    if (event.pointerType !== "mouse") return;
     if (desktopCareTimeoutRef.current) {
       clearTimeout(desktopCareTimeoutRef.current);
       desktopCareTimeoutRef.current = null;
     }
     // Slight open delay (60ms) for smooth intent
     desktopCareTimeoutRef.current = setTimeout(() => {
-      setDesktopCareOpen(true);
+      setDesktopCareOpen((wasOpen) => {
+        if (!wasOpen) desktopCareHoverOpenedAt.current = Date.now();
+        return true;
+      });
     }, 60);
   };
 
-  const handleDesktopCareLeave = () => {
+  const handleDesktopCareClick = () => {
+    if (desktopCareTimeoutRef.current) {
+      clearTimeout(desktopCareTimeoutRef.current);
+      desktopCareTimeoutRef.current = null;
+    }
+    const justHoverOpened = Date.now() - desktopCareHoverOpenedAt.current < 600;
+    desktopCareHoverOpenedAt.current = 0;
+    setDesktopCareOpen((v) => (v && justHoverOpened ? true : !v));
+  };
+
+  const handleDesktopCareLeave = (event: React.PointerEvent) => {
+    if (event.pointerType !== "mouse") return;
     if (desktopCareTimeoutRef.current) {
       clearTimeout(desktopCareTimeoutRef.current);
       desktopCareTimeoutRef.current = null;
@@ -87,7 +113,7 @@ export function SiteHeader() {
       }
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: PointerEvent) => {
       if (
         desktopCareDropdownRef.current &&
         !desktopCareDropdownRef.current.contains(event.target as Node)
@@ -96,12 +122,20 @@ export function SiteHeader() {
       }
     };
 
+    // The desktop nav hides below its breakpoint (display:none) — close
+    // rather than leave an invisible "open" state to reappear later.
+    const handleResize = () => {
+      if (desktopCareButtonRef.current?.offsetParent === null) setDesktopCareOpen(false);
+    };
+
     document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("pointerdown", handleClickOutside);
+    window.addEventListener("resize", handleResize);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("pointerdown", handleClickOutside);
+      window.removeEventListener("resize", handleResize);
     };
   }, [desktopCareOpen]);
 
@@ -131,11 +165,11 @@ export function SiteHeader() {
     };
   }, []);
 
-  // Homepage below 1024px: the compact "mobile" header (brand slot +
-  // hamburger only) replaces the nav pill on tablets too, and the Hero logo
-  // itself becomes the header brand on scroll (hero-philosophy-scroll-
-  // scene.tsx) — so this header's own wordmark stays invisible there
-  // unless the reduced-motion scene fades it in. Other pages unchanged.
+  // Below 1024px every page uses the compact "mobile" header (brand slot +
+  // hamburger only). On the homepage the Hero logo itself becomes the
+  // header brand on scroll (hero-philosophy-scroll-scene.tsx) — so this
+  // header's own wordmark stays invisible there unless the reduced-motion
+  // scene fades it in.
   const isHome = pathname === "/";
 
   return (
@@ -152,8 +186,8 @@ export function SiteHeader() {
           aria-label={`${brand.name} — home`}
           data-header-wordmark=""
           className={cx(
-            "rounded-full bg-paper/75 px-2.5 py-2 shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md",
-            isHome ? "invisible lg:hidden" : "md:hidden",
+            "inline-flex min-h-11 items-center px-2.5 py-2",
+            isHome ? "invisible lg:hidden" : "lg:hidden",
           )}
         >
           <Image
@@ -169,8 +203,14 @@ export function SiteHeader() {
         <nav
           aria-label="Primary"
           className={cx(
-            "hidden items-center gap-1 rounded-full bg-paper/75 px-2 py-2 shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md",
-            isHome ? "lg:flex" : "md:flex",
+            // Desktop nav from 1024px on every page: below that the pill and
+            // CTA crowd together (36px apart at 768), so the mobile menu
+            // takes over — the same handoff the homepage already used.
+            "relative isolate hidden items-center gap-1 rounded-full px-2 py-2 shadow-[0_1px_2px_rgba(36,26,23,0.08)] lg:flex",
+            // Fill + blur live on a pseudo-layer: backdrop-filter on the
+            // <nav> itself would make it the containing block for the Our
+            // Care panel's `position: fixed`, pinning the panel to the pill.
+            "before:absolute before:inset-0 before:-z-10 before:rounded-full before:bg-paper/75 before:backdrop-blur-md",
             // Homepage, desktop, motion allowed: leave room left of the pill
             // for the Hero logo, which settles there on scroll (see
             // hero-philosophy-scroll-scene.tsx — LOGO_* constants). Clears
@@ -185,16 +225,21 @@ export function SiteHeader() {
                 <div
                   key={link.href}
                   ref={desktopCareDropdownRef}
-                  className="relative"
-                  onMouseEnter={handleDesktopCareEnter}
-                  onMouseLeave={handleDesktopCareLeave}
+                  onPointerEnter={handleDesktopCareEnter}
+                  onPointerLeave={handleDesktopCareLeave}
+                  onBlur={(event) => {
+                    // Tabbing out past the last link (or back before the
+                    // trigger) closes the disclosure.
+                    const next = event.relatedTarget as Node | null;
+                    if (next && !event.currentTarget.contains(next)) setDesktopCareOpen(false);
+                  }}
                 >
                   <button
                     ref={desktopCareButtonRef}
                     type="button"
                     aria-expanded={desktopCareOpen}
-                    aria-haspopup="true"
-                    onClick={() => setDesktopCareOpen((v) => !v)}
+                    aria-controls={desktopCarePanelId}
+                    onClick={handleDesktopCareClick}
                     className={cx(
                       "group inline-flex items-center gap-1 rounded-full px-4 py-2 font-body text-sm font-medium tracking-[0.02em] transition-colors duration-[var(--duration-fast)]",
                       desktopCareOpen || isServicesActive
@@ -212,30 +257,43 @@ export function SiteHeader() {
                     />
                   </button>
 
-                  {/* Mega Dropdown Panel */}
+                  {/* Mega Dropdown Panel — fixed to the viewport (not the
+                      narrow trigger): 24px clear of both edges, capped at
+                      70rem, starting under the header, and never taller
+                      than the space below it (scrolls inside instead).
+                      `inert` + `invisible` while closed keep its links out
+                      of the Tab order and the accessibility tree. */}
                   <div
+                    id={desktopCarePanelId}
+                    inert={!desktopCareOpen}
                     className={cx(
-                      "absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-[200ms] ease-[var(--ease-signature)]",
+                      "fixed inset-x-6 top-(--header-height) mx-auto max-w-[70rem]",
+                      // Invisible hover bridge over the gap up to the pill.
+                      "before:absolute before:inset-x-0 before:-top-4 before:h-4",
+                      "transition-[opacity,translate,visibility] duration-200 ease-[var(--ease-signature)] motion-reduce:transition-none",
                       desktopCareOpen
-                        ? "pointer-events-auto opacity-100 translate-y-0"
-                        : "pointer-events-none opacity-0 -translate-y-2",
+                        ? "visible translate-y-0 opacity-100"
+                        : "pointer-events-none invisible -translate-y-2 opacity-0 motion-reduce:translate-y-0",
                     )}
                   >
-                    <div className="w-[880px] max-w-[92vw] rounded-[1.25rem] border border-[var(--color-border)] bg-paper p-8 shadow-[0_12px_40px_rgba(36,26,23,0.08)] backdrop-blur-md">
-                      {/* Top Row: 5 Service Groups */}
-                      <div className="grid grid-cols-5 gap-6">
+                    <div className="@container max-h-[calc(100dvh-var(--header-height)-1.5rem)] overflow-y-auto overscroll-contain rounded-[1.25rem] border border-[var(--color-border)] bg-paper px-6 py-7 shadow-[0_16px_48px_-12px_rgba(36,26,23,0.14)] sm:px-8 sm:py-8">
+                      {/* Service groups: two columns, three from 40rem of
+                          content width, five only from 63rem — where every
+                          column keeps ≥ ~176px for 15px service names. Each
+                          group stays one unit (label + its links). */}
+                      <div className="grid grid-cols-2 gap-x-8 gap-y-7 @min-[40rem]:grid-cols-3 @min-[63rem]:grid-cols-5">
                         {navCareGroups.map((group) => (
-                          <div key={group.id} className="flex flex-col">
-                            <span className="font-body text-[11px] font-semibold tracking-[0.14em] text-terracotta-deep uppercase">
+                          <div key={group.id} className="flex min-w-0 flex-col">
+                            <span className="font-body text-xs leading-snug font-semibold tracking-[0.12em] text-terracotta-deep uppercase">
                               {group.title}
                             </span>
-                            <ul className="mt-3.5 flex flex-col gap-2.5">
+                            <ul className="mt-2.5 flex flex-col">
                               {group.services.map((service) => (
                                 <li key={service.slug}>
                                   <Link
                                     href={`/services/${service.slug}`}
                                     onClick={() => setDesktopCareOpen(false)}
-                                    className="group block font-body text-[13px] leading-snug font-medium text-ink transition-colors duration-[var(--duration-fast)] hover:text-terracotta-deep"
+                                    className="-mx-2 flex min-h-10 items-center rounded-lg px-2 py-1.5 font-body text-[0.9375rem] leading-[1.4] font-medium text-pretty text-ink transition-colors duration-[var(--duration-fast)] hover:bg-paper-dim hover:text-terracotta-deep"
                                   >
                                     {service.name}
                                   </Link>
@@ -246,15 +304,15 @@ export function SiteHeader() {
                         ))}
                       </div>
 
-                      {/* Bottom Row: View All Care Bar */}
-                      <div className="mt-7 flex items-center justify-between border-t border-[var(--color-border)] pt-4">
-                        <p className="font-body text-xs text-ink-soft">
+                      {/* Bottom Row: View All Care Bar — stacks when narrow */}
+                      <div className="mt-6 flex flex-col items-start gap-2 border-t border-[var(--color-border)] pt-4 @min-[40rem]:flex-row @min-[40rem]:items-center @min-[40rem]:justify-between @min-[40rem]:gap-6">
+                        <p className="font-body text-sm leading-snug text-ink-soft">
                           Comprehensive support connected across pregnancy, birth, and recovery.
                         </p>
                         <Link
                           href="/services"
                           onClick={() => setDesktopCareOpen(false)}
-                          className="group inline-flex items-center gap-1.5 font-body text-xs font-semibold tracking-[0.04em] text-terracotta-deep uppercase transition-colors duration-[var(--duration-fast)] hover:text-ink"
+                          className="group -mx-2 inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-lg px-2 font-body text-xs font-semibold tracking-[0.06em] text-terracotta-deep uppercase transition-colors duration-[var(--duration-fast)] hover:text-ink"
                         >
                           <span>View All Care</span>
                           <ArrowUpRight
@@ -287,7 +345,7 @@ export function SiteHeader() {
         </nav>
 
         {/* Desktop Book a Consult CTA */}
-        <div className={cx("ml-auto hidden", isHome ? "lg:block" : "md:block")}>
+        <div className="ml-auto hidden lg:block">
           {isCrossPageHash(navigation.cta.href) ? (
             <a href={navigation.cta.href} className={cx(buttonClasses("primary"), "text-xs")}>
               {navigation.cta.label}
@@ -309,7 +367,7 @@ export function SiteHeader() {
             // passes over the dark Immersive section, where a bare ink icon
             // would disappear.
             "ml-auto inline-flex size-11 items-center justify-center rounded-full bg-paper/75 text-ink shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md",
-            isHome ? "mr-[env(safe-area-inset-right)] lg:hidden" : "md:hidden",
+            isHome ? "mr-[env(safe-area-inset-right)] lg:hidden" : "lg:hidden",
           )}
           aria-expanded={open}
           aria-controls={menuId}
@@ -332,7 +390,7 @@ export function SiteHeader() {
           "fixed inset-x-0 z-40 max-h-[calc(100dvh-var(--header-height))] overflow-y-auto border-t border-[var(--color-border)] bg-paper shadow-lg",
           isHome
             ? "top-[calc(var(--header-height)+env(safe-area-inset-top))] lg:hidden"
-            : "top-(--header-height) md:hidden",
+            : "top-(--header-height) lg:hidden",
         )}
       >
         <nav aria-label="Mobile" className="container-birthwave flex flex-col gap-1 py-4">

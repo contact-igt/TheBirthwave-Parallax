@@ -92,7 +92,9 @@ export function useScrollFocus<T extends HTMLElement>() {
 
     const observer = new IntersectionObserver(
       ([entry]) => setFocused(entry.isIntersecting),
-      { rootMargin: "-42% 0px -42% 0px", threshold: 0 },
+      // A thin line at the vertical centre (was a 16% band): Care's rows
+      // are shorter than that band, so two could read as "active" at once.
+      { rootMargin: "-49.5% 0px -49.5% 0px", threshold: 0 },
     );
     observer.observe(node);
 
