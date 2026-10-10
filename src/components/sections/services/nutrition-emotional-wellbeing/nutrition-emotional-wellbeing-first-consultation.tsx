@@ -22,6 +22,7 @@ export function NutritionFirstConsultation() {
             <h2 id="nutrition-first-consultation-heading" className="mt-4 max-w-xl text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
               {nutritionFirstConsultation.heading}
             </h2>
+            <p className="mt-4 max-w-[50ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">{nutritionFirstConsultation.intro}</p>
 
             <div className="mt-10 grid gap-8 sm:grid-cols-3">
               {nutritionFirstConsultation.steps.map((step) => (

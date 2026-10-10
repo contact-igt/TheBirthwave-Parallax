@@ -12,32 +12,26 @@ const submitButtonClass =
   "group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3.5 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] ease-[var(--ease-signature)] hover:bg-coral focus-ring-on-brand disabled:cursor-not-allowed disabled:opacity-60";
 
 /**
- * Section 10 — Final Enquiry. TODO(infra): exactly like the other five
- * landing pages' own forms, no backend endpoint or verified enquiry inbox
- * exists anywhere in this project — a persistent "Preview" notice stays
- * visible above the form at all times, and submitting shows an honest
- * "this is a design preview, no enquiry has been sent" message, never a
- * fake success/confirmation. Deliberately short: full name, a single
- * phone-or-email contact field, and an optional message. Nothing here is
- * written to browser storage.
+ * Section 12 — Final Enquiry / Conversion.
  */
 export function VaginismusEnquiry() {
   const nameId = useId();
   const contactId = useId();
+  const helpOptionId = useId();
+  const emailId = useId();
   const messageId = useId();
   const formRef = useRef<HTMLFormElement>(null);
 
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
+  const [helpOption, setHelpOption] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "previewed">("idle");
   const [touched, setTouched] = useState(false);
 
   const isValid = name.trim().length > 0 && contact.trim().length > 0;
 
-  // Broadcasts focus state on the form so `VaginismusMobileEnquiryBar` can
-  // hide itself while a field is actively being edited — mirrors
-  // `FertilityEnquiry`'s own effect.
   useEffect(() => {
     const form = formRef.current;
     if (!form) return;
@@ -58,8 +52,6 @@ export function VaginismusEnquiry() {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    // No backend endpoint exists yet — this never calls `fetch`/an API
-    // route and never claims an enquiry was actually sent.
     setStatus("previewed");
   }
 
@@ -72,6 +64,20 @@ export function VaginismusEnquiry() {
             {vaginismusEnquiry.heading}
           </h2>
           <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{vaginismusEnquiry.body}</p>
+
+          <div className="mt-6 flex flex-wrap items-center gap-4 text-sm font-medium text-ink">
+            {vaginismusEnquiry.whatsapp ? (
+              <a href="https://wa.me/919363031925" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-terracotta-deep underline hover:text-coral">
+                {vaginismusEnquiry.whatsapp} ↗
+              </a>
+            ) : null}
+            {vaginismusEnquiry.phone ? (
+              <a href="tel:+919363031925" className="inline-flex items-center gap-1.5 text-terracotta-deep underline hover:text-coral">
+                {vaginismusEnquiry.phone} ↗
+              </a>
+            ) : null}
+          </div>
+
           <p className="mt-8 border-t border-[var(--color-border)] pt-4 text-sm leading-relaxed text-ink-soft">{vaginismusEnquiry.urgentNote}</p>
         </div>
 
@@ -83,7 +89,7 @@ export function VaginismusEnquiry() {
               {vaginismusEnquiry.previewResult}
             </p>
           ) : (
-            <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+            <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
               <div className="flex flex-col gap-1.5">
                 <label htmlFor={nameId} className={labelClass}>
                   {vaginismusEnquiry.fields.name}
@@ -117,15 +123,50 @@ export function VaginismusEnquiry() {
               </div>
 
               <div className="flex flex-col gap-1.5">
+                <label htmlFor={helpOptionId} className={labelClass}>
+                  {vaginismusEnquiry.fields.helpOption}
+                </label>
+                <select
+                  id={helpOptionId}
+                  name="helpOption"
+                  value={helpOption}
+                  onChange={(event) => setHelpOption(event.target.value)}
+                  className={inputClass}
+                >
+                  <option value="">Select an option...</option>
+                  {vaginismusEnquiry.dropdownOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor={emailId} className={labelClass}>
+                  {vaginismusEnquiry.fields.email}
+                </label>
+                <input
+                  id={emailId}
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  className={inputClass}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
                 <label htmlFor={messageId} className={labelClass}>
                   {vaginismusEnquiry.fields.message}
                 </label>
-                <textarea id={messageId} name="message" rows={3} value={message} onChange={(event) => setMessage(event.target.value)} className={cx(inputClass, "resize-none")} />
+                <textarea id={messageId} name="message" rows={2} value={message} onChange={(event) => setMessage(event.target.value)} className={cx(inputClass, "resize-none")} />
               </div>
 
               {touched && !isValid ? (
                 <p className="text-sm font-medium text-terracotta-deep" role="alert">
-                  Enter your name and a phone number or email so we can reach you.
+                  Enter your name and phone number so we can reach you.
                 </p>
               ) : null}
 
@@ -140,12 +181,6 @@ export function VaginismusEnquiry() {
   );
 }
 
-/**
- * Mobile sticky CTA — appears once the hero has scrolled past, hides while
- * the enquiry form is in view OR while any of its fields has focus.
- * Mirrors `FertilityMobileEnquiryBar` exactly, retargeted at this page's
- * own `#vaginismus-hero`/`#vaginismus-enquiry` ids.
- */
 export function VaginismusMobileEnquiryBar() {
   const [pastHero, setPastHero] = useState(false);
   const [formVisible, setFormVisible] = useState(false);

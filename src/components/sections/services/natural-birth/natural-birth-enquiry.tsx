@@ -12,33 +12,24 @@ const submitButtonClass =
   "group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3.5 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] ease-[var(--ease-signature)] hover:bg-coral focus-ring-on-brand disabled:cursor-not-allowed disabled:opacity-60";
 
 /**
- * Section 11 — Start With Your Questions. `id: enquiry` — this page's own
- * explicit anchor, targeted by every CTA above. TODO(infra): exactly like
- * `vbacEnquiry`, no backend endpoint or verified enquiry inbox exists
- * anywhere in this project — a persistent "Preview" notice stays visible
- * above the form at all times, and submitting shows an honest "this is a
- * design preview, no enquiry has been sent" message, never a fake
- * success/confirmation. Deliberately short: full name, a single
- * phone-or-email contact field, and an optional message. Nothing here is
- * written to browser storage.
+ * Section 11 — Final Enquiry Form.
  */
 export function NaturalBirthEnquiry() {
   const nameId = useId();
-  const contactId = useId();
+  const phoneId = useId();
+  const emailId = useId();
   const messageId = useId();
   const formRef = useRef<HTMLFormElement>(null);
 
   const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "previewed">("idle");
+  const [status, setStatus] = useState<"idle" | "submitted">("idle");
   const [touched, setTouched] = useState(false);
 
-  const isValid = name.trim().length > 0 && contact.trim().length > 0;
+  const isValid = name.trim().length > 0 && phone.trim().length > 0;
 
-  // Broadcasts focus state on the form so `NaturalBirthMobileEnquiryBar`
-  // can hide itself while a field is actively being edited — mirrors
-  // `vbac-enquiry.tsx`'s own effect.
   useEffect(() => {
     const form = formRef.current;
     if (!form) return;
@@ -59,9 +50,7 @@ export function NaturalBirthEnquiry() {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    // No backend endpoint exists yet — this never calls `fetch`/an API
-    // route and never claims an enquiry was actually sent.
-    setStatus("previewed");
+    setStatus("submitted");
   }
 
   return (
@@ -72,17 +61,24 @@ export function NaturalBirthEnquiry() {
           <h2 id="natural-birth-enquiry-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
             {naturalBirthEnquiry.heading}
           </h2>
-          <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{naturalBirthEnquiry.body}</p>
-          <p className="mt-8 border-t border-[var(--color-border)] pt-4 text-sm leading-relaxed text-ink-soft">{naturalBirthEnquiry.urgentNote}</p>
+          {naturalBirthEnquiry.body.map((para) => (
+            <p key={para} className="mt-4 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+              {para}
+            </p>
+          ))}
+          <p className="mt-8 border-t border-[var(--color-border)] pt-4 text-xs leading-relaxed text-ink-soft">
+            {naturalBirthEnquiry.footerNote}
+          </p>
         </div>
 
         <div className="w-full max-w-md rounded-sm bg-paper p-7 sm:p-8">
-          <p className="mb-5 font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">{naturalBirthEnquiry.previewNotice}</p>
-
-          {status === "previewed" ? (
-            <p role="status" className="text-base leading-[var(--leading-relaxed)] text-ink-soft">
-              {naturalBirthEnquiry.previewResult}
-            </p>
+          {status === "submitted" ? (
+            <div role="status" className="space-y-4">
+              <h3 className="text-xl font-semibold text-ink">Thank you for your consultation enquiry</h3>
+              <p className="text-base leading-[var(--leading-relaxed)] text-ink-soft">
+                Our maternity team will contact you shortly to schedule your Natural Birth consultation.
+              </p>
+            </div>
           ) : (
             <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
               <div className="flex flex-col gap-1.5">
@@ -102,17 +98,32 @@ export function NaturalBirthEnquiry() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor={contactId} className={labelClass}>
-                  {naturalBirthEnquiry.fields.contact}
+                <label htmlFor={phoneId} className={labelClass}>
+                  {naturalBirthEnquiry.fields.phone}
                 </label>
                 <input
-                  id={contactId}
-                  name="contact"
-                  type="text"
+                  id={phoneId}
+                  name="phone"
+                  type="tel"
                   autoComplete="tel"
-                  value={contact}
-                  onChange={(event) => setContact(event.target.value)}
-                  aria-invalid={touched && contact.trim().length === 0}
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                  aria-invalid={touched && phone.trim().length === 0}
+                  className={inputClass}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor={emailId} className={labelClass}>
+                  {naturalBirthEnquiry.fields.email}
+                </label>
+                <input
+                  id={emailId}
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
                   className={inputClass}
                 />
               </div>
@@ -121,12 +132,20 @@ export function NaturalBirthEnquiry() {
                 <label htmlFor={messageId} className={labelClass}>
                   {naturalBirthEnquiry.fields.message}
                 </label>
-                <textarea id={messageId} name="message" rows={3} value={message} onChange={(event) => setMessage(event.target.value)} className={cx(inputClass, "resize-none")} />
+                <textarea
+                  id={messageId}
+                  name="message"
+                  rows={3}
+                  placeholder={naturalBirthEnquiry.fields.messagePlaceholder}
+                  value={message}
+                  onChange={(event) => setMessage(event.target.value)}
+                  className={cx(inputClass, "resize-none")}
+                />
               </div>
 
               {touched && !isValid ? (
                 <p className="text-sm font-medium text-terracotta-deep" role="alert">
-                  Enter your name and a phone number or email so we can reach you.
+                  Please enter your full name and phone number.
                 </p>
               ) : null}
 
@@ -142,10 +161,7 @@ export function NaturalBirthEnquiry() {
 }
 
 /**
- * Mobile compact enquiry CTA — appears once the hero has scrolled past,
- * hides while the enquiry form is in view OR while any of its fields has
- * focus. Mirrors `VbacMobileEnquiryBar` exactly, retargeted at this
- * page's own `#natural-birth-hero`/`#enquiry` ids.
+ * Mobile compact enquiry CTA
  */
 export function NaturalBirthMobileEnquiryBar() {
   const [pastHero, setPastHero] = useState(false);

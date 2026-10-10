@@ -1,51 +1,93 @@
-import { fertilityClinician } from "@/content/fertility-preconception-landing-content";
-import { getDoctorBySlug } from "@/content/doctors-content";
+import { fertilityClinicians } from "@/content/fertility-preconception-landing-content";
+import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
-import { FertilityReveal } from "./fertility-preconception-reveal";
+import { cx } from "@/lib/cx";
+import styles from "./fertility-preconception.module.css";
 
 /**
- * Section 5 — The People Behind Your Care. Unlike the other four landing
- * pages (none of which have a confirmed clinician mapping), this page has
- * exactly one: `doctors-content.ts` maps Dr. Bharathy Kandasamy to
- * "fertility-preconception" via her own `relatedCareSlugs` (see this
- * page's content file for why the Founder is NOT used here). Her name,
- * credentials, role and portrait status are read directly from that single
- * source of truth rather than re-typed, so this section can never drift
- * from the confirmed roster. `PortraitPlaceholder` renders the same
- * built-visual placeholder every other person on this site uses until real
- * photography is approved (her `photo.src` is `null` today).
+ * Meet your clinicians — Dr. Santoshi Nandigam (Founder, Obstetrician &
+ * Gynaecologist, Holistic Fertility Coach) and Dr. Bharathy Kandasamy
+ * (Gynaecologist, Laparoscopic Surgeon, Advanced Fertility Specialist).
+ * Names, credentials, roles, special focus and portraits are read from
+ * `doctors-content.ts`.
  */
 export function FertilityClinician() {
-  const doctor = getDoctorBySlug(fertilityClinician.doctorSlug);
-  if (!doctor) return null;
+  const clinicians = fertilityClinicians.clinicians
+    .map((item) => {
+      const doctor = getDoctorBySlug(item.doctorSlug);
+      return doctor ? { ...item, doctor } : null;
+    })
+    .filter((item): item is NonNullable<typeof item> => item !== null);
+
+  if (clinicians.length === 0) return null;
 
   return (
-    <section id="fertility-clinician" aria-labelledby="fertility-clinician-heading" className="relative isolate border-t border-[var(--color-border)] bg-paper section-pad">
-      <FertilityReveal className="container-birthwave grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-16">
-        <PortraitPlaceholder photo={doctor.photo} index={1} className="max-w-sm" />
-
-        <div className="max-w-xl">
-          <p className="eyebrow">{fertilityClinician.eyebrow}</p>
-          <h2 id="fertility-clinician-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-            {fertilityClinician.heading}
+    <section
+      id="fertility-clinician"
+      aria-labelledby="fertility-clinician-heading"
+      className="relative isolate scroll-mt-[var(--header-height)] bg-paper section-pad"
+    >
+      <div className="container-birthwave">
+        <div className="mb-12 max-w-2xl lg:mb-16">
+          <p className="eyebrow">{fertilityClinicians.eyebrow}</p>
+          <h2
+            id="fertility-clinician-heading"
+            className={cx(styles.display, styles.h2, "mt-4 max-w-[28ch]")}
+          >
+            {fertilityClinicians.heading}
           </h2>
-
-          <h3 className="mt-6 text-xl font-semibold text-ink">{doctor.name}</h3>
-          <p className="mt-2 text-sm text-ink-soft">{doctor.credentials}</p>
-          <p className="mt-1 text-sm text-ink-soft">{doctor.role}</p>
-
-          <p className="mt-6 border-l-2 border-terracotta pl-4 text-base leading-[var(--leading-relaxed)] text-ink-soft">{fertilityClinician.philosophy}</p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-            <Button href={fertilityClinician.bookHref} variant="primary">
-              {fertilityClinician.bookLabel}
-            </Button>
-            <CtaLink href={fertilityClinician.profileHref}>{fertilityClinician.viewProfileLabel}</CtaLink>
-          </div>
         </div>
-      </FertilityReveal>
+
+        <div className="space-y-16 lg:space-y-20">
+          {clinicians.map((item, idx) => {
+            const { doctor } = item;
+            const doctorIndex = doctors.findIndex((d) => d.slug === doctor.slug);
+
+            return (
+              <div
+                key={doctor.slug}
+                className={cx(
+                  "grid items-center gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:gap-20",
+                  idx > 0 && "border-t border-[var(--color-border)] pt-16 lg:pt-20"
+                )}
+              >
+                <PortraitPlaceholder
+                  photo={doctor.photo}
+                  index={doctorIndex >= 0 ? doctorIndex : idx}
+                  className="w-full max-w-xs lg:max-w-sm"
+                />
+
+                <div className="max-w-2xl">
+                  <h3 className={cx(styles.display, styles.name)}>{doctor.name}</h3>
+                  {doctor.credentials ? (
+                    <p className="mt-3 font-body text-lg font-semibold text-ink">
+                      {doctor.credentials}
+                    </p>
+                  ) : null}
+                  <p className="mt-1 font-body text-base text-ink-soft">{doctor.role}</p>
+                  {doctor.specialFocus ? (
+                    <p className="mt-2 font-body text-sm font-medium text-terracotta-deep">
+                      {doctor.specialFocus}
+                    </p>
+                  ) : null}
+                  <p className="mt-5 max-w-[56ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">
+                    {item.intro}
+                  </p>
+
+                  <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+                    <Button href={item.bookHref} variant="primary">
+                      {item.bookLabel}
+                    </Button>
+                    <CtaLink href={item.profileHref}>{item.viewProfileLabel}</CtaLink>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }

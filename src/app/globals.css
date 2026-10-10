@@ -20,6 +20,7 @@
 
   --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), Georgia, serif;
 
   --radius-xs: var(--radius-xs);
   --radius-sm: var(--radius-sm);
@@ -242,3 +243,63 @@ svg {
    removed in docs/implementation-brief.md §37: Care now uses a single
    companion video that never switches, so there's nothing left to fall
    back between — see care-section.tsx's own `CareVisual`. */
+
+/* ---------------------------------------------------------------------- */
+/* Editorial scrollbar for bounded service lists                           */
+/* ---------------------------------------------------------------------- */
+.scrollbar-editorial {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-terracotta) 65%, transparent) color-mix(in srgb, var(--color-paper-dim) 85%, var(--color-border));
+}
+
+.scrollbar-editorial::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-editorial::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--color-paper-dim) 85%, var(--color-border));
+  border-radius: 9999px;
+}
+
+.scrollbar-editorial::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-terracotta) 60%, transparent);
+  border-radius: 9999px;
+}
+
+.scrollbar-editorial::-webkit-scrollbar-thumb:hover {
+  background: var(--color-terracotta-deep);
+}
+
+@media (min-width: 1024px) and (min-height: 700px) {
+  .chapter-photo-sticky {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-service-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Hero background imagery responsive focal-point positioning              */
+/* ---------------------------------------------------------------------- */
+.hero-focal-point {
+  object-position: var(--focal-mobile, center);
+}
+
+@media (min-width: 640px) {
+  .hero-focal-point {
+    object-position: var(--focal-tablet, var(--focal-desktop, center));
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-focal-point {
+    object-position: var(--focal-desktop, center);
+  }
+}
+

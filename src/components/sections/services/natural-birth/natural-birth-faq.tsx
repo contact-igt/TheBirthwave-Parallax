@@ -29,7 +29,19 @@ export function NaturalBirthFaq() {
                   className="size-5 shrink-0 text-terracotta transition-transform duration-[var(--duration-fast)] ease-[var(--ease-signature)] group-open:rotate-45"
                 />
               </summary>
-              <p className="mt-4 max-w-2xl text-base leading-[var(--leading-relaxed)] text-ink-soft">{item.answer}</p>
+              <p className="mt-4 max-w-2xl text-base leading-[var(--leading-relaxed)] text-ink-soft">
+                {item.answer}
+              </p>
+              {"ctaLink" in item && item.ctaLink ? (
+                <p className="mt-3">
+                  <a
+                    href={(item.ctaLink as { label: string; href: string }).href}
+                    className="font-body text-sm font-semibold text-terracotta-deep underline underline-offset-4 transition-colors hover:text-coral"
+                  >
+                    {(item.ctaLink as { label: string; href: string }).label}
+                  </a>
+                </p>
+              ) : null}
             </details>
           ))}
         </div>

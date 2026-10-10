@@ -412,7 +412,7 @@ function AboutCinematicCanvasDesktop() {
                   <span key={line} className="block">{line}</span>
                 ))}
               </h1>
-              <p className="mt-6 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+              <p className="mt-6 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft whitespace-pre-line">
                 {aboutHero.supporting}
               </p>
             </div>
@@ -472,7 +472,7 @@ function AboutCinematicCanvasDesktop() {
                   <span key={line} className="block">{line}</span>
                 ))}
               </h1>
-              <p className="mt-6 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+              <p className="mt-6 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft whitespace-pre-line">
                 {aboutHero.supporting}
               </p>
             </div>
@@ -550,6 +550,9 @@ function AboutCinematicCanvasDesktop() {
               <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
                 {aboutFounderIntro.introLabel}
               </h2>
+              <p className="mt-1 text-base text-ink-soft">
+                {aboutFounderIntro.founderName} &mdash; {aboutFounderIntro.founderCredentials}
+              </p>
               <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
                 {aboutFounderIntro.story}
               </p>
@@ -605,7 +608,7 @@ function AboutCinematicCanvasStatic() {
               <span key={line} className="block">{line}</span>
             ))}
           </h1>
-          <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+          <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft whitespace-pre-line">
             {aboutHero.supporting}
           </p>
         </div>
@@ -669,6 +672,9 @@ function AboutCinematicCanvasStatic() {
           <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
             {aboutFounderIntro.introLabel}
           </h2>
+          <p className="mt-1 text-sm text-ink-soft">
+            {aboutFounderIntro.founderName} &mdash; {aboutFounderIntro.founderCredentials}
+          </p>
           <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
             {aboutFounderIntro.story}
           </p>

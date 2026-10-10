@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { doctors } from "@/content/doctors-content";
-
 import { DoctorProfileContent } from "@/components/sections/doctors/doctor-profile-content";
 import { useReducedMotion } from "@/motion/reduced-motion";
 import { ensureScrollTriggerRegistered, gsap } from "@/motion/gsap-scroll";
@@ -24,66 +24,70 @@ export function FounderSection() {
 
     ensureScrollTriggerRegistered();
     const ctx = gsap.context(() => {
-      const isMobile = window.innerWidth < 768;
-      const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
-
-      const imgStartX = isMobile ? 0 : isTablet ? -28 : -48;
-      const imgStartY = isMobile ? 16 : 10;
-      const imgStartScale = isMobile ? 0.99 : 0.98;
-
-      const contentStartX = isMobile ? 0 : isTablet ? 28 : 48;
-      const contentStartY = isMobile ? 14 : 10;
-
-      gsap.set(imgEl, { opacity: 0, x: imgStartX, y: imgStartY, scale: imgStartScale });
-      gsap.set(contentEl, { opacity: 0, x: contentStartX, y: contentStartY });
+      gsap.set(imgEl, { opacity: 0, y: 16, scale: 0.98 });
+      gsap.set(contentEl, { opacity: 0, y: 16 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
-          start: "top 78%",
-          end: "top 48%",
+          start: "top 82%",
+          end: "top 52%",
           toggleActions: "play none none none",
         },
       });
 
       tl.to(imgEl, {
         opacity: 1,
-        x: 0,
         y: 0,
         scale: 1,
-        duration: 0.75,
+        duration: 0.7,
         ease: "power2.out",
       }).to(
         contentEl,
         {
           opacity: 1,
-          x: 0,
           y: 0,
-          duration: 0.75,
+          duration: 0.7,
           ease: "power2.out",
         },
-        "-=0.63",
+        "-=0.55",
       );
     }, el);
 
     return () => ctx.revert();
   }, [reducedMotion]);
 
-
   if (!founder) return null;
 
   return (
     <section ref={sectionRef} aria-labelledby="founder-heading" className={`relative isolate overflow-hidden section-pad ${DOCTORS_SURFACE}`}>
-      <div className="container-birthwave grid gap-12 overflow-x-hidden sm:grid-cols-[0.8fr_1.2fr] sm:items-start sm:gap-16">
-        <DoctorProfileContent
-          doctor={founder}
-          index={0}
-          drift
-          featured
-          headingId="founder-heading"
-          headingLevel="h2"
-          portraitWrapperClassName="block w-full"
-        />
+      <div className="container-birthwave">
+        <div className="relative overflow-hidden rounded-3xl border border-[#EAE1D7] bg-[#FAF5EE] shadow-[0_12px_40px_rgba(42,32,28,0.06)] p-6 sm:p-10 lg:p-12">
+          {/* Botanical watercolor background */}
+          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-3xl">
+            <Image
+              src="/images/doctors/doctor-card-background.webp"
+              alt=""
+              fill
+              sizes="(max-width: 1024px) 100vw, 1152px"
+              className="object-cover object-center opacity-90"
+              priority
+            />
+          </div>
+
+          <div className="relative z-10 grid gap-8 sm:grid-cols-[1.15fr_0.85fr] lg:grid-cols-[1.2fr_0.8fr] sm:items-center sm:gap-12 lg:gap-16">
+            <DoctorProfileContent
+              doctor={founder}
+              index={0}
+              drift
+              featured
+              headingId="founder-heading"
+              headingLevel="h2"
+              portraitWrapperClassName="relative block w-full max-w-[340px] mx-auto order-1 sm:order-2"
+              contentClassName="max-w-[38rem] order-2 sm:order-1"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

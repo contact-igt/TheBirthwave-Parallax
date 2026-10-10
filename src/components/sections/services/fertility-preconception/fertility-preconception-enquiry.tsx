@@ -2,24 +2,33 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { fertilityEnquiry, fertilityMobileCta } from "@/content/fertility-preconception-landing-content";
-import { FertilityReveal } from "./fertility-preconception-reveal";
+import { contactPlaceholders } from "@/content/contact-content";
 import { cx } from "@/lib/cx";
+import styles from "./fertility-preconception.module.css";
+
+// Same destinations this page already used, now derived from the one confirmed
+// phone number in contact-content.ts: a tel: link and a wa.me link on that
+// number. NOTE: contact-content.ts lists this number as a phone line only —
+// whether it is also registered on WhatsApp is not confirmed there.
+const phoneDigits = contactPlaceholders.phone.replace(/\D/g, "");
+const phoneHref = `tel:+${phoneDigits}`;
+const whatsappHref = `https://wa.me/${phoneDigits}`;
 
 const labelClass = "font-body text-sm font-semibold text-ink-soft";
 const inputClass =
-  "w-full rounded-xs border border-[var(--color-border-strong)] bg-paper px-4 py-3 text-base text-ink placeholder:text-ink-soft/50 transition-colors duration-[var(--duration-fast)] focus:border-terracotta-deep focus-visible:outline-none";
+  "w-full rounded-xs border border-[var(--color-border-strong)] bg-paper px-4 py-3 text-base text-ink placeholder:text-ink-soft/50 transition-colors duration-[var(--duration-fast)] focus:border-terracotta-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta-deep";
+const contactLinkClass =
+  "inline-flex min-h-11 items-center rounded-xs !text-terracotta-deep underline underline-offset-4 hover:!text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta-deep";
 const submitButtonClass =
   "group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3.5 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] ease-[var(--ease-signature)] hover:bg-coral focus-ring-on-brand disabled:cursor-not-allowed disabled:opacity-60";
 
 /**
- * Section 10 — Plan Your Next Step. TODO(infra): exactly like the other
- * four landing pages' own forms, no backend endpoint or verified enquiry
- * inbox exists anywhere in this project — a persistent "Preview" notice
- * stays visible above the form at all times, and submitting shows an
- * honest "this is a design preview, no enquiry has been sent" message,
- * never a fake success/confirmation. Deliberately short: full name, a
- * single phone-or-email contact field, and an optional message. Nothing
- * here is written to browser storage.
+ * Request a consultation. TODO(infra): no backend endpoint or verified
+ * enquiry inbox exists in this project — a persistent "Preview" notice stays
+ * visible above the form and submitting shows an honest "design preview, no
+ * enquiry has been sent" message, never a success/confirmation. Short on
+ * purpose: full name, one phone-or-email field, an optional message. Nothing
+ * is written to browser storage.
  */
 export function FertilityEnquiry() {
   const nameId = useId();
@@ -35,9 +44,8 @@ export function FertilityEnquiry() {
 
   const isValid = name.trim().length > 0 && contact.trim().length > 0;
 
-  // Broadcasts focus state on the form so `FertilityMobileEnquiryBar` can
-  // hide itself while a field is actively being edited — mirrors
-  // `VbacEnquiry`'s own effect.
+  // Broadcasts focus state on the form so `FertilityMobileEnquiryBar` can hide
+  // itself while a field is being edited.
   useEffect(() => {
     const form = formRef.current;
     if (!form) return;
@@ -58,20 +66,34 @@ export function FertilityEnquiry() {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    // No backend endpoint exists yet — this never calls `fetch`/an API
-    // route and never claims an enquiry was actually sent.
+    // No backend endpoint exists yet — never call fetch or claim a send.
     setStatus("previewed");
   }
 
   return (
     <section id="fertility-enquiry" aria-labelledby="fertility-enquiry-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad">
-      <FertilityReveal className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
+      <div className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
         <div className="max-w-md">
           <p className="eyebrow">{fertilityEnquiry.eyebrow}</p>
-          <h2 id="fertility-enquiry-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
+          <h2 id="fertility-enquiry-heading" className={cx(styles.display, styles.h2, "mt-4")}>
             {fertilityEnquiry.heading}
           </h2>
           <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{fertilityEnquiry.body}</p>
+
+          <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-1 text-sm font-medium">
+            <li>
+              <a href={phoneHref} className={contactLinkClass}>
+                {fertilityEnquiry.callLabel} {contactPlaceholders.phone}
+              </a>
+            </li>
+            <li>
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className={contactLinkClass}>
+                {fertilityEnquiry.whatsappLabel}
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </li>
+          </ul>
+
           <p className="mt-8 border-t border-[var(--color-border)] pt-4 text-sm leading-relaxed text-ink-soft">{fertilityEnquiry.urgentNote}</p>
         </div>
 
@@ -125,7 +147,7 @@ export function FertilityEnquiry() {
 
               {touched && !isValid ? (
                 <p className="text-sm font-medium text-terracotta-deep" role="alert">
-                  Enter your name and a phone number or email so we can reach you.
+                  {fertilityEnquiry.validationMessage}
                 </p>
               ) : null}
 
@@ -135,16 +157,14 @@ export function FertilityEnquiry() {
             </form>
           )}
         </div>
-      </FertilityReveal>
+      </div>
     </section>
   );
 }
 
 /**
- * Mobile compact enquiry CTA — appears once the hero has scrolled past,
- * hides while the enquiry form is in view OR while any of its fields has
- * focus. Mirrors `VbacMobileEnquiryBar` exactly, retargeted at this page's
- * own `#fertility-hero`/`#fertility-enquiry` ids.
+ * Mobile compact CTA — appears once the hero has scrolled past, hides while
+ * the enquiry form is in view or any of its fields has focus.
  */
 export function FertilityMobileEnquiryBar() {
   const [pastHero, setPastHero] = useState(false);
@@ -188,7 +208,7 @@ export function FertilityMobileEnquiryBar() {
     >
       <a
         href={fertilityMobileCta.href}
-        className="group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] hover:bg-coral"
+        className="group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] hover:bg-coral focus-ring-on-brand"
       >
         {fertilityMobileCta.label}
       </a>

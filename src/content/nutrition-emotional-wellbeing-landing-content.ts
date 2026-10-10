@@ -1,244 +1,261 @@
 /**
  * Nutrition & Emotional Well-being — dedicated landing page content.
- *
- * A SEPARATE content file from `services-content.ts`, exactly like the other
- * nine dedicated landing pages: that file's own `nutrition-emotional-wellbeing`
- * entry (name, slug, shortDescription, heroStatement, overview, highlights,
- * media.alt) is the shared service record every other consumer reads (Quick
- * Overview, the Sticky Showcase, Find the Right Care, `generateStaticParams`)
- * — untouched by this page. Everything below is this landing page's own,
- * additional copy, transcribed from the confirmed brief for this page.
- *
- * TONE: calm, supportive, practical, non-judgmental, inclusive, clinically
- * responsible. No diet-culture language, no weight-loss language, no "clean
- * eating," no body-shaming, no "perfect diet" messaging, no "just stay
- * positive," no minimising emotional concerns, no promised mood improvement,
- * no promised pregnancy outcome, no mental-health diagnosis language, no
- * implication that nutrition alone solves emotional or medical problems.
- * Emotional well-being support is never positioned as a substitute for
- * medical or mental-health care.
- *
- * SCOPE: nothing below expands this service into diet plans, weight-loss
- * programmes, eating-disorder treatment, psychiatric care, psychotherapy,
- * counselling programmes, medication management, anxiety/depression
- * diagnosis, nutritional supplements, laboratory testing or pregnancy diet
- * packages — none of those are confirmed anywhere in this project. Every
- * operational fact this project cannot currently verify is left as an
- * explicit bracketed "[BirthWave confirmation needed: ...]" placeholder,
- * the same pattern the other dedicated landing pages already establish —
- * never silently filled with a plausible-sounding guess.
- *
- * CARE TEAM: `doctors-content.ts` maps exactly two confirmed team members to
- * this slug via their own `relatedCareSlugs` — Deepa (M.Sc Psychology,
- * "Emotional Well-being Support") and Sherene ("Nutritionist", no further
- * credentials confirmed). Both shown, read live from `doctors-content.ts`
- * rather than re-typed, so this section can never drift from the confirmed
- * roster. Neither is described as a psychologist, therapist, counsellor,
- * clinical psychologist or dietitian — none of those titles are confirmed.
- *
- * IMAGES: `nutrition-emotional-wellbeing-landing-imagery.ts` reuses the one
- * real, approved illustration already generated for this service
- * (`/images/services/nutrition-emotional-wellbeing-ai-preview-v1.webp`,
- * already live on the plain `/services` listing) for the hero — inspected
- * and confirmed accurate: a pregnant woman in conversation with a wellness
- * professional over a balanced, unstyled meal, no diet-culture staging. The
- * other four conceptual spots have no dedicated approved image yet — see
- * `docs/nutrition-emotional-wellbeing-ai-imagery.md` for the pending
- * generation briefs.
  */
 
 export const nutritionHero = {
   eyebrow: "WHOLE-PERSON SUPPORT",
   heading: "Nutrition & Emotional Well-being",
-  supportingHeadline: "Space to talk about nourishment, energy, emotions and the changes around your care journey.",
-  body: "Nutrition and emotional well-being can shape how you experience pregnancy, recovery and everyday health.",
+  supportingHeadline: "Support for how you nourish yourself, how you feel, and how you adjust through different stages of women's health.",
+  body: "Your nutritional and emotional needs can change while preparing for pregnancy, during pregnancy and after birth.",
   bodySecondary:
-    "You may have questions about eating well, energy, changing needs, stress, emotional adjustment or simply how to feel more supported through a period of change. A consultation gives you space to talk through what you are experiencing and understand what kind of support may be appropriate next.",
-  primaryCta: { label: "Book a Well-being Consultation", href: "#enquiry" },
-  secondaryCta: { label: "Explore how support works ↓", href: "#what-we-cover" },
+    "At BirthWave, nutrition and emotional well-being are supported by dedicated professionals, so you can ask questions, understand what your body and mind may need, and receive guidance relevant to your stage of care.",
+  primaryCta: { label: "BOOK A CONSULTATION ↗", href: "#enquiry" },
+  secondaryCta: { label: "Explore Support Options ↓", href: "#nutrition-intro" },
 } as const;
 
 export const nutritionIntro = {
-  eyebrow: "SUPPORT BEYOND SYMPTOMS",
-  heading: "Your physical and emotional experience are both worth talking about.",
+  eyebrow: "SUPPORT BEYOND APPOINTMENTS",
+  heading: "Your physical and emotional well-being both matter.",
   paragraphs: [
-    "Periods of change can affect appetite, energy, routine, sleep, confidence and emotional well-being in different ways.",
-    "You may arrive with a specific question, or simply know that something feels harder to manage than usual.",
-    "You do not need to decide whether your concern is “nutrition” or “emotional well-being” before asking for support.",
-    "A consultation can help you describe what you are experiencing and understand what kind of follow-up may be appropriate.",
+    "Pregnancy, fertility journeys, birth and postpartum recovery can affect your appetite, energy, routines, body and emotions in different ways.",
+    "You may have a specific concern, or you may simply want guidance about eating well, coping with changes or feeling more supported during this stage of life.",
+    "At BirthWave, you don't have to fit every concern into one category. Start with what you're experiencing, and the team can help you identify the appropriate support.",
   ],
   themes: [
-    { title: "Nourishment", body: "Discuss questions around eating, changing nutritional needs or difficulties maintaining a comfortable routine." },
-    { title: "Energy & daily life", body: "Talk about how food, rest and day-to-day demands are affecting how you feel." },
-    { title: "Emotional well-being", body: "Bring questions about stress, adjustment, overwhelm or emotional changes you want to understand better." },
+    {
+      title: "Nutrition Support",
+      body: "Discuss food, changing nutritional needs, eating patterns, energy and practical ways to nourish yourself according to your stage of care.",
+    },
+    {
+      title: "Emotional Well-being Support",
+      body: "Talk through stress, emotional changes, adjustment, overwhelm or other concerns affecting how you're feeling during your fertility, pregnancy or postpartum journey.",
+    },
   ],
-  cta: { label: "Book a Consultation", href: "#enquiry" },
+  cta: { label: "BOOK A CONSULTATION ↗", href: "#enquiry" },
 } as const;
 
-/**
- * What This Support May Include — anchors `#what-we-cover`, the hero's own
- * secondary link target. Four numbered steps beside one image, matching
- * `lactation-covers.tsx`/`postpartum-care-covers.tsx`'s own numbered-steps
- * composition. Step 04 explicitly leaves the next step to the care team's
- * own explanation, never an automatic assessment.
- */
 export const nutritionCovers = {
-  eyebrow: "WHAT WE CAN TALK THROUGH",
-  heading: "Start with what feels most relevant to you right now.",
+  eyebrow: "WHAT WE CAN SUPPORT YOU WITH",
+  heading: "Support that responds to where you are right now.",
   steps: [
-    { number: "01", title: "Your current experience", body: "Share what has changed, what feels difficult or what you would like to understand." },
-    { number: "02", title: "Your routines and needs", body: "Discuss eating patterns, energy, daily demands or emotional adjustments where relevant." },
-    { number: "03", title: "Your questions", body: "Bring anything you want clarified about nutrition, well-being or the next step." },
-    { number: "04", title: "What happens next", body: "Understand whether further guidance, another service from The Birthwave or additional clinical support may be appropriate." },
+    {
+      number: "01",
+      title: "PREGNANCY NUTRITION",
+      body: "Discuss changing nutritional needs during pregnancy, everyday food choices, eating patterns and practical questions about nourishing yourself as pregnancy progresses.",
+    },
+    {
+      number: "02",
+      title: "FERTILITY & PRECONCEPTION NUTRITION",
+      body: "Receive nutrition guidance while preparing for pregnancy or alongside your fertility and preconception care.",
+    },
+    {
+      number: "03",
+      title: "POSTPARTUM NUTRITION & RECOVERY",
+      body: "Discuss nourishment, changing routines and nutritional needs during recovery after childbirth and while adjusting to life with a newborn.",
+    },
+    {
+      number: "04",
+      title: "EMOTIONAL WELL-BEING",
+      body: "Talk about stress, emotional adjustment, overwhelm, worries or changes in how you're feeling during fertility care, pregnancy or the postpartum period.",
+    },
   ],
-  note: "The exact advice and follow-up depend on your individual circumstances.",
+  note: "The type of support recommended will depend on your individual needs and consultation.",
 } as const;
 
-/**
- * Nutrition and Emotional Well-being Together. Four themes beside a quiet
- * reflective image, matching `postpartum-care-recovery.tsx`'s own
- * points-plus-image composition. Closes with an explicit "not a substitute
- * for urgent medical or mental-health care" note.
- */
 export const nutritionTogether = {
   eyebrow: "CONNECTED WELL-BEING",
   heading: "Care does not always fit neatly into one category.",
-  body: "Nutrition, energy, recovery, stress and emotional adjustment can overlap.",
-  bodySecondary: "That does not mean every concern has the same cause or the same solution. The aim of the consultation is to understand what you are experiencing and help clarify which kind of support may be useful next.",
+  body: "Food, energy, sleep, recovery and emotional well-being can influence how you experience different stages of women's health.",
+  bodySecondary:
+    "You might come in with a nutrition question and also want to talk about how you're coping with change. Or you may be feeling emotionally overwhelmed while your eating patterns and everyday routines have also changed.\n\nBirthWave's multidisciplinary approach allows different areas of support to connect when relevant, while keeping each professional's role clear.",
   themes: [
-    { title: "Nourishing yourself", body: "Talk about eating, appetite, routines or nutritional questions relevant to your stage of care." },
-    { title: "When energy feels low", body: "Discuss how day-to-day demands, rest and nourishment may be affecting your routine." },
-    { title: "When emotions feel harder to manage", body: "Bring questions about stress, overwhelm or emotional changes you want to talk through." },
-    { title: "When more support may be needed", body: "If a concern falls outside this service's scope, your care team can help explain what type of professional support may be more appropriate." },
+    {
+      title: "NOURISHING YOURSELF",
+      body: "Discuss eating patterns, nutrition and changing needs during fertility care, pregnancy, postpartum recovery and other stages of women's health.",
+    },
+    {
+      title: "WHEN ENERGY & ROUTINES CHANGE",
+      body: "Explore practical nutrition and lifestyle concerns when appetite, energy or everyday routines become difficult to manage.",
+    },
+    {
+      title: "WHEN EMOTIONS FEEL HARDER TO MANAGE",
+      body: "Have a dedicated space to discuss stress, adjustment, worries, overwhelm or emotional changes with the appropriate professional.",
+    },
+    {
+      title: "WHEN MORE SUPPORT MAY BE NEEDED",
+      body: "If your concern needs a different type or level of professional care, the team can discuss an appropriate next step or referral with you.",
+    },
   ],
-  note: "Nutrition and emotional-well-being support do not replace urgent medical or mental-health care.",
-  cta: { label: "Talk to the Care Team", href: "#enquiry" },
+  note: "Nutrition and emotional well-being support connect with broader care when clinically appropriate.",
+  cta: { label: "TALK TO THE CARE TEAM ↗", href: "#enquiry" },
 } as const;
 
 export const nutritionFirstConsultation = {
   eyebrow: "YOUR FIRST CONVERSATION",
-  heading: "You can start with what feels hardest to manage right now.",
+  heading: "You can start with what feels most important to you right now.",
+  intro: "You don't need to arrive with everything figured out. Begin with the question, concern or change that brought you in.",
   steps: [
-    { number: "01", title: "Share what brings you in", body: "Explain the nutrition, energy or emotional-well-being questions you would like to discuss." },
-    { number: "02", title: "Talk through the context", body: "Share relevant information about your current stage of care, routines or recent changes." },
-    { number: "03", title: "Understand your next step", body: "Ask what follow-up, guidance or additional professional support may be appropriate." },
+    {
+      number: "01",
+      title: "SHARE WHAT BRINGS YOU IN",
+      body: "Tell us what you're experiencing and what you would like support with — whether it relates to nutrition, emotional well-being or both.",
+    },
+    {
+      number: "02",
+      title: "UNDERSTAND THE CONTEXT",
+      body: "Your professional will discuss relevant information about your current stage of care, health, routines, concerns and goals.",
+    },
+    {
+      number: "03",
+      title: "DISCUSS YOUR NEXT STEPS",
+      body: "Based on the consultation, you'll receive guidance relevant to your needs and understand whether follow-up or another BirthWave service may be helpful.",
+    },
   ],
-  note: "A meal plan, counselling, therapy, diagnosis, supplements or tests are never assumed — what's appropriate depends on your individual consultation.",
-  cta: { label: "Book a Well-being Consultation", href: "#enquiry" },
+  note: "Recommendations and follow-up are individualised according to the consultation and the professional's scope of care.",
+  cta: { label: "BOOK A WELL-BEING CONSULTATION ↗", href: "#enquiry" },
 } as const;
 
-/**
- * Care Team — `doctors-content.ts` maps exactly TWO confirmed team members
- * to this slug (see this file's own top comment): Deepa and Sherene. Both
- * shown; names, credentials, roles and portrait status are read directly
- * from that single source of truth in
- * `nutrition-emotional-wellbeing-clinician.tsx` rather than re-typed here,
- * so this section can never drift from the confirmed roster.
- */
 export const nutritionClinician = {
   eyebrow: "THE PEOPLE BEHIND YOUR CARE",
-  heading: "Support shaped around the questions you bring.",
+  heading: "Different needs.\nThe right professional for each conversation.",
   doctorSlugs: ["deepa", "sherene"],
-  profileLabel: "View Full Profile",
-  bookLabel: "Book Consultation",
+  customDescriptions: {
+    deepa: "Supportive conversations around emotional adjustment, stress, overwhelm and psychological well-being during different stages of women's health.",
+    sherene: "Nutrition guidance across preconception, pregnancy, postpartum recovery and other stages where nutritional needs may change.",
+  },
+  profileLabel: "View Full Profile ↗",
+  bookLabel: "BOOK A CONSULTATION ↗",
   bookHref: "#enquiry",
 } as const;
 
-/**
- * Practical Information — every field is an explicit confirmed-pending
- * placeholder, the same pattern the other dedicated landing pages already
- * establish for unconfirmed operational detail.
- */
 export const nutritionPractical = {
   eyebrow: "BEFORE YOUR VISIT",
   heading: "A few practical details before you book.",
-  intro: "Some details are still being confirmed. Where that's the case, we say so plainly below rather than guessing.",
-  facilityPhotoPendingLabel: "Actual consultation-space photograph\nApproved photography pending",
+  facilityPhotoPendingLabel: "The BirthWave Consultation Center",
   info: [
-    { label: "Consultation location", lines: ["[The Birthwave confirmation needed: consultation location]"] },
-    { label: "Consultation format", lines: ["[The Birthwave confirmation needed: in-person / online availability]"] },
-    { label: "Which professional you will meet", lines: ["[The Birthwave confirmation needed: booking / provider assignment process]"] },
-    { label: "What to bring", lines: ["[The Birthwave confirmation needed: what to bring]"] },
-    { label: "Consultation duration", lines: ["[The Birthwave confirmation needed: duration]"] },
-    { label: "Fee", lines: ["[The Birthwave confirmation needed: consultation fee]"] },
-    { label: "Follow-up", lines: ["[The Birthwave confirmation needed: follow-up process]"] },
-    { label: "Booking", lines: ["[The Birthwave confirmation needed: booking method / phone / WhatsApp]"] },
+    {
+      label: "Consultation Location",
+      lines: ["The BirthWave", "Mahalingapuram Main Road,", "Nungambakkam, Chennai – 600034"],
+    },
+    {
+      label: "Choose Your Support",
+      lines: ["Nutrition Support", "or", "Emotional Well-being Support"],
+    },
+    {
+      label: "Who You'll Meet",
+      lines: [
+        "Nutrition consultations — Sherene, Nutritionist",
+        "Emotional well-being consultations — Deepa, M.Sc Psychology",
+      ],
+    },
+    {
+      label: "What to Bring",
+      lines: ["If relevant, bring recent prescriptions, test reports or other medical records connected to your current BirthWave care."],
+    },
+    {
+      label: "Consultation Duration",
+      lines: ["[Confirm with BirthWave]"],
+    },
+    {
+      label: "Consultation Fee",
+      lines: ["[Confirm with BirthWave]"],
+    },
+    {
+      label: "Follow-up",
+      lines: ["Follow-up recommendations depend on your individual consultation and support needs."],
+    },
+    {
+      label: "Booking",
+      lines: ["Call or WhatsApp", "+91 93630 31925"],
+    },
   ],
 } as const;
 
 export const nutritionFaq = {
-  eyebrow: "Good to Know",
-  heading: "Questions before you enquire.",
+  eyebrow: "GOOD TO KNOW",
+  heading: "Questions about Nutrition & Emotional Well-being",
   items: [
     {
-      question: "Who is Nutrition & Emotional Well-being support for?",
-      answer: "You may consider a consultation if you have questions about nutrition, changing routines, energy or emotional adjustment and want to understand what kind of support may be appropriate.",
+      question: "Who can seek nutrition and emotional well-being support at BirthWave?",
+      answer: "Support may be relevant at different stages, including preconception, pregnancy and postpartum recovery. The appropriate professional and type of consultation will depend on what you would like help with.",
     },
     {
-      question: "Do I need to have a specific problem before booking?",
-      answer: "No. You may have a specific concern or simply want to talk through changes and questions you have noticed.",
+      question: "Can I get nutrition guidance during pregnancy?",
+      answer: "Yes. You can discuss pregnancy nutrition, changing nutritional needs, eating patterns and practical food-related questions with BirthWave's nutrition professional.",
     },
     {
-      question: "Will I receive a diet plan?",
-      answer: "[The Birthwave confirmation needed: whether personalised nutrition plans are offered]",
+      question: "Does BirthWave provide nutrition support while trying to conceive?",
+      answer: "Nutrition can form part of preconception and fertility support. Your individual needs can be discussed during a nutrition consultation and coordinated with your broader care where relevant.",
     },
     {
-      question: "Can I discuss emotional concerns?",
-      answer: "Yes, emotional well-being can be part of the conversation within the confirmed scope of this service.",
+      question: "Can I get nutrition support after childbirth?",
+      answer: "Yes. Postpartum nutrition consultations can address changing nutritional needs, recovery, eating routines and nourishment during the period after childbirth.",
     },
     {
-      question: "Is this mental-health treatment?",
-      answer: "This service provides emotional-well-being support within The Birthwave's confirmed care scope. If you need specialist mental-health assessment or treatment, ask the care team what type of professional support is appropriate.",
+      question: "What can I discuss during an emotional well-being consultation?",
+      answer: "You can talk about stress, adjustment, overwhelm, worries, emotional changes or other concerns affecting how you're feeling. The consultation provides space to understand what you're experiencing and discuss appropriate next steps.",
     },
     {
-      question: "Can I discuss nutrition during pregnancy or postpartum?",
-      answer: "Yes, nutrition questions may arise at different stages of care. The appropriate guidance depends on your individual circumstances.",
+      question: "Do I need to have a specific emotional problem before booking?",
+      answer: "No. You may come with a particular concern or simply because you would like support understanding and navigating emotional changes during this stage of your life.",
     },
     {
-      question: "Will I need tests?",
-      answer: "Testing is not assumed as part of this service. If any assessment is recommended, your care team should explain why.",
+      question: "What if I need support beyond what BirthWave provides?",
+      answer: "If your concern requires another type or level of professional support, the team can discuss an appropriate next step or referral with you.",
     },
     {
-      question: "How many sessions will I need?",
-      answer: "That depends on your individual circumstances and the type of support recommended.",
+      question: "Can nutrition and emotional well-being support be part of my pregnancy care?",
+      answer: "Yes. These services can complement your antenatal care where relevant. They are separate areas of professional support but can connect with your broader BirthWave care.",
     },
     {
-      question: "What if I am experiencing severe emotional distress or feel unsafe?",
-      answer: "This webpage and enquiry form are not an emergency mental-health service. If you or someone else may be in immediate danger, contact local emergency services or an appropriate urgent-care service immediately.",
+      question: "Will I need more than one consultation?",
+      answer: "That depends on your individual needs. After your first consultation, the professional can discuss whether follow-up would be useful and what that may involve.",
+    },
+    {
+      question: "What should I do if I feel unsafe or need urgent mental-health support?",
+      answer: "BirthWave's website and routine consultation enquiry service are not emergency services. If you or someone else is in immediate danger or requires urgent mental-health care, seek appropriate emergency medical assistance immediately.",
     },
   ],
 } as const;
 
-/**
- * Related Care — restrained links to four EXISTING, separate services
- * (their real names/slugs read from `services-content.ts`, never re-typed),
- * explicitly not framed as bundled care.
- */
 export const nutritionRelatedCare = {
   eyebrow: "CONNECTED CARE",
-  heading: "Support can connect with other parts of your journey with The Birthwave.",
-  note: "These are separate services at The Birthwave, not automatically bundled with Nutrition & Emotional Well-being.",
-  slugs: ["pregnancy-antenatal-care", "fertility-preconception", "postpartum-care", "lactation"],
+  heading: "Well-being support can connect with the rest of your BirthWave journey.",
+  note: "Nutrition and emotional well-being are available as dedicated areas of support and can complement other BirthWave services when relevant to your care.",
+  services: [
+    {
+      title: "Pregnancy & Antenatal Care ↗",
+      description: "Pregnancy monitoring, consultations and preparation throughout your antenatal journey.",
+      href: "/services/pregnancy-antenatal-care",
+    },
+    {
+      title: "Fertility & Preconception ↗",
+      description: "Support while preparing for pregnancy and navigating fertility concerns.",
+      href: "/services/fertility-preconception",
+    },
+    {
+      title: "Postpartum Recovery & Care ↗",
+      description: "Connected support for recovery and adjustment after childbirth.",
+      href: "/services/postpartum-care",
+    },
+    {
+      title: "Lactation & Breastfeeding Support ↗",
+      description: "Preparation and guidance around breastfeeding and early feeding concerns.",
+      href: "/services/lactation",
+    },
+  ],
 } as const;
 
-/**
- * Final Enquiry — TODO(infra): exactly like the other nine landing pages'
- * own forms, no backend endpoint or verified enquiry inbox exists yet.
- * Shows the same honest "design preview, not connected" pattern rather than
- * a fake submission-success message. Deliberately short: full name, a
- * single phone-or-email contact field, and an optional message. Nothing
- * here is written to browser storage.
- */
 export const nutritionEnquiry = {
   eyebrow: "START WITH A CONVERSATION",
-  heading: "You do not need to have everything figured out before asking for support.",
-  body: "Enquire about The Birthwave's Nutrition & Emotional Well-being service and understand how to begin a consultation.",
+  heading: "Start your well-being journey with a consultation.",
+  body: "Whether you have questions about nutrition, are adjusting to emotional changes, or want support during pregnancy or postpartum recovery, request a consultation with our team.",
   fields: {
     name: "Full name",
     contact: "Phone number or email",
     message: "What would you like to discuss about nutrition or emotional well-being? (optional)",
   },
-  submitLabel: "Send Enquiry",
+  submitLabel: "REQUEST A CONSULTATION",
   formNote: "This form is for appointment information and non-urgent enquiries. It is not an emergency medical or mental-health service.",
   urgentNote: "This webpage and enquiry form are not an emergency service. If you or someone else may be in immediate danger, contact local emergency services or an appropriate urgent-care service immediately.",
   previewNotice: "Preview — enquiry integration pending.",
@@ -246,6 +263,6 @@ export const nutritionEnquiry = {
 } as const;
 
 export const nutritionMobileCta = {
-  label: "Book a Well-being Consultation",
+  label: "BOOK A CONSULTATION",
   href: "#enquiry",
 } as const;

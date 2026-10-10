@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { preload } from "react-dom";
 import { ArrowDown } from "lucide-react";
 import { hero, brand, philosophy } from "@/content/site-content";
+import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { useReducedMotion } from "@/motion/reduced-motion";
 import {
@@ -16,6 +17,7 @@ import {
 import { cx } from "@/lib/cx";
 import { createSceneDebug } from "@/motion/scene-debug";
 import { SceneDebugOverlay } from "@/motion/scene-debug-overlay";
+import { CareWaveBackground } from "@/components/ui/backgrounds/care-wave-background";
 
 // ---------------------------------------------------------------------------
 // Frame sequence — public/images/about/nested (99 × 1280×720 JPEG)
@@ -47,34 +49,32 @@ const TEXT_MOTION: Record<Bucket, { heroY: number; philosophyY: number }> = {
 };
 
 /**
- * Logo → header identity (desktop only, ≥1024px). Geometry is measured
- * (FLIP-style): start = the Hero logo's real position, end = a slot left
- * of the nav pill, vertically centred on it. The header reserves that slot
- * on the homepage (see site-header.tsx). Timing sits on the same master
- * progress as everything else, slightly ahead of the Hero copy fade.
+ * Logo → header identity, every breakpoint. Geometry is measured, never
+ * hard-coded: start = the Hero logo's badge, end = the real header logo
+ * link's image (site-header.tsx), so the traveller lands exactly on it and
+ * hands off to it (the link becomes visible, the traveller hides) at the
+ * end of the move. Timing sits on the same master progress as everything
+ * else, slightly ahead of the Hero copy fade.
  */
 const LOGO_MOVE_START = 0.08;
-const LOGO_MOVE_END = 0.32;
-const LOGO_SETTLE_AT = 0.26;
-const LOGO_SETTLE_SCALE = 0.66;
-const LOGO_FINAL_SCALE = 0.62;
-/** Logo left edge = max(LOGO_MIN_LEFT, container edge − LOGO_OUTSET). */
-const LOGO_MIN_LEFT = 36;
-const LOGO_OUTSET = 24;
-/** Horizontal padding of the paper chip behind the settled logo. */
-const LOGO_CHIP_PAD_X = 12;
+const LOGO_MOVE_END: Record<Bucket, number> = { desktop: 0.32, tablet: 0.34, mobile: 0.34 };
+/** Scale starts late below 1024px — the Hero logo is already small there. */
+const LOGO_SHRINK_AT: Record<Bucket, number> = { desktop: 0.08, tablet: 0.22, mobile: 0.22 };
 /**
- * Below 1024px (homepage): the Hero logo travels straight up into the
- * compact header's brand slot — left edge on the container gutter,
- * vertically centred on the hamburger — and shrinks only slightly (the
- * Hero logo is already small there: 88px phones / 114px ≥640px).
+ * The header bar's white surface grows leftward over this span (ending at
+ * the settle point) to meet the arriving logo, so its badge merges into the
+ * bar instead of showing as a second shape.
  */
-const LOGO_COMPACT_MOVE_END = 0.34;
-const LOGO_COMPACT_SHRINK_AT = 0.22;
-const LOGO_COMPACT_FINAL_SCALE: Record<Exclude<Bucket, "desktop">, number> = { tablet: 0.88, mobile: 0.95 };
-/** Small warm-ivory backdrop padding around the settled compact logo. */
-const LOGO_COMPACT_CHIP_PAD = { x: 8, y: 6 };
-/** Fallback only (compact header not found): lift, shrink, fade as before. */
+const SURFACE_REVEAL = 0.1;
+/**
+ * The logo's own frame: a solid white rounded badge so the thin mauve
+ * script stays legible over the frames and the Philosophy headline. Shared
+ * by the Hero logo and its traveller so the swap is pixel-identical; it
+ * scales with the logo and, once settled, sits white-on-white in the bar.
+ */
+const LOGO_MARK_CLASS = "w-fit rounded-lg bg-white px-3 py-2 lg:rounded-xl lg:px-4 lg:py-2.5";
+const LOGO_IMG_CLASS = "h-auto w-[96px] sm:w-[124px] lg:w-[152px]";
+/** Fallback only (header logo not measurable): lift, shrink, fade. */
 const LOGO_COMPACT_LIFT: Record<Exclude<Bucket, "desktop">, number> = { tablet: -16, mobile: -12 };
 const LOGO_COMPACT_SCALE = 0.9;
 /** "Scroll to discover" cue (below 1024px only) fades out early. */
@@ -95,8 +95,6 @@ function getBucket(): Bucket {
 const RENDER_CONFIG: Record<Bucket, { maxDpr: number; eagerFrames: number; frameStep: number }> = {
   desktop: { maxDpr: 2, eagerFrames: 20, frameStep: 1 },
   tablet: { maxDpr: 1.75, eagerFrames: 18, frameStep: 1 },
-  // 99 frames over the 200vh phone track paint at about the density the old
-  // 185-frame set had with every-second-frame skipping, so no skipping here.
   mobile: { maxDpr: 1.5, eagerFrames: 16, frameStep: 1 },
 };
 
@@ -140,47 +138,44 @@ type TextTiming = Record<
 >;
 
 /*
- * Tuned to the 99-frame sequence (progress = frame index / 98): clouds
- * begin ~0.21, fabric sweeps ~0.29–0.50, the mother dissolves right → left
- * ~0.57–0.70, and the final Philosophy composition is established ~0.77.
- * Hero copy is gone by ~0.42, before the fabric is at its densest;
- * Philosophy copy starts only once the final composition is in place.
+ * Calibrated text timings: reduced blank scroll interval between hero exit
+ * and philosophy entrance, ensuring statements remain readable and held.
  */
 const TIMING_DEFAULT: TextTiming = {
-  heroBody: [0.14, 0.1],
-  heroCta: [0.18, 0.1],
-  heroEyebrow: [0.24, 0.1],
-  heroHeading: [0.3, 0.12],
-  heroScrim: [0.32, 0.12],
-  philScrim: [0.7, 0.08],
-  philEyebrow: [0.74, 0.06],
-  phil1: [0.77, 0.07],
-  phil2: [0.81, 0.07],
-  phil3: [0.85, 0.07],
-  philClosing: [0.89, 0.07],
+  heroBody: [0.12, 0.1],
+  heroCta: [0.15, 0.1],
+  heroEyebrow: [0.20, 0.1],
+  heroHeading: [0.25, 0.12],
+  heroScrim: [0.28, 0.12],
+  philScrim: [0.56, 0.09],
+  philEyebrow: [0.60, 0.08],
+  phil1: [0.64, 0.08],
+  phil2: [0.72, 0.08],
+  phil3: [0.80, 0.08],
+  philClosing: [0.87, 0.09],
 };
 
-/** Phones: a shorter track, so beats are a touch quicker and earlier. */
+/** Phones: calibrated track timing for smooth reading. */
 const TIMING_MOBILE: TextTiming = {
-  heroBody: [0.16, 0.1],
-  heroCta: [0.2, 0.1],
-  heroEyebrow: [0.24, 0.1],
-  heroHeading: [0.28, 0.12],
-  heroScrim: [0.3, 0.12],
-  philScrim: [0.69, 0.08],
-  philEyebrow: [0.73, 0.06],
-  phil1: [0.76, 0.07],
-  phil2: [0.8, 0.07],
-  phil3: [0.84, 0.07],
-  philClosing: [0.88, 0.07],
+  heroBody: [0.13, 0.1],
+  heroCta: [0.16, 0.1],
+  heroEyebrow: [0.21, 0.1],
+  heroHeading: [0.25, 0.12],
+  heroScrim: [0.28, 0.12],
+  philScrim: [0.55, 0.09],
+  philEyebrow: [0.59, 0.08],
+  phil1: [0.63, 0.08],
+  phil2: [0.71, 0.08],
+  phil3: [0.79, 0.08],
+  philClosing: [0.86, 0.09],
 };
 
 const NARRATIVE_STATEMENT_CLASS =
-  "text-balance text-[clamp(2.3rem,1.8rem+2.6vw,3.5rem)] !leading-[1.08] font-semibold tracking-[var(--tracking-tight)]";
+  "text-balance text-[clamp(2.1rem,1.6rem+2.2vw,3.25rem)] !leading-[1.12] font-semibold tracking-[var(--tracking-tight)]";
 
 const HERO_SCRIM_STYLE = {
   backgroundImage:
-    "linear-gradient(90deg, var(--color-paper) 0%, color-mix(in srgb, var(--color-paper) 82%, transparent) 52%, transparent 100%)",
+    "linear-gradient(90deg, var(--color-paper) 0%, color-mix(in srgb, var(--color-paper) 86%, transparent) 55%, color-mix(in srgb, var(--color-paper) 40%, transparent) 80%, transparent 100%)",
 };
 
 /**
@@ -226,7 +221,6 @@ function AnimatedScene() {
   const stageRef = useRef<HTMLDivElement>(null);
   const sceneGroupRef = useRef<HTMLDivElement>(null);
   const travelerRef = useRef<HTMLDivElement>(null);
-  const travelerChipRef = useRef<HTMLDivElement>(null);
 
   preload(getFrameSrc(0), { as: "image", fetchPriority: "high" });
 
@@ -257,7 +251,7 @@ function AnimatedScene() {
     const q = (selector: string) =>
       track.querySelector<HTMLElement>(selector);
     const heroLogo = q("[data-hero-logo]");
-    const heroLogoImg = q("[data-hero-logo] img");
+    const heroLogoImg = q("[data-hero-logo] [data-logo-mark]");
     const heroEyebrow = q("[data-hero-eyebrow]");
     const heroHeading = q("[data-hero-heading]");
     const heroBody = q("[data-hero-body]");
@@ -273,12 +267,16 @@ function AnimatedScene() {
     const stage = stageRef.current;
     const sceneGroup = sceneGroupRef.current;
     const traveler = travelerRef.current;
-    const travelerChip = travelerChipRef.current;
+    // The header's own logo link and bar (site-header.tsx) — the landing
+    // spot. Outside this component, so looked up in the document.
+    const header = document.querySelector<HTMLElement>("header#top");
+    const headerLogo = header?.querySelector<HTMLElement>("[data-header-wordmark]") ?? null;
+    const headerBar = header?.querySelector<HTMLElement>("[data-header-bar]") ?? null;
     if (
       !heroLogo || !heroLogoImg || !heroEyebrow ||
       !heroHeading || !heroBody || !heroCta || !heroScrim || !philScrim ||
       !philEyebrow || !phil1 || !phil2 || !phil3 || !philClosing ||
-      !stage || !sceneGroup || !traveler || !travelerChip
+      !stage || !sceneGroup || !traveler
     ) {
       debug.warn("Animation targets missing — scrub not initialised.");
       debug.destroy();
@@ -287,8 +285,9 @@ function AnimatedScene() {
     const philTargets = [philEyebrow, phil1, phil2, phil3, philClosing];
     const allTargets = [
       heroLogo, heroEyebrow, heroHeading, heroBody, heroCta, heroScrim,
-      philScrim, ...philTargets, traveler, travelerChip,
+      philScrim, ...philTargets, traveler,
       ...(scrollCue ? [scrollCue] : []),
+      ...(headerLogo ? [headerLogo] : []),
     ];
 
     let bucket = getBucket();
@@ -444,84 +443,42 @@ function AnimatedScene() {
       return { left, top, width: imgRect.width, height: imgRect.height };
     }
 
-    function contentLeftOf(row: HTMLElement) {
-      return row.getBoundingClientRect().left + parseFloat(getComputedStyle(row).paddingLeft || "0");
-    }
-
-    // Below 1024px: into the compact header's brand slot, opposite the hamburger.
-    function measureCompactLogo(): { dx: number; dy: number; scale: number } | null {
-      if (bucket === "desktop" || !travelerChip) return null;
-      const toggle = document.querySelector<HTMLElement>("header#top [data-mobile-menu-toggle]");
-      const row = toggle?.parentElement;
-      if (!toggle || !row || toggle.offsetParent === null) return null;
+    // End: the header logo link's image, wherever the header layout puts it
+    // (desktop bar or compact bar). The traveller's image sits inside its
+    // badge padding, so the badge origin is offset by that padding × scale.
+    // Also measures how far in from the bar's left edge its white surface
+    // starts before the logo arrives (just short of the nav / menu button).
+    function measureHeaderTravel(): { dx: number; dy: number; scale: number } | null {
+      if (!headerLogo || !headerBar || !heroLogoImg) return null;
+      const target = headerLogo.querySelector("img")?.getBoundingClientRect();
+      const heroImg = heroLogoImg.querySelector("img")?.getBoundingClientRect();
+      if (!target || !heroImg || target.width === 0 || heroImg.width === 0) return null;
       const start = measureLogoStart();
       if (!start) return null;
 
-      const s = LOGO_COMPACT_FINAL_SCALE[bucket];
-      const toggleRect = toggle.getBoundingClientRect();
-      const finalW = start.width * s;
-      const finalH = start.height * s;
-      const endLeft = contentLeftOf(row);
-      const endTop = toggleRect.top + toggleRect.height / 2 - finalH / 2;
+      const markRect = heroLogoImg.getBoundingClientRect();
+      const padX = heroImg.left - markRect.left;
+      const padY = heroImg.top - markRect.top;
+      const scale = target.width / heroImg.width;
+      const endLeft = target.left - padX * scale;
+      const endTop = target.top - padY * scale;
 
-      const { x: padX, y: padY } = LOGO_COMPACT_CHIP_PAD;
-      Object.assign(travelerChip.style, {
-        left: `${-padX / s}px`,
-        top: `${-padY / s}px`,
-        width: `${(finalW + padX * 2) / s}px`,
-        height: `${(finalH + padY * 2) / s}px`,
-      });
+      const barRect = headerBar.getBoundingClientRect();
+      const rest = [...headerBar.children].find(
+        (el) =>
+          el !== headerLogo &&
+          !el.hasAttribute("data-header-surface") &&
+          (el as HTMLElement).offsetParent !== null,
+      );
+      const inset = rest ? Math.max(0, rest.getBoundingClientRect().left - barRect.left - 6) : 0;
+      header?.style.setProperty("--header-surface-inset", `${inset}px`);
 
-      const gap = toggleRect.left - (endLeft + finalW + padX);
-      if (gap < 8) debug.warn(`compact logo target is ${gap.toFixed(1)}px from the menu button.`);
       debug.update({
         logoStart: `${start.left.toFixed(1)},${start.top.toFixed(1)} ${start.width.toFixed(0)}w`,
-        logoEnd: `${endLeft.toFixed(1)},${endTop.toFixed(1)} ×${s}`,
-        logoNavGap: `${gap.toFixed(1)}px`,
+        logoEnd: `${target.left.toFixed(1)},${target.top.toFixed(1)} ${target.width.toFixed(0)}w ×${scale.toFixed(3)}`,
+        surfaceInset: `${inset.toFixed(0)}px`,
       });
-      return { dx: endLeft - start.left, dy: endTop - start.top, scale: s };
-    }
-
-    // Desktop: just outside the container edge, left of the nav pill.
-    function measureLogo(): { dx: number; dy: number } | null {
-      if (!travelerChip) return null;
-      const pill = document.querySelector<HTMLElement>('header#top nav[aria-label="Primary"]');
-      const row = pill?.parentElement;
-      if (!pill || !row || pill.offsetParent === null) return null;
-      const start = measureLogoStart();
-      if (!start) return null;
-      const startLeft = start.left;
-      const startTop = start.top;
-
-      // End: just outside the container edge, vertically centred on the nav pill.
-      const containerLeft = contentLeftOf(row);
-      const pillRect = pill.getBoundingClientRect();
-      const finalW = start.width * LOGO_FINAL_SCALE;
-      const finalH = start.height * LOGO_FINAL_SCALE;
-      const endLeft = Math.max(LOGO_MIN_LEFT, containerLeft - LOGO_OUTSET);
-      const endTop = pillRect.top + pillRect.height / 2 - finalH / 2;
-
-      // Paper chip behind the settled logo, matching the pill's height —
-      // sized in pre-scale units because it lives inside the scaled layer.
-      const s = LOGO_FINAL_SCALE;
-      Object.assign(travelerChip.style, {
-        left: `${-LOGO_CHIP_PAD_X / s}px`,
-        top: `${(pillRect.top - endTop) / s}px`,
-        width: `${(finalW + LOGO_CHIP_PAD_X * 2) / s}px`,
-        height: `${pillRect.height / s}px`,
-      });
-
-      const chipRight = endLeft + finalW + LOGO_CHIP_PAD_X;
-      const gap = pillRect.left - chipRight;
-      if (gap < 4) {
-        debug.warn(`logo target overlaps nav pill (gap ${gap.toFixed(1)}px) — check header slot.`);
-      }
-      debug.update({
-        logoStart: `${startLeft.toFixed(1)},${startTop.toFixed(1)} ${start.width.toFixed(0)}w`,
-        logoEnd: `${endLeft.toFixed(1)},${endTop.toFixed(1)} ×${s}`,
-        logoNavGap: `${gap.toFixed(1)}px`,
-      });
-      return { dx: endLeft - startLeft, dy: endTop - startTop };
+      return { dx: endLeft - start.left, dy: endTop - start.top, scale };
     }
 
     function buildTimeline() {
@@ -535,46 +492,34 @@ function AnimatedScene() {
       const t = gsap.timeline({ paused: true, defaults: { ease: "power1.inOut" } });
 
       // Logo — geometry is scrubbed linearly so scroll stays predictable.
-      const logoTravel = bucket === "desktop" ? measureLogo() : null;
-      const compactTravel = bucket === "desktop" ? null : measureCompactLogo();
-      if (sceneGroup) {
-        sceneGroup.dataset.logoTraveler = logoTravel || compactTravel ? "on" : "off";
-      }
-      const moveDuration = LOGO_MOVE_END - LOGO_MOVE_START;
-      if (compactTravel) {
-        // Straight up into the compact header, shrinking only at the end.
+      header?.style.removeProperty("--header-surface-reveal");
+      const travel = measureHeaderTravel();
+      if (sceneGroup) sceneGroup.dataset.logoTraveler = travel ? "on" : "off";
+      const moveEnd = LOGO_MOVE_END[bucket];
+      if (travel && header && headerLogo) {
         gsap.set(traveler, { transformOrigin: "0 0" });
+        t.fromTo(traveler, { x: 0, y: 0 }, { x: travel.dx, y: travel.dy, ease: "none", duration: moveEnd - LOGO_MOVE_START }, LOGO_MOVE_START);
+        const shrinkAt = LOGO_SHRINK_AT[bucket];
+        t.fromTo(traveler, { scale: 1 }, { scale: travel.scale, ease: "none", duration: moveEnd - shrinkAt }, shrinkAt);
+        // The bar's surface grows in to meet the logo…
         t.fromTo(
-          traveler,
-          { x: 0, y: 0 },
-          { x: compactTravel.dx, y: compactTravel.dy, ease: "none", duration: LOGO_COMPACT_MOVE_END - LOGO_MOVE_START },
-          LOGO_MOVE_START,
+          header,
+          { "--header-surface-reveal": 0 },
+          { "--header-surface-reveal": 1, ease: "power1.out", duration: SURFACE_REVEAL },
+          moveEnd - SURFACE_REVEAL,
         );
-        t.fromTo(
-          traveler,
-          { scale: 1 },
-          { scale: compactTravel.scale, ease: "none", duration: LOGO_COMPACT_MOVE_END - LOGO_COMPACT_SHRINK_AT },
-          LOGO_COMPACT_SHRINK_AT,
-        );
-        t.fromTo(travelerChip, { opacity: 0 }, { opacity: 1, ease: "none", duration: 0.08 }, LOGO_COMPACT_MOVE_END - 0.08);
-      } else if (logoTravel) {
-        gsap.set(traveler, { transformOrigin: "0 0" });
-        t.fromTo(traveler, { x: 0, y: 0 }, { x: logoTravel.dx, y: logoTravel.dy, ease: "none", duration: moveDuration }, LOGO_MOVE_START);
-        t.fromTo(traveler, { scale: 1 }, { scale: LOGO_SETTLE_SCALE, ease: "none", duration: LOGO_SETTLE_AT - LOGO_MOVE_START }, LOGO_MOVE_START);
-        t.fromTo(
-          traveler,
-          { scale: LOGO_SETTLE_SCALE },
-          { scale: LOGO_FINAL_SCALE, ease: "none", duration: LOGO_MOVE_END - LOGO_SETTLE_AT, immediateRender: false },
-          LOGO_SETTLE_AT,
-        );
-        t.fromTo(travelerChip, { opacity: 0 }, { opacity: 1, ease: "none", duration: LOGO_MOVE_END - 0.22 }, 0.22);
+        // …then, at the same geometry, the real Home link takes over.
+        t.set(traveler, { autoAlpha: 0 }, moveEnd);
+        t.set(headerLogo, { autoAlpha: 1 }, moveEnd);
       } else {
         const lift = LOGO_COMPACT_LIFT[bucket === "desktop" ? "tablet" : bucket];
         gsap.set(heroLogo, { transformOrigin: "0 0" });
-        t.fromTo(heroLogo, { y: 0, scale: 1 }, { y: lift, scale: LOGO_COMPACT_SCALE, ease: "none", duration: moveDuration }, LOGO_MOVE_START);
-        // No header slot here — keep the existing fade alongside the eyebrow.
+        t.fromTo(heroLogo, { y: 0, scale: 1 }, { y: lift, scale: LOGO_COMPACT_SCALE, ease: "none", duration: moveEnd - LOGO_MOVE_START }, LOGO_MOVE_START);
+        // No measurable header logo — fade out alongside the eyebrow, and
+        // still bring the header link in so the page keeps a logo.
         const [eyebrowAt, eyebrowFor] = timing.heroEyebrow;
         t.to(heroLogo, { opacity: 0, duration: eyebrowFor }, eyebrowAt);
+        if (headerLogo) t.set(headerLogo, { autoAlpha: 1 }, eyebrowAt + eyebrowFor);
       }
 
       const at = (key: keyof TextTiming) => timing[key][0];
@@ -723,6 +668,8 @@ function AnimatedScene() {
       layoutRaf = requestAnimationFrame(() => buildTimeline());
     });
     if (heroColumn) layoutObserver.observe(heroColumn);
+    if (headerLogo) layoutObserver.observe(headerLogo);
+    if (headerBar) layoutObserver.observe(headerBar);
     // Portrait ↔ landscape changes the track height (vh-based), so the same
     // scroll offset would land at a different progress. Hold the progress
     // from before the rotation, re-measure, then scroll back to it.
@@ -762,6 +709,8 @@ function AnimatedScene() {
       st.kill();
       tl?.kill();
       gsap.set(allTargets, { clearProps: "opacity,visibility,transform" });
+      header?.style.removeProperty("--header-surface-inset");
+      header?.style.removeProperty("--header-surface-reveal");
       delete sceneGroup.dataset.logoTraveler;
       cache.forEach((img) => {
         if (img) {
@@ -780,7 +729,7 @@ function AnimatedScene() {
     <div
       ref={trackRef}
       data-home-scene="hero-philosophy"
-      className="relative isolate h-[200vh] bg-paper md:h-[240vh] lg:h-[360vh]"
+      className="relative isolate h-[170vh] bg-paper md:h-[210vh] lg:h-[270vh]"
     >
       <div
         ref={stageRef}
@@ -797,6 +746,9 @@ function AnimatedScene() {
 
         <HeroContent />
         <PhilosophyContent animated />
+
+        {/* Faint wave near the lower edge */}
+        <CareWaveBackground preset="hero-lower" />
 
         {/* Below 1024px only; fades out by 0.18 progress. */}
         <p
@@ -815,28 +767,34 @@ function AnimatedScene() {
         sections once it settles in the header. Hidden until JS has
         measured the Hero logo; then CSS swaps it in at the identical
         position (the Hero copy goes invisible in the same frame), so only
-        one logo is ever visible. Not a link — matches the Hero logo.
-        The measurement layer stays transparent so the wordmark sits directly
-        on the page without a badge or rounded background. */}
+        one logo is ever visible. At the settle point it hands off to the
+        header's real Home link and hides, so it's purely visual:
+        aria-hidden, empty alt, never focusable. z-[55] puts it above the
+        header bar (z-50) so the bar's surface can grow in beneath it; it
+        hides while the mobile menu or Our Care panel is open so it can
+        never cover them. */}
     <div
       ref={travelerRef}
       data-hero-logo-traveler
-      className="pointer-events-none invisible fixed top-0 left-0 z-40 group-data-[logo-traveler=on]/scene:visible"
+      aria-hidden="true"
+      className="pointer-events-none invisible fixed top-0 left-0 z-[55] group-data-[logo-traveler=on]/scene:visible"
     >
-      <div
-        ref={travelerChipRef}
-        aria-hidden="true"
-        className="absolute opacity-0"
-      />
+      {/* Overlay hide lives on its own plain layer: GSAP writes inline
+          opacity on the outer one (the hand-off) and the rise-in animation
+          owns opacity on the next, either of which would beat a class. */}
+      <div className="[body:has(#top[data-overlay-open])_&]:opacity-0">
       <div className="motion-rise-in relative">
-        <Image
-          src={brand.logo.wordmarkMauve}
-          alt={brand.logo.alt}
-          width={320}
-          height={157}
-          loading="eager"
-          className="h-auto w-[88px] sm:w-[114px] lg:w-[152px]"
-        />
+        <div data-logo-mark className={LOGO_MARK_CLASS}>
+          <Image
+            src={brand.logo.wordmarkMauve}
+            alt=""
+            width={320}
+            height={157}
+            loading="eager"
+            className={LOGO_IMG_CLASS}
+          />
+        </div>
+      </div>
       </div>
     </div>
     </div>
@@ -863,15 +821,17 @@ function HeroContent({ className }: { className?: string }) {
 
       <div className="container-birthwave relative z-20 flex h-full items-center [padding-block:var(--header-height)]">
         <div className="motion-rise-in max-w-lg">
-          <div data-hero-logo className="group-data-[logo-traveler=on]/scene:invisible">
-            <Image
-              src={brand.logo.wordmarkMauve}
-              alt={brand.logo.alt}
-              width={320}
-              height={157}
-              loading="eager"
-              className="h-auto w-[88px] sm:w-[114px] lg:w-[152px]"
-            />
+          <div data-hero-logo className="group-data-[logo-traveler=on]/scene:invisible motion-reduce:hidden">
+            <div data-logo-mark className={LOGO_MARK_CLASS}>
+              <Image
+                src={brand.logo.wordmarkMauve}
+                alt={brand.logo.alt}
+                width={320}
+                height={157}
+                loading="eager"
+                className={LOGO_IMG_CLASS}
+              />
+            </div>
           </div>
 
           <p data-hero-eyebrow className="eyebrow mt-6">
@@ -897,8 +857,13 @@ function HeroContent({ className }: { className?: string }) {
             {hero.subhead}
           </p>
 
-          <div data-hero-cta className="mt-8">
-            <CtaLink href={hero.primaryCta.href}>{hero.primaryCta.label}</CtaLink>
+          <div data-hero-cta className="mt-8 flex flex-wrap items-center gap-4 sm:gap-6">
+            <Button href={hero.primaryCta.href} variant="primary">
+              {hero.primaryCta.label}
+            </Button>
+            <CtaLink href={hero.secondaryCta.href} className="text-base text-ink-soft hover:text-ink">
+              {hero.secondaryCta.label}
+            </CtaLink>
           </div>
         </div>
       </div>
@@ -1041,11 +1006,9 @@ function ReducedMotionScene() {
     const philText = root.querySelectorAll<HTMLElement>(
       "[data-philosophy-eyebrow], [data-philosophy-statement-1], [data-philosophy-statement-2], [data-philosophy-statement-3], [data-philosophy-closing]",
     );
-    // Below 1024px the header's compact wordmark stands in for the Hero
-    // logo once it's left — an opacity crossfade, never a travelling logo.
-    // (At ≥1024px it's display:none, so the tweens are inert there.)
-    const headerMark = document.querySelector<HTMLElement>("header#top [data-header-wordmark]");
-    const heroLogo = q("[data-hero-logo]");
+    // The header logo is simply visible and static here (site-header.tsx
+    // shows it under reduced motion; the Hero's copy is hidden) — no
+    // crossfade and no travel.
     if (!heroImage || !philBlock || !philImage || !philScrim) {
       debug.destroy();
       return;
@@ -1076,8 +1039,6 @@ function ReducedMotionScene() {
           .to(philIn, { autoAlpha: 1, duration: 0.25 }, 0.45)
           .to(philText, { autoAlpha: 1, duration: 0.2 }, 0.65)
           .set({}, {}, 1);
-        // Sequential, not overlapping: the Hero logo is gone by 0.55.
-        if (headerMark) tl.fromTo(headerMark, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.1 }, 0.55);
         debug.update({ layout: "short sticky crossfade" });
       });
 
@@ -1095,15 +1056,6 @@ function ReducedMotionScene() {
           })
           .to(philIn, { autoAlpha: 1, duration: 0.6, ease: "power1.out" })
           .to(philText, { autoAlpha: 1, duration: 0.5, ease: "power1.out" }, "-=0.15");
-        if (headerMark && heroLogo) {
-          gsap.set(headerMark, { autoAlpha: 0 });
-          gsap.to(headerMark, {
-            autoAlpha: 1,
-            duration: 0.4,
-            ease: "power1.out",
-            scrollTrigger: { trigger: heroLogo, start: "bottom top", toggleActions: "play none none reverse" },
-          });
-        }
         debug.update({ layout: "normal flow fade-in" });
       });
     }, root);
@@ -1134,6 +1086,7 @@ function ReducedMotionScene() {
             />
           </div>
           <HeroContent />
+          <CareWaveBackground preset="hero-lower" />
         </div>
         <div
           data-reduced-phil-block

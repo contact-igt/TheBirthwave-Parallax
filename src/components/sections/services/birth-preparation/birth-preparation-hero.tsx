@@ -67,16 +67,16 @@ export function BirthPrepHero() {
       <div className="container-birthwave relative z-10 pt-[calc(var(--header-height)+2.5rem)] pb-[480px] sm:pt-[calc(var(--header-height)+3rem)] sm:pb-20">
         <p className="eyebrow">{birthPrepHero.eyebrow}</p>
         <h1 className="mt-5 max-w-2xl text-[clamp(2.5rem,1.7rem+3.6vw,4.6rem)] leading-[1.05] font-semibold tracking-[var(--tracking-tight)] text-ink">
-          {birthPrepHero.headingLines.map((line) => (
-            <span key={line} className="block">
-              {line}
-            </span>
-          ))}
+          {birthPrepHero.heading}
         </h1>
         <p className="mt-6 max-w-md text-xl leading-[var(--leading-relaxed)] font-medium text-ink">
           {birthPrepHero.supportingHeadline}
         </p>
-        <p className="mt-4 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">{birthPrepHero.body}</p>
+        {birthPrepHero.body.split("\n\n").map((para) => (
+          <p key={para} className="mt-4 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+            {para}
+          </p>
+        ))}
 
         <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
           <Button href={birthPrepHero.primaryCta.href} variant="primary">
@@ -84,8 +84,6 @@ export function BirthPrepHero() {
           </Button>
           <CtaLink href={birthPrepHero.secondaryCta.href}>{birthPrepHero.secondaryCta.label}</CtaLink>
         </div>
-
-        <p className="mt-8 font-body text-sm text-ink-soft">{birthPrepHero.supportingLine}</p>
       </div>
 
       <span className="absolute top-4 right-4 z-10 rounded-xs bg-paper/90 px-2 py-1 font-body text-[0.6875rem] text-ink-soft">

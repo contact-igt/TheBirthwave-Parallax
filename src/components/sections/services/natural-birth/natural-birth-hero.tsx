@@ -28,9 +28,11 @@ export function NaturalBirthHero() {
           <p className="mt-6 max-w-md text-xl leading-[var(--leading-relaxed)] font-medium text-ink">
             {naturalBirthHero.supportingHeadline}
           </p>
-          <p className="mt-4 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">{naturalBirthHero.body}</p>
-          <p className="mt-3 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">{naturalBirthHero.bodySecondary}</p>
-          <p className="mt-3 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">{naturalBirthHero.bodyTertiary}</p>
+          {naturalBirthHero.body.map((para) => (
+            <p key={para} className="mt-4 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+              {para}
+            </p>
+          ))}
           <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
             <Button href={naturalBirthHero.primaryCta.href} variant="primary">
               {naturalBirthHero.primaryCta.label}

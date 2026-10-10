@@ -4,13 +4,7 @@ import { BirthPrepReveal } from "./birth-preparation-reveal";
 import { Button } from "@/components/ui/button";
 
 /**
- * Section 4 — Your Birth Preferences. A quiet rose wash background (per
- * the brief) built from BirthWave's own confirmed dusty-rose brand hue
- * (`--color-terracotta`, see `birth-preparation-landing-page.tsx`'s own
- * comment on why no new off-brand colour was needed) rather than the
- * sage tone the pregnancy page introduces. Full paragraphs and a plain
- * question list, in normal document flow — no per-sentence scroll
- * reveals.
+ * Section 4 — Your Birth Preferences.
  */
 export function BirthPrepPreferences() {
   return (
@@ -23,11 +17,7 @@ export function BirthPrepPreferences() {
         <div className="max-w-xl">
           <p className="eyebrow">{birthPrepPreferences.eyebrow}</p>
           <h2 id="birth-prep-preferences-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-            {birthPrepPreferences.heading.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
+            {birthPrepPreferences.heading}
           </h2>
 
           {birthPrepPreferences.body.map((paragraph) => (
@@ -37,11 +27,16 @@ export function BirthPrepPreferences() {
           ))}
 
           <div className="mt-8 flex flex-col">
-            {birthPrepPreferences.questions.map((question) => (
-              <p key={question} className="border-t border-[var(--color-border)] py-3 font-body text-sm font-medium text-ink first:pt-0">
-                {question}
-              </p>
-            ))}
+            <h3 className="font-body text-sm font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
+              {birthPrepPreferences.questionsTitle}
+            </h3>
+            <div className="mt-2 flex flex-col">
+              {birthPrepPreferences.questions.map((question) => (
+                <p key={question} className="border-t border-[var(--color-border)] py-3 font-body text-sm font-medium text-ink first:border-t-0">
+                  {question}
+                </p>
+              ))}
+            </div>
           </div>
 
           <div className="mt-8">

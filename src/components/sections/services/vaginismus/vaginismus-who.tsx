@@ -3,11 +3,7 @@ import { VaginismusImage } from "./vaginismus-image";
 import { VaginismusReveal } from "./vaginismus-reveal";
 
 /**
- * Section 2 — Who This Is For. Image beside a short list of concrete,
- * intent-matching statements (never a diagnosis), matching
- * `pregnancy-antenatal-intro.tsx`'s own image-plus-list composition. Closes
- * with an explicit "your experience is individual" line rather than
- * implying any of the points above confirms a diagnosis.
+ * Section 3 — Is This Relevant to Me? (Who This Is For).
  */
 export function VaginismusWho() {
   return (
@@ -24,11 +20,12 @@ export function VaginismusWho() {
 
             <p className="mt-6 max-w-[52ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">{vaginismusWho.intro}</p>
 
-            <div className="mt-4 flex flex-col">
+            <div className="mt-6 flex flex-col">
               {vaginismusWho.points.map((point) => (
-                <p key={point} className="border-t border-[var(--color-border)] py-3 font-body text-sm font-medium text-ink first:pt-0">
-                  {point}
-                </p>
+                <div key={point.title} className="border-t border-[var(--color-border)] py-4 first:border-t-0">
+                  <h3 className="font-body text-sm font-semibold text-ink">{point.title}</h3>
+                  <p className="mt-1 text-sm leading-[var(--leading-relaxed)] text-ink-soft">{point.body}</p>
+                </div>
               ))}
             </div>
 

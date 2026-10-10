@@ -53,6 +53,8 @@ export function PregnancyAntenatalImage({
 }) {
   const image = servicesImagery[imageKey];
   const driftRef = useParallax<HTMLDivElement>({ factor: 0.05, maxOffsetPx: 12, minViewportWidth: 1024 });
+  const resolvedObjectPosition =
+    objectPosition ?? ("objectPosition" in image ? (image as { objectPosition?: string }).objectPosition : undefined);
 
   return (
     <div className={cx("relative overflow-hidden bg-paper-dim", aspect, CORNER_CLASSES[corner], className)}>
@@ -69,7 +71,7 @@ export function PregnancyAntenatalImage({
           loading={eager ? "eager" : "lazy"}
           fetchPriority={eager ? "high" : undefined}
           className="object-cover"
-          style={objectPosition ? { objectPosition } : undefined}
+          style={resolvedObjectPosition ? { objectPosition: resolvedObjectPosition } : undefined}
         />
       </div>
       <p className="absolute right-3 bottom-3 left-3 z-10 w-fit max-w-[calc(100%-1.5rem)] rounded-xs bg-paper/95 px-2 py-1 font-body text-[0.6875rem] leading-snug text-ink-soft">

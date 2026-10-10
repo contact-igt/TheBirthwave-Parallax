@@ -230,7 +230,7 @@ export const doctors: DoctorContent[] = [
     careAreas: ["Nutrition & Emotional Well-being"],
     description: null,
     photo: {
-      src: "/images/clinic/deepa.jpeg",
+      src: "/images/clinic/dr-deepa.jpeg",
       alt: "Dr. Deepa",
       placeholderLabel: "Dr. Deepa",
     },

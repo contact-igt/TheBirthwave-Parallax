@@ -1,7 +1,8 @@
-import { Plus } from "lucide-react";
+import { Plus, Phone } from "lucide-react";
 import { gynaecologyPractical, gynaecologyFaq } from "@/content/gynaecology-landing-content";
 import { GynaecologyImage } from "./gynaecology-image";
 import { GynaecologyReveal } from "./gynaecology-reveal";
+import { Button } from "@/components/ui/button";
 
 /**
  * Section 7 — Practical Information.
@@ -37,6 +38,21 @@ export function GynaecologyPractical() {
               </div>
             ))}
           </div>
+
+          {gynaecologyPractical.phone ? (
+            <div className="mt-8 flex flex-wrap items-center gap-6 border-t border-[var(--color-border)] pt-6">
+              <a
+                href={`tel:${gynaecologyPractical.phone.replace(/\s+/g, "")}`}
+                className="inline-flex items-center gap-2 font-body text-base font-semibold text-ink hover:text-terracotta-deep"
+              >
+                <Phone className="size-4 text-terracotta-deep" aria-hidden="true" />
+                <span>{gynaecologyPractical.phone}</span>
+              </a>
+              <Button href="#gynaecology-enquiry" variant="primary">
+                BOOK YOUR CONSULTATION
+              </Button>
+            </div>
+          ) : null}
         </div>
       </GynaecologyReveal>
     </section>

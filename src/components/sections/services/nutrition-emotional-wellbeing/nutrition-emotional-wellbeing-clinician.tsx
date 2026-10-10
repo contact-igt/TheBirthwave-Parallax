@@ -32,12 +32,21 @@ export function NutritionClinician() {
       <NutritionReveal className="container-birthwave">
         <p className="eyebrow">{nutritionClinician.eyebrow}</p>
         <h2 id="nutrition-clinician-heading" className="mt-4 max-w-xl text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-          {nutritionClinician.heading}
+          {nutritionClinician.heading.split("\n").map((line) => (
+            <span key={line} className="block">
+              {line}
+            </span>
+          ))}
         </h2>
 
         <div className="mt-12 grid gap-12 sm:grid-cols-2 lg:gap-16">
           {profiles.map((doctor) => {
             const doctorIndex = doctors.findIndex((d) => d.slug === doctor.slug);
+            const customBio =
+              doctor.slug === "deepa" || doctor.slug === "sherene"
+                ? nutritionClinician.customDescriptions[doctor.slug as keyof typeof nutritionClinician.customDescriptions]
+                : doctor.bio;
+
             return (
               <div key={doctor.slug} className="flex flex-col gap-6 border-t border-[var(--color-border)] pt-8 sm:flex-row sm:items-start">
                 <PortraitPlaceholder photo={doctor.photo} index={doctorIndex} className="w-full max-w-[180px] shrink-0" />
@@ -46,6 +55,8 @@ export function NutritionClinician() {
                   <h3 className="text-lg font-semibold text-ink">{doctor.name}</h3>
                   {doctor.credentials ? <p className="mt-1 text-sm text-ink-soft">{doctor.credentials}</p> : null}
                   <p className="mt-1 text-sm text-ink-soft">{doctor.role}</p>
+
+                  {customBio ? <p className="mt-3 text-sm leading-[var(--leading-relaxed)] text-ink-soft">{customBio}</p> : null}
 
                   <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
                     <CtaLink href={`/doctors/${doctor.slug}`}>{nutritionClinician.profileLabel}</CtaLink>

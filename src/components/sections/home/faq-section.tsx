@@ -1,91 +1,163 @@
 "use client";
 
+import { useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
 import { faq } from "@/content/faq-content";
 import { useParallax } from "@/motion/image-motion";
+import { cx } from "@/lib/cx";
 
 /**
- * "Good to know" — a two-column editorial composition (docs/
- * implementation-brief.md §36, replacing §32's heading-and-thumbnail
- * row): LEFT holds the heading and the full FAQ accordion; RIGHT holds
- * one large visual panel, architected to later carry a looping video
- * without any layout change (see `FaqVisual` below) — for now, the same
- * approved photograph the section already used.
+ * Section 3: "Good to Know" / FAQ Section.
  *
- * Native <details>/<summary> — full keyboard support and screen-reader
- * semantics for free, no ARIA to hand-roll. Hairline dividers only, no
- * card backgrounds, no pill shells.
- *
- * No section-level background fill: this is the one section the homepage
- * rework kept wrapped in DotFieldRegion (see src/app/page.tsx and
- * docs/implementation-brief.md §24) — the dotted texture's single
- * sanctioned scene, at a very low opacity. A local opaque background here
- * would fully occlude the canvas behind it.
+ * Transformed into a balanced editorial split layout:
+ * - DESKTOP (lg+):
+ *   LEFT (cols 1-5): Eyebrow + large heading + calm supporting line + anchored editorial image.
+ *   RIGHT (cols 6-12): The 9-item accordion list with hairline dividers.
+ *   Eliminates previous awkward whitespace below the image.
+ * - MOBILE:
+ *   Sequential flow: Eyebrow → Heading → Supporting line → Image → Accordion.
+ *   Achieved with clean responsive CSS Grid with zero duplicate DOM nodes.
+ * - ACCORDION:
+ *   - Smooth 0.35s ease-out height expansion via CSS Grid (0fr → 1fr).
+ *   - Active row receives a subtle warm rose/paper wash (bg-[#F3E8E2]/40).
+ *   - Active question typography darkens and gains weight.
+ *   - Full keyboard accessibility with aria-expanded & aria-controls.
+ *   - Zero motion on prefers-reduced-motion.
+ * - Sits inside DotFieldRegion for delicate canvas dot texture.
  */
+const noopSubscribe = () => () => {};
+
 export function FaqSection() {
+  // false in the server HTML (and so without JavaScript), true once
+  // hydrated — closed panels only become inert when the toggles can work.
+  const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
+  // Keep track of which accordion items are open (supports multi-item toggle)
+  const [openIndices, setOpenIndices] = useState<Set<number>>(() => new Set([0]));
+
+  const toggleItem = (index: number) => {
+    setOpenIndices((prev) => {
+      const next = new Set(prev);
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+      return next;
+    });
+  };
+
   return (
     <section
       id="faq"
       aria-labelledby="faq-heading"
-      className="section-pad relative isolate"
+      className="relative isolate py-(--space-section)"
     >
-      {/* 12-column grid (docs/implementation-brief.md §36): LEFT (heading
-          + accordion) spans columns 1–7, RIGHT (the visual panel) spans
-          8–12 — both starting at the same row, so the panel reads as
-          aligned with the whole block rather than pinned to the
-          viewport's top-right corner. Below `lg` this collapses to the
-          grid's own single-column default; DOM order (heading → visual →
-          accordion) is what actually decides mobile's reading order,
-          chosen after comparing it against accordion-first by screenshot
-          — the visual works better as an early anchor before a five-
-          question list than buried beneath it. */}
-      <div className="container-birthwave relative z-10 grid gap-x-12 gap-y-10 lg:grid-cols-12 lg:items-start">
-        {/* Explicit column/row placement on all three children, not
-            grid auto-flow: the visual's own `lg:row-span-2` needs the
-            heading and accordion to land on two DISTINCT, known rows
-            (1 and 2) in the same 1–7 column track for it to correctly
-            span alongside both — auto-placement order alone doesn't
-            guarantee that once a row-spanning item is in the mix. */}
-        <div className="lg:col-start-1 lg:col-span-7 lg:row-start-1">
-          {/* Literal clamp from the brief, not this project's own
-              `--text-4xl`/`--text-5xl` tokens (both reach further than
-              4.8rem at wide viewports) — "strong but restrained"
-              specifically caps out at 4.8rem here. */}
+      <div className="container-birthwave relative z-10 grid grid-cols-1 gap-y-10 lg:grid-cols-12 lg:gap-x-14 lg:items-start">
+        {/* LEFT COLUMN (Desktop: cols 1-5, row 1) / MOBILE (order 1) */}
+        <div className="lg:col-span-5 lg:col-start-1 lg:row-start-1">
+          <div className="inline-flex items-center gap-2">
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 rounded-full bg-terracotta"
+            />
+            <p className="eyebrow !tracking-[0.16em] uppercase text-terracotta-deep">
+              {faq.eyebrow}
+            </p>
+          </div>
           <h2
             id="faq-heading"
-            className="text-[clamp(3rem,4vw,4.8rem)] leading-[1.02] font-semibold text-ink"
+            className="mt-3.5 text-balance text-[clamp(2.4rem,2.8vw,3.75rem)] font-semibold leading-[1.06] tracking-[var(--tracking-tight)] text-ink"
           >
             {faq.heading}
           </h2>
+          <p className="mt-4 text-base leading-[1.7] text-ink-soft sm:text-lg">
+            Clear guidance and answers to the questions families ask most often
+            when planning their care with BirthWave.
+          </p>
         </div>
 
-        <div className="lg:col-start-8 lg:col-span-5 lg:row-start-1 lg:row-span-2">
+        {/* IMAGE PANEL (Desktop: cols 1-5, row 2) / MOBILE (order 2, between heading & accordion) */}
+        <div className="lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-8">
           <FaqVisual />
         </div>
 
-        {/* Width capped independently of the grid column (docs/
-            implementation-brief.md §36: "approximately 620–760px max")
-            — at very wide viewports the 7/12 column alone would run
-            past that. */}
-        <div className="max-w-[700px] border-t border-[var(--color-border)] lg:col-start-1 lg:col-span-7 lg:row-start-2">
-          {faq.items.map((item) => (
-            <details
-              key={item.question}
-              className="group border-b border-[var(--color-border)] py-7"
-            >
-              <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 font-body text-lg font-medium text-balance text-ink [&::-webkit-details-marker]:hidden">
-                {item.question}
-                <Plus
-                  aria-hidden="true"
-                  className="size-5 shrink-0 text-terracotta transition-transform duration-[var(--duration-base)] ease-[var(--ease-signature)] group-open:rotate-45"
-                />
-              </summary>
-              <p className="mt-4 max-w-2xl text-base leading-[var(--leading-relaxed)] text-ink-soft">
-                {item.answer}
-              </p>
-            </details>
-          ))}
+        {/* RIGHT COLUMN: ACCORDION LIST (Desktop: cols 6-12, rows 1-2) / MOBILE (order 3) */}
+        <div className="border-t border-[var(--color-border)] lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
+          {faq.items.map((item, index) => {
+            const isOpen = openIndices.has(index);
+            const questionId = `faq-q-${index}`;
+            const answerId = `faq-a-${index}`;
+
+            return (
+              <div
+                key={item.question}
+                className={cx(
+                  "border-b border-[var(--color-border)] transition-colors duration-300 ease-[var(--ease-signature)]",
+                  isOpen
+                    ? "rounded-xs bg-[#FAF5F2]/80 px-4 -mx-4 sm:px-5 sm:-mx-5"
+                    : "hover:bg-[#FAF6F2]/40 px-0 mx-0",
+                )}
+              >
+                <button
+                  type="button"
+                  id={questionId}
+                  aria-expanded={isOpen}
+                  aria-controls={answerId}
+                  onClick={() => toggleItem(index)}
+                  className="flex min-h-[4rem] w-full cursor-pointer items-center justify-between gap-6 py-5 text-left transition-colors duration-200 focus-visible:rounded-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink focus-visible:outline-offset-2"
+                >
+                  <span
+                    className={cx(
+                      "font-display text-base leading-[1.3] text-balance sm:text-lg transition-colors duration-200",
+                      isOpen
+                        ? "font-semibold text-ink"
+                        : "font-medium text-ink/90 hover:text-ink",
+                    )}
+                  >
+                    {item.question}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="flex size-7 shrink-0 items-center justify-center rounded-full bg-paper/80 text-terracotta transition-all duration-300 ease-[var(--ease-signature)]"
+                  >
+                    <Plus
+                      className={cx(
+                        "size-4.5 transition-transform duration-350 ease-[var(--ease-signature)] motion-reduce:transform-none",
+                        isOpen
+                          ? "rotate-45 text-terracotta-deep"
+                          : "text-terracotta",
+                      )}
+                    />
+                  </span>
+                </button>
+
+                {/* Smooth CSS Grid Height Transition */}
+                <div
+                  id={answerId}
+                  role="region"
+                  aria-labelledby={questionId}
+                  // Closed panels are only visually collapsed (0fr rows);
+                  // inert keeps their text out of the accessibility tree
+                  // so it matches aria-expanded. Never inert before
+                  // hydration: without JS every answer is shown (see the
+                  // <noscript> rule in site-header.tsx) and must stay readable.
+                  inert={hydrated && !isOpen}
+                  className="grid transition-[grid-template-rows,opacity] duration-350 ease-[var(--ease-signature)] motion-reduce:transition-none"
+                  style={{
+                    gridTemplateRows: isOpen ? "1fr" : "0fr",
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                >
+                  <div className="overflow-hidden">
+                    <p className="pb-6 pt-1 font-body text-base leading-[1.7] text-ink-soft">
+                      {item.answer}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -93,56 +165,33 @@ export function FaqSection() {
 }
 
 /**
- * The right-hand visual panel — poster image today, architected to
- * become a looping video later without touching this component's own
- * layout (docs/implementation-brief.md §36). The wrapper below (fixed
- * aspect ratio, `overflow-hidden`, minimal radius, no shadow/border/card
- * shell) is exactly what a `<video>` would sit inside too; only the
- * child swaps. When an approved video exists:
- *
- *   <video
- *     muted loop playsInline autoPlay={!reducedMotion}
- *     poster={faq.media.src}          // today's image, unchanged
- *     disablePictureInPicture disableRemotePlayback
- *     className="h-full w-full object-cover"    // identical to <Image> below
- *   >
- *     <source src={faq.media.videoSrc} type="video/mp4" />
- *   </video>
- *
- * — the same unconditional-element, effect-driven play/pause pattern
- * Hero's own video already uses (hero-section.tsx, docs/implementation-
- * brief.md §26): never branch the element type on `reducedMotion` (that
- * reintroduces the hydration mismatch fixed there), just don't call
- * `.play()` under reduced motion, so it rests on its `poster` frame —
- * which is this exact image, already in place. No video asset exists
- * yet, so none is added here.
+ * Editorial visual panel anchoring the left column under the heading on desktop,
+ * and sitting smoothly between heading and accordion on mobile.
  */
 function FaqVisual() {
-  // 8–14px of parallax drift (docs/implementation-brief.md §36) — the
-  // existing hook, not a new ScrollTrigger scene; already zeroes itself
-  // out under reduced motion and below `minViewportWidth` on its own.
-  const parallaxRef = useParallax<HTMLDivElement>({ factor: 0.06, maxOffsetPx: 12, minViewportWidth: 1024 });
+  const parallaxRef = useParallax<HTMLDivElement>({
+    factor: 0.05,
+    maxOffsetPx: 12,
+    minViewportWidth: 1024,
+  });
 
   return (
     <div
       ref={parallaxRef}
       style={{ transform: "translate3d(0, var(--parallax-y, 0px), 0)" }}
-      // §38: `max-w-[42vw]` used to apply unconditionally — with no `lg:`
-      // gate on it, that capped this panel to 42% of the *viewport*
-      // width at every size, so on mobile (where it's meant to be "full-
-      // width or nearly full-width," per the brief) it rendered as a
-      // thumbnail roughly 160px wide at 390px, confirmed by measuring
-      // its own rendered width rather than assumed. Full width below
-      // `lg`; the 40vw cap (a deliberate desktop panel size, part of the
-      // approved two-column layout) now only applies there.
-      className="relative aspect-[3/2] w-full overflow-hidden rounded-sm lg:max-w-[40vw]"
+      className="relative aspect-[3/2] w-full overflow-hidden rounded-sm border border-ink/8 bg-paper shadow-xs"
     >
       <Image
         src={faq.media.src}
         alt={faq.media.alt}
         fill
-        sizes="(min-width: 1024px) 40vw, 100vw"
-        className="object-cover"
+        sizes="(min-width: 1024px) 38vw, 100vw"
+        className="object-cover transition-transform duration-700 ease-[var(--ease-signature)] hover:scale-102 motion-reduce:hover:scale-100"
+      />
+      {/* Subtle warm maternal gradient glaze */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/15 via-transparent to-transparent"
       />
     </div>
   );

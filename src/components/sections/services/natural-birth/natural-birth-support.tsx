@@ -1,13 +1,10 @@
 import { naturalBirthSupport } from "@/content/natural-birth-landing-content";
 import { NaturalBirthImage } from "./natural-birth-image";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
+import { Button } from "@/components/ui/button";
 
 /**
- * Section 04 — Supporting the Birth You Hope For. Deliberately distinct
- * from `birth-preparation-landing-content.ts`'s own education/readiness
- * framing (see this section's content file comment) — three numbered
- * steps opposite a preparation-moment image, not a childbirth-education
- * curriculum.
+ * Section 04 — Preparing During Pregnancy.
  */
 export function NaturalBirthSupport() {
   return (
@@ -23,17 +20,27 @@ export function NaturalBirthSupport() {
           >
             {naturalBirthSupport.heading}
           </h2>
-          <p className="mt-4 max-w-[52ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">{naturalBirthSupport.body}</p>
+          {naturalBirthSupport.paragraphs.map((paragraph) => (
+            <p key={paragraph} className="mt-4 max-w-[52ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">
+              {paragraph}
+            </p>
+          ))}
 
           <div className="mt-8 flex flex-col">
             {naturalBirthSupport.steps.map((step) => (
-              <div key={step.number} className="border-t border-[var(--color-border)] py-5">
+              <div key={step.number} className="border-t border-[var(--color-border)] py-4 first:border-t-0">
                 <span className="font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
                   {step.number} — {step.title}
                 </span>
-                <p className="mt-2 text-sm leading-[var(--leading-relaxed)] text-ink-soft">{step.body}</p>
+                <p className="mt-1.5 text-sm leading-[var(--leading-relaxed)] text-ink-soft">{step.body}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-8">
+            <Button href={naturalBirthSupport.cta.href} variant="primary">
+              {naturalBirthSupport.cta.label}
+            </Button>
           </div>
         </div>
       </NaturalBirthReveal>

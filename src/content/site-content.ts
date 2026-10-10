@@ -29,23 +29,24 @@ export const brand = {
 } as const;
 
 export const hero = {
-  eyebrow: "A Gentler Start",
-  // Approved (docs/implementation-brief.md §29) — final-polish pass,
-  // replacing the earlier structural placeholder. Two deliberate lines,
-  // not one sentence left to wrap wherever the viewport happens to break
-  // it — see hero-section.tsx, where each renders as its own block.
+  eyebrow: "Care Through Every Stage",
   headlineLead: "Care that moves",
   headlineEmphasis: "with you.",
-  // Approved (docs/implementation-brief.md §29).
   subhead:
-    "From women's health and pregnancy to birth, recovery and newborn care — The Birthwave brings every stage into one connected journey.",
+    "From women's health and pregnancy to birth, recovery and newborn care, BirthWave brings your care together through every stage.",
   // Mobile/tablet only: small cue at the bottom of the full-screen Hero,
   // faded out as soon as scrolling starts (hero-philosophy-scroll-scene.tsx).
   scrollCue: "Scroll to discover",
   primaryCta: {
-    label: "Book a Consult",
-    href: "#contact",
-    todo: "Placeholder destination — no booking flow exists yet.",
+    label: "Book a Consultation",
+    // /contact (confirmed phone, email, address + enquiry form) rather than
+    // the self-referencing `#connect` closing section.
+    href: "/contact",
+    todo: "No booking system exists yet and the /contact enquiry form does not send anywhere — needs a booking/form integration.",
+  },
+  secondaryCta: {
+    label: "Explore Our Care",
+    href: "/services",
   },
   // Approved: client-supplied hero video — a silent, muted background
   // loop, not a video with a soundtrack (the `muted` attribute on the
@@ -73,21 +74,24 @@ export const philosophy = {
   // beat (philosophy-section.tsx), before the wordmark/eyebrow pair fades
   // and statement 1 takes over — same "small label above the scene"
   // pattern as `hero.eyebrow`/`journey.eyebrow`/`immersive.eyebrow`.
-  eyebrow: "Our Philosophy",
+  eyebrow: "Our Approach",
   // `position` drives the editorial-canvas placement in philosophy-section.tsx
   // — a specific curated progression (interaction-correction pass, docs/
   // implementation-brief.md §25), not a per-statement free choice: upper-left
   // → right/mid-height → left-to-centre/lower → the resolution, centred and
   // dominant, below.
   messages: [
-    { text: "Pregnancy isn't a series of appointments.", position: "upper-left" },
-    { text: "Birth isn't a single moment.", position: "right-mid" },
-    { text: "And care shouldn't begin and end at either.", position: "lower-center" },
+    { text: "Pregnancy is more than a series of appointments.", position: "upper-left" },
+    { text: "Birth is more than a single moment.", position: "right-mid" },
+    { text: "And your care shouldn't stop after delivery.", position: "lower-center" },
   ] as const,
   // The line the first three resolve into — set apart typographically
   // (all-caps, centered, largest weight) rather than a fourth line in the
   // same voice as the first three.
-  resolution: "One continuous journey of care.",
+  resolution: "One connected journey of care.",
+  // Closing paragraph shown after the resolution line.
+  closing:
+    "From preparing for pregnancy to caring for you and your baby after birth, BirthWave is here through the stages that matter.",
   // Approved (docs/implementation-brief.md §28): the generated editorial
   // daylight photograph used as this scene's atmospheric background
   // layer — see philosophy-section.tsx. Replaces the earlier reuse of
@@ -134,13 +138,15 @@ export const philosophy = {
  */
 export const journey = {
   eyebrow: "The Birthwave Journey",
-  heading: "One continuous journey of care.",
+  heading: "Care that grows with you.",
   stages: [
     {
       number: "01",
-      title: "Preconception",
-      headline: ["Where the conversation begins,", "before anything is certain."],
-      supporting: "Understanding your health, fertility and readiness before pregnancy begins.",
+      title: "Before Pregnancy",
+      headline: ["Planning for pregnancy?"],
+      supporting:
+        "Understand your health, fertility and preconception needs with guidance that helps you prepare for what comes next.",
+      cta: { label: "Explore Preconception Care", href: "/services/fertility-preconception" },
       image: "/images/journey/journey-preconception.jpg",
       objectPosition: "50% 38%",
       alt: "A couple discussing preconception care with their doctor during a consultation.",
@@ -148,45 +154,54 @@ export const journey = {
     {
       number: "02",
       title: "Pregnancy",
-      headline: ["Care that grows", "alongside every trimester."],
-      supporting: "Doctor-led antenatal care that evolves through every stage of pregnancy.",
+      headline: ["Care through", "every trimester."],
+      supporting:
+        "Regular antenatal care, pregnancy guidance and ongoing conversations about your health, your baby's development and the months ahead.",
+      cta: { label: "Explore Pregnancy Care", href: "/services/pregnancy-antenatal-care" },
       image: "/images/journey/journey-pregnancy.jpg",
       objectPosition: "45% 28%",
       alt: "A pregnant woman resting a hand on her belly by a sunlit window.",
     },
     {
       number: "03",
-      title: "Preparation",
-      headline: ["Knowledge becomes confidence."],
-      supporting: "Birth education, movement and practical preparation for the journey ahead.",
-      image: "/images/journey/journey-preparation.jpg",
-      objectPosition: "45% 38%",
-      alt: "A pregnant woman preparing for birth, supported by her partner during movement practice.",
+      title: "Birth Preparation",
+      headline: ["Prepare with understanding", "and confidence."],
+      supporting:
+        "Learn about labour, birth choices, movement, comfort measures and what to expect — so you can approach childbirth feeling better informed and supported.",
+      cta: { label: "Explore Birth Preparation", href: "/services/birth-preparation" },
+      image: "/images/journey/birthpreparation.JPG",
+      objectPosition: "50% 50%",
+      alt: "A pregnant woman preparing for birth with support during movement practice.",
     },
     {
       number: "04",
       title: "Birth",
-      headline: ["Your care.", "Your choices.", "Your clinical needs."],
+      headline: ["Your birth.", "Your care.", "Your individual needs."],
       supporting:
-        "Understanding your options and making decisions around your individual pregnancy and clinical needs.",
+        "Every labour is different. Your care team supports you through childbirth while keeping you informed and responding to the needs of you and your baby.",
+      cta: { label: "Explore Birth Care", href: "/services/normal-birth-delivery" },
       image: "/images/journey/journey-birth.jpg",
       objectPosition: "50% 55%",
       alt: "Two hands held together, a quiet moment of human connection during labour.",
     },
     {
       number: "05",
-      title: "Recovery",
-      headline: ["Care continues after delivery."],
-      supporting: "Support for healing, feeding, movement and emotional wellbeing after birth.",
+      title: "After Birth",
+      headline: ["Your care continues", "after delivery."],
+      supporting:
+        "Recovery takes time. BirthWave supports your physical recovery, emotional wellbeing, breastfeeding and transition into life after birth.",
+      cta: { label: "Explore Postpartum Care", href: "/services/postpartum-care" },
       image: "/images/journey/journey-recovery.jpg",
       objectPosition: "40% 22%",
       alt: "A mother resting in bed, her newborn asleep against her chest.",
     },
     {
       number: "06",
-      title: "Baby",
-      headline: ["Care continues", "into what comes next."],
-      supporting: "Continuity into newborn care, vaccinations and pediatric support.",
+      title: "Your Baby",
+      headline: ["And care continues", "with your baby."],
+      supporting:
+        "From newborn check-ups and feeding concerns to vaccinations and paediatric care, support continues as your baby grows.",
+      cta: { label: "Explore Newborn Care", href: "/services/newborn-pediatric-care" },
       image: "/images/journey/journey-baby.jpg",
       objectPosition: "50% 35%",
       alt: "A mother holding her swaddled newborn while a doctor checks in with a stethoscope.",
@@ -211,7 +226,7 @@ export const immersive = {
   eyebrow: "A Moment",
   messages: [
     "Care isn't only about what happens today.",
-    "It's about being there for what comes next.",
+    "It's about understanding where you are now — and being there for what comes next.",
   ] as const,
   // Approved (docs/implementation-brief.md §28): the generated fabric
   // photograph now used as this scene's background plane — see
@@ -257,23 +272,28 @@ export const immersive = {
  * clinic photography of a consultation when one exists.
  */
 export const care = {
-  eyebrow: "Our approach",
-  heading: "Care starts with listening.",
+  eyebrow: "How We Care",
+  heading: "What guides the way we care for you.",
   principles: [
     {
       index: "01",
-      title: "We listen.",
-      text: "Your history, questions and priorities shape the conversation.",
+      title: "Listen First",
+      text: "Your health, your experiences and your questions matter. Care begins by understanding you.",
     },
     {
       index: "02",
-      title: "We explain.",
-      text: "Understand your options and the reasons behind each recommendation.",
+      title: "Explain Clearly",
+      text: "You deserve to understand your options and why something may or may not be recommended for you.",
     },
     {
       index: "03",
-      title: "We respect your choices.",
-      text: "Discuss your preferences alongside your clinical needs.",
+      title: "Decide Together",
+      text: "Your preferences are part of the conversation, alongside the clinical needs of you and your baby.",
+    },
+    {
+      index: "04",
+      title: "Stay Connected",
+      text: "From one Stage to the next, our aim is to make your care feel connected rather than fragmented.",
     },
   ],
   image: {
@@ -294,21 +314,27 @@ export const care = {
  * "use only verified project data," so neither is invented here.
  */
 export const finalCta = {
+  eyebrow: "Start Where You Are",
   statementLines: [
     "Wherever you are in your journey,",
     "we can begin there.",
   ] as const,
   supporting:
-    "From planning a pregnancy to navigating postpartum and newborn care, start with a conversation with The Birthwave team.",
+    "Planning a pregnancy, expecting a baby, preparing for birth or adjusting to life after delivery? Start with a conversation with the BirthWave team.",
+  note: "Not sure which service you need? Tell us what you're looking for and our team can help you find the right place to start.",
   primaryCta: {
-    label: "Book an appointment",
-    href: "#connect",
-    todo: "Placeholder destination — no booking flow exists yet.",
+    label: "Book a Consultation",
+    href: "/contact",
+    todo: "No booking system exists yet and the /contact enquiry form does not send anywhere — needs a booking/form integration.",
   },
+  // Not "WhatsApp Us": the project has two conflicting WhatsApp numbers
+  // (contact-content.ts names +91 98407 98472; several service pages give
+  // +91 93630 31925), so no wa.me link is published until the client
+  // confirms which one. This goes to the confirmed contact details instead.
   secondaryCta: {
-    label: "WhatsApp us",
-    href: "#connect",
-    todo: "No verified WhatsApp number exists for this project — this placeholder resolves to the same closing anchor as the primary CTA rather than a fabricated wa.me link. Replace with the real number once approved.",
+    label: "Contact Our Team",
+    href: "/contact#contact-details",
+    todo: "Replace with a wa.me link once the client confirms the WhatsApp number.",
   },
   // Approved (docs/implementation-brief.md §32): a purely atmospheric
   // background layer behind the existing typographic close — the brief is
@@ -319,6 +345,55 @@ export const finalCta = {
     src: "/images/lower-sections/final-cta-atmosphere.jpg",
     alt: "",
   },
+} as const;
+
+/**
+ * Care Discovery — Section 6 on the homepage. A six-card services grid
+ * allowing visitors to jump directly to the care area that matches where
+ * they are in their journey. Each card has a short description and a link
+ * to the corresponding service landing page.
+ */
+export const careDiscovery = {
+  eyebrow: "Find the Care You Need",
+  heading: "Wherever you are, start from where you are.",
+  viewAllCta: {
+    label: "View All Services",
+    href: "/services",
+  },
+  services: [
+    {
+      title: "Women's Health",
+      description:
+        "Care for gynaecological concerns, intimate wellness, fertility and preconception.",
+      cta: { label: "Explore Women's Health", href: "/services" },
+    },
+    {
+      title: "Pregnancy",
+      description: "Antenatal care, nutrition, Garbh Sanskar and conscious pregnancy support through each stage of pregnancy.",
+      cta: { label: "Explore Pregnancy Care", href: "/services/pregnancy-antenatal-care" },
+    },
+    {
+      title: "Preparing for Birth",
+      description: "Childbirth education, partner involvement, birth planning and practical preparation for labour and birth",
+      cta: { label: "Explore Birth Preparation", href: "/services/birth-preparation" },
+    },
+    {
+      title: "Birth",
+      description:
+        "Understand your birth options, including natural birth, water birth, vaginal birth and VBAC, where individually appropriate.",
+      cta: { label: "Explore Birth Care", href: "/services/normal-birth-delivery" },
+    },
+    {
+      title: "After Birth",
+      description: "Postpartum recovery, breastfeeding, emotional well-being and mental health support as you adjust after delivery.",
+      cta: { label: "Explore Postpartum Care", href: "/services/postpartum-care" },
+    },
+    {
+      title: "Baby",
+      description: "Newborn and paediatric care, early parenting guidance and support as your baby’s journey begins.",
+      cta: { label: "Explore Newborn Care", href: "/services/newborn-pediatric-care" },
+    },
+  ],
 } as const;
 
 export const footer = {

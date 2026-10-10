@@ -23,6 +23,7 @@ export function NaturalBirthPreferences() {
           >
             {naturalBirthPreferences.heading}
           </h2>
+          <p className="mt-4 max-w-[52ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">{naturalBirthPreferences.intro}</p>
 
           <div className="mt-8 flex flex-col">
             {naturalBirthPreferences.themes.map((theme) => (

@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import type { DoctorContent } from "@/content/doctors-content";
 import { DoctorProfileContent } from "@/components/sections/doctors/doctor-profile-content";
 import { useReducedMotion } from "@/motion/reduced-motion";
@@ -22,45 +23,33 @@ export function DoctorProfileRow({ doctor, index }: { doctor: DoctorContent; ind
 
     ensureScrollTriggerRegistered();
     const ctx = gsap.context(() => {
-      const isMobile = window.innerWidth < 768;
-      const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
-
-      const imgStartX = isMobile ? 0 : isTablet ? -28 : -48;
-      const imgStartY = isMobile ? 16 : 10;
-      const imgStartScale = isMobile ? 0.99 : 0.98;
-
-      const contentStartX = isMobile ? 0 : isTablet ? 28 : 48;
-      const contentStartY = isMobile ? 14 : 10;
-
-      gsap.set(imgEl, { opacity: 0, x: imgStartX, y: imgStartY, scale: imgStartScale });
-      gsap.set(contentEl, { opacity: 0, x: contentStartX, y: contentStartY });
+      gsap.set(imgEl, { opacity: 0, y: 16, scale: 0.98 });
+      gsap.set(contentEl, { opacity: 0, y: 16 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
-          start: "top 78%",
-          end: "top 48%",
+          start: "top 82%",
+          end: "top 52%",
           toggleActions: "play none none none",
         },
       });
 
       tl.to(imgEl, {
         opacity: 1,
-        x: 0,
         y: 0,
         scale: 1,
-        duration: 0.75,
+        duration: 0.65,
         ease: "power2.out",
       }).to(
         contentEl,
         {
           opacity: 1,
-          x: 0,
           y: 0,
-          duration: 0.75,
+          duration: 0.65,
           ease: "power2.out",
         },
-        "-=0.63",
+        "-=0.5",
       );
     }, el);
 
@@ -71,15 +60,29 @@ export function DoctorProfileRow({ doctor, index }: { doctor: DoctorContent; ind
     <article
       ref={rowRef}
       className={cx(
-        "overflow-x-hidden border-t border-[var(--color-border)] py-12 first:border-t-0 first:pt-0 sm:grid sm:grid-cols-[0.75fr_1fr] sm:items-start sm:gap-14 sm:py-16",
+        "relative overflow-hidden rounded-3xl border border-[#EAE1D7] bg-[#FAF5EE] shadow-[0_8px_30px_rgba(42,32,28,0.04)] p-6 sm:p-10 lg:p-12 mb-8 sm:mb-12",
       )}
     >
-      <DoctorProfileContent
-        doctor={doctor}
-        index={index}
-        drift
-        portraitWrapperClassName="block w-full max-w-md sm:max-w-none"
-      />
+      {/* Botanical watercolor background */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-3xl">
+        <Image
+          src="/images/doctors/doctor-card-background.webp"
+          alt=""
+          fill
+          sizes="(max-width: 1024px) 100vw, 1152px"
+          className="object-cover object-center opacity-90"
+        />
+      </div>
+
+      <div className="relative z-10 grid gap-8 sm:grid-cols-[1.15fr_0.85fr] lg:grid-cols-[1.2fr_0.8fr] sm:items-center sm:gap-12 lg:gap-16">
+        <DoctorProfileContent
+          doctor={doctor}
+          index={index}
+          drift
+          portraitWrapperClassName="relative block w-full max-w-[320px] sm:max-w-[340px] mx-auto order-1 sm:order-2"
+          contentClassName="max-w-[38rem] order-2 sm:order-1"
+        />
+      </div>
     </article>
   );
 }
