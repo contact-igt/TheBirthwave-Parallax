@@ -1,262 +1,268 @@
 /**
  * Gynaecology & Women's Wellness — dedicated landing page content.
- *
- * A SEPARATE content file from `services-content.ts`, exactly like the other
- * six dedicated landing pages: that file's own `gynaecology` entry (name,
- * slug, shortDescription, overview, highlights, media.alt) is the shared
- * service record every other consumer reads (Quick Overview, the Sticky
- * Showcase, Find the Right Care, `generateStaticParams`) — untouched by this
- * page. Everything below is this landing page's own, additional copy.
- *
- * TONE: clear, reassuring, respectful, broadly relevant, clinically
- * responsible. No fear-based symptom language, no diagnostic certainty, no
- * overly intimate/invasive imagery, no generic "women's wellness" fluff, no
- * promise that one consultation resolves everything, no "complete women's
- * healthcare" claim (not confirmed anywhere in this project).
- *
- * SCOPE: nothing below expands this service into surgery, laparoscopy
- * procedures, infertility treatment, menopause programmes, sexual medicine,
- * pelvic-floor procedures, cancer-screening packages, hormonal treatment
- * plans or specific scans/tests — none of those are confirmed anywhere in
- * this project (Dr. Bharathy Kandasamy's own laparoscopy/fertility
- * credentials describe HER qualifications, not a confirmed package this
- * service offers). No examination or test is described as automatic.
- *
- * CLINICIAN SECTION: `doctors-content.ts` maps exactly one confirmed
- * clinician to this slug — Dr. Bharathy Kandasamy, via
- * `relatedCareSlugs: ["fertility-preconception", "gynaecology"]`, the same
- * confirmed mapping `fertility-preconception-landing-content.ts` already
- * documents and uses for her Fertility & Preconception section. Her real
- * credentials and role are shown (both confirmed in `doctors-content.ts`);
- * no years of experience, procedure count, award, surgical success rate or
- * fertility outcome is invented.
- *
- * IMAGES: `gynaecology-landing-imagery.ts` reuses the one real, approved
- * illustration already generated for this service
- * (`/images/services/gynaecology-ai-preview-v1.webp`, already live on the
- * plain `/services` listing via `services-imagery.ts`'s own `gynaecology`
- * key, and already reused across the Pregnancy and Birth Preparation
- * landing pages with their own page-accurate alt text) for the hero. No
- * image-generation tool is available in this session for the other four
- * conceptual spots (Who This Is For, Consultation Covers, Health
- * Questions, First Consultation), so those render the site's established
- * gradient `MediaPlaceholder` — see `docs/gynaecology-ai-imagery.md` for
- * the pending generation briefs. The clinician portrait slot is separate
- * and reserved for approved real photography, never an AI illustration.
+ * Updated strictly according to the approved revised copy brief.
  */
 
 export const gynaecologyHero = {
-  eyebrow: "WOMEN'S HEALTH",
-  heading: "Gynaecology & Women's Wellness",
-  supportingHeadline: "A place to ask questions, understand changes and take the next step with clarity.",
-  body: "Whether you have a specific concern or simply want to discuss changes in your reproductive or gynaecological health, a consultation gives you space to understand what may be happening and what should come next.",
-  primaryCta: { label: "Book a Gynaecology Consultation", href: "#gynaecology-enquiry" },
-  secondaryCta: { label: "See what the consultation covers ↓", href: "#gynaecology-covers" },
+  eyebrow: "WOMEN’S HEALTH & GYNAECOLOGY",
+  heading: "Gynaecology care for every stage of a woman’s life.",
+  supportingHeadline: "From periods and reproductive health to contraception, preconception and changing concerns — start with care that listens before deciding what comes next.",
+  body: "Whether something has recently changed or you have been managing a concern for some time, a gynaecology consultation gives you space to discuss your symptoms, understand possible next steps and receive care based on your individual health needs.",
+  primaryCta: { label: "BOOK A GYNAECOLOGY CONSULTATION", href: "#gynaecology-enquiry" },
+  secondaryCta: { label: "Explore what we can help with ↓", href: "#gynaecology-covers" },
 } as const;
 
 export const gynaecologyWho = {
   eyebrow: "IS THIS THE RIGHT PLACE TO START?",
-  heading: "If something feels different, uncomfortable or unclear, you can begin with a conversation.",
-  intro: "This consultation may be relevant if:",
+  heading: "You don’t need to know exactly what’s wrong before seeing a gynaecologist.",
+  intro: "Women often come to us because something has changed, something has been bothering them, or they simply want clarity about their reproductive health.",
   points: [
-    "You have questions about menstrual or reproductive health.",
-    "You are experiencing changes, discomfort or symptoms you want to discuss.",
-    "You want a routine gynaecology conversation or follow-up.",
-    "You are planning pregnancy and want to understand your reproductive health.",
-    "You are not sure which service you need and want clinical guidance on the next step.",
+    "Periods have become irregular, painful, heavy or different from usual.",
+    "You’re experiencing pelvic pain, unusual discharge, discomfort or other intimate-health concerns.",
+    "You have questions about PMOS, contraception or reproductive health.",
+    "You’re planning a pregnancy and want to understand your health beforehand.",
+    "You want a routine gynaecology consultation, follow-up or guidance about a previous report or diagnosis.",
   ],
-  closing: "Your symptoms and history are individual, and the right next step depends on a clinical conversation.",
+  closing: "You do not need to decide which service or test you need before booking. Your consultation can help determine the appropriate next step.",
   imageKey: "who-this-is-for" as const,
 } as const;
 
 export const gynaecologyCovers = {
-  eyebrow: "WHAT WE TALK THROUGH",
-  heading: "Start with your symptoms, history and questions.",
+  eyebrow: "YOUR GYNAECOLOGY CONSULTATION",
+  heading: "We start with what you’re experiencing — and understand the bigger picture.",
   imageKey: "consultation" as const,
   steps: [
     {
       number: "01",
       title: "What brings you in",
-      body: "Talk about the symptom, change or concern that prompted the appointment.",
+      body: "Tell us about the symptom, change or health concern that brought you to the consultation — including when it started and how it is affecting you.",
     },
     {
       number: "02",
       title: "Your health history",
-      body: "Discuss relevant menstrual, reproductive, pregnancy, medication or previous-care history where appropriate.",
+      body: "Your doctor may discuss your menstrual cycles, reproductive and pregnancy history, medications, previous conditions, treatments or relevant family history.",
     },
     {
       number: "03",
-      title: "Your questions",
-      body: "Bring anything you want clarified about your health, symptoms or next steps.",
+      title: "Assessment, when appropriate",
+      body: "Depending on your concern, your doctor may discuss whether an examination, investigation, scan or test would be useful. Not everyone needs the same assessment.",
     },
     {
       number: "04",
-      title: "Planning what comes next",
-      body: "Your clinician can explain whether follow-up, further assessment or another type of care may be appropriate.",
+      title: "Your next step",
+      body: "Once your concerns and history are understood, your doctor can explain the appropriate next steps, which may include treatment, further evaluation, follow-up or another area of care.",
     },
   ],
 } as const;
 
 export const gynaecologyWhenToConsider = {
-  eyebrow: "YOUR HEALTH QUESTIONS",
-  heading: "You do not need to wait until a concern feels urgent to ask about it.",
+  eyebrow: "WOMEN’S HEALTH CONCERNS",
+  heading: "You don’t need to wait until a concern feels urgent to ask about it.",
+  intro: "Gynaecological concerns can look different at different stages of life. If something feels different from your usual, persists or is affecting your everyday wellbeing, it is reasonable to discuss it.",
   imageKey: "health-questions" as const,
   points: [
     {
-      title: "CHANGES YOU'VE NOTICED",
-      body: "If something in your menstrual or reproductive health feels different, a consultation can help you discuss it.",
+      title: "MENSTRUAL CONCERNS",
+      body: "Irregular periods, painful periods, heavy bleeding, missed periods or changes in your usual menstrual cycle.",
     },
     {
-      title: "ONGOING DISCOMFORT",
-      body: "If discomfort or symptoms are affecting you, bring them into the conversation rather than trying to interpret them alone.",
+      title: "PMOS",
+      body: "Discuss irregular cycles and other concerns that may be associated with polycystic ovary syndrome, along with appropriate evaluation and ongoing care.",
     },
     {
-      title: "PLANNING AHEAD",
-      body: "If you are thinking about pregnancy or reproductive health, a gynaecology consultation may help clarify the appropriate next step.",
+      title: "PELVIC & INTIMATE HEALTH",
+      body: "Pelvic pain, unusual vaginal discharge, discomfort, itching or other changes you would like assessed.",
     },
     {
-      title: "FOLLOW-UP",
-      body: "If you have been advised to return, review results or discuss next steps, use the consultation to understand what happens next.",
+      title: "CONTRACEPTION & REPRODUCTIVE HEALTH",
+      body: "Discuss contraceptive choices, reproductive-health questions and what may be appropriate for your individual needs.",
+    },
+    {
+      title: "PRECONCEPTION & FERTILITY QUESTIONS",
+      body: "If you are thinking about pregnancy, discuss your menstrual and reproductive history and whether further preconception or fertility care may be relevant.",
+    },
+    {
+      title: "PREVENTIVE & FOLLOW-UP CARE",
+      body: "Routine gynaecology consultations, review of previous results, follow-up of an existing concern or discussion about recommended screening.",
     },
   ],
-  note: "This page does not determine the cause of symptoms. A clinician may need to assess your individual situation.",
+  note: "Symptoms can have many possible causes. Your consultation is used to understand your individual situation rather than diagnose a condition from symptoms alone.",
 } as const;
 
-/**
- * The People Behind Your Care — the one confirmed clinician mapped to this
- * slug (see this file's own top comment). Unlike Vaginismus's own
- * clinician section, both `credentials` and `role` are confirmed for Dr.
- * Bharathy Kandasamy, so both are shown.
- */
-export const gynaecologyClinician = {
+export const gynaecologyClinicians = {
   eyebrow: "THE PEOPLE BEHIND YOUR CARE",
-  heading: "Women's health care built around understanding first.",
-  doctorSlug: "dr-bharathy-kandasamy",
-  philosophy: "Care begins with understanding your history, questions and what matters to you.",
-  profileHref: "/doctors/dr-bharathy-kandasamy",
-  viewProfileLabel: "View Full Profile",
-  bookLabel: "Book Consultation",
-  bookHref: "#gynaecology-enquiry",
+  heading: "Women’s healthcare that begins with understanding you.",
+  clinicians: [
+    {
+      doctorSlug: "dr-santoshi-nandigam",
+      philosophy:
+        "Every woman’s health journey is unique. Your consultation is an unhurried, listening-first space to understand your symptoms, cycle health, and personal concerns before deciding any next steps together.",
+      highlight:
+        "Compassionate, evidence-based care tailored to your individual health and stage of life.",
+      profileHref: "/doctors/dr-santoshi-nandigam",
+      viewProfileLabel: "View Full Profile",
+      bookLabel: "BOOK CONSULTATION",
+      bookHref: "#gynaecology-enquiry",
+    },
+    {
+      doctorSlug: "dr-bharathy-kandasamy",
+      philosophy:
+        "Whether you are visiting with a new symptom, an ongoing concern or questions about your reproductive health, your consultation begins with understanding your history and what matters to you.",
+      highlight:
+        "Clear explanations, thoughtful assessment and care planned around your individual needs.",
+      profileHref: "/doctors/dr-bharathy-kandasamy",
+      viewProfileLabel: "View Full Profile",
+      bookLabel: "BOOK CONSULTATION",
+      bookHref: "#gynaecology-enquiry",
+    },
+  ],
+} as const;
+
+export const gynaecologyClinician = {
+  ...gynaecologyClinicians.clinicians[1],
+  eyebrow: gynaecologyClinicians.eyebrow,
+  heading: gynaecologyClinicians.heading,
 } as const;
 
 export const gynaecologyFirstConsultation = {
-  eyebrow: "YOUR FIRST CONVERSATION",
-  heading: "Bring what you know. Ask what you need.",
+  eyebrow: "YOUR FIRST CONSULTATION",
+  heading: "Come with your questions. We’ll work through what matters.",
   imageKey: "first-consultation" as const,
   steps: [
     {
       number: "01",
-      title: "Share what brings you in",
-      body: "Describe the symptom, change, concern or health question you want to discuss.",
+      title: "TELL US WHAT YOU’VE NOTICED",
+      body: "Describe your symptoms, menstrual changes, discomfort or reproductive-health concerns, including when they began.",
     },
     {
       number: "02",
-      title: "Review the relevant context",
-      body: "Your clinician may ask about health, menstrual, reproductive or previous-care history depending on the concern.",
+      title: "REVIEW YOUR HEALTH HISTORY",
+      body: "Your doctor may ask about menstrual cycles, pregnancies, medications, previous treatments, medical conditions or reports relevant to your concern.",
     },
     {
       number: "03",
-      title: "Understand what happens next",
-      body: "Ask whether follow-up, further assessment or another type of care may be appropriate.",
+      title: "UNDERSTAND YOUR OPTIONS",
+      body: "Your doctor will explain whether treatment, further assessment, investigations, follow-up or another type of care may be appropriate.",
     },
   ],
-  cta: { label: "Book a Gynaecology Consultation", href: "#gynaecology-enquiry" },
+  cta: { label: "BOOK A GYNAECOLOGY CONSULTATION", href: "#gynaecology-enquiry" },
 } as const;
 
-/**
- * Practical Information — every field below is an explicit
- * confirmed-pending placeholder except Provider, which is the one
- * confirmed fact this project has (see this file's own top comment). No
- * verified consultation location, booking process, fee or contact detail
- * exists anywhere in this project yet.
- */
 export const gynaecologyPractical = {
-  eyebrow: "BEFORE YOU VISIT",
-  heading: "Know what to bring—and what still needs to be confirmed.",
+  eyebrow: "BEFORE YOUR VISIT",
+  heading: "A little preparation can make your consultation more useful.",
   facilityPhotoPendingLabel: "Actual consultation-space photograph — approved photography pending",
   info: [
-    { label: "Consultation location", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "Provider", lines: ["Dr. Bharathy Kandasamy", "Gynaecologist · Laparoscopic Surgeon · Advanced Fertility Specialist"] },
-    { label: "Booking process", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "Consultation fee", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "What to bring", lines: ["[To be confirmed by The Birthwave — ask the team]"] },
-    { label: "Follow-up process", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "Contact details", lines: ["[Verified phone number or email pending]"] },
+    {
+      label: "Previous medical records",
+      lines: ["Bring relevant prescriptions, scan reports, blood-test results or previous treatment records if you have them."],
+    },
+    {
+      label: "Menstrual information",
+      lines: ["If relevant, note the first day of your last period and any recent changes in your cycle."],
+    },
+    {
+      label: "Current medications",
+      lines: ["Keep a list or photo of medicines and supplements you currently take."],
+    },
+    {
+      label: "Your symptoms",
+      lines: ["It can help to note when your symptoms began, how often they occur and anything you have noticed that makes them better or worse."],
+    },
+    {
+      label: "Your questions",
+      lines: ["Write down anything you want to ask so you do not have to remember everything during the consultation."],
+    },
+    {
+      label: "Booking & contact",
+      lines: ["For appointments or questions before your visit, contact the BirthWave team."],
+    },
   ],
+  phone: "+91 93630 31925",
 } as const;
 
 export const gynaecologyFaq = {
   eyebrow: "GOOD TO KNOW",
-  heading: "Questions before you visit.",
+  heading: "Questions about gynaecology care",
   items: [
     {
-      question: "When should I book a gynaecology consultation?",
-      answer:
-        "You may choose to book when you have a symptom, change or reproductive-health question you would like assessed or discussed. The appropriate urgency depends on your individual situation.",
+      question: "When should I see a gynaecologist?",
+      answer: "You can consult a gynaecologist if you notice changes in your periods, pelvic discomfort, unusual discharge, reproductive-health concerns or symptoms that are persistent or affecting your daily life. You can also book for routine care, contraception, preconception discussions or follow-up.",
     },
     {
-      question: "Do I need a specific diagnosis before booking?",
-      answer: "No. A consultation can be a starting point if you have a concern and are not sure what is causing it.",
+      question: "Do I need to know what condition I have before booking?",
+      answer: "No. You do not need a diagnosis before your consultation. Your doctor can begin with your symptoms and medical history and advise whether further assessment is appropriate.",
     },
     {
-      question: "Will I need an examination?",
-      answer:
-        "Whether any examination is appropriate depends on your symptoms, history and the clinician's assessment. Ask what is being recommended and why before proceeding.",
+      question: "Will I need a physical examination?",
+      answer: "Not every consultation requires the same examination. Whether an examination is recommended depends on your symptoms, history and reason for visiting. Your doctor can explain what is being recommended and why.",
     },
     {
-      question: "Will I need scans or tests?",
-      answer: "Investigations depend on your individual circumstances and will be discussed with you directly rather than listed here in advance.",
+      question: "Will I need scans or blood tests?",
+      answer: "Not necessarily. Tests or imaging are recommended based on your individual symptoms and clinical assessment rather than being automatically required for every patient.",
     },
     {
-      question: "Can I discuss menstrual concerns?",
-      answer: "[The Birthwave's confirmed scope for menstrual-health consultations within this service will appear here.]",
+      question: "Can I consult for irregular, painful or heavy periods?",
+      answer: "Yes. Changes in the timing, duration, flow or pain associated with your periods can be discussed during a gynaecology consultation.",
     },
     {
-      question: "Can I discuss fertility at the same appointment?",
-      answer:
-        "If fertility is a major concern, The Birthwave also has a dedicated Fertility & Preconception service. Your clinician can help clarify which pathway is most appropriate.",
+      question: "Can I discuss PCOS or PCOD?",
+      answer: "Yes. If you have previously been diagnosed with PCOS/PCOD or have concerns such as irregular cycles, you can discuss your symptoms, previous reports and appropriate next steps with your doctor.",
     },
     {
-      question: "Can I bring a support person?",
-      answer: "[The clinic's confirmed support-person policy will appear here.]",
+      question: "Can I discuss fertility during a gynaecology appointment?",
+      answer: "Yes. Initial reproductive and fertility questions can be discussed. If more focused fertility assessment or preconception care is appropriate, your doctor can guide you towards the relevant BirthWave service.",
     },
     {
-      question: "What if my symptoms become urgent?",
-      answer: "This website and enquiry form are for non-urgent appointment information. For urgent or severe symptoms, contact your healthcare provider or local emergency service.",
+      question: "Can I discuss contraception?",
+      answer: "Yes. A gynaecology consultation can include a discussion about contraceptive options and which may be appropriate based on your preferences and medical history.",
+    },
+    {
+      question: "Can I bring my previous reports or prescriptions?",
+      answer: "Yes. Previous scan reports, blood-test results, prescriptions and relevant medical records can help your doctor understand your history.",
+    },
+    {
+      question: "What if my symptoms suddenly become severe?",
+      answer: "Severe pain, very heavy bleeding, fainting, breathing difficulty or other symptoms that feel like an emergency should not wait for a routine website appointment. Seek urgent medical care.",
     },
   ],
 } as const;
 
-/**
- * Related Care — restrained links to four separate, existing services,
- * matching the same "journey-adjacent, not automatically included" pattern
- * `vbac-landing-content.ts` and `vaginismus-landing-content.ts` already
- * establish. Fertility & Preconception is directly supported by Dr.
- * Bharathy Kandasamy's own second `relatedCareSlugs` entry; Vaginismus &
- * Intimate Wellness and Pregnancy & Antenatal Care share this service's own
- * "Before / Women's Health" and adjacent-journey grouping in
- * `services-content.ts`; Nutrition & Emotional Well-being is the same kind
- * of broadly-relevant women's-health link.
- */
 export const gynaecologyRelatedCare = {
-  eyebrow: "Related Care",
-  heading: "Explore related, separate services.",
-  note: "These are separate services at The Birthwave, not automatically part of the same care programme.",
-  slugs: ["fertility-preconception", "vaginismus", "pregnancy-antenatal-care", "nutrition-emotional-wellbeing"],
+  eyebrow: "RELATED CARE",
+  heading: "Your next step may connect to another area of care.",
+  note: "Depending on what you would like support with, you may also want to explore:",
+  items: [
+    {
+      slug: "fertility-preconception",
+      label: "Fertility & Preconception",
+      description: "Planning pregnancy, fertility questions and preconception guidance.",
+    },
+    {
+      slug: "vaginismus",
+      label: "Vaginismus & Intimate Wellness",
+      description: "Support for painful penetration, pelvic-floor concerns and intimate wellbeing.",
+    },
+    {
+      slug: "pregnancy-antenatal-care",
+      label: "Pregnancy & Antenatal Care",
+      description: "Ongoing medical care and support throughout pregnancy.",
+    },
+    {
+      slug: "nutrition-emotional-wellbeing",
+      label: "Nutrition & Emotional Wellbeing",
+      description: "Additional support for nutrition, emotional health and overall wellbeing.",
+    },
+  ],
 } as const;
 
-/**
- * Final Enquiry — TODO(infra): exactly like the other six landing pages'
- * own forms, no backend endpoint or verified inbox exists yet to actually
- * receive a submission. Shows the same honest "design preview, not
- * connected" pattern rather than a fake submission-success message.
- * Deliberately short: full name, a single phone-or-email contact field,
- * and an optional message. Nothing here is written to browser storage.
- */
 export const gynaecologyEnquiry = {
   eyebrow: "PLAN YOUR NEXT STEP",
-  heading: "Start with a conversation about your health.",
-  body: "Enquire about The Birthwave's Gynaecology & Women's Wellness consultation and understand how to begin.",
+  heading: "Have a women’s health concern you’d like to discuss?",
+  body: "You don’t need to have the answers before you book. Start with a gynaecology consultation and talk through your symptoms, questions or reproductive-health concerns with your doctor.",
+  primaryCta: "BOOK A GYNAECOLOGY CONSULTATION",
+  whatsapp: "CHAT ON WHATSAPP",
+  phone: "+91 93630 31925",
   fields: {
     name: "Full name",
     contact: "Phone number or email",

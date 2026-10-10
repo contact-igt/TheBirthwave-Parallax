@@ -1,10 +1,11 @@
-import { Plus } from "lucide-react";
+import { Plus, Phone } from "lucide-react";
 import { vaginismusPractical, vaginismusFaq } from "@/content/vaginismus-landing-content";
 import { VaginismusImage } from "./vaginismus-image";
 import { VaginismusReveal } from "./vaginismus-reveal";
+import { Button } from "@/components/ui/button";
 
 /**
- * Section 7 — Practical Information.
+ * Section 9 — Practical Information.
  */
 export function VaginismusPractical() {
   return (
@@ -37,13 +38,28 @@ export function VaginismusPractical() {
               </div>
             ))}
           </div>
+
+          {vaginismusPractical.phone ? (
+            <div className="mt-8 flex flex-wrap items-center gap-6 border-t border-[var(--color-border)] pt-6">
+              <a
+                href={`tel:${vaginismusPractical.phone.replace(/\s+/g, "")}`}
+                className="inline-flex items-center gap-2 font-body text-base font-semibold text-ink hover:text-terracotta-deep"
+              >
+                <Phone className="size-4 text-terracotta-deep" aria-hidden="true" />
+                <span>{vaginismusPractical.phone}</span>
+              </a>
+              <Button href="#vaginismus-enquiry" variant="primary">
+                BOOK A PRIVATE CONSULTATION
+              </Button>
+            </div>
+          ) : null}
         </div>
       </VaginismusReveal>
     </section>
   );
 }
 
-/** Section 8 — FAQ / Reassurance. Native `<details>/<summary>` — the same
+/** Section 10 — FAQ. Native `<details>/<summary>` — the same
  * accessible accordion every other landing page on this site uses. */
 export function VaginismusFaq() {
   return (

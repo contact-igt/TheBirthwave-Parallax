@@ -1,4 +1,13 @@
-# Fertility & Preconception — AI imagery briefs (pending generation)
+# Fertility & Preconception — AI imagery briefs
+
+> **Update (page redesign):** the redesigned page uses two already-generated
+> illustrations from `public/images/generated/` — `consultation.jpeg` (hero)
+> and `g-consultation2.jpeg` (consultation section) — each captioned
+> "AI-generated illustration", plus the approved clinician portrait from
+> `doctors-content.ts`. See `src/content/fertility-preconception-landing-imagery.ts`.
+> The briefs below are the original, now-historical gradient-placeholder briefs
+> (the `v-*.png` files in that folder were deliberately not used: they contain
+> garbled poster text).
 
 No image-generation tool was available in the session that built this page,
 so every illustration slot below renders as an honest "built visual

@@ -25,6 +25,8 @@
  * 640–1023px band (verified by screenshot, not assumed) and is left unset
  * everywhere else.
  */
+import type { CSSProperties } from "react";
+
 export interface HeroFocalPoint {
   /** `object-position`, e.g. "70% 25%" or "65% center" — applied below the `sm` breakpoint. */
   mobile: string;
@@ -38,13 +40,22 @@ function toArbitraryValue(position: string): string {
   return position.trim().replace(/\s+/g, "_");
 }
 
-/** Builds the `object-[...]` Tailwind class stack for a `HeroFocalPoint`. */
+/** Builds the `object-[...]` Tailwind class stack and `.hero-focal-point` helper for a `HeroFocalPoint`. */
 export function heroFocalPointClassName(focal: HeroFocalPoint): string {
-  const classes = [`object-[${toArbitraryValue(focal.mobile)}]`];
+  const classes = ["hero-focal-point", `object-[${toArbitraryValue(focal.mobile)}]`];
   if (focal.tablet) {
     classes.push(`sm:object-[${toArbitraryValue(focal.tablet)}]`, `lg:object-[${toArbitraryValue(focal.desktop)}]`);
   } else {
     classes.push(`sm:object-[${toArbitraryValue(focal.desktop)}]`);
   }
   return classes.join(" ");
+}
+
+/** Builds CSS custom properties for responsive object-position matching `.hero-focal-point`. */
+export function heroFocalPointStyle(focal: HeroFocalPoint): CSSProperties {
+  return {
+    "--focal-mobile": focal.mobile,
+    "--focal-tablet": focal.tablet ?? focal.desktop,
+    "--focal-desktop": focal.desktop,
+  } as CSSProperties;
 }

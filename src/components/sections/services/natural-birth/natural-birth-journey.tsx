@@ -17,6 +17,7 @@ export function NaturalBirthJourney() {
         >
           {naturalBirthJourney.heading}
         </h2>
+        <p className="mt-4 max-w-[56ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">{naturalBirthJourney.intro}</p>
 
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {naturalBirthJourney.steps.map((step) => (

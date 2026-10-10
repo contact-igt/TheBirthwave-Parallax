@@ -1,69 +1,43 @@
 /**
  * Vaginismus & Intimate Wellness — dedicated landing page content.
- *
- * A SEPARATE content file from `services-content.ts`, exactly like the other
- * five dedicated landing pages: that file's own `vaginismus` entry (name,
- * slug, shortDescription, overview, highlights, media.alt) is the shared
- * service record every other consumer reads (Quick Overview, the Sticky
- * Showcase, Find the Right Care, `generateStaticParams`) — untouched by this
- * page. Everything below is this landing page's own, additional copy.
- *
- * TONE: private, respectful, non-judgemental, calm, clinically responsible.
- * No embarrassment-based language, no fear, no sexualised imagery, no
- * graphic anatomy, no pressure to proceed, no claim that the condition is
- * "easy to fix." No guaranteed improvement, pain-free outcome, treatment
- * timeline, success rate, session count or specific therapeutic technique
- * is stated anywhere below — every such fact this project cannot currently
- * verify is left as an explicit bracketed placeholder, the same pattern the
- * other five landing pages already establish.
- *
- * SCOPE: nothing below expands this service into pelvic surgery, sexual or
- * psychosexual therapy, fertility treatment, medication protocols,
- * pelvic-floor procedures, dilator programmes, device-based treatment or
- * pain-clinic services — none of those are confirmed anywhere in this
- * project. No examination is described as automatic or required.
- *
- * CLINICIAN SECTION: `doctors-content.ts` maps exactly one confirmed
- * clinician to this slug — Dr. Adithi Nair carries
- * `relatedCareSlugs: ["vaginismus", "postpartum-care"]`, role "Pelvic Floor
- * Therapy · Vaginismus Coach". No qualification and no biography are
- * confirmed for her anywhere in this project — neither is invented here.
- *
- * IMAGES: `vaginismus-landing-imagery.ts` reuses the one real, approved
- * illustration already generated for this service
- * (`/images/services/vaginismus-ai-preview-v1.webp`, already live on the
- * plain `/services` listing via `services-imagery.ts`'s own `vaginismus`
- * key) for the hero — the same "reuse an existing approved file with page-
- * accurate alt text" pattern `pregnancy-antenatal-hero.tsx` and
- * `birth-prep-landing-*` keys already establish, not a duplicated binary
- * asset. No image-generation tool is available in this session for the
- * other four conceptual spots (Who This Is For, Consultation, Care At Your
- * Pace, First Consultation), so those render the site's established
- * gradient `MediaPlaceholder` until real photography/illustration exists —
- * see `docs/vaginismus-ai-imagery.md` for the pending generation briefs.
- * The clinician portrait slot is separate and reserved for approved real
- * photography, never an AI illustration.
+ * Updated strictly according to the approved revised copy brief.
  */
 
 export const vaginismusHero = {
-  eyebrow: "INTIMATE WELLNESS",
-  heading: "Vaginismus & Intimate Wellness",
-  supportingHeadline: "A private space to talk, understand and take the next step at your pace.",
-  body: "If penetration, pelvic-floor tension or intimate examinations feel painful, difficult or overwhelming, a consultation can give you space to discuss what you are experiencing without pressure or judgement.",
-  primaryCta: { label: "Book a Private Consultation", href: "#vaginismus-enquiry" },
-  secondaryCta: { label: "Understand the consultation ↓", href: "#vaginismus-covers" },
+  eyebrow: "VAGINISMUS & INTIMATE WELLNESS",
+  heading: "When penetration feels painful, difficult or impossible, you can talk about it.",
+  supportingHeadline: "Vaginismus can involve involuntary tightening of the pelvic-floor muscles around the vaginal opening, making penetration, intimacy or vaginal examinations difficult or painful.",
+  body: "At BirthWave, you can begin with a private conversation about what you are experiencing and understand what kind of support may be appropriate for you.",
+  primaryCta: { label: "BOOK A PRIVATE CONSULTATION", href: "#vaginismus-enquiry" },
+  secondaryCta: { label: "Understand Vaginismus ↓", href: "#vaginismus-what-is" },
+} as const;
+
+export const vaginismusWhatIs = {
+  eyebrow: "UNDERSTANDING VAGINISMUS",
+  heading: "It isn't simply about “trying to relax.”",
+  intro: "With vaginismus, the muscles around the vaginal opening may tighten involuntarily when penetration is attempted or anticipated. The experience can be different for every woman. Some may find intercourse painful or impossible, while others may experience difficulty with tampons, vaginal examinations or other forms of penetration.",
+  subhead: "You may experience:",
+  points: [
+    "Pain, burning or discomfort during attempted penetration",
+    "Involuntary tightening or a feeling that penetration is “blocked”",
+    "Difficulty or inability to have penetrative intercourse",
+    "Difficulty with vaginal examinations or inserting a tampon",
+    "Fear or anxiety around anticipated penetration because of previous painful experiences",
+  ],
+  closing: "You do not need to diagnose yourself before seeking help. A consultation can start with understanding what you are experiencing.",
 } as const;
 
 export const vaginismusWho = {
-  eyebrow: "IS THIS THE RIGHT PLACE TO START?",
-  heading: "If intimate experiences feel difficult, painful or overwhelming, you can start with a conversation.",
+  eyebrow: "IS THIS RELEVANT TO ME?",
+  heading: "You can start with a conversation, even if you are not sure it is vaginismus.",
   intro: "This consultation may be relevant if:",
   points: [
-    "Penetration feels difficult or painful.",
-    "You feel pelvic-floor tightening, fear or discomfort around intimacy.",
-    "Internal examinations feel difficult or distressing.",
-    "You have questions about vaginismus or pelvic comfort and are not sure where to begin.",
-    "You want to understand what support may be appropriate without feeling rushed.",
+    { title: "Penetration feels difficult or painful.", body: "You experience pain, tightness or difficulty during attempted penetration." },
+    { title: "Your body seems to tighten involuntarily.", body: "You feel pelvic-floor tightening even when you are trying to relax." },
+    { title: "Intimate examinations feel difficult or distressing.", body: "Pelvic or vaginal examinations may feel painful, frightening or difficult to tolerate." },
+    { title: "You have not been able to have penetrative intercourse.", body: "Or intercourse has repeatedly been painful or difficult." },
+    { title: "You have started avoiding intimacy because you expect pain.", body: "Previous discomfort may make future attempts feel stressful or overwhelming." },
+    { title: "You are simply unsure what is happening.", body: "You don't need to arrive with a diagnosis. Understanding the problem is part of the consultation." },
   ],
   closing: "Your experience is individual, and the next step should be discussed around your comfort and circumstances.",
   imageKey: "who-this-is-for" as const,
@@ -71,197 +45,250 @@ export const vaginismusWho = {
 
 export const vaginismusCovers = {
   eyebrow: "WHAT WE TALK THROUGH",
-  heading: "Start by understanding what you are experiencing.",
+  heading: "Your first appointment starts with understanding your experience.",
   imageKey: "consultation" as const,
   steps: [
     {
       number: "01",
-      title: "Your experience",
-      body: "Share what feels difficult, uncomfortable or concerning in your own words.",
+      title: "What you are experiencing",
+      body: "Talk about pain, tightness, difficulty with penetration, examinations or other concerns in your own words.",
     },
     {
       number: "02",
-      title: "Your history",
-      body: "Discuss relevant health, pelvic, gynaecological or intimate-wellness history where appropriate.",
+      title: "Your relevant history",
+      body: "Your clinician may ask about your gynaecological, pelvic, sexual or medical history where relevant.",
     },
     {
       number: "03",
-      title: "Your questions and comfort",
-      body: "Talk about what you want to understand and what you are comfortable discussing.",
+      title: "Your concerns and goals",
+      body: "Discuss what has been difficult for you and what you would like help with.",
     },
     {
       number: "04",
-      title: "Your next step",
-      body: "Your clinician can explain what follow-up or support may be appropriate based on your individual circumstances.",
+      title: "What may help next",
+      body: "Based on your individual situation, your clinician can discuss whether further assessment, pelvic-floor support or another form of care may be appropriate.",
     },
   ],
+  note: "You can ask questions throughout the consultation and discuss your comfort before proceeding with any assessment.",
+} as const;
+
+export const vaginismusSupportWork = {
+  eyebrow: "INDIVIDUALISED SUPPORT",
+  heading: "Vaginismus care is not one-size-fits-all.",
+  body: "Support depends on what is contributing to your symptoms, your comfort and your individual circumstances. Depending on your assessment, care may involve a combination of:",
+  points: [
+    {
+      title: "Understanding your pelvic floor",
+      body: "Learning how pelvic-floor muscles respond to pain, fear and anticipated penetration.",
+    },
+    {
+      title: "Pelvic-floor therapy",
+      body: "Guided techniques may help you develop awareness, coordination and relaxation of the pelvic-floor muscles.",
+    },
+    {
+      title: "Gradual, comfort-led progression",
+      body: "Where appropriate, therapy may progress gradually according to what feels manageable for you.",
+    },
+    {
+      title: "Education around pain and intimacy",
+      body: "Understanding what may be contributing to discomfort can make the experience less confusing and help guide the next steps.",
+    },
+    {
+      title: "Collaborative care when needed",
+      body: "If another medical, gynaecological or emotional-health concern needs attention, appropriate multidisciplinary support can be discussed.",
+    },
+  ],
+  closing: "The exact approach should be decided only after understanding your individual situation.",
 } as const;
 
 export const vaginismusPace = {
   eyebrow: "YOUR COMFORT MATTERS",
-  heading: "Care should move at a pace you are comfortable with.",
-  body: "A consultation should give you room to ask questions, understand options and make decisions without feeling rushed.",
+  heading: "Nothing should move faster than you are comfortable with.",
+  body: "A consultation should give you room to understand what is being discussed, ask questions and make informed decisions about your care.",
   imageKey: "care-at-your-pace" as const,
   points: [
     {
       title: "START WITH CONVERSATION",
-      body: "You do not need to arrive knowing exactly what is happening or what support you need.",
+      body: "Your first step can simply be talking about what you have been experiencing.",
     },
     {
       title: "ASK BEFORE PROCEEDING",
-      body: "You can ask what is being recommended, why it may be helpful and what alternatives may exist.",
+      body: "You can ask what an assessment involves, why it is being suggested and what alternatives may be available.",
     },
     {
-      title: "SET YOUR PACE",
-      body: "Discuss your comfort, concerns and boundaries throughout the process.",
+      title: "DISCUSS YOUR COMFORT",
+      body: "Tell your clinician about concerns, previous difficult experiences or boundaries that are relevant to your care.",
+    },
+    {
+      title: "MOVE STEP BY STEP",
+      body: "Any further assessment or therapy should be based on your individual needs and discussed with you beforehand.",
     },
   ],
   note: "Specific assessments or treatment approaches depend on your individual circumstances and should be explained before proceeding.",
 } as const;
 
-/**
- * The People Behind Your Care — the one confirmed clinician mapped to this
- * slug (see this file's own top comment). Deliberately no bio/credentials:
- * nothing beyond name, role and related care is confirmed for Dr. Adithi
- * Nair in `doctors-content.ts`, so none is shown here rather than invented.
- */
 export const vaginismusClinician = {
   eyebrow: "THE PEOPLE BEHIND YOUR CARE",
-  heading: "Support built around understanding, not pressure.",
+  heading: "Pelvic-floor support built around your individual experience.",
   doctorSlug: "dr-adithi-nair",
-  philosophy: "Care begins with understanding your questions, preferences and comfort.",
+  philosophy: "Vaginismus can involve both physical and emotional responses around penetration. Care begins by understanding what you are experiencing before deciding what support may be appropriate.",
   profileHref: "/doctors/dr-adithi-nair",
   viewProfileLabel: "View Full Profile",
-  bookLabel: "Book Consultation",
+  bookLabel: "BOOK CONSULTATION",
   bookHref: "#vaginismus-enquiry",
 } as const;
 
 export const vaginismusFirstConsultation = {
   eyebrow: "YOUR FIRST CONVERSATION",
-  heading: "You can begin without having all the answers.",
+  heading: "You don't need to know exactly what is wrong before booking.",
   imageKey: "first-consultation" as const,
   steps: [
     {
       number: "01",
-      title: "Tell us what brings you in",
-      body: "Share as much or as little context as you are comfortable starting with.",
+      title: "TELL US WHAT BRINGS YOU IN",
+      body: "Share as much or as little as you are comfortable with about what has been difficult.",
     },
     {
       number: "02",
-      title: "Talk through your concerns",
-      body: "Ask questions about symptoms, intimacy, examinations or previous experiences relevant to your concern.",
+      title: "TALK THROUGH YOUR CONCERNS",
+      body: "Ask questions about pain, penetration, pelvic-floor tightness, intimacy or examinations.",
     },
     {
       number: "03",
-      title: "Understand the next step",
-      body: "Your clinician can explain whether follow-up, further assessment or another type of support may be appropriate.",
+      title: "UNDERSTAND YOUR OPTIONS",
+      body: "Your clinician can explain whether further assessment, pelvic-floor therapy or another form of support may be appropriate.",
     },
   ],
-  cta: { label: "Book a Private Consultation", href: "#vaginismus-enquiry" },
+  cta: { label: "BOOK A PRIVATE CONSULTATION", href: "#vaginismus-enquiry" },
 } as const;
 
-/**
- * Practical Information — every field below is an explicit
- * confirmed-pending placeholder except Provider, which is the one
- * confirmed fact this project has (see this file's own top comment). No
- * verified consultation location, booking process, fee or contact detail
- * exists anywhere in this project yet, and no preparation requirement is
- * confirmed, so none is invented.
- */
 export const vaginismusPractical = {
   eyebrow: "BEFORE YOU VISIT",
-  heading: "Know what to expect before you arrive.",
+  heading: "Know what to expect before your appointment.",
   facilityPhotoPendingLabel: "Actual consultation-space photograph — approved photography pending",
   info: [
-    { label: "Consultation location", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "Provider", lines: ["Dr. Adithi Nair", "Pelvic Floor Therapy · Vaginismus Coach"] },
-    { label: "Booking process", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "Consultation fee", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "What to bring", lines: ["[To be confirmed by The Birthwave — ask the team]"] },
-    { label: "Follow-up process", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "Contact information", lines: ["[Verified phone number or email pending]"] },
+    {
+      label: "Consultation location",
+      lines: ["BirthWave Women Wellness Hospital", "Mahalingapuram Main Road, Nungambakkam, Chennai – 600034"],
+    },
+    {
+      label: "Provider",
+      lines: ["Dr. Adithi Nair", "Pelvic Floor Therapy · Vaginismus Coach"],
+    },
+    {
+      label: "Booking process",
+      lines: ["Book your consultation by phone, WhatsApp or through the enquiry form."],
+    },
+    {
+      label: "What to bring",
+      lines: ["If you have relevant previous reports or prescriptions, the team can let you know whether they would be useful for your appointment."],
+    },
+    {
+      label: "Contact",
+      lines: ["+91 93630 31925"],
+    },
   ],
+  phone: "+91 93630 31925",
 } as const;
 
 export const vaginismusFaq = {
   eyebrow: "GOOD TO KNOW",
-  heading: "Questions before you visit.",
+  heading: "Questions about vaginismus and your consultation.",
   items: [
     {
       question: "What is vaginismus?",
-      answer:
-        "Vaginismus is a term used when involuntary pelvic-floor tightening can make vaginal penetration difficult or painful. Individual experiences vary and should be discussed with a qualified clinician.",
+      answer: "Vaginismus involves involuntary tightening of the muscles around the vaginal opening when penetration is attempted or anticipated. This can make penetrative intercourse, vaginal examinations, tampon insertion or other forms of penetration painful or difficult.",
     },
     {
-      question: "Do I need to know for certain that I have vaginismus before booking?",
-      answer:
-        "No. A consultation can be a starting point if you are experiencing difficulty, pain or concern and want to understand what may be contributing.",
+      question: "How do I know if I have vaginismus?",
+      answer: "Pain or difficulty with penetration can have different causes, so you don't need to diagnose yourself. If penetration repeatedly feels painful, difficult or impossible, a consultation can help you discuss your symptoms and understand what assessment or support may be appropriate.",
     },
     {
-      question: "Will I need an internal examination at the first appointment?",
-      answer:
-        "Whether any examination is appropriate depends on your circumstances, comfort and the clinician's assessment. Ask what is being recommended before proceeding.",
+      question: "Do I need to have attempted intercourse before seeking help?",
+      answer: "No. You can seek help if you are experiencing difficulty with penetration, pelvic-floor tightening, examinations or concerns around intimacy even if you have not had penetrative intercourse.",
     },
     {
-      question: "Will treatment be painful?",
-      answer: "Any recommended approach should be explained to you, including what to expect and how your comfort will be considered.",
+      question: "Will I need an internal examination at my first appointment?",
+      answer: "Not necessarily. What is appropriate depends on your symptoms and individual circumstances. Your clinician should explain any recommended assessment and discuss it with you before proceeding.",
+    },
+    {
+      question: "Is vaginismus treatment painful?",
+      answer: "Support should be adapted to your individual comfort and circumstances. If pelvic-floor therapy or another intervention is recommended, your clinician can explain what it involves before you proceed.",
     },
     {
       question: "How many sessions will I need?",
-      answer: "The number and type of follow-up appointments depend on your individual situation and the care recommended.",
+      answer: "There is no single number that applies to everyone. The type and duration of support depend on your symptoms, history, progress and individual needs.",
     },
     {
-      question: "Can I bring a partner or support person?",
-      answer: "[The clinic's confirmed support-person policy will appear here.]",
+      question: "Can vaginismus be treated?",
+      answer: "Management approaches are available for vaginismus, but the appropriate approach depends on the individual. Your clinician can assess your situation and discuss suitable options.",
     },
     {
-      question: "Is this confidential?",
-      answer:
-        "[The Birthwave's approved confidentiality and privacy wording will appear here.] You are welcome to ask your clinician directly about privacy during your consultation.",
+      question: "Can I bring my partner or a support person?",
+      answer: "Ask the BirthWave team when booking if you would like someone to accompany you. Whether they are present for all or part of the consultation can also be discussed according to your comfort.",
     },
     {
-      question: "Can I ask questions before agreeing to an examination or next step?",
-      answer: "Yes. You can ask what is being recommended, why, what to expect and what alternatives may be available.",
+      question: "Is the consultation confidential?",
+      answer: "Your intimate-health concerns should be handled privately and professionally. BirthWave can explain its specific confidentiality and record-handling practices if you have questions before your appointment.",
+    },
+    {
+      question: "Can I ask questions before agreeing to an examination or treatment?",
+      answer: "Yes. You should be able to understand why an assessment or treatment is being recommended, what it involves and what alternatives may be available before deciding how you would like to proceed.",
     },
   ],
 } as const;
 
-/**
- * Related Care — restrained links to four separate, existing services,
- * matching the same "journey-adjacent, not automatically included" pattern
- * `vbac-landing-content.ts`'s own four-service Related Care section
- * establishes. Postpartum Recovery & Care is directly supported by Dr.
- * Adithi Nair's own second `relatedCareSlugs` entry; Gynaecology &
- * Fertility & Preconception share this service's own "Before / Women's
- * Health" chapter in `services-content.ts`; Pregnancy & Antenatal Care is
- * the same universal next-stage link VBAC's own Related Care already
- * includes.
- */
 export const vaginismusRelatedCare = {
-  eyebrow: "Related Care",
-  heading: "Explore related, separate services.",
-  note: "These are separate services at The Birthwave, not automatically part of the same care programme.",
-  slugs: ["gynaecology", "fertility-preconception", "postpartum-care", "pregnancy-antenatal-care"],
+  eyebrow: "CONNECTED WOMEN'S HEALTH SUPPORT",
+  heading: "Other BirthWave services that may be relevant to your care.",
+  note: "These services may also connect with your care journey:",
+  items: [
+    {
+      slug: "gynaecology",
+      label: "Gynaecology & Women's Health",
+      description: "For menstrual, pelvic and other gynaecological concerns.",
+    },
+    {
+      slug: "fertility-preconception",
+      label: "Fertility & Preconception",
+      description: "Preconception and fertility-related assessment and guidance.",
+    },
+    {
+      slug: "pregnancy-antenatal-care",
+      label: "Pregnancy & Antenatal Care",
+      description: "Doctor-led pregnancy care from early pregnancy through birth preparation.",
+    },
+    {
+      slug: "nutrition-emotional-wellbeing",
+      label: "Emotional Wellbeing",
+      description: "Support where emotional or psychological concerns are relevant to your wellbeing.",
+    },
+  ],
 } as const;
 
-/**
- * Final Enquiry — TODO(infra): exactly like the other five landing pages'
- * own forms, no backend endpoint or verified inbox exists yet to actually
- * receive a submission. Shows the same honest "design preview, not
- * connected" pattern rather than a fake submission-success message.
- * Deliberately short: full name, a single phone-or-email contact field,
- * and an optional message. Nothing here is written to browser storage.
- */
 export const vaginismusEnquiry = {
   eyebrow: "START WHEN YOU FEEL READY",
-  heading: "Begin with a private conversation.",
-  body: "Enquire about The Birthwave's Vaginismus & Intimate Wellness consultation and understand how to begin.",
+  heading: "You can begin with a private conversation.",
+  body: "If penetration, intimacy or vaginal examinations have been painful or difficult, you don't need to work out the reason on your own before seeking help. Start by telling us what you have been experiencing. The BirthWave team can help you understand the appropriate next step.",
+  primaryCta: "BOOK A PRIVATE CONSULTATION",
+  whatsapp: "CHAT ON WHATSAPP",
+  phone: "CALL +91 93630 31925",
+  dropdownOptions: [
+    "Vaginismus",
+    "Painful Penetration",
+    "Pelvic Floor Concerns",
+    "Pain During Intimacy",
+    "Difficulty With Vaginal Examination",
+    "Other",
+  ],
   fields: {
     name: "Full name",
-    contact: "Phone number or email",
+    contact: "Phone number",
+    helpOption: "What would you like help with?",
+    email: "Email (optional)",
     message: "What would you like to discuss? (optional)",
   },
-  submitLabel: "Send Enquiry",
+  submitLabel: "CONTINUE ON WHATSAPP",
   urgentNote: "This form is for appointment information and non-urgent enquiries. For urgent medical concerns, contact your healthcare provider or local emergency service.",
   previewNotice: "Preview — this form is not yet connected to a live enquiry inbox.",
   previewResult: "This is a design preview. No enquiry has been sent — connect this form to a real enquiry endpoint before publishing.",

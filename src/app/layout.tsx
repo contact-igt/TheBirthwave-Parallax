@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Plus_Jakarta_Sans } from "next/font/google";
+import { Poppins, Plus_Jakarta_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 
 // Both families are confirmed brand typography (Reference/Birthwave Brand
@@ -21,6 +21,21 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+// NOT brand typography (the guideline lists Poppins + Plus Jakarta Sans
+// only). Kept solely for the existing 404 / loading / services care-finder
+// accents pending a client decision; never preloaded, so pages that don't
+// use `font-serif` (the homepage included) don't download it. The variable
+// is `--font-cormorant`, not `--font-serif`: the theme token of that name
+// referenced itself and could never resolve.
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+  display: "swap",
+  preload: false,
+});
+
 // TODO(content): title/description are placeholders — no approved SEO copy
 // exists yet. Full metadata (OG image, canonical, structured data) is
 // explicitly out of scope for this phase per the implementation brief.
@@ -36,7 +51,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${plusJakartaSans.variable}`}
+      data-scroll-behavior="smooth"
+      className={`${poppins.variable} ${plusJakartaSans.variable} ${cormorant.variable}`}
     >
       <body>
         <a

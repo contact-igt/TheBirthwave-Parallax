@@ -1,67 +1,66 @@
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 import { fertilityHero } from "@/content/fertility-preconception-landing-content";
-import { fertilityImagery } from "@/content/fertility-preconception-landing-imagery";
+import { fertilityImagery, fertilityImageDisclosure } from "@/content/fertility-preconception-landing-imagery";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
-import { heroFocalPointClassName } from "@/lib/hero-focal-point";
+import { cx } from "@/lib/cx";
+import styles from "./fertility-preconception.module.css";
 
 /**
- * Full-bleed background composition only from `lg` upward; below that,
- * normal document flow (copy first, then the image panel) — the same
- * responsive structure `normal-birth-delivery-hero.tsx` establishes.
- * Renders Next/Image with responsive focal point preservation.
+ * Hero: copy and the primary action first, then one clean photograph in a
+ * single frame. Stacked on mobile (text before image), two balanced columns
+ * from `lg`. The frame height is clamped to the viewport so the headline and
+ * primary button stay above the fold on short desktop screens. The
+ * illustration disclosure sits under the frame, not over the photograph.
  */
 export function FertilityHero() {
   const image = fertilityImagery.hero;
+
   return (
-    <section
-      id="fertility-hero"
-      aria-label="Fertility & Preconception"
-      className="relative isolate overflow-hidden bg-paper-dim lg:min-h-[640px] lg:bg-[#eee0cb]"
-    >
-      <div className="container-birthwave relative z-10 pt-[calc(var(--header-height)+2.5rem)] pb-10 lg:flex lg:min-h-[640px] lg:items-center lg:pb-20">
-        <div className="max-w-2xl lg:max-w-[52%]">
-          <p className="eyebrow">{fertilityHero.eyebrow}</p>
-          <h1 className="mt-5 text-[clamp(2.5rem,1.7rem+3.6vw,4.6rem)] leading-[1.05] font-semibold tracking-[var(--tracking-tight)] text-ink">
-            {fertilityHero.heading}
-          </h1>
-          <p className="mt-6 max-w-md text-xl leading-[var(--leading-relaxed)] font-medium text-ink">{fertilityHero.supportingHeadline}</p>
-          <p className="mt-4 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">{fertilityHero.body}</p>
+    <section id="fertility-hero" aria-labelledby="fertility-hero-heading" className="relative isolate bg-paper">
+      <div className="container-birthwave pt-[calc(var(--header-height)+2rem)] pb-14 lg:pt-[calc(var(--header-height)+2.5rem)] lg:pb-20">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          <div className="max-w-xl">
+            <p className="eyebrow">{fertilityHero.eyebrow}</p>
+            <h1 id="fertility-hero-heading" className={cx(styles.display, styles.h1, "mt-5")}>
+              {fertilityHero.heading}
+            </h1>
+            <p className="mt-6 max-w-[40ch] text-xl leading-[var(--leading-relaxed)] font-medium text-ink">{fertilityHero.supportingLine}</p>
+            <p className="mt-4 max-w-[46ch] text-lg leading-[var(--leading-relaxed)] text-ink-soft">{fertilityHero.body}</p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-            <Button href={fertilityHero.primaryCta.href} variant="primary">
-              {fertilityHero.primaryCta.label}
-            </Button>
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <Button href={fertilityHero.primaryCta.href} variant="primary">
+                {fertilityHero.primaryCta.label}
+              </Button>
+              <CtaLink href={fertilityHero.secondaryCta.href}>{fertilityHero.secondaryCta.label}</CtaLink>
+            </div>
+
+            <p className="mt-8 flex items-center gap-2 font-body text-sm text-ink-soft">
+              <MapPin aria-hidden="true" className="size-4 shrink-0 text-terracotta-deep" />
+              <span>
+                {fertilityHero.location} · {fertilityHero.locationNote}
+              </span>
+            </p>
           </div>
 
-          <div className="mt-6">
-            <CtaLink href={fertilityHero.secondaryCta.href}>{fertilityHero.secondaryCta.label}</CtaLink>
-          </div>
+          <figure className="w-full">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-t-[var(--radius-panel)] rounded-b-[var(--radius-md)] bg-paper-dim sm:aspect-[5/4] lg:aspect-auto lg:h-[clamp(28rem,calc(100dvh-14rem),38rem)]">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                priority
+                fetchPriority="high"
+                sizes="(max-width: 1023px) 92vw, 540px"
+                className="object-cover"
+                style={{ objectPosition: image.objectPosition }}
+              />
+            </div>
+            <figcaption className="mt-2 font-body text-xs text-ink-soft">{fertilityImageDisclosure}</figcaption>
+          </figure>
         </div>
       </div>
-
-      <div
-        data-fertility-image="hero"
-        className="relative z-0 mx-5 mb-10 aspect-[4/3] overflow-hidden rounded-tr-panel lg:absolute lg:inset-0 lg:m-0 lg:aspect-auto lg:rounded-none"
-      >
-        <Image
-          src={image.src}
-          alt={image.alt}
-          fill
-          priority
-          fetchPriority="high"
-          sizes="100vw"
-          className={`object-cover ${heroFocalPointClassName(image.focalPoint)}`}
-        />
-      </div>
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[1] hidden lg:block lg:bg-[linear-gradient(90deg,color-mix(in_srgb,var(--color-paper)_97%,transparent)_0%,color-mix(in_srgb,var(--color-paper)_91%,transparent)_34%,color-mix(in_srgb,var(--color-paper)_45%,transparent)_62%,transparent_80%),linear-gradient(0deg,color-mix(in_srgb,var(--color-paper)_85%,transparent)_0%,transparent_19%)]"
-      />
-      <span className="absolute right-8 bottom-12 z-10 rounded-xs bg-paper/95 px-2 py-1 font-body text-[0.6875rem] text-ink-soft lg:right-5 lg:bottom-5">
-        AI-generated illustration
-      </span>
     </section>
   );
 }

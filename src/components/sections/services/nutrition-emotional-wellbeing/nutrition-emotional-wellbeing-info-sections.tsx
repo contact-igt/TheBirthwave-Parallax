@@ -28,7 +28,9 @@ export function NutritionPractical() {
           <h2 id="nutrition-practical-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
             {nutritionPractical.heading}
           </h2>
-          <p className="mt-4 max-w-[52ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">{nutritionPractical.intro}</p>
+          {"intro" in nutritionPractical && nutritionPractical.intro ? (
+            <p className="mt-4 max-w-[52ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">{nutritionPractical.intro as string}</p>
+          ) : null}
 
           <div className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2">
             {nutritionPractical.info.map((item) => (

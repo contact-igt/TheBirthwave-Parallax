@@ -513,24 +513,35 @@ function TeamJourneyScene({
       ref={sceneRef}
       data-team-scene
       className={cx(
-        // No per-scene background: the shared ambient backdrop runs
-        // continuously behind every scene (hard-edged tints read as a
-        // travelling colour seam mid-slide).
-        "relative flex h-full w-screen shrink-0 items-center overflow-hidden px-6 pt-[var(--header-height)] sm:px-10",
+        "relative flex h-full w-screen shrink-0 items-center justify-center overflow-hidden px-4 sm:px-8 lg:px-12 pt-[var(--header-height)] pb-12 sm:pb-16",
       )}
     >
       <div
         ref={contentRef}
-        className="container-birthwave relative z-10 grid gap-10 sm:grid-cols-[clamp(300px,33%,380px)_minmax(0,41rem)] sm:items-center sm:justify-center sm:gap-16"
+        className="relative z-10 w-full max-w-5xl overflow-hidden rounded-3xl border border-[#EAE1D7] bg-[#FAF5EE] shadow-[0_12px_40px_rgba(42,32,28,0.06)] p-6 sm:p-10 lg:p-12"
       >
-        <DoctorProfileContent
-          doctor={doctor}
-          index={index}
-          showCategory
-          portraitWrapperClassName="block w-full max-w-[360px]"
-          contentClassName="max-w-[41rem]"
-          portraitAttrs={{ "data-team-portrait": "true" }}
-        />
+        {/* Botanical watercolor background image */}
+        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-3xl">
+          <Image
+            src="/images/doctors/doctor-card-background.webp"
+            alt=""
+            fill
+            sizes="(max-width: 1024px) 100vw, 1152px"
+            className="object-cover object-center opacity-90"
+            priority={index === 0}
+          />
+        </div>
+
+        <div className="relative z-10 grid gap-8 sm:grid-cols-[1.15fr_0.85fr] lg:grid-cols-[1.2fr_0.8fr] sm:items-center sm:gap-12 lg:gap-16">
+          <DoctorProfileContent
+            doctor={doctor}
+            index={index}
+            showCategory
+            portraitWrapperClassName="relative block w-full max-w-[320px] sm:max-w-[340px] mx-auto order-1 sm:order-2"
+            contentClassName="max-w-[38rem] order-2 sm:order-1"
+            portraitAttrs={{ "data-team-portrait": "true" }}
+          />
+        </div>
       </div>
     </div>
   );

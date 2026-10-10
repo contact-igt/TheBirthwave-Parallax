@@ -3,9 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { journey } from "@/content/site-content";
+import { CtaLink } from "@/components/ui/cta-link";
 import { useReducedMotion } from "@/motion/reduced-motion";
 import { cx } from "@/lib/cx";
 import { ensureScrollTriggerRegistered, gsap, ScrollTrigger } from "@/motion/gsap-scroll";
+import { CareWaveBackground } from "@/components/ui/backgrounds/care-wave-background";
 
 /**
  * The BirthWave Journey — six stages in normal document flow (no pin),
@@ -79,13 +81,13 @@ const BACKDROP_VEIL_OPACITY = 0.66;
  * step's own grid cells, so scrolling back gently un-settles them.
  */
 const REVEAL = {
-  desktop: { imageX: 28, imageY: 18, imageScale: 0.97, textY: 18 },
-  tablet: { imageX: 20, imageY: 18, imageScale: 0.97, textY: 16 },
-  mobile: { imageX: 0, imageY: 20, imageScale: 0.98, textY: 14 },
+  desktop: { imageX: 20, imageY: 12, imageScale: 0.98, textY: 0 },
+  tablet: { imageX: 14, imageY: 10, imageScale: 0.98, textY: 0 },
+  mobile: { imageX: 0, imageY: 12, imageScale: 0.99, textY: 0 },
 } as const;
 const REVEAL_SCRUB = 0.5;
-/** Photo micro-parallax inside its card (768px and up): scale + yPercent drift. */
-const PHOTO_PARALLAX = { scale: 1.04, yPercent: 0.9 };
+/** Photo micro-parallax inside its card: gentle vertical drift within the masked frame. */
+const PHOTO_PARALLAX = { scale: 1.08, yPercent: 4.5 };
 
 const DESKTOP_QUERY = "(min-width: 1024px)";
 /** Mobile route x (px from the wrapper's left edge) and its slight waver. */
@@ -262,16 +264,17 @@ export function JourneySection() {
               scrollTrigger: { trigger: imageCell, start: "top 78%", end: "top 52%", scrub: REVEAL_SCRUB },
             },
           );
-          // Copy follows: label, then heading, then body, a short stagger behind the photo.
+          // Copy follows: label, then heading, then body. Stable one-time reveal keeps text rock-solid to read.
           gsap.fromTo(
             textParts,
-            { autoAlpha: 0, y: cfg.textY },
+            { autoAlpha: 0, y: 12 },
             {
               autoAlpha: 1,
               y: 0,
+              duration: 0.55,
               ease: "power2.out",
-              stagger: 0.12,
-              scrollTrigger: { trigger: textCell, start: "top 76%", end: "top 50%", scrub: REVEAL_SCRUB },
+              stagger: 0.08,
+              scrollTrigger: { trigger: textCell, start: "top 80%", toggleActions: "play none none reverse" },
             },
           );
           if (parallax && photo) {
@@ -304,6 +307,9 @@ export function JourneySection() {
       aria-labelledby="journey-heading"
       className="relative isolate overflow-x-clip"
     >
+      {/* Restrained color washes only, preserving connecting line */}
+      <CareWaveBackground preset="journey" />
+
       {/* Backdrop (behind path + content): sticky still → veil → edge fades.
           `overflow-clip`, not `hidden`, so the sticky child still sticks. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-clip">
@@ -335,18 +341,22 @@ export function JourneySection() {
         />
       </div>
 
-      {/* Intro — the eyebrow only; journey.heading stays the accessible
-          name (Philosophy directly above already lands the same line). */}
+      {/* Intro — eyebrow + heading. The heading is now distinct from the
+          Philosophy resolution ("Care that grows with you." vs the old
+          "One continuous journey of care."), so it's rendered visibly. */}
       <div className="container-birthwave relative pt-(--space-section-sm) pb-6 sm:pb-8">
-        <h2 id="journey-heading" className="sr-only">
-          {journey.heading}
-        </h2>
         <p ref={introRef} className="eyebrow">
           {journey.eyebrow}
         </p>
+        <h2
+          id="journey-heading"
+          className="mt-3.5 text-balance text-[clamp(2.5rem,2rem+2.4vw,3.5rem)] leading-[1.02] font-semibold tracking-[var(--tracking-tight)] text-ink lg:text-[clamp(2.5rem,1.6rem+2.2vw,3.75rem)]"
+        >
+          {journey.heading}
+        </h2>
       </div>
 
-      <div ref={wrapperRef} className="container-birthwave relative pb-[clamp(4rem,3rem+5vw,7rem)]">
+      <div ref={wrapperRef} className="container-birthwave relative pb-[clamp(3rem,2.5rem+3vw,5.5rem)]">
         {/* The journey route: base path, progress path, marker — one SVG,
             one `d`, drawn in real pixel units (viewBox = wrapper size). */}
         <svg
@@ -400,10 +410,10 @@ function JourneyStage({ index, stage }: { index: number; stage: (typeof journey.
     <div
       data-journey-step
       className={cx(
-        // Mobile/tablet: one column, content inset past the left route.
-        "relative z-10 grid gap-y-7 py-12 pl-[calc(56px-var(--space-gutter))] md:py-14",
+        // Mobile/tablet: one column, content inset past the left route, tightened spacing.
+        "relative z-10 grid gap-y-5 py-7 sm:py-9 pl-[calc(52px-var(--space-gutter))] md:py-10",
         // Desktop: LEFT | PATH | RIGHT, both halves on the same row.
-        "lg:min-h-[80svh] lg:grid-cols-[minmax(0,1fr)_clamp(88px,8vw,140px)_minmax(0,1fr)] lg:items-center lg:gap-x-8 lg:py-12 lg:pl-0",
+        "lg:min-h-[72svh] lg:grid-cols-[minmax(0,1fr)_clamp(88px,8vw,140px)_minmax(0,1fr)] lg:items-center lg:gap-x-8 lg:py-10 lg:pl-0",
       )}
     >
       {/* Image — first in source order so mobile reads image → text. */}
@@ -482,6 +492,13 @@ function JourneyStage({ index, stage }: { index: number; stage: (typeof journey.
         <p data-journey-text className="mt-5 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft lg:mt-6">
           {stage.supporting}
         </p>
+        {stage.cta && (
+          <div data-journey-text className="mt-6 lg:mt-7">
+            <CtaLink href={stage.cta.href} className="text-base">
+              {stage.cta.label}
+            </CtaLink>
+          </div>
+        )}
       </div>
     </div>
   );

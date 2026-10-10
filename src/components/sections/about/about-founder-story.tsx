@@ -66,9 +66,12 @@ export function AboutFounderStory() {
             data-about-copy="founder-name"
             className="mt-4 text-[clamp(2.5rem,1.9rem+3vw,4rem)] leading-[1.02] font-semibold tracking-[var(--tracking-tight)] text-ink"
           >
-            {aboutFounderIntro.introLabel}
+            {aboutFounderIntro.founderName}
           </p>
-          <h2 id="about-founder-story-heading" className="mt-2 text-xl font-medium text-ink-soft">
+          <p className="mt-1 text-base font-medium text-ink-soft">
+            {aboutFounderIntro.founderCredentials}
+          </p>
+          <h2 id="about-founder-story-heading" className="mt-3 text-xl font-medium text-ink-soft">
             {aboutFounderStory.heading}
           </h2>
 

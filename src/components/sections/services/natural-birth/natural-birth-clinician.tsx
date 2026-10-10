@@ -33,6 +33,12 @@ export function NaturalBirthClinician() {
             {naturalBirthClinician.heading}
           </h2>
 
+          {naturalBirthClinician.body.map((para) => (
+            <p key={para} className="mt-4 text-base leading-[var(--leading-relaxed)] text-ink-soft">
+              {para}
+            </p>
+          ))}
+
           <h3 className="mt-6 text-xl font-semibold text-ink">{founder.name}</h3>
           <p className="mt-1 text-base text-ink-soft">{founder.role}</p>
           {founder.credentials ? <p className="mt-2 font-medium text-terracotta-deep">{founder.credentials}</p> : null}

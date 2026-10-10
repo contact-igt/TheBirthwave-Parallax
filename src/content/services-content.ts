@@ -1,29 +1,19 @@
 /**
  * Services content — The Birth Wave
  *
- * Our Care / Treatments master page (Phase 1). The 11 services below are
- * the confirmed, approved list — names, order and slugs are the source of
- * truth for both this file and the `/services` master page
- * (`services-care-journey.tsx` and its siblings). Descriptions,
- * overviews and highlights are newly written here (none existed before —
- * the previous version of this file was three unrelated structural
- * placeholders, "Your First/Second/Third Service"), kept deliberately
- * short and factual: what each care area covers, not a clinical claim, an
- * outcome, a success rate or a qualification. No service beyond these 11
- * is invented anywhere this file is consumed.
- *
- * `ServiceContent`'s shape is unchanged from before this pass — the
- * existing `service-page-template.tsx` (individual `/services/[slug]`
- * pages, out of scope for this phase) reads exactly the same fields it
- * always did (`eyebrow`, `name`, `heroStatement`, `overview`,
- * `highlights`, `media.alt`); real content now flows through that
- * unmodified template instead of placeholder copy. `group` is the one
- * new, optional field, added for the master page's own chapter-mood
- * grouping (see `SERVICE_SHOWCASE_ORDER` below) — nothing existing reads
- * or depends on it.
+ * Master content file for /services.
+ * Defines the 7 chapters and comprehensive service listings,
+ * along with the decision helper, hero, philosophy, and CTAs.
  */
 
-export type CareGroup = "before" | "pregnancy" | "birth-preparation" | "birth" | "after-birth";
+export type CareGroup =
+  | "womens-health"
+  | "planning-a-pregnancy"
+  | "pregnancy-care"
+  | "preparing-for-birth"
+  | "birth-options"
+  | "after-birth"
+  | "baby-care";
 
 export interface ServiceContent {
   slug: string;
@@ -38,12 +28,6 @@ export interface ServiceContent {
   media: {
     alt: string;
   };
-  /** Which of the master page's five atmosphere groups this service
-   * belongs to — presentation-only, read by the sticky showcase to order
-   * its own scenes and blend background tone; the confirmed 01–11 order
-   * itself (this array's own order) is untouched and is what every other
-   * consumer (Quick Care Overview, the plain listing, route generation)
-   * still uses. */
   group: CareGroup;
 }
 
@@ -53,124 +37,327 @@ export const servicesIntro = {
   body: "From women's health and pregnancy to birth, recovery and newborn care, explore the support available throughout your journey.",
 } as const;
 
-/** The 12 confirmed services, in their own approved order. This
- * order is the source of truth for routing (`generateStaticParams`),
- * the plain listing, and Quick Care Overview — never reordered. */
+/** Complete list of services across the 7 care chapters. */
 export const services: ServiceContent[] = [
+  // ── Chapter 01: Women's Health ──────────────────────────────────────────
   {
-    slug: "pregnancy-antenatal-care",
-    eyebrow: "Pregnancy",
-    name: "Pregnancy & Antenatal Care",
-    shortDescription: "Regular check-ins and guidance through every trimester, from your first visit to your due date.",
-    heroStatement: "Care through every stage of pregnancy, built around you.",
+    slug: "adolescent-health",
+    eyebrow: "Women's Health",
+    name: "Adolescent Health",
+    shortDescription:
+      "Support for girls and young women navigating periods, menstrual concerns, hormonal changes and early reproductive health questions.",
+    heroStatement: "Support through early reproductive health and adolescence.",
     overview:
-      "Antenatal care follows you from the first trimester onward — regular check-ins, screening guidance and a consistent point of contact as your pregnancy progresses.",
-    highlights: ["Trimester-by-trimester check-ins", "Screening and scan guidance", "One consistent care team throughout"],
-    media: { alt: "Pregnancy and antenatal care — approved photography pending" },
-    group: "pregnancy",
+      "Navigating adolescence brings rapid hormonal and physical changes. We offer gentle, supportive care for menstrual health, cycle changes, and early questions in a reassuring environment.",
+    highlights: ["Menstrual health guidance", "Hormonal changes support", "Open, reassuring conversations"],
+    media: { alt: "Adolescent health consultation — approved photography pending" },
+    group: "womens-health",
   },
   {
-    slug: "normal-birth-delivery",
-    eyebrow: "Birth",
-    name: "Normal Birth & Delivery Care",
-    shortDescription: "Support for a normal vaginal delivery, from labour through to birth.",
-    heroStatement: "Care built around a normal, supported delivery.",
+    slug: "gynaecology",
+    eyebrow: "Women's Health",
+    name: "Gynaecology & Women’s Wellness",
+    shortDescription:
+      "Care for period concerns, pelvic health, hormonal changes and other common gynaecological needs.",
+    heroStatement: "Women's health care, at every stage.",
     overview:
-      "Delivery care focused on supporting a normal vaginal birth, with guidance through labour and delivery itself.",
-    highlights: ["Labour support", "Delivery care", "Continuity from antenatal visits through to birth"],
-    media: { alt: "Normal birth and delivery care — approved photography pending" },
-    group: "birth",
+      "Gynaecological care covering general women's wellness, from routine visits to specific concerns, ensuring proactive and compassionate support.",
+    highlights: ["Routine gynaecological visits", "Women's wellness guidance", "A consistent point of contact"],
+    media: { alt: "Gynaecology and women's wellness care — approved photography pending" },
+    group: "womens-health",
   },
   {
-    slug: "vbac",
-    eyebrow: "Birth",
-    name: "VBAC (Vaginal Birth After Caesarean)",
-    shortDescription: "Guidance and support for a vaginal birth after a previous caesarean.",
-    heroStatement: "Considering a vaginal birth after a caesarean.",
+    slug: "pcos-menstrual-health",
+    eyebrow: "Women's Health",
+    name: "PCOS & Menstrual Health",
+    shortDescription:
+      "Assessment and support for PCOS, irregular periods and related hormonal concerns.",
+    heroStatement: "Clear answers and holistic care for PCOS and cycle health.",
     overview:
-      "For women considering a vaginal birth after a previous caesarean, this care area covers what to discuss, plan for and expect.",
-    highlights: ["Eligibility conversations", "Birth planning support", "Care through labour and delivery"],
-    media: { alt: "VBAC care — approved photography pending" },
-    group: "birth",
+      "Comprehensive assessment and compassionate management for polycystic ovary syndrome, irregular cycles, and metabolic health tailored to each woman.",
+    highlights: ["PCOS assessment & diagnostics", "Cycle regularity guidance", "Metabolic & lifestyle support"],
+    media: { alt: "PCOS and menstrual health care — approved photography pending" },
+    group: "womens-health",
   },
+  {
+    slug: "vaginismus",
+    eyebrow: "Women's Health",
+    name: "Vaginismus & Intimate Wellness",
+    shortDescription:
+      "Supportive, sensitive care for intimate health concerns in a private and respectful environment.",
+    heroStatement: "Care for vaginismus and intimate wellness.",
+    overview:
+      "A private, supportive space to discuss vaginismus and related concerns around intimate wellness, guided at your own pace without pressure.",
+    highlights: ["Private, judgment-free conversations", "Guidance at your own pace", "Ongoing supportive care"],
+    media: { alt: "Vaginismus and intimate wellness care — approved photography pending" },
+    group: "womens-health",
+  },
+  {
+    slug: "weight-metabolic-wellness",
+    eyebrow: "Women's Health",
+    name: "Weight & Metabolic Wellness",
+    shortDescription:
+      "Guidance for obesity, healthy weight management and lifestyle-related concerns, considered as part of overall women’s health.",
+    heroStatement: "Sustainable, medical support for metabolic balance.",
+    overview:
+      "Evidence-based support for healthy weight management, insulin sensitivity, and lifestyle health tailored to women's changing biology.",
+    highlights: ["Metabolic health reviews", "Sustainable lifestyle planning", "Empathetic, non-stigmatising guidance"],
+    media: { alt: "Weight and metabolic wellness consultation — approved photography pending" },
+    group: "womens-health",
+  },
+  {
+    slug: "mental-emotional-wellbeing",
+    eyebrow: "Women's Health",
+    name: "Mental & Emotional Well-being",
+    shortDescription:
+      "Support for emotional and mental health concerns that may arise during adolescence, reproductive years, pregnancy, postpartum, perimenopause and menopause.",
+    heroStatement: "Caring for how you feel through every transition.",
+    overview:
+      "Dedicated mental and emotional well-being consultations to support you through life's transitions, hormonal shifts, and emotional challenges.",
+    highlights: ["Emotional health check-ins", "Hormonal transition support", "Integrated psychological care"],
+    media: { alt: "Mental and emotional well-being consultation — approved photography pending" },
+    group: "womens-health",
+  },
+  {
+    slug: "menopause-care",
+    eyebrow: "Women's Health",
+    name: "Perimenopause, Menopause & Post-Menopause",
+    shortDescription:
+      "Care for hormonal changes, symptoms and long-term well-being as women move through menopause and beyond.",
+    heroStatement: "Navigating the perimenopause and menopause transition with clarity.",
+    overview:
+      "Expert support for perimenopausal and menopausal symptom management, bone and cardiovascular health, and long-term wellness.",
+    highlights: ["Symptom & hormonal assessment", "Lifestyle & wellness strategies", "Long-term health screening"],
+    media: { alt: "Perimenopause and menopause care consultation — approved photography pending" },
+    group: "womens-health",
+  },
+  {
+    slug: "preventive-health",
+    eyebrow: "Women's Health",
+    name: "Preventive Women’s Health",
+    shortDescription:
+      "Routine screening and preventive care, including breast health, cervical screening and regular women’s health checks.",
+    heroStatement: "Proactive, routine health checks to protect your future.",
+    overview:
+      "Regular preventive screenings, Pap smears, breast checks, and proactive health assessments designed to keep you well.",
+    highlights: ["Cervical & breast screening", "Annual wellness exams", "Proactive health mapping"],
+    media: { alt: "Preventive women's health screening — approved photography pending" },
+    group: "womens-health",
+  },
+
+  // ── Chapter 02: Planning a Pregnancy ────────────────────────────────────
   {
     slug: "fertility-preconception",
-    eyebrow: "Before",
+    eyebrow: "Planning a Pregnancy",
     name: "Fertility & Preconception",
-    shortDescription: "Support and guidance for those planning a pregnancy.",
+    shortDescription:
+      "Support for couples and individuals preparing for pregnancy, including fertility evaluation, counselling and preconception guidance.",
     heroStatement: "Planning a pregnancy starts here.",
     overview:
       "Preconception care covers what to consider and prepare for before trying to conceive, alongside fertility guidance where needed.",
     highlights: ["Preconception health guidance", "Fertility conversations", "Planning support"],
     media: { alt: "Fertility and preconception care — approved photography pending" },
-    group: "before",
+    group: "planning-a-pregnancy",
   },
   {
-    slug: "vaginismus",
-    eyebrow: "Before",
-    name: "Vaginismus & Intimate Wellness",
-    shortDescription: "Support for vaginismus and other aspects of intimate wellness.",
-    heroStatement: "Care for vaginismus and intimate wellness.",
-    overview: "A private, supportive space to discuss vaginismus and related concerns around intimate wellness.",
-    highlights: ["Private, judgment-free conversations", "Guidance at your own pace", "Ongoing support"],
-    media: { alt: "Vaginismus and intimate wellness care — approved photography pending" },
-    group: "before",
-  },
-  {
-    slug: "gynaecology",
-    eyebrow: "Before",
-    name: "Gynaecology & Women's Wellness",
-    shortDescription: "General gynaecological care and women's wellness support.",
-    heroStatement: "Women's health care, at every stage.",
-    overview: "Gynaecological care covering general women's wellness, from routine visits to specific concerns.",
-    highlights: ["Routine gynaecological visits", "Women's wellness guidance", "A consistent point of contact"],
-    media: { alt: "Gynaecology and women's wellness care — approved photography pending" },
-    group: "before",
-  },
-  {
-    slug: "lactation",
-    eyebrow: "After Birth",
-    name: "Lactation & Breastfeeding Support",
-    shortDescription: "Breastfeeding guidance and lactation support after birth.",
-    heroStatement: "Support through breastfeeding, from day one.",
+    slug: "preconception-health",
+    eyebrow: "Planning a Pregnancy",
+    name: "Preconception Health",
+    shortDescription:
+      "Review your overall health, lifestyle, nutrition and any medical concerns before conception.",
+    heroStatement: "Optimise your health before conception begins.",
     overview:
-      "Lactation support to help with breastfeeding in the early days and throughout, for both mother and baby.",
-    highlights: ["Early breastfeeding support", "Ongoing lactation guidance", "Support for common feeding concerns"],
-    media: { alt: "Lactation and breastfeeding support — approved photography pending" },
-    group: "after-birth",
+      "A thorough medical, lifestyle, and nutritional review before conceiving to ensure the healthiest start for you and your future baby.",
+    highlights: ["Pre-pregnancy health checks", "Nutrition & supplement guidance", "Medical history review"],
+    media: { alt: "Preconception health consultation — approved photography pending" },
+    group: "planning-a-pregnancy",
   },
+  {
+    slug: "conscious-pregnancy-prep",
+    eyebrow: "Planning a Pregnancy",
+    name: "Conscious Pregnancy Preparation",
+    shortDescription:
+      "Preparation can also include emotional well-being, mindfulness and practices that help you approach pregnancy with greater awareness and confidence.",
+    heroStatement: "Mindful and intentional preparation for pregnancy.",
+    overview:
+      "Bringing awareness, mindfulness, and emotional grounding into your pre-pregnancy journey so you can step into pregnancy feeling centred.",
+    highlights: ["Mindfulness & emotional readiness", "Partner alignment", "Conscious wellness practices"],
+    media: { alt: "Conscious pregnancy preparation session — approved photography pending" },
+    group: "planning-a-pregnancy",
+  },
+
+  // ── Chapter 03: Pregnancy Care ──────────────────────────────────────────
+  {
+    slug: "pregnancy-antenatal-care",
+    eyebrow: "Pregnancy Care",
+    name: "Pregnancy & Antenatal Care",
+    shortDescription:
+      "Regular monitoring, consultations and guidance throughout pregnancy.",
+    heroStatement: "Care through every stage of pregnancy, built around you.",
+    overview:
+      "Antenatal care follows you from the first trimester onward — regular check-ins, screening guidance and a consistent point of contact as your pregnancy progresses.",
+    highlights: ["Trimester-by-trimester check-ins", "Screening and scan guidance", "One consistent care team throughout"],
+    media: { alt: "Pregnancy and antenatal care — approved photography pending" },
+    group: "pregnancy-care",
+  },
+  {
+    slug: "nutrition-pregnancy",
+    eyebrow: "Pregnancy Care",
+    name: "Nutrition During Pregnancy",
+    shortDescription:
+      "Practical support for nutrition and lifestyle as your pregnancy progresses.",
+    heroStatement: "Nourishing yourself and your growing baby.",
+    overview:
+      "Evidence-based nutrition planning to support healthy fetal development, manage common pregnancy symptoms, and sustain your daily energy.",
+    highlights: ["Trimester-specific meal planning", "Gestational nutrition guidance", "Lifestyle & energy support"],
+    media: { alt: "Nutrition during pregnancy consultation — approved photography pending" },
+    group: "pregnancy-care",
+  },
+  {
+    slug: "garbh-sanskar",
+    eyebrow: "Pregnancy Care",
+    name: "Conscious Pregnancy & Garbh Sanskar",
+    shortDescription:
+      "Supportive practices that may include relaxation, mindfulness, music, positive routines, nutrition and bonding activities during pregnancy, based on your preferences.",
+    heroStatement: "Deepening the connection with your baby from the womb.",
+    overview:
+      "Holistic, time-tested practices combining prenatal meditation, music, positive routines, and bonding activities to support peaceful pregnancy.",
+    highlights: ["Relaxation & meditation", "Maternal-fetal bonding", "Positive lifestyle routines"],
+    media: { alt: "Garbh Sanskar and conscious pregnancy session — approved photography pending" },
+    group: "pregnancy-care",
+  },
+  {
+    slug: "nutrition-emotional-wellbeing",
+    eyebrow: "Pregnancy Care",
+    name: "Mental & Emotional Well-being During Pregnancy",
+    shortDescription:
+      "Support for emotional changes, concerns and mental well-being throughout pregnancy.",
+    heroStatement: "Emotional wellbeing through pregnancy.",
+    overview:
+      "Gentle, compassionate space to address prenatal anxiety, emotional shifts, and mental health as you journey toward birth.",
+    highlights: ["Prenatal anxiety support", "Emotional coping strategies", "Safe, non-judgmental space"],
+    media: { alt: "Mental and emotional well-being during pregnancy — approved photography pending" },
+    group: "pregnancy-care",
+  },
+
+  // ── Chapter 04: Preparing for Birth ─────────────────────────────────────
   {
     slug: "birth-preparation",
-    eyebrow: "Birth Preparation",
+    eyebrow: "Preparing for Birth",
     name: "Birth Preparation & Childbirth Education",
-    shortDescription: "Childbirth education and preparation ahead of delivery.",
+    shortDescription:
+      "Understand the stages of labour, comfort measures, birth options and what to expect during delivery.",
     heroStatement: "Preparing for birth, with confidence.",
     overview:
       "Birth preparation and childbirth education to help you understand what to expect and feel ready for delivery.",
     highlights: ["Childbirth education sessions", "Birth planning conversations", "Preparing what to expect"],
     media: { alt: "Birth preparation and childbirth education — approved photography pending" },
-    group: "birth-preparation",
+    group: "preparing-for-birth",
   },
   {
+    slug: "birth-planning",
+    eyebrow: "Preparing for Birth",
+    name: "Birth Planning",
+    shortDescription:
+      "Discuss your preferences, expectations and available birth options with your care team before labour begins.",
+    heroStatement: "Creating your personal, flexible birth plan.",
+    overview:
+      "Work together with your obstetrician and midwives to articulate your preferences, pain-relief choices, and birth wishes.",
+    highlights: ["Informed choice exploration", "Birth preference drafting", "Flexibility & safety planning"],
+    media: { alt: "Birth planning conversation — approved photography pending" },
+    group: "preparing-for-birth",
+  },
+  {
+    slug: "partner-preparation",
+    eyebrow: "Preparing for Birth",
+    name: "Partner Preparation & Involvement",
+    shortDescription:
+      "Partners can play an important role during pregnancy and labour. Preparation helps them understand how to provide practical and emotional support.",
+    heroStatement: "Empowering partners as active birth advocates.",
+    overview:
+      "Equipping partners with practical massage techniques, breathing support, emotional reassurance, and advocacy tools for labour.",
+    highlights: ["Hands-on comfort techniques", "Labour advocacy skills", "Emotional support strategies"],
+    media: { alt: "Partner preparation workshop — approved photography pending" },
+    group: "preparing-for-birth",
+  },
+  {
+    slug: "doula-support",
+    eyebrow: "Preparing for Birth",
+    name: "Doula Support",
+    shortDescription:
+      "Where available, a doula may provide non-medical emotional, physical and practical support during pregnancy, labour and birth alongside the medical care team.",
+    heroStatement: "Continuous, nurturing presence through labour and birth.",
+    overview:
+      "Dedicated doula accompaniment offering continuous physical comfort, verbal encouragement, and postpartum transition support.",
+    highlights: ["Continuous labour support", "Physical comfort measures", "Non-medical holistic care"],
+    media: { alt: "Doula support consultation — approved photography pending" },
+    group: "preparing-for-birth",
+  },
+
+  // ── Chapter 05: Birth Options ───────────────────────────────────────────
+  {
     slug: "natural-birth",
-    eyebrow: "Birth Preparation",
+    eyebrow: "Birth Options",
     name: "Natural Birth",
     shortDescription:
-      "Planning and support around birth preferences, preparation and informed choices while allowing for flexibility if circumstances change.",
+      "Support for women who would like to explore a natural approach to labour and birth where appropriate.",
     heroStatement: "Prepare for the birth you hope for — with space for informed choices and flexibility along the way.",
     overview:
       "Natural birth support covers birth preferences, preparation and informed-choice conversations, while remaining flexible if your circumstances or labour change.",
     highlights: ["Birth-preference conversations", "Preparation for informed choices", "Flexibility if plans need to change"],
     media: { alt: "Natural birth planning and support — approved photography pending" },
-    group: "birth-preparation",
+    group: "birth-options",
   },
+  {
+    slug: "normal-birth-delivery",
+    eyebrow: "Birth Options",
+    name: "Vaginal Birth",
+    shortDescription:
+      "Guidance and support for vaginal delivery based on your individual pregnancy and medical needs.",
+    heroStatement: "Care built around a normal, supported delivery.",
+    overview:
+      "Delivery care focused on supporting a normal vaginal birth, with guidance through labour and delivery itself.",
+    highlights: ["Labour support", "Delivery care", "Continuity from antenatal visits through to birth"],
+    media: { alt: "Normal birth and delivery care — approved photography pending" },
+    group: "birth-options",
+  },
+  {
+    slug: "vbac",
+    eyebrow: "Birth Options",
+    name: "VBAC — Vaginal Birth After Caesarean",
+    shortDescription:
+      "For suitable women, VBAC may be discussed as an option after a previous caesarean birth.",
+    heroStatement: "Considering a vaginal birth after a caesarean.",
+    overview:
+      "For women considering a vaginal birth after a previous caesarean, this care area covers what to discuss, plan for and expect.",
+    highlights: ["Eligibility conversations", "Birth planning support", "Care through labour and delivery"],
+    media: { alt: "VBAC care — approved photography pending" },
+    group: "birth-options",
+  },
+  {
+    slug: "water-birth",
+    eyebrow: "Birth Options",
+    name: "Water Birth",
+    shortDescription:
+      "Water birth may be considered where clinically appropriate and where the necessary facilities and support are available.",
+    heroStatement: "Warm-water immersion for gentle labour and birth.",
+    overview:
+      "Utilising hydrotherapy for pain relief, relaxation, and gentle transitions during suitable labours with full clinical safety.",
+    highlights: ["Hydrotherapy pain relief", "Gentle transition for baby", "Clinical safety monitoring"],
+    media: { alt: "Water birth consultation — approved photography pending" },
+    group: "birth-options",
+  },
+
+  // ── Chapter 06: After Birth ─────────────────────────────────────────────
   {
     slug: "postpartum-care",
     eyebrow: "After Birth",
     name: "Postpartum Recovery & Care",
-    shortDescription: "Recovery support and care in the weeks and months after birth.",
+    shortDescription:
+      "Follow-up support for physical recovery, healing and general well-being after delivery.",
     heroStatement: "Care that continues after birth.",
-    overview: "Postpartum care supports physical recovery and wellbeing in the weeks and months following delivery.",
+    overview:
+      "Postpartum care supports physical recovery and wellbeing in the weeks and months following delivery.",
     highlights: [
       "Postpartum recovery check-ins",
       "Physical and emotional wellbeing support",
@@ -180,27 +367,97 @@ export const services: ServiceContent[] = [
     group: "after-birth",
   },
   {
-    slug: "nutrition-emotional-wellbeing",
-    eyebrow: "Pregnancy",
-    name: "Nutrition & Emotional Well-being",
-    shortDescription: "Nutrition guidance and emotional wellbeing support through pregnancy and beyond.",
-    heroStatement: "Nutrition and emotional wellbeing, supported together.",
+    slug: "lactation",
+    eyebrow: "After Birth",
+    name: "Lactation & Breastfeeding Support",
+    shortDescription:
+      "Guidance and support for breastfeeding concerns and feeding-related questions.",
+    heroStatement: "Support through breastfeeding, from day one.",
     overview:
-      "Guidance on nutrition alongside emotional wellbeing support, recognising that care during pregnancy and beyond covers both.",
-    highlights: ["Nutrition guidance", "Emotional wellbeing support", "Support through pregnancy and postpartum"],
-    media: { alt: "Nutrition and emotional wellbeing support — approved photography pending" },
-    group: "pregnancy",
+      "Lactation support to help with breastfeeding in the early days and throughout, for both mother and baby.",
+    highlights: ["Early breastfeeding support", "Ongoing lactation guidance", "Support for common feeding concerns"],
+    media: { alt: "Lactation and breastfeeding support — approved photography pending" },
+    group: "after-birth",
+  },
+  {
+    slug: "postpartum-mental-health",
+    eyebrow: "After Birth",
+    name: "Postpartum Mental & Emotional Well-being",
+    shortDescription:
+      "Support for emotional changes, adjustment and mental well-being during the postpartum period.",
+    heroStatement: "Nurturing the mother's emotional heart after birth.",
+    overview:
+      "Compassionate assessment and proactive support for postpartum blues, anxiety, depression, and maternal adjustment.",
+    highlights: ["Postpartum emotional screening", "Adjustment counseling", "Supportive care networks"],
+    media: { alt: "Postpartum mental health support — approved photography pending" },
+    group: "after-birth",
+  },
+  {
+    slug: "early-parenting-support",
+    eyebrow: "After Birth",
+    name: "Early Parenting Support",
+    shortDescription:
+      "Practical guidance as you begin caring for your newborn and adjust to the early stages of parenthood.",
+    heroStatement: "Confidence and calm in the fourth trimester.",
+    overview:
+      "Helping you find your rhythm with baby sleep, settling, diapering, bathing, and navigating early family transitions.",
+    highlights: ["Soothing & settling techniques", "Sleep rhythm guidance", "Fourth-trimester transition support"],
+    media: { alt: "Early parenting support session — approved photography pending" },
+    group: "after-birth",
+  },
+
+  // ── Chapter 07: Baby Care ───────────────────────────────────────────────
+  {
+    slug: "newborn-care",
+    eyebrow: "Baby Care",
+    name: "Newborn Care",
+    shortDescription:
+      "Support for your baby’s early health, growth and development.",
+    heroStatement: "Dedicated care for your newborn's crucial first weeks.",
+    overview:
+      "Comprehensive neonatal check-ups, jaundice screening, weight tracking, and developmental milestones.",
+    highlights: ["First-week check-ins", "Growth & milestone tracking", "Gentle neonatal evaluations"],
+    media: { alt: "Newborn care consultation — approved photography pending" },
+    group: "baby-care",
   },
   {
     slug: "newborn-pediatric-care",
-    eyebrow: "After Birth",
-    name: "Newborn & Pediatric Care",
-    shortDescription: "Care and guidance for your newborn and growing child.",
+    eyebrow: "Baby Care",
+    name: "Paediatric Care",
+    shortDescription:
+      "Medical support and guidance for common concerns during infancy and early childhood.",
     heroStatement: "Care for your newborn, from the very start.",
-    overview: "Newborn and pediatric care covering your baby's early days and ongoing growth and development.",
+    overview:
+      "Newborn and pediatric care covering your baby's early days and ongoing growth and development.",
     highlights: ["Newborn check-ins", "Pediatric guidance", "Support as your baby grows"],
     media: { alt: "Newborn and pediatric care — approved photography pending" },
-    group: "after-birth",
+    group: "baby-care",
+  },
+  {
+    slug: "feeding-growth",
+    eyebrow: "Baby Care",
+    name: "Feeding & Growth",
+    shortDescription:
+      "Guidance around feeding, growth and early developmental needs.",
+    heroStatement: "Monitoring nutrition and growth with confidence.",
+    overview:
+      "Expert advice on bottle feeding, solids introduction, growth curves, and digestive comfort for your growing baby.",
+    highlights: ["Growth curve tracking", "Weaning & solids guidance", "Digestive comfort support"],
+    media: { alt: "Feeding and growth consultation — approved photography pending" },
+    group: "baby-care",
+  },
+  {
+    slug: "parenting-guidance",
+    eyebrow: "Baby Care",
+    name: "Parenting Guidance",
+    shortDescription:
+      "Practical support for parents as they understand their baby’s needs and build confidence during the early months.",
+    heroStatement: "Reassurance and wisdom for the parenting journey.",
+    overview:
+      "Developmentally informed guidance to decode baby cues, foster secure attachment, and ease parental anxiety.",
+    highlights: ["Decoding infant cues", "Attachment-focused parenting", "Partner team dynamics"],
+    media: { alt: "Parenting guidance consultation — approved photography pending" },
+    group: "baby-care",
   },
 ];
 
@@ -209,61 +466,96 @@ export function getServiceBySlug(slug: string): ServiceContent | undefined {
 }
 
 /**
- * /services-only presentation map, keyed by the existing approved slugs
- * above — this is the single source of truth for how the master page
- * (Quick Overview's chapter grouping, the Sticky Treatment Showcase, the
- * background-wash chapter boundaries) orders and labels the 11 services.
- * It does not reorder or mutate `services` itself (routes,
- * `generateStaticParams`, the 01–11 numbering everything else uses are
- * untouched) — every slug below is confirmed against that same array at
- * module load (`buildChapter` throws if a slug doesn't exist there).
- *
- * Chapter order and membership match the brief's own confirmed chapter
- * sequence exactly (Before/Women's Health → Pregnancy → Birth Preparation
- * → Birth → After Birth) — five chapters, not implying every visitor
- * follows this sequence or that "before" only concerns pregnancy.
+ * Presentation map for the /services master page across the 7 care chapters.
  */
 export interface CareChapter {
   id: CareGroup;
   label: string;
-  /** One short, factual line introducing the chapter — read by the Care
-   * Journey section's own chapter spread, alongside its one chapter image.
-   * Not a clinical claim or outcome, same restraint as `shortDescription`
-   * above. */
+  eyebrow: string;
+  heading: string;
   intro: string;
   slugs: string[];
+  note?: string;
 }
 
 const CARE_CHAPTERS_RAW: CareChapter[] = [
   {
-    id: "before",
-    label: "Before / Women's Health",
-    intro: "Preconception planning, gynaecological care and intimate wellness — women's health support before pregnancy begins.",
-    slugs: ["fertility-preconception", "vaginismus", "gynaecology"],
+    id: "womens-health",
+    label: "Women's Health",
+    eyebrow: "Women's Health",
+    heading: "Care for your health, not just pregnancy.",
+    intro:
+      "Women’s healthcare begins long before pregnancy and continues through every stage of life. The Birthwave brings together preventive care, gynaecological support, intimate wellness, hormonal health and long-term well-being.",
+    slugs: [
+      "adolescent-health",
+      "gynaecology",
+      "pcos-menstrual-health",
+      "vaginismus",
+      "weight-metabolic-wellness",
+      "mental-emotional-wellbeing",
+      "menopause-care",
+      "preventive-health",
+    ],
   },
   {
-    id: "pregnancy",
-    label: "Pregnancy",
-    intro: "Regular antenatal care alongside nutrition and emotional wellbeing guidance, through every trimester.",
-    slugs: ["pregnancy-antenatal-care", "nutrition-emotional-wellbeing"],
+    id: "planning-a-pregnancy",
+    label: "Planning a Pregnancy",
+    eyebrow: "Planning a Pregnancy",
+    heading: "Thinking about pregnancy?",
+    intro:
+      "You don’t have to wait until you’re pregnant to begin preparing. Preconception care can help you understand your health, fertility, nutrition and any concerns before pregnancy begins.",
+    slugs: ["fertility-preconception", "preconception-health", "conscious-pregnancy-prep"],
   },
   {
-    id: "birth-preparation",
-    label: "Birth Preparation",
-    intro: "Childbirth education and preparation conversations, so you feel ready for what's ahead.",
-    slugs: ["birth-preparation", "natural-birth"],
+    id: "pregnancy-care",
+    label: "Pregnancy Care",
+    eyebrow: "Pregnancy Care",
+    heading: "Care that grows with your pregnancy.",
+    intro:
+      "Pregnancy brings different needs at every stage. Antenatal care at The Birthwave is designed to support both medical health and overall well-being throughout the pregnancy journey.",
+    slugs: [
+      "pregnancy-antenatal-care",
+      "nutrition-pregnancy",
+      "garbh-sanskar",
+      "nutrition-emotional-wellbeing",
+    ],
   },
   {
-    id: "birth",
-    label: "Birth",
-    intro: "Support through labour and delivery, including guidance for a vaginal birth after caesarean.",
-    slugs: ["normal-birth-delivery", "vbac"],
+    id: "preparing-for-birth",
+    label: "Preparing for Birth",
+    eyebrow: "Preparing for Birth",
+    heading: "Understand birth before labour begins.",
+    intro:
+      "Birth preparation gives you time to understand your options, ask questions and feel more prepared for labour and delivery.",
+    slugs: ["birth-preparation", "birth-planning", "partner-preparation", "doula-support"],
+  },
+  {
+    id: "birth-options",
+    label: "Birth Options",
+    eyebrow: "Birth Options",
+    heading: "Understanding your birth options.",
+    intro:
+      "Every pregnancy and labour is different. Your birth plan should take your health, pregnancy and individual circumstances into account.",
+    note: "Your care team can help you understand which options may be suitable for you.",
+    slugs: ["natural-birth", "normal-birth-delivery", "vbac", "water-birth"],
   },
   {
     id: "after-birth",
     label: "After Birth",
-    intro: "Recovery, breastfeeding support and newborn care, continuing well beyond the birth itself.",
-    slugs: ["postpartum-care", "lactation", "newborn-pediatric-care"],
+    eyebrow: "After Birth",
+    heading: "Your care doesn’t end with delivery.",
+    intro:
+      "The weeks and months after birth bring physical, emotional and practical changes. Postpartum care supports recovery while helping you adjust to life with your baby.",
+    slugs: ["postpartum-care", "lactation", "postpartum-mental-health", "early-parenting-support"],
+  },
+  {
+    id: "baby-care",
+    label: "Baby Care",
+    eyebrow: "Baby Care",
+    heading: "Care for your baby’s beginning.",
+    intro:
+      "The early months bring new questions for every parent. The Birthwave supports your baby’s health while helping you feel more confident in your role as a parent.",
+    slugs: ["newborn-care", "newborn-pediatric-care", "feeding-growth", "parenting-guidance"],
   },
 ];
 
@@ -278,99 +570,224 @@ function buildChapter(chapter: CareChapter): CareChapter & { services: ServiceCo
 
 export const careChapters = CARE_CHAPTERS_RAW.map(buildChapter);
 
-/** Flat presentation order (all 11, chapter by chapter) — read by the Care
- * Journey section for each service link's own global 01–11 index. */
+/** Flat presentation order (all services, chapter by chapter) — read by the Care
+ * Journey section for each service link's own global index. */
 export const servicesShowcaseOrder: ServiceContent[] = careChapters.flatMap((c) => c.services);
 
+// ── Section 01 — Hero (Exact prompt copy) ───────────────────────────────────
+
 export const servicesHero = {
-  eyebrow: "Our Care",
-  headlineLines: ["Care for every stage.", "Connected by one philosophy."],
+  eyebrow: "OUR SERVICES",
+  heading: "Care for where you are now—and what comes next.",
+  headlineLines: ["Care for where you are now—", "and what comes next."],
+  description:
+    "Explore care for women’s health, pregnancy preparation, pregnancy, recovery and your baby’s early years. Start with what matters to you, and find the support that fits your stage of life.",
   supporting:
-    "From women's health and pregnancy to birth, recovery and newborn care, explore the support available throughout your journey.",
-  primaryCta: { label: "Explore Treatments", href: "#treatment-showcase" },
-  secondaryCta: { label: "Book a Consultation", href: "/#connect" },
-  media: { alt: "A mother and newborn together — approved photography pending" },
+    "Explore care for women’s health, pregnancy preparation, pregnancy, recovery and your baby’s early years. Start with what matters to you, and find the support that fits your stage of life.",
+  primaryCta: { label: "Find your care", href: "#find-care" },
+  secondaryCta: { label: "Request an appointment", href: "/#connect" },
+  note: "Consultations by appointment · Chennai",
+  media: {
+    alt: "A mother and newborn together in a calm, softly lit consultation setting.",
+  },
 } as const;
 
-/**
- * Care Journey — Section 02 (chapter-level editorial refinement). Replaces
- * the earlier Quick Overview + Sticky Showcase pair: one editorial spread
- * per chapter (one image, asymmetric service links) instead of a plain
- * link directory followed by a separately image-heavy, per-service
- * showcase.
- */
-export const careJourneyIntro = {
-  eyebrow: "At A Glance",
-  heading: "Eleven areas of care, five connected stages.",
-  /** Visible jump link to Find the Right Care, for a visitor who wants a
-   * direct answer rather than reading all five chapters. Points at
-   * `#find-the-right-care`, the id that section's own `<section>` carries. */
-  jumpLabel: "Not sure where to start?",
-  jumpHref: "#find-the-right-care",
-} as const;
+// ── Section 02 — Doorways Care Finder ("What can we help you with?") ──────────
 
-/** "Find the Right Care" — a decision helper, not a second directory: five
- * plain-language starting points for a visitor who doesn't know which
- * service name they need, each pointing at `services`' own real name(s)/
- * slug(s) rather than inventing new category labels. Every service NOT
- * named here already has its own direct link in the Care Journey section
- * above — this section doesn't need to repeat that full listing, only
- * cover the handful of starting questions visitors actually arrive with.
- * A `secondary` answer (VBAC, under "Preparing for birth?") renders at
- * lower visual weight — a related, high-intent route worth surfacing
- * without competing with the row's own primary answer. No diagnosis
- * language: each answer names where the conversation starts, not a
- * clinical determination. */
-export const findTheRightCare = {
-  eyebrow: "Not Sure Where To Start?",
-  heading: "Find the right care.",
-  intro: "A few common starting points if you're not sure which service fits.",
-  pairings: [
+export interface CareFinderLink {
+  label: string;
+  href: string;
+  isAnchor: boolean;
+}
+
+export interface CareFinderColumn {
+  number: string;
+  heading: string;
+  imageKey: "care-finder-your-health" | "care-finder-pregnancy-birth" | "care-finder-after-birth-baby";
+  imageAlt: string;
+  imageFocalPoint: string;
+  links: CareFinderLink[];
+}
+
+export const doorwaysCareFinder = {
+  eyebrow: "FIND YOUR CARE",
+  heading: "A place for every part of you.",
+  description: "Choose where you are today. We’ll help you find your next step.",
+  columns: [
     {
-      question: "Planning a pregnancy?",
-      answers: [{ label: "Fertility & Preconception", slug: "fertility-preconception" }],
-    },
-    {
-      question: "Already pregnant?",
-      answers: [{ label: "Pregnancy & Antenatal Care", slug: "pregnancy-antenatal-care" }],
-    },
-    {
-      question: "Preparing for birth?",
-      answers: [
-        { label: "Birth Preparation & Childbirth Education", slug: "birth-preparation" },
-        { label: "VBAC", slug: "vbac", secondary: true },
+      number: "01",
+      heading: "Your health",
+      imageKey: "care-finder-your-health" as const,
+      imageAlt: "AI-generated illustration: A woman discusses her health and wellbeing with a clinician in a calm consultation setting.",
+      imageFocalPoint: "center 22%",
+      links: [
+        { label: "Women’s healthcare", href: "#womens-health", isAnchor: true },
+        { label: "Weight & metabolic health", href: "/services/weight-metabolic-wellness", isAnchor: false },
+        { label: "Emotional well-being", href: "/services/mental-emotional-wellbeing", isAnchor: false },
+        { label: "Perimenopause & menopause", href: "/services/menopause-care", isAnchor: false },
+        { label: "Preventive screening", href: "/services/preventive-health", isAnchor: false },
       ],
     },
     {
-      question: "Recovering after birth?",
-      answers: [{ label: "Postpartum Recovery & Care", slug: "postpartum-care" }],
+      number: "02",
+      heading: "Pregnancy & birth",
+      imageKey: "care-finder-pregnancy-birth" as const,
+      imageAlt: "AI-generated illustration: A couple in a consultation discussing pregnancy and birth options.",
+      imageFocalPoint: "center 25%",
+      links: [
+        { label: "Planning a pregnancy", href: "#planning-a-pregnancy", isAnchor: true },
+        { label: "Pregnancy care", href: "#pregnancy-care", isAnchor: true },
+        { label: "Preparing for birth", href: "#preparing-for-birth", isAnchor: true },
+        { label: "Exploring birth options", href: "#birth-options", isAnchor: true },
+      ],
     },
     {
-      question: "Need feeding or newborn support?",
-      answers: [
-        { label: "Lactation & Breastfeeding Support", slug: "lactation" },
-        { label: "Newborn & Pediatric Care", slug: "newborn-pediatric-care" },
+      number: "03",
+      heading: "After birth & baby",
+      imageKey: "care-finder-after-birth-baby" as const,
+      imageAlt: "AI-generated illustration: A mother holds her newborn during a consultation.",
+      imageFocalPoint: "center 20%",
+      links: [
+        { label: "Recovery after birth", href: "#after-birth", isAnchor: true },
+        { label: "Care for your baby", href: "#baby-care", isAnchor: true },
       ],
+    },
+  ] satisfies CareFinderColumn[],
+  helpPanel: {
+    heading: "Unsure where to begin?",
+    linkText: "Talk to our team",
+    linkHref: "/contact",
+  },
+} as const;
+
+/** Preserved compact care finder options for backwards-compatibility. */
+export const compactCareFinder = {
+  eyebrow: doorwaysCareFinder.eyebrow,
+  heading: doorwaysCareFinder.heading,
+  intro: doorwaysCareFinder.description,
+  options: [
+    {
+      intent: "Women’s healthcare",
+      detail: "Gynaecology, menstrual health, PCOS, intimate wellness and preventive care.",
+      href: "#womens-health",
+      targetLabel: "Women’s Health",
+    },
+    {
+      intent: "Weight & metabolic health",
+      detail: "Support for healthy weight management, insulin sensitivity and lifestyle wellness.",
+      href: "/services/weight-metabolic-wellness",
+      targetLabel: "Weight & Metabolic Wellness",
+    },
+    {
+      intent: "Emotional well-being",
+      detail: "Mental and emotional health support through every stage of a woman’s life.",
+      href: "/services/mental-emotional-wellbeing",
+      targetLabel: "Mental & Emotional Well-being",
+    },
+    {
+      intent: "Planning a pregnancy",
+      detail: "Preconception health reviews, fertility support and conscious preparation.",
+      href: "#planning-a-pregnancy",
+      targetLabel: "Planning a Pregnancy",
+    },
+    {
+      intent: "Pregnancy care",
+      detail: "Antenatal check-ins, prenatal nutrition, Garbh Sanskar and ongoing guidance.",
+      href: "#pregnancy-care",
+      targetLabel: "Pregnancy Care",
+    },
+    {
+      intent: "Preparing for birth",
+      detail: "Childbirth education, birth planning, partner involvement and doula support.",
+      href: "#preparing-for-birth",
+      targetLabel: "Preparing for Birth",
+    },
+    {
+      intent: "Exploring birth options",
+      detail: "Natural birth, vaginal birth, VBAC and water birth considerations.",
+      href: "#birth-options",
+      targetLabel: "Birth Options",
+    },
+    {
+      intent: "Recovery after birth",
+      detail: "Postpartum physical recovery, breastfeeding support and maternal adjustment.",
+      href: "#after-birth",
+      targetLabel: "After Birth",
+    },
+    {
+      intent: "Care for your baby",
+      detail: "Newborn evaluations, paediatric care, growth tracking and parenting guidance.",
+      href: "#baby-care",
+      targetLabel: "Baby Care",
+    },
+    {
+      intent: "Perimenopause & menopause",
+      detail: "Care for hormonal changes, symptom management and long-term health.",
+      href: "/services/menopause-care",
+      targetLabel: "Perimenopause & Menopause",
+    },
+    {
+      intent: "Preventive screening",
+      detail: "Routine women’s health checks, including breast and cervical screening.",
+      href: "/services/preventive-health",
+      targetLabel: "Preventive Screening",
     },
   ],
 } as const;
 
-/** Connected Care / Why BirthWave — an original editorial section for
- * this page, deliberately not About's own cinematic treatment (per the
- * brief). */
-export const connectedCare = {
-  eyebrow: "Why The Birthwave",
-  heading: "Care changes as your needs change.",
-  body: "The Birthwave brings different areas of care together so that your journey does not have to restart at every stage.",
-  media: { alt: "Care team in conversation — approved photography pending" },
+/** Alias for backward compatibility if imported elsewhere. */
+export const findTheRightCare = {
+  eyebrow: compactCareFinder.eyebrow,
+  heading: compactCareFinder.heading,
+  intro: compactCareFinder.intro,
+  pairings: compactCareFinder.options.map((opt) => ({
+    question: opt.intent,
+    description: opt.detail,
+    answers: [{ label: opt.targetLabel, slug: opt.href.replace(/^#/, "").replace(/^\/services\//, "") }],
+  })),
 } as const;
 
-export const servicesFinalCta = {
-  headingLines: ["Not sure which care is right for you?", "Start with a conversation."],
-  primaryCta: { label: "Book a Consultation", href: "/#connect" },
+export const findHelpCta = {
+  eyebrow: "Not Sure Where to Start?",
+  heading: "You don’t need to know the name of the service you need.",
+  body: "Sometimes you know something doesn’t feel right, but you’re not sure which specialist or service to choose. Tell us what you’re experiencing, and our team can help guide you towards the appropriate care.",
+  primaryCta: { label: "Find Your Care", href: "#find-care" },
   secondaryCta: {
-    label: "WhatsApp Us",
-    href: "/#connect",
-    todo: "No verified WhatsApp number exists for this project — mirrors doctors-content.ts's own doctorsAppointmentCta.secondaryCta, which resolves to the same closing anchor rather than a fabricated wa.me link.",
+    label: "Chat on WhatsApp",
+    href: "https://wa.me/919840798472",
   },
+} as const;
+
+// ── Section 04 — Care Philosophy ("One Connected Journey") ─────────────────
+
+export const connectedCare = {
+  eyebrow: "OUR APPROACH TO CARE",
+  heading: "Different services. One connected approach to care.",
+  philosophyLines: [
+    "At The Birthwave, women’s health is not viewed as a series of isolated appointments.",
+    "Our approach considers the wider picture — your physical health, emotional well-being, lifestyle, reproductive health and stage of life.",
+    "The aim is to provide care that listens, explains and adapts as your needs change.",
+  ],
+  body:
+    "Care connects from one stage to the next so you don't have to experience each transition as a separate journey.",
+  cta: { label: "About The Birthwave", href: "/about" },
+} as const;
+
+// ── Section 05 — Final Appointment CTA (Combined dark closure) ─────────────
+
+export const servicesFinalCta = {
+  eyebrow: "START WHERE YOU ARE",
+  heading: "Ready to begin, or not sure where to start?",
+  headingLines: ["Ready to begin, or not sure", "where to start?"],
+  supporting:
+    "Whether you know exactly which service you need or simply want guidance on the right place to begin, our care team is here to listen and help you take the next step.",
+  primaryCta: { label: "Request an appointment", href: "/#connect" },
+  secondaryCta: {
+    label: "Chat on WhatsApp",
+    href: "https://wa.me/919840798472",
+  },
+  phoneLabel: "Call",
+  phoneNumber: "+91 93630 31925",
+  phoneHref: "tel:+919363031925",
+  note: "Consultations by appointment · Mahalingapuram, Nungambakkam, Chennai",
 } as const;

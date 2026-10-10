@@ -1,67 +1,49 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { finalCta } from "@/content/site-content";
 import { Button } from "@/components/ui/button";
-import { CtaLink } from "@/components/ui/cta-link";
+import { CareWaveBackground } from "@/components/ui/backgrounds/care-wave-background";
 import { useParallax } from "@/motion/image-motion";
 import { useScrollReveal } from "@/motion/scroll-scenes";
 import { emergenceBand, finalCtaEmergence } from "@/motion/section-transitions";
 import { cx } from "@/lib/cx";
 
 /**
- * The closing invitation — approved copy (see site-content.ts), given
- * verbatim for this rework. Large statement, supporting line, one primary
- * and one secondary action, no boxed card. The dark (ink) surface is the
- * one tonal break in the page, reserved for this and the footer, so the
- * ending reads as one composed moment rather than another light section.
+ * Section 4: Final CTA / Pre-Footer Section — "Start Where You Are".
  *
- * It doesn't cut in as a hard rectangle: a wide paper-tinted band fades
- * across the top of the ink fill (`--space-fade-final`, wider than the
- * `--space-fade-strong` other transitions use) so the warm-to-dark-brown
- * shift reads as a held approach, not a snap — the fourth of the site's
- * four named parallax moments, alongside the resolving BirthWave line
- * above the headline, which drifts at its own slight rate via the same
- * `useParallax` hook the hero's own background uses.
- *
- * Background photograph (docs/implementation-brief.md §32): a full-bleed
- * atmospheric wash behind everything above — the brief is explicit this
- * section "must remain primarily typographic," so it stays low opacity
- * with a dark overlay on top, "only hints of imagery," never a visible
- * photograph competing with the close. Its own drift reuses the same
- * `useParallax` hook (a small factor, ~4% of scroll delta) rather than a
- * new ScrollTrigger scene — "no major new parallax chapter," per the
- * brief.
+ * Enhanced pre-footer closing invitation:
+ * - Rich dark espresso base (#241a17 / bg-ink) with seamless footer alignment.
+ * - Restrained atmospheric background: low-opacity parallax photograph combined
+ *   with a gentle, warm maternal light falloff (soft coral radial glaze).
+ * - Drifting resolving BirthWave line in coral above the headline.
+ * - Crisp, high-contrast, luminous warm ivory typography (#FAF6F2) guaranteed against dark fill.
+ * - Dual prominent CTA actions:
+ *   - Primary: Glowing dusty rose / coral button.
+ *   - Secondary: Elegant warm outline button with arrow nudge.
+ * - Smooth top emergence band bridging the light ivory of FAQ into dark espresso.
+ * - Hairline pre-footer separator for an intentional, architectural closure.
+ * - Full accessibility and motion-reduction compliance.
  */
 export function FinalCtaSection() {
   const pathRef = useParallax<HTMLDivElement>({ factor: 0.08, maxOffsetPx: 18 });
   const bgImageRef = useParallax<HTMLDivElement>({ factor: 0.04, maxOffsetPx: 14 });
-  // "Brief entrance, then remain visible" (homepage motion-coherence
-  // pass): the text column previously had no motion of its own at all —
-  // always at full opacity from first paint, unlike every other section's
-  // own settle-on-entry moment. One-shot only (`useScrollReveal`, the
-  // same IntersectionObserver hook Care's own companion visual already
-  // uses), not scroll-linked: it fires once, stays revealed, and never
-  // re-hides on reverse scroll — a closing section should not disappear
-  // again on the way back up.
   const { ref: textRevealRef, revealed } = useScrollReveal<HTMLDivElement>();
 
   return (
     <section
       id="connect"
       aria-labelledby="final-cta-heading"
-      // overflow-hidden added alongside the new background image
-      // (docs/implementation-brief.md §32): its own `scale-110` (the same
-      // overscan technique Hero's own background already uses) bled
-      // 5vw past each edge without it — confirmed as the exact cause of
-      // a measured 72px horizontal overflow at 1440px, not guessed.
-      className="relative isolate overflow-hidden bg-ink py-(--space-section)"
+      className="relative isolate overflow-hidden bg-ink py-24 sm:py-28 lg:py-36 border-b border-paper/[0.08]"
     >
+      {/* Background Photograph — Subtle atmospheric wash */}
       <div
         ref={bgImageRef}
         aria-hidden="true"
         style={{ transform: "translate3d(0, var(--parallax-y, 0px), 0)" }}
-        className="absolute inset-0 -z-10 scale-110 opacity-[0.34]"
+        className="absolute inset-0 -z-20 scale-110 opacity-[0.24]"
       >
         <Image
           src={finalCta.media.src}
@@ -71,11 +53,14 @@ export function FinalCtaSection() {
           className="object-cover object-[35%_45%]"
         />
       </div>
-      {/* Dark overlay — keeps the wash reading as "hints of imagery," not
-          a visible photograph, and guarantees the headline/CTA hold full
-          contrast regardless of what's underneath. */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-ink/60" />
 
+      {/* Dark Espresso Base Scrim */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-ink/75" />
+
+      {/* Atmospheric flowing care waves in muted terracotta & coral */}
+      <CareWaveBackground preset="dark-cta" />
+
+      {/* Top Emergence Band: Smooth transition from Warm Ivory to Espresso */}
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-(--space-fade-final)"
@@ -83,17 +68,13 @@ export function FinalCtaSection() {
       />
 
       <div className="container-birthwave relative z-10">
+        {/* Resolving BirthWave Line SVG with Parallax */}
         <div
           ref={pathRef}
           aria-hidden="true"
-          className="w-40 text-coral/70 sm:w-52"
-          style={{ transform: "translate3d(0, var(--parallax-y, 0px), 0)" }}
+          className="w-40 text-coral sm:w-52"
+          style={{ transform: "translate3d(0, var(--parallax-y, 0px), 0)", color: "#F88379" }}
         >
-          {/* The BirthWave line, resolved: it opens with the same gentle
-              undulation Journey's path carries throughout, then flattens
-              into a calm, settled line by its end — drawn once, static,
-              not another scroll-scrubbed draw. This is where the line the
-              Journey section traced finishes. */}
           <svg viewBox="0 0 240 40" fill="none" focusable="false">
             <path
               d="M4 22 C 38 4, 66 38, 98 20 S 158 8, 196 20 L 236 20"
@@ -104,47 +85,91 @@ export function FinalCtaSection() {
           </svg>
         </div>
 
+        {/* Text & Action Column */}
         <div
           ref={textRevealRef}
+          // Shown at rest without JavaScript (site-header.tsx's <noscript>).
+          data-reveal=""
           className={cx(
             "mt-8 max-w-3xl transition-[transform,opacity] duration-[var(--duration-slow)] ease-[var(--ease-signature)] motion-reduce:translate-y-0 motion-reduce:opacity-100 sm:mt-10",
-            revealed ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
+            revealed ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
           )}
         >
-          {/* Mobile rework (docs/implementation-brief.md §38): the base
-              clamp used to bottom out at 2rem (32px), under the requested
-              ~2.4–3.4rem mobile target — `sm:`+ is untouched (a separate
-              override below restores the exact original formula there,
-              so nothing changes at real desktop widths). */}
-          <p
+          {/* Eyebrow */}
+          <div className="inline-flex items-center gap-3">
+            <span
+              aria-hidden="true"
+              className="h-px w-6 bg-coral/60"
+            />
+            <p
+              className="eyebrow !tracking-[0.2em] text-xs font-semibold uppercase !text-coral"
+              style={{ color: "#F88379" }}
+            >
+              {finalCta.eyebrow}
+            </p>
+            <span
+              aria-hidden="true"
+              className="h-px w-6 bg-coral/60"
+            />
+          </div>
+
+          {/* Statement Headline — explicitly styled with luminous ivory so global h2 styles never override it */}
+          <h2
             id="final-cta-heading"
-            className="text-[clamp(2.4rem,2rem+2.6vw,3.2rem)] leading-[1.08] font-semibold text-paper sm:text-[clamp(2rem,1.3rem+2.8vw,4rem)]"
+            className="mt-4 text-balance text-[clamp(2.4rem,2rem+2.6vw,4rem)] font-semibold leading-[1.06] tracking-[var(--tracking-tight)] !text-[#FAF6F2]"
+            style={{ color: "#FAF6F2" }}
           >
             {finalCta.statementLines.map((line) => (
-              <span key={line} className="block">
+              <span key={line} className="block text-[#FAF6F2]" style={{ color: "#FAF6F2" }}>
                 {line}
               </span>
             ))}
-          </p>
+          </h2>
 
-          <p className="mt-6 max-w-xl text-lg leading-[var(--leading-relaxed)] text-paper/75">
+          {/* Supporting Statement */}
+          <p
+            className="mt-6 max-w-2xl text-lg leading-[1.7] !text-[#FAF6F2]/90 sm:text-xl"
+            style={{ color: "rgba(250, 246, 242, 0.9)" }}
+          >
             {finalCta.supporting}
           </p>
 
-          {/* §38: stacked, full-width primary CTA below `sm` — the
-              previous single-row `flex-wrap` let the primary button and
-              the secondary text link sit side by side at any width,
-              which on a narrow phone crowded two touch targets into one
-              cramped row rather than "strong stacked controls." `sm:`+
-              (640px+) returns to the original single row exactly. */}
-          <div className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-10 sm:gap-y-5">
-            <Button href={finalCta.primaryCta.href} variant="primary" className="w-full justify-center sm:w-auto">
+          {/* Prominent Dual CTAs — destinations and labels from finalCta
+              (site-content.ts), which records why neither is a booking
+              system or a wa.me link yet. */}
+          <div className="mt-10 flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5">
+            {/* Primary CTA Button */}
+            <Button
+              href={finalCta.primaryCta.href}
+              variant="primary"
+              className="min-h-[3.25rem] px-8 text-center justify-center rounded-xs shadow-md transition-all hover:bg-coral hover:shadow-lg sm:w-auto"
+            >
               {finalCta.primaryCta.label}
             </Button>
-            <CtaLink href={finalCta.secondaryCta.href} tone="inverted" className="text-lg">
-              {finalCta.secondaryCta.label}
-            </CtaLink>
+
+            {/* Secondary CTA Outline Button — linking to verified contact details */}
+            <Link
+              href={finalCta.secondaryCta.href}
+              className="group inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-xs border border-white/30 bg-white/[0.06] px-7 py-3.5 font-body text-sm font-semibold tracking-[0.08em] uppercase !text-[#FAF6F2] transition-all duration-200 hover:border-coral hover:bg-white/10 hover:!text-coral focus-visible:outline focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-2"
+              style={{ color: "#FAF6F2" }}
+            >
+              <span className="!text-[#FAF6F2] group-hover:!text-coral" style={{ color: "inherit" }}>
+                {finalCta.secondaryCta.label}
+              </span>
+              <ArrowUpRight
+                aria-hidden="true"
+                className="size-4 text-paper/80 transition-all duration-200 ease-[var(--ease-signature)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-coral"
+              />
+            </Link>
           </div>
+
+          {/* Reassuring Note */}
+          <p
+            className="mt-8 max-w-xl text-sm leading-[1.65] !text-[#FAF6F2]/70"
+            style={{ color: "rgba(250, 246, 242, 0.7)" }}
+          >
+            {finalCta.note}
+          </p>
         </div>
       </div>
     </section>

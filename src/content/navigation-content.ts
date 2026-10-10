@@ -12,18 +12,8 @@ export const navigation = {
   // homepage sections. "Our Care" resolves to /services — the site's real
   // services listing route (content is still placeholder copy, but the
   // route itself is the confirmed master care page; no new route was
-  // invented for this). "Contact" still has no dedicated page or form (see
-  // /contact's own placeholder) and no booking flow exists yet, so it
-  // — like the CTA — resolves to the homepage's closing invitation section,
-  // same as before.
-  //
-  // `/#connect`, not bare `#connect`: this header renders on every route
-  // (global chrome via PageShell), and a bare hash only scrolls within
-  // whatever page is currently open — on /about, /doctors or /services
-  // there is no `#connect` element, so it would silently do nothing. The
-  // path prefix makes it resolve correctly (navigate home, then scroll)
-  // from anywhere, matching the `/#connect` convention already used by
-  // doctors-content.ts's own CTAs.
+  // invented for this). "Contact" and the booking CTA both go to /contact,
+  // the real page with the confirmed phone, email, address and enquiry form.
   links: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -33,7 +23,10 @@ export const navigation = {
   ],
   cta: {
     label: "Book a Consult",
-    href: "/#connect",
-    todo: "Placeholder destination — no booking flow exists yet (forms/scheduling are explicitly out of scope this phase).",
+    // The real contact page (confirmed phone, email, address and the enquiry
+    // form), not `/#connect` — that only scrolled to the homepage's closing
+    // CTA, which itself sends visitors to /contact.
+    href: "/contact",
+    todo: "No booking system exists yet, and the /contact enquiry form does not send anywhere (it only shows a preview state) — needs a booking/form integration from the client.",
   },
 } as const;

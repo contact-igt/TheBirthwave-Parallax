@@ -23,50 +23,52 @@ export const contactHero = {
 } as const;
 
 /**
- * Centralized development placeholders awaiting client confirmation.
- * Edit values here once confirmed; components read directly from this dictionary.
+ * Confirmed contact details — live and in use.
+ * Components read directly from this dictionary.
  */
 export const contactPlaceholders = {
-  phone: "[Birthwave confirmation needed: phone number]",
-  whatsapp: "[Birthwave confirmation needed: WhatsApp number]",
-  email: "[Birthwave confirmation needed: email address]",
-  clinicAddress: "[Birthwave confirmation needed: clinic address]",
+  phone: "+91 93630 31925",
+  whatsapp: "+91 98407 98472",
+  email: "drsantoshi@thebirthwave.com",
+  clinicAddress:
+    "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai \u2013 600034",
   consultationTimings: "[Birthwave confirmation needed: consultation timings]",
 } as const;
 
 export const contactDirectDetails = {
-  heading: "Direct contact",
+  heading: "Contact Info",
   items: [
     {
       id: "call",
-      label: "CALL",
-      confirmed: false,
-      value: contactPlaceholders.phone,
-      actionHref: undefined as string | undefined,
+      label: "Phone",
+      confirmed: true,
+      value: "+91 93630 31925",
+      actionHref: "tel:+919363031925" as string | undefined,
       note: "Primary phone line for patient support and enquiries.",
     },
     {
       id: "whatsapp",
-      label: "WHATSAPP",
-      confirmed: false,
-      value: contactPlaceholders.whatsapp,
-      actionHref: undefined as string | undefined,
-      note: "Message directly for consultation and scheduling assistance.",
+      label: "Phone",
+      confirmed: true,
+      value: "+91 98407 98472",
+      actionHref: "tel:+919840798472" as string | undefined,
+      note: "Secondary phone line.",
     },
     {
       id: "email",
-      label: "EMAIL",
-      confirmed: false,
-      value: contactPlaceholders.email,
-      actionHref: undefined as string | undefined,
+      label: "Email",
+      confirmed: true,
+      value: "drsantoshi@thebirthwave.com",
+      actionHref: "mailto:drsantoshi@thebirthwave.com" as string | undefined,
       note: "Send appointment enquiries or general clinical questions.",
     },
     {
       id: "visit",
-      label: "VISIT",
-      confirmed: false,
-      value: contactPlaceholders.clinicAddress,
-      actionHref: undefined as string | undefined,
+      label: "Address",
+      confirmed: true,
+      value:
+        "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai \u2013 600034",
+      actionHref: "https://maps.google.com/?q=No.+8%2F15+Mahalingapuram+Main+Road+Nungambakkam+Chennai+600034" as string | undefined,
       note: "Consultations are by appointment in a calm, private environment.",
     },
   ],

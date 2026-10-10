@@ -15,24 +15,45 @@ export const servicesImagery = {
     // Source photo is 1440x810 (16:9), subject seated at roughly the
     // right two-thirds with a wide, genuinely empty wall on the left —
     // already composed for this hero's own text-left/subject-right
-    // treatment, unchanged from this page's original approved crop.
-    focalPoint: { mobile: "75% 30%", desktop: "65% center" },
+    // treatment. Focal point set to 74% 12% on desktop (and 74% 16% on tablet)
+    // so the subject's head and face clear the fixed header and remain completely
+    // visible, while keeping her dress and hands on bump in full frame.
+    focalPoint: { mobile: "74% 22%", tablet: "74% 16%", desktop: "74% 12%" },
   },
   "pregnancy-antenatal-checkins-scans": {
     src: "/images/services/pregnancy-antenatal-care-ai-preview-v1.webp",
     alt: "AI-generated illustration: A pregnant woman talks with a clinician during an antenatal consultation.",
+    objectPosition: "50% 18%",
   },
   "pregnancy-antenatal-wellbeing-birth-prep": {
     src: "/images/services/birth-preparation-ai-preview-v1.webp",
     alt: "AI-generated illustration: An expectant couple practises calm breathing with a childbirth educator.",
+    objectPosition: "50% 16%",
   },
   "pregnancy-antenatal-first-consultation": {
     src: "/images/services/gynaecology-ai-preview-v1.webp",
     alt: "AI-generated illustration: A woman discusses her health with a clinician in a calm consultation room.",
+    objectPosition: "50% 20%",
   },
   "pregnancy-antenatal-care-team": {
     src: "/images/services/connected-care-ai-preview-v1.webp",
     alt: "AI-generated illustration: Three care professionals discuss care together around a table.",
+    objectPosition: "50% 20%",
+  },
+  "pregnancy-antenatal-faq-visual": {
+    src: "/images/generated/maternal-editorial-daylight-16x9.png",
+    alt: "An expectant mother peacefully looking out a sunlit window beside soft linen curtains.",
+    objectPosition: "35% 25%",
+  },
+  "pregnancy-antenatal-appointment-bg": {
+    src: "/images/services/pregnancy-hero-sanctuary.jpg",
+    alt: "A tranquil clinic sanctuary with warm terracotta archways and natural light.",
+    objectPosition: "center 30%",
+  },
+  "pregnancy-antenatal-final-cta": {
+    src: "/images/lower-sections/final-cta-atmosphere.jpg",
+    alt: "Hands resting gently on a pregnant belly surrounded by flowing soft terracotta fabric.",
+    objectPosition: "left center",
   },
   // Birth Preparation & Childbirth Education landing page — its own
   // dedicated section keys, reusing existing approved illustration FILES
@@ -82,31 +103,60 @@ export const servicesImagery = {
   "lactation": { src: "/images/services/lactation-ai-preview-v1.webp", alt: "AI-generated illustration: A mother holds her newborn during a feeding-support consultation." },
   "newborn-pediatric-care": { src: "/images/services/newborn-pediatric-care-ai-preview-v1.webp", alt: "AI-generated illustration: Parents hold their newborn during a conversation with a paediatric clinician." },
   "connected-care": { src: "/images/services/connected-care-ai-preview-v1.webp", alt: "AI-generated illustration: Three care professionals discuss care together around a table." },
-  // Care Journey — Section 02's own five chapter-level images (one per
-  // chapter, replacing the earlier one-image-per-service pattern). Each
-  // REUSES an existing approved file rather than duplicating the binary
-  // asset, with its own alt text accurate to how it represents the whole
-  // chapter here — the same reuse pattern the birth-prep-landing-* keys
-  // above already establish.
-  "care-journey-before": {
+  // Care Finder 3-column "doorways into care" imagery
+  "care-finder-your-health": {
     src: "/images/services/gynaecology-ai-preview-v1.webp",
-    alt: "AI-generated illustration: A woman discusses her health and wellbeing with a clinician in a calm consultation room.",
+    alt: "AI-generated illustration: A woman discusses her health with a clinician in a calm consultation room.",
   },
-  "care-journey-pregnancy": {
+  "care-finder-pregnancy-birth": {
+    src: "/images/services/fertility-preconception-ai-preview-v1.webp",
+    alt: "AI-generated illustration: A couple in a consultation discussing pregnancy and birth options.",
+  },
+  "care-finder-after-birth-baby": {
+    src: "/images/services/lactation-ai-preview-v1.webp",
+    alt: "AI-generated illustration: A mother holds her newborn during a consultation.",
+  },
+  // Care Journey chapter-level images for the 7 chapters
+  "care-journey-womens-health": {
+    src: "/images/services/gynaecology-ai-preview-v1.webp",
+    alt: "A woman discusses her health and wellbeing with a clinician in a calm consultation room.",
+  },
+  "care-journey-planning-a-pregnancy": {
+    src: "/images/services/fertility-preconception-ai-preview-v1.webp",
+    alt: "A couple talks with a clinician about planning a pregnancy.",
+  },
+  "care-journey-pregnancy-care": {
     src: "/images/services/pregnancy-antenatal-care-ai-preview-v1.webp",
-    alt: "AI-generated illustration: A pregnant woman talks with a clinician during an antenatal consultation.",
+    alt: "A pregnant woman talks with a clinician during an antenatal consultation.",
   },
-  "care-journey-birth-preparation": {
+  "care-journey-preparing-for-birth": {
     src: "/images/services/birth-preparation-ai-preview-v1.webp",
-    alt: "AI-generated illustration: An expectant couple practises calm breathing with a childbirth educator.",
+    alt: "An expectant couple practises calm breathing with a childbirth educator.",
   },
-  "care-journey-birth": {
+  "care-journey-birth-options": {
     src: "/images/services/vbac-ai-preview-v1.webp",
-    alt: "AI-generated illustration: An expectant couple discusses birth plans and options with a clinician.",
+    alt: "An expectant couple discusses birth plans and options with a clinician.",
   },
   "care-journey-after-birth": {
     src: "/images/services/lactation-ai-preview-v1.webp",
-    alt: "AI-generated illustration: A mother holds her newborn during a feeding-support consultation.",
+    alt: "A mother holds her newborn during a feeding-support consultation.",
+  },
+  "care-journey-baby-care": {
+    src: "/images/services/newborn-pediatric-care-ai-preview-v1.webp",
+    alt: "Parents hold their newborn during a conversation with a paediatric clinician.",
+  },
+  // Legacy aliases
+  "care-journey-before": {
+    src: "/images/services/gynaecology-ai-preview-v1.webp",
+    alt: "A woman discusses her health and wellbeing with a clinician in a calm consultation room.",
+  },
+  "care-journey-pregnancy": {
+    src: "/images/services/pregnancy-antenatal-care-ai-preview-v1.webp",
+    alt: "A pregnant woman talks with a clinician during an antenatal consultation.",
+  },
+  "care-journey-birth": {
+    src: "/images/services/vbac-ai-preview-v1.webp",
+    alt: "An expectant couple discusses birth plans and options with a clinician.",
   },
 } as const;
 

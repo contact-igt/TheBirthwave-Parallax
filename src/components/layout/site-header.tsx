@@ -165,221 +165,254 @@ export function SiteHeader() {
     };
   }, []);
 
-  // Below 1024px every page uses the compact "mobile" header (brand slot +
-  // hamburger only). On the homepage the Hero logo itself becomes the
-  // header brand on scroll (hero-philosophy-scroll-scene.tsx) — so this
-  // header's own wordmark stays invisible there unless the reduced-motion
-  // scene fades it in.
+  // One white header bar on every page: logo link, then the nav + CTA from
+  // 1024px, or the menu button below it. On the homepage (motion allowed)
+  // the Hero logo travels into this bar's logo slot on scroll and hands off
+  // to the real link here once it settles (hero-philosophy-scroll-scene.tsx),
+  // so the link starts hidden there; reduced motion and no-JS show it.
   const isHome = pathname === "/";
 
   return (
-    <header id="top" className="fixed inset-x-0 top-0 z-50">
-      <div
-        className={cx(
-          "container-birthwave flex h-(--header-height) items-center justify-between gap-4",
-          isHome && "max-lg:items-start max-lg:pt-[calc(env(safe-area-inset-top)+20px)]",
-        )}
-      >
-        {/* Mobile Wordmark */}
-        <Link
-          href="/"
-          aria-label={`${brand.name} — home`}
-          data-header-wordmark=""
-          className={cx(
-            "inline-flex min-h-11 items-center px-2.5 py-2",
-            isHome ? "invisible lg:hidden" : "lg:hidden",
-          )}
+    <header
+      id="top"
+      // Read by the homepage logo traveller, which hides while either
+      // overlay is open so it never sits on top of them.
+      data-overlay-open={open || desktopCareOpen ? "" : undefined}
+      className="fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)]"
+    >
+      {isHome && (
+        // No JavaScript: nothing will hand the logo over, so show the header
+        // logo from the start and drop the Hero's copy (one logo at a time).
+        // The Hero → Philosophy scene can't scrub either, so it becomes a
+        // static flow (Hero, then Philosophy, each at least a screen tall)
+        // with Philosophy's pre-hydration `opacity: 0` lifted; scroll-reveal
+        // blocks tagged `data-reveal` are shown at rest.
+        <noscript>
+          <style>
+            {"#top [data-header-wordmark]{visibility:visible!important}[data-hero-logo]{display:none!important}" +
+              '[data-home-scene="hero-philosophy"]{height:auto!important}' +
+              '[data-home-scene="hero-philosophy"]>div{position:relative!important;height:auto!important}' +
+              "#hero-section,#philosophy{position:relative!important;min-height:100vh}" +
+              "#philosophy [style*='opacity']{opacity:1!important}" +
+              "[data-reveal]{opacity:1!important;transform:none!important}" +
+              // FAQ toggles need JS — show every answer open instead.
+              "#faq [role=region]{grid-template-rows:1fr!important;opacity:1!important}"}
+          </style>
+        </noscript>
+      )}
+      <div className="container-birthwave flex h-(--header-height) items-center">
+        <div
+          data-header-bar=""
+          className="relative isolate flex w-full items-center gap-3 py-1 pr-1 pl-2 lg:gap-6 lg:pr-1.5 lg:pl-3"
         >
-          <Image
-            src={brand.logo.wordmarkMauve}
-            alt={brand.logo.alt}
-            width={320}
-            height={157}
-            className="h-auto w-[76px]"
+          {/* The bar's white surface — a plain positioned layer (no blur,
+              transform or overflow), so the Our Care panel's fixed
+              positioning stays relative to the viewport. Its left edge can
+              be drawn in: the homepage scene sets --header-surface-inset
+              (px, measured) and --header-surface-reveal (0→1) so the surface
+              grows to meet the arriving logo. Unset: the full bar. */}
+          <span
+            aria-hidden="true"
+            data-header-surface=""
+            className="pointer-events-none absolute inset-y-0 right-0 -z-10 rounded-xl border border-[color-mix(in_srgb,var(--color-ink)_7%,transparent)] bg-white shadow-[0_8px_24px_-16px_rgba(36,26,23,0.35)]"
+            style={{ left: "calc(var(--header-surface-inset, 0px) * (1 - var(--header-surface-reveal, 1)))" }}
           />
-        </Link>
 
-        {/* Desktop Primary Nav Pill */}
-        <nav
-          aria-label="Primary"
-          className={cx(
-            // Desktop nav from 1024px on every page: below that the pill and
-            // CTA crowd together (36px apart at 768), so the mobile menu
-            // takes over — the same handoff the homepage already used.
-            "relative isolate hidden items-center gap-1 rounded-full px-2 py-2 shadow-[0_1px_2px_rgba(36,26,23,0.08)] lg:flex",
-            // Fill + blur live on a pseudo-layer: backdrop-filter on the
-            // <nav> itself would make it the containing block for the Our
-            // Care panel's `position: fixed`, pinning the panel to the pill.
-            "before:absolute before:inset-0 before:-z-10 before:rounded-full before:bg-paper/75 before:backdrop-blur-md",
-            // Homepage, desktop, motion allowed: leave room left of the pill
-            // for the Hero logo, which settles there on scroll (see
-            // hero-philosophy-scroll-scene.tsx — LOGO_* constants). Clears
-            // the logo chip by ~12px: max(95px, 155px − container edge).
-            isHome &&
-              "lg:motion-safe:ml-[max(95px,calc(155px_-_var(--space-gutter)_-_max(0px,(100vw_-_var(--container-max))/2)))]",
-          )}
-        >
-          {navigation.links.map((link) => {
-            if (link.label === "Our Care") {
-              return (
-                <div
-                  key={link.href}
-                  ref={desktopCareDropdownRef}
-                  onPointerEnter={handleDesktopCareEnter}
-                  onPointerLeave={handleDesktopCareLeave}
-                  onBlur={(event) => {
-                    // Tabbing out past the last link (or back before the
-                    // trigger) closes the disclosure.
-                    const next = event.relatedTarget as Node | null;
-                    if (next && !event.currentTarget.contains(next)) setDesktopCareOpen(false);
-                  }}
-                >
-                  <button
-                    ref={desktopCareButtonRef}
-                    type="button"
-                    aria-expanded={desktopCareOpen}
-                    aria-controls={desktopCarePanelId}
-                    onClick={handleDesktopCareClick}
-                    className={cx(
-                      "group inline-flex items-center gap-1 rounded-full px-4 py-2 font-body text-sm font-medium tracking-[0.02em] transition-colors duration-[var(--duration-fast)]",
-                      desktopCareOpen || isServicesActive
-                        ? "bg-paper text-ink font-semibold"
-                        : "text-ink-soft hover:bg-paper hover:text-ink",
-                    )}
-                  >
-                    <span>Our Care</span>
-                    <ChevronDown
-                      aria-hidden="true"
-                      className={cx(
-                        "size-3.5 transition-transform duration-[var(--duration-fast)] ease-[var(--ease-signature)]",
-                        desktopCareOpen ? "rotate-180 text-terracotta-deep" : "text-ink-soft/70 group-hover:text-ink",
-                      )}
-                    />
-                  </button>
+          {/* Logo — the Home link, on every page and breakpoint. */}
+          <Link
+            href="/"
+            aria-label={`${brand.name} — home`}
+            data-header-wordmark=""
+            className={cx(
+              "inline-flex shrink-0 items-center rounded-lg px-1.5 py-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-ink)]",
+              isHome && "invisible motion-reduce:visible",
+            )}
+          >
+            <Image
+              src={brand.logo.wordmarkMauve}
+              alt={brand.logo.alt}
+              width={320}
+              height={157}
+              priority
+              // min(): only bites below ~220 CSS px (e.g. a phone at 200% zoom),
+              // so the bar never overflows or squeezes the menu button.
+              className="h-auto w-[min(88px,38vw)] sm:w-[96px] lg:w-[104px]"
+            />
+          </Link>
 
-                  {/* Mega Dropdown Panel — fixed to the viewport (not the
-                      narrow trigger): 24px clear of both edges, capped at
-                      70rem, starting under the header, and never taller
-                      than the space below it (scrolls inside instead).
-                      `inert` + `invisible` while closed keep its links out
-                      of the Tab order and the accessibility tree. */}
+          {/* Desktop Primary Nav */}
+          <nav
+            aria-label="Primary"
+            className={cx(
+              // Desktop nav from 1024px on every page: below that the pill and
+              // CTA crowd together (36px apart at 768), so the mobile menu
+              // takes over — the same handoff the homepage already used.
+              // It sits on the bar's shared white surface — no fill, blur or
+              // transform of its own (any of those would also become the
+              // containing block for the Our Care panel's `position: fixed`).
+              "hidden items-center gap-1 lg:flex",
+            )}
+          >
+            {navigation.links.map((link) => {
+              if (link.label === "Our Care") {
+                return (
                   <div
-                    id={desktopCarePanelId}
-                    inert={!desktopCareOpen}
-                    className={cx(
-                      "fixed inset-x-6 top-(--header-height) mx-auto max-w-[70rem]",
-                      // Invisible hover bridge over the gap up to the pill.
-                      "before:absolute before:inset-x-0 before:-top-4 before:h-4",
-                      "transition-[opacity,translate,visibility] duration-200 ease-[var(--ease-signature)] motion-reduce:transition-none",
-                      desktopCareOpen
-                        ? "visible translate-y-0 opacity-100"
-                        : "pointer-events-none invisible -translate-y-2 opacity-0 motion-reduce:translate-y-0",
-                    )}
+                    key={link.href}
+                    ref={desktopCareDropdownRef}
+                    onPointerEnter={handleDesktopCareEnter}
+                    onPointerLeave={handleDesktopCareLeave}
+                    onBlur={(event) => {
+                      // Tabbing out past the last link (or back before the
+                      // trigger) closes the disclosure.
+                      const next = event.relatedTarget as Node | null;
+                      if (next && !event.currentTarget.contains(next)) setDesktopCareOpen(false);
+                    }}
                   >
-                    <div className="@container max-h-[calc(100dvh-var(--header-height)-1.5rem)] overflow-y-auto overscroll-contain rounded-[1.25rem] border border-[var(--color-border)] bg-paper px-6 py-7 shadow-[0_16px_48px_-12px_rgba(36,26,23,0.14)] sm:px-8 sm:py-8">
-                      {/* Service groups: two columns, three from 40rem of
-                          content width, five only from 63rem — where every
-                          column keeps ≥ ~176px for 15px service names. Each
-                          group stays one unit (label + its links). */}
-                      <div className="grid grid-cols-2 gap-x-8 gap-y-7 @min-[40rem]:grid-cols-3 @min-[63rem]:grid-cols-5">
-                        {navCareGroups.map((group) => (
-                          <div key={group.id} className="flex min-w-0 flex-col">
-                            <span className="font-body text-xs leading-snug font-semibold tracking-[0.12em] text-terracotta-deep uppercase">
-                              {group.title}
-                            </span>
-                            <ul className="mt-2.5 flex flex-col">
-                              {group.services.map((service) => (
-                                <li key={service.slug}>
-                                  <Link
-                                    href={`/services/${service.slug}`}
-                                    onClick={() => setDesktopCareOpen(false)}
-                                    className="-mx-2 flex min-h-10 items-center rounded-lg px-2 py-1.5 font-body text-[0.9375rem] leading-[1.4] font-medium text-pretty text-ink transition-colors duration-[var(--duration-fast)] hover:bg-paper-dim hover:text-terracotta-deep"
-                                  >
-                                    {service.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </div>
+                    <button
+                      ref={desktopCareButtonRef}
+                      type="button"
+                      aria-expanded={desktopCareOpen}
+                      aria-controls={desktopCarePanelId}
+                      onClick={handleDesktopCareClick}
+                      className={cx(
+                        "group inline-flex items-center gap-1 rounded-full px-4 py-2 font-body text-sm font-medium tracking-[0.02em] transition-colors duration-[var(--duration-fast)]",
+                        desktopCareOpen || isServicesActive
+                          ? "bg-paper text-ink font-semibold"
+                          : "text-ink-soft hover:bg-paper hover:text-ink",
+                      )}
+                    >
+                      <span>Our Care</span>
+                      <ChevronDown
+                        aria-hidden="true"
+                        className={cx(
+                          "size-3.5 transition-transform duration-[var(--duration-fast)] ease-[var(--ease-signature)]",
+                          desktopCareOpen ? "rotate-180 text-terracotta-deep" : "text-ink-soft/70 group-hover:text-ink",
+                        )}
+                      />
+                    </button>
 
-                      {/* Bottom Row: View All Care Bar — stacks when narrow */}
-                      <div className="mt-6 flex flex-col items-start gap-2 border-t border-[var(--color-border)] pt-4 @min-[40rem]:flex-row @min-[40rem]:items-center @min-[40rem]:justify-between @min-[40rem]:gap-6">
-                        <p className="font-body text-sm leading-snug text-ink-soft">
-                          Comprehensive support connected across pregnancy, birth, and recovery.
-                        </p>
-                        <Link
-                          href="/services"
-                          onClick={() => setDesktopCareOpen(false)}
-                          className="group -mx-2 inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-lg px-2 font-body text-xs font-semibold tracking-[0.06em] text-terracotta-deep uppercase transition-colors duration-[var(--duration-fast)] hover:text-ink"
-                        >
-                          <span>View All Care</span>
-                          <ArrowUpRight
-                            aria-hidden="true"
-                            className="size-3.5 transition-transform duration-[var(--duration-fast)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                          />
-                        </Link>
+                    {/* Mega Dropdown Panel — fixed to the viewport (not the
+                        narrow trigger): 24px clear of both edges, capped at
+                        70rem, starting under the header, and never taller
+                        than the space below it (scrolls inside instead).
+                        `inert` + `invisible` while closed keep its links out
+                        of the Tab order and the accessibility tree. */}
+                    <div
+                      id={desktopCarePanelId}
+                      inert={!desktopCareOpen}
+                      className={cx(
+                        "fixed inset-x-6 top-(--header-height) mx-auto max-w-[70rem]",
+                        // Invisible hover bridge over the gap up to the pill.
+                        "before:absolute before:inset-x-0 before:-top-4 before:h-4",
+                        "transition-[opacity,translate,visibility] duration-200 ease-[var(--ease-signature)] motion-reduce:transition-none",
+                        desktopCareOpen
+                          ? "visible translate-y-0 opacity-100"
+                          : "pointer-events-none invisible -translate-y-2 opacity-0 motion-reduce:translate-y-0",
+                      )}
+                    >
+                      <div className="@container max-h-[calc(100dvh-var(--header-height)-1.5rem)] overflow-y-auto overscroll-contain rounded-[1.25rem] border border-[var(--color-border)] bg-paper px-6 py-7 shadow-[0_16px_48px_-12px_rgba(36,26,23,0.14)] sm:px-8 sm:py-8">
+                        {/* Service groups: two columns, three from 40rem of
+                            content width, five only from 63rem — where every
+                            column keeps ≥ ~176px for 15px service names. Each
+                            group stays one unit (label + its links). */}
+                        <div className="grid grid-cols-2 gap-x-8 gap-y-7 @min-[40rem]:grid-cols-3 @min-[63rem]:grid-cols-5">
+                          {navCareGroups.map((group) => (
+                            <div key={group.id} className="flex min-w-0 flex-col">
+                              <span className="font-body text-xs leading-snug font-semibold tracking-[0.12em] text-terracotta-deep uppercase">
+                                {group.title}
+                              </span>
+                              <ul className="mt-2.5 flex flex-col">
+                                {group.services.map((service) => (
+                                  <li key={service.slug}>
+                                    <Link
+                                      href={`/services/${service.slug}`}
+                                      onClick={() => setDesktopCareOpen(false)}
+                                      className="-mx-2 flex min-h-10 items-center rounded-lg px-2 py-1.5 font-body text-[0.9375rem] leading-[1.4] font-medium text-pretty text-ink transition-colors duration-[var(--duration-fast)] hover:bg-paper-dim hover:text-terracotta-deep"
+                                    >
+                                      {service.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Bottom Row: View All Care Bar — stacks when narrow */}
+                        <div className="mt-6 flex flex-col items-start gap-2 border-t border-[var(--color-border)] pt-4 @min-[40rem]:flex-row @min-[40rem]:items-center @min-[40rem]:justify-between @min-[40rem]:gap-6">
+                          <p className="font-body text-sm leading-snug text-ink-soft">
+                            Comprehensive support connected across pregnancy, birth, and recovery.
+                          </p>
+                          <Link
+                            href="/services"
+                            onClick={() => setDesktopCareOpen(false)}
+                            className="group -mx-2 inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-lg px-2 font-body text-xs font-semibold tracking-[0.06em] text-terracotta-deep uppercase transition-colors duration-[var(--duration-fast)] hover:text-ink"
+                          >
+                            <span>View All Care</span>
+                            <ArrowUpRight
+                              aria-hidden="true"
+                              className="size-3.5 transition-transform duration-[var(--duration-fast)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                            />
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                );
+              }
+
+              const linkClassName = cx(
+                "rounded-full px-4 py-2 font-body text-sm font-medium tracking-[0.02em] transition-colors duration-[var(--duration-fast)] hover:bg-paper hover:text-ink",
+                pathname === link.href ? "text-ink font-semibold" : "text-ink-soft",
               );
-            }
 
-            const linkClassName = cx(
-              "rounded-full px-4 py-2 font-body text-sm font-medium tracking-[0.02em] transition-colors duration-[var(--duration-fast)] hover:bg-paper hover:text-ink",
-              pathname === link.href ? "text-ink font-semibold" : "text-ink-soft",
-            );
+              return isCrossPageHash(link.href) ? (
+                <a key={link.href} href={link.href} className={linkClassName}>
+                  {link.label}
+                </a>
+              ) : (
+                <Link key={link.href} href={link.href} className={linkClassName}>
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
 
-            return isCrossPageHash(link.href) ? (
-              <a key={link.href} href={link.href} className={linkClassName}>
-                {link.label}
+          {/* Desktop Book a Consult CTA */}
+          <div className="ml-auto hidden lg:block">
+            {isCrossPageHash(navigation.cta.href) ? (
+              <a href={navigation.cta.href} className={cx(buttonClasses("primary"), "text-xs")}>
+                {navigation.cta.label}
               </a>
             ) : (
-              <Link key={link.href} href={link.href} className={linkClassName}>
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
+              <Button href={navigation.cta.href} variant="primary" className="text-xs">
+                {navigation.cta.label}
+              </Button>
+            )}
+          </div>
 
-        {/* Desktop Book a Consult CTA */}
-        <div className="ml-auto hidden lg:block">
-          {isCrossPageHash(navigation.cta.href) ? (
-            <a href={navigation.cta.href} className={cx(buttonClasses("primary"), "text-xs")}>
-              {navigation.cta.label}
-            </a>
-          ) : (
-            <Button href={navigation.cta.href} variant="primary" className="text-xs">
-              {navigation.cta.label}
-            </Button>
-          )}
+          {/* Mobile Toggle Button */}
+          <button
+            ref={toggleRef}
+            type="button"
+            data-mobile-menu-toggle=""
+            className={cx(
+              // 44px target on the bar's white surface (which keeps it legible
+              // over the dark Immersive section).
+              "ml-auto inline-flex size-11 shrink-0 items-center justify-center rounded-lg text-ink transition-colors duration-[var(--duration-fast)] hover:bg-paper-dim lg:hidden",
+            )}
+            aria-expanded={open}
+            aria-controls={menuId}
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? (
+              <X aria-hidden="true" className="size-5" />
+            ) : (
+              <Menu aria-hidden="true" className="size-5" />
+            )}
+          </button>
         </div>
-
-        {/* Mobile Toggle Button */}
-        <button
-          ref={toggleRef}
-          type="button"
-          data-mobile-menu-toggle=""
-          className={cx(
-            // The small translucent disc is kept because the fixed header
-            // passes over the dark Immersive section, where a bare ink icon
-            // would disappear.
-            "ml-auto inline-flex size-11 items-center justify-center rounded-full bg-paper/75 text-ink shadow-[0_1px_2px_rgba(36,26,23,0.08)] backdrop-blur-md",
-            isHome ? "mr-[env(safe-area-inset-right)] lg:hidden" : "lg:hidden",
-          )}
-          aria-expanded={open}
-          aria-controls={menuId}
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? (
-            <X aria-hidden="true" className="size-5" />
-          ) : (
-            <Menu aria-hidden="true" className="size-5" />
-          )}
-        </button>
       </div>
 
       {/* Mobile Drawer */}
@@ -388,9 +421,8 @@ export function SiteHeader() {
         hidden={!open}
         className={cx(
           "fixed inset-x-0 z-40 max-h-[calc(100dvh-var(--header-height))] overflow-y-auto border-t border-[var(--color-border)] bg-paper shadow-lg",
-          isHome
-            ? "top-[calc(var(--header-height)+env(safe-area-inset-top))] lg:hidden"
-            : "top-(--header-height) lg:hidden",
+          // The header pads the top safe area on every page.
+          "top-[calc(var(--header-height)+env(safe-area-inset-top))] lg:hidden",
         )}
       >
         <nav aria-label="Mobile" className="container-birthwave flex flex-col gap-1 py-4">

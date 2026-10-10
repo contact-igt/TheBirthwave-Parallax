@@ -1,40 +1,33 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/page-shell";
 import { ServicesHero } from "@/components/sections/services/services-hero";
+import { CompactCareFinder } from "@/components/sections/services/compact-care-finder";
 import { ServicesCareJourney } from "@/components/sections/services/services-care-journey";
-import { FindTheRightCare } from "@/components/sections/services/find-the-right-care";
 import { ConnectedCare } from "@/components/sections/services/connected-care";
 import { ServicesFinalCta } from "@/components/sections/services/services-final-cta";
 
 export const metadata: Metadata = {
-  title: "Our Care: The Birthwave",
+  title: "Our Services: The Birthwave",
   description:
-    "Care for every stage, connected by one philosophy — from women's health and pregnancy to birth, recovery and newborn care.",
+    "Care for where you are now—and what comes next. Explore care for women’s health, pregnancy preparation, pregnancy, recovery and your baby’s early years at The Birthwave.",
 };
 
 /**
- * /services — Our Care / Treatments master page.
+ * /services — Refined Editorial Parallax Services Page.
  *
- * Chapter-level editorial rhythm: vertical scroll, one calm hero, then one
- * editorial spread per care chapter (`ServicesCareJourney` — one chapter
- * image + asymmetric service-link typography, no pinning, no per-service
- * photography) — not a service-card grid, not a directory accordion, not
- * Doctors' own horizontal track, not About's own cinematic canvas, and no
- * thread line anywhere on this page. Images introduce chapters; they do
- * not illustrate every service link — see `services-care-journey.tsx`'s
- * own top comment for the full rationale.
- *
- * Individual `/services/[slug]` pages (`service-page-template.tsx`) are
- * unchanged — real content flows through that existing template (see
- * services-content.ts's own header comment), but its own layout/design is
- * untouched, as scoped.
+ * Page Flow:
+ *  01 ServicesHero         — Editorial split hero with exact approved copy & visual presence
+ *  02 CompactCareFinder    — Two-column compact visitor-intent directory immediately following hero
+ *  03 ServicesCareJourney  — Seven care chapters (headline above, 45% sticky image on left, 55% aligned rows)
+ *  04 ConnectedCare        — Compact editorial care philosophy ("One connected approach")
+ *  05 ServicesFinalCta     — Definitive dark-brown closure with direct appointment & contact actions
  */
 export default function ServicesPage() {
   return (
     <PageShell>
       <ServicesHero />
+      <CompactCareFinder />
       <ServicesCareJourney />
-      <FindTheRightCare />
       <ConnectedCare />
       <ServicesFinalCta />
     </PageShell>

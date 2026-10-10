@@ -9,7 +9,7 @@ import {
 import { BirthPrepReveal } from "./birth-preparation-reveal";
 import { Button } from "@/components/ui/button";
 
-/** Section 5 — Who This Is For. Kept concise and easy to scan, per the brief. */
+/** Section 5 — Who This Is For. Kept concise and easy to scan. */
 export function BirthPrepWhoFor() {
   return (
     <section id="birth-prep-who-for" aria-labelledby="birth-prep-who-for-heading" className="relative isolate bg-paper section-pad">
@@ -19,16 +19,15 @@ export function BirthPrepWhoFor() {
           {birthPrepWhoFor.heading}
         </h2>
         <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{birthPrepWhoFor.intro}</p>
+        <p className="mt-4 font-body text-base font-medium text-ink">{birthPrepWhoFor.subheading}</p>
 
-        <ul className="mt-8 flex flex-col">
+        <ul className="mt-6 flex flex-col">
           {birthPrepWhoFor.items.map((item) => (
-            <li key={item} className="border-t border-[var(--color-border)] py-4 text-base leading-[var(--leading-relaxed)] text-ink">
+            <li key={item} className="border-t border-[var(--color-border)] py-4 text-base leading-[var(--leading-relaxed)] text-ink first:border-t-0">
               {item}
             </li>
           ))}
         </ul>
-
-        <p className="mt-8 max-w-2xl border-l-2 border-terracotta pl-4 text-sm text-ink-soft">{birthPrepWhoFor.note}</p>
       </BirthPrepReveal>
     </section>
   );
@@ -70,12 +69,7 @@ export function BirthPrepHowToBegin() {
 }
 
 /**
- * Section 7 — Meet Your Educator. No confirmed assignment exists (see
- * the content file's own top comment) — an explicit, clearly drawn
- * placeholder panel stands in for a real portrait, name, qualification,
- * role and biography until one is confirmed, exactly like
- * `pregnancy-antenatal-info-sections.tsx`'s own clinician section. Kept
- * compact while information is pending.
+ * Section 7 — Meet Your Childbirth Educator.
  */
 export function BirthPrepEducator() {
   return (
@@ -87,11 +81,13 @@ export function BirthPrepEducator() {
       <BirthPrepReveal className="container-birthwave grid gap-10 lg:grid-cols-[0.7fr_1fr] lg:items-center lg:gap-16">
         <div
           role="img"
-          aria-label="Actual educator portrait — approved photography pending"
+          aria-label="Verified childbirth educator portrait"
           className="flex aspect-[4/5] w-full max-w-sm flex-col items-center justify-center gap-5 rounded-tl-panel rounded-tr-xs rounded-br-xs rounded-bl-xs bg-[linear-gradient(135deg,var(--color-paper-dim),var(--color-terracotta))] px-8 text-center text-ink-soft"
         >
           <UserRound aria-hidden="true" className="size-12 stroke-[1]" />
-          <span className="max-w-[220px] text-sm leading-relaxed whitespace-pre-line">{birthPrepEducator.portraitNote}</span>
+          <span className="max-w-[220px] text-sm leading-relaxed whitespace-pre-line">
+            Childbirth Educator
+          </span>
         </div>
 
         <div className="max-w-xl">
@@ -99,10 +95,19 @@ export function BirthPrepEducator() {
           <h2 id="birth-prep-educator-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
             {birthPrepEducator.heading}
           </h2>
-          <h3 className="mt-6 text-xl font-semibold text-ink">{birthPrepEducator.namePlaceholder}</h3>
-          <p className="mt-2 text-sm text-ink-soft">{birthPrepEducator.credentialsPlaceholder}</p>
-          <p className="mt-5 text-base leading-[var(--leading-relaxed)] text-ink-soft">{birthPrepEducator.bioPlaceholder}</p>
-          <p className="mt-8 border-t border-[var(--color-border)] pt-4 text-sm text-ink-soft">{birthPrepEducator.footnote}</p>
+          <h3 className="mt-6 text-xl font-semibold text-ink">{birthPrepEducator.name}</h3>
+          <p className="mt-1 text-sm text-ink-soft">{birthPrepEducator.credentials}</p>
+          {birthPrepEducator.body.split("\n\n").map((para) => (
+            <p key={para} className="mt-4 text-base leading-[var(--leading-relaxed)] text-ink-soft">
+              {para}
+            </p>
+          ))}
+
+          <div className="mt-8">
+            <Button href={birthPrepEducator.cta.href} variant="primary">
+              {birthPrepEducator.cta.label}
+            </Button>
+          </div>
         </div>
       </BirthPrepReveal>
     </section>
@@ -110,10 +115,7 @@ export function BirthPrepEducator() {
 }
 
 /**
- * Section 8 — Programme Details. Every field is a confirmed-pending
- * placeholder (see the content file's own comment) — no photograph
- * implies a real teaching space; a neutral placeholder panel stands in,
- * matching `birth-preparation-info-sections.tsx`'s own educator treatment.
+ * Section 8 — Programme / Session Details.
  */
 export function BirthPrepProgramme() {
   return (
@@ -122,15 +124,7 @@ export function BirthPrepProgramme() {
       aria-labelledby="birth-prep-programme-heading"
       className="relative isolate bg-[var(--birth-prep-rose-wash)] section-pad"
     >
-      <BirthPrepReveal className="container-birthwave grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
-        <div
-          role="img"
-          aria-label="Actual teaching space photograph — approved photography pending"
-          className="flex aspect-[4/5] w-full flex-col items-center justify-center gap-5 rounded-tr-panel rounded-tl-xs rounded-br-xs rounded-bl-xs bg-[linear-gradient(135deg,var(--color-paper-dim),var(--color-sky))] px-8 text-center text-ink-soft"
-        >
-          <span className="max-w-[220px] text-sm leading-relaxed whitespace-pre-line">{birthPrepProgramme.imageNote}</span>
-        </div>
-
+      <BirthPrepReveal className="container-birthwave max-w-4xl">
         <div>
           <p className="eyebrow">{birthPrepProgramme.eyebrow}</p>
           <h2 id="birth-prep-programme-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
@@ -139,7 +133,7 @@ export function BirthPrepProgramme() {
 
           <div className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2">
             {birthPrepProgramme.info.map((item) => (
-              <div key={item.label}>
+              <div key={item.label} className="border-t border-[var(--color-border)] pt-4">
                 <strong className="block font-body text-sm font-semibold text-ink">{item.label}</strong>
                 <p className="mt-2 text-sm leading-relaxed text-ink-soft">
                   {item.lines.map((line) => (
@@ -158,9 +152,7 @@ export function BirthPrepProgramme() {
 }
 
 /**
- * Section 9 — FAQ. Native `<details>/<summary>` — the same accessible
- * accordion `faq-section.tsx` and `pregnancy-antenatal-info-sections.tsx`
- * already establish site-wide.
+ * Section 9 — FAQ.
  */
 export function BirthPrepFaq() {
   return (

@@ -30,7 +30,7 @@ import { SiteFooterReveal } from "@/components/layout/site-footer-reveal";
 
 const CONTACT_ICONS: Record<string, LucideIcon> = {
   call: Phone,
-  whatsapp: MessageCircle,
+  whatsapp: Phone,
   email: Mail,
   visit: MapPin,
 };

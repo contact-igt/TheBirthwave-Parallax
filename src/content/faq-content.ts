@@ -6,39 +6,53 @@
  */
 
 export const faq = {
-  // No eyebrow here by design — see docs/implementation-brief.md §14.
-  heading: "Good to know.",
-  // Questions approved verbatim (docs/implementation-brief.md §29),
-  // replacing the earlier structural placeholders. Answers are original
-  // copy written to match — kept general and non-clinical, and each one
-  // echoes phrasing already approved elsewhere on the page (Journey's
-  // stage copy, Care's principles) rather than inventing new claims,
-  // credentials or numbers not established anywhere else in the project.
+  eyebrow: "Good to Know",
+  heading: "Questions you may already have.",
   items: [
     {
       question: "When should I book my first pregnancy consultation?",
       answer:
-        "As early as you'd like — many people start the conversation during preconception planning, others once pregnancy is confirmed. There's no wrong time to begin.",
+        "You can book once your pregnancy is confirmed, or speak with the team earlier if you're planning a pregnancy and would like preconception guidance.",
     },
     {
-      question: "Does The Birthwave support natural birth and VBAC?",
+      question: "I want to prepare for a vaginal birth. When should I start?",
       answer:
-        "Yes. Every birth plan is built around your individual circumstances and clinical needs, including natural birth and VBAC, worked through together with your care team.",
+        "You don't need to wait until the final weeks. Birth preparation can begin during pregnancy, giving you time to understand labour, ask questions and discuss your preferences with your care team.",
     },
     {
-      question: "Can my partner attend birth-preparation sessions?",
+      question: "Does BirthWave support natural birth?",
       answer:
-        "Yes — partners are welcome and encouraged to take part in preparation sessions alongside you.",
+        "BirthWave can discuss your preferences for labour and birth and help you understand what may be appropriate for your pregnancy. Because every pregnancy and labour is different, your care plan remains individual to you and your baby's needs.",
     },
     {
-      question: "Does care continue after delivery?",
+      question: "What is conscious pregnancy and conscious parenting?",
       answer:
-        "Yes. Support continues through recovery — healing, feeding, movement and emotional wellbeing — not just through the pregnancy itself.",
+        "Conscious pregnancy is about being more aware of your physical, emotional and mental well-being throughout pregnancy. Conscious parenting continues that approach after birth, helping parents respond to their baby with awareness, connection and confidence.",
     },
     {
-      question: "Do you provide newborn and pediatric care?",
+      question: "What is Garbh Sanskar, and how can it support pregnancy?",
       answer:
-        "Yes, care continues into newborn checkups, vaccinations and pediatric support.",
+        "Garbh Sanskar is a prenatal wellness approach that may include relaxation, meditation, music, positive routines, nutrition and bonding practices during pregnancy. At The Birthwave, it can be incorporated as part of supportive pregnancy care based on your preferences.",
+    },
+    {
+      question: "What does a doula do during pregnancy and birth?",
+      answer:
+        "A doula provides non-medical emotional, physical and practical support during pregnancy, labour and birth. They can help with comfort measures, preparation, communication and continuous support alongside your medical care team.",
+    },
+    {
+      question: "I had a C-section before. Can I discuss VBAC?",
+      answer:
+        "Yes. If you've previously had a Caesarean birth, you can discuss your options for this pregnancy with your obstetrician. Whether VBAC may be appropriate requires an individual assessment of your previous birth history and current pregnancy.",
+    },
+    {
+      question: "Can my partner be involved in birth preparation?",
+      answer:
+        "Yes. Your partner can be part of birth-preparation conversations and sessions so they can better understand how to support you through pregnancy and labour.",
+    },
+    {
+      question: "Does care continue after my baby is born?",
+      answer:
+        "Yes. BirthWave's care extends into postpartum recovery, breastfeeding support and newborn and paediatric care.",
     },
   ],
   // Approved (docs/implementation-brief.md §32, now the right-column

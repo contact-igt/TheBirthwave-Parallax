@@ -33,6 +33,12 @@ export function VaginismusCovers() {
                 </div>
               ))}
             </div>
+
+            {vaginismusCovers.note ? (
+              <p className="mt-6 border-l-2 border-terracotta pl-4 text-sm text-ink-soft">
+                {vaginismusCovers.note}
+              </p>
+            ) : null}
           </div>
         </div>
       </VaginismusReveal>

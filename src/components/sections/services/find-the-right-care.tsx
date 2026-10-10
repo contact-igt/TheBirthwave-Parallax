@@ -50,7 +50,12 @@ export function FindTheRightCare() {
 
         <div className="mt-14 flex flex-col border-t border-[var(--color-border)]">
           {findTheRightCare.pairings.map((pairing) => (
-            <PairingRow key={pairing.question} question={pairing.question} answers={pairing.answers} />
+            <PairingRow
+              key={pairing.question}
+              question={pairing.question}
+              description={pairing.description}
+              answers={pairing.answers}
+            />
           ))}
         </div>
       </div>
@@ -60,9 +65,11 @@ export function FindTheRightCare() {
 
 function PairingRow({
   question,
+  description,
   answers,
 }: {
   question: string;
+  description?: string;
   answers: ReadonlyArray<{ label: string; slug: string; secondary?: boolean }>;
 }) {
   const { ref, revealed } = useScrollReveal<HTMLDivElement>();
@@ -71,12 +78,19 @@ function PairingRow({
     <div
       ref={ref}
       className={cx(
-        "grid gap-3 border-b border-[var(--color-border)] py-8 transition-[transform,opacity] duration-[var(--duration-slow)] ease-[var(--ease-signature)] motion-reduce:translate-y-0 motion-reduce:opacity-100 sm:grid-cols-[1.1fr_1fr] sm:items-center sm:gap-10",
+        "grid gap-4 border-b border-[var(--color-border)] py-8 transition-[transform,opacity] duration-[var(--duration-slow)] ease-[var(--ease-signature)] motion-reduce:translate-y-0 motion-reduce:opacity-100 sm:grid-cols-[1.1fr_1fr] sm:items-start sm:gap-10",
         revealed ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
       )}
     >
-      <p className="text-[clamp(1.35rem,1.15rem+0.9vw,1.75rem)] leading-[1.2] font-semibold text-ink">{question}</p>
-      <div className="flex flex-col items-start gap-2.5">
+      <div>
+        <p className="text-[clamp(1.35rem,1.15rem+0.9vw,1.75rem)] leading-[1.2] font-semibold text-ink">{question}</p>
+        {description && (
+          <p className="mt-2.5 max-w-[44ch] text-[0.9375rem] leading-[var(--leading-relaxed)] text-ink-soft">
+            {description}
+          </p>
+        )}
+      </div>
+      <div className="flex flex-col items-start gap-2.5 sm:pt-1">
         {answers.map((answer) => (
           <AnswerLink key={answer.slug} {...answer} />
         ))}

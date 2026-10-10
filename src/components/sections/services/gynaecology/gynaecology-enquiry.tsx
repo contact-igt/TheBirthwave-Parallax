@@ -12,14 +12,7 @@ const submitButtonClass =
   "group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3.5 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] ease-[var(--ease-signature)] hover:bg-coral focus-ring-on-brand disabled:cursor-not-allowed disabled:opacity-60";
 
 /**
- * Section 10 — Final Enquiry. TODO(infra): exactly like the other six
- * landing pages' own forms, no backend endpoint or verified enquiry inbox
- * exists anywhere in this project — a persistent "Preview" notice stays
- * visible above the form at all times, and submitting shows an honest
- * "this is a design preview, no enquiry has been sent" message, never a
- * fake success/confirmation. Deliberately short: full name, a single
- * phone-or-email contact field, and an optional message. Nothing here is
- * written to browser storage.
+ * Section 10 — Final Enquiry / Conversion.
  */
 export function GynaecologyEnquiry() {
   const nameId = useId();
@@ -35,9 +28,6 @@ export function GynaecologyEnquiry() {
 
   const isValid = name.trim().length > 0 && contact.trim().length > 0;
 
-  // Broadcasts focus state on the form so `GynaecologyMobileEnquiryBar` can
-  // hide itself while a field is actively being edited — mirrors
-  // `VaginismusEnquiry`'s own effect.
   useEffect(() => {
     const form = formRef.current;
     if (!form) return;
@@ -58,8 +48,6 @@ export function GynaecologyEnquiry() {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    // No backend endpoint exists yet — this never calls `fetch`/an API
-    // route and never claims an enquiry was actually sent.
     setStatus("previewed");
   }
 
@@ -72,6 +60,20 @@ export function GynaecologyEnquiry() {
             {gynaecologyEnquiry.heading}
           </h2>
           <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{gynaecologyEnquiry.body}</p>
+
+          <div className="mt-6 flex flex-wrap items-center gap-4 text-sm font-medium text-ink">
+            {gynaecologyEnquiry.whatsapp ? (
+              <a href="https://wa.me/919363031925" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-terracotta-deep underline hover:text-coral">
+                {gynaecologyEnquiry.whatsapp} ↗
+              </a>
+            ) : null}
+            {gynaecologyEnquiry.phone ? (
+              <a href={`tel:${gynaecologyEnquiry.phone.replace(/\s+/g, "")}`} className="inline-flex items-center gap-1.5 text-terracotta-deep underline hover:text-coral">
+                Call {gynaecologyEnquiry.phone} ↗
+              </a>
+            ) : null}
+          </div>
+
           <p className="mt-8 border-t border-[var(--color-border)] pt-4 text-sm leading-relaxed text-ink-soft">{gynaecologyEnquiry.urgentNote}</p>
         </div>
 
@@ -130,7 +132,7 @@ export function GynaecologyEnquiry() {
               ) : null}
 
               <button type="submit" className={submitButtonClass}>
-                {gynaecologyEnquiry.submitLabel}
+                {gynaecologyEnquiry.primaryCta}
               </button>
             </form>
           )}
@@ -140,12 +142,6 @@ export function GynaecologyEnquiry() {
   );
 }
 
-/**
- * Mobile sticky CTA — appears once the hero has scrolled past, hides while
- * the enquiry form is in view OR while any of its fields has focus.
- * Mirrors `VaginismusMobileEnquiryBar` exactly, retargeted at this page's
- * own `#gynaecology-hero`/`#gynaecology-enquiry` ids.
- */
 export function GynaecologyMobileEnquiryBar() {
   const [pastHero, setPastHero] = useState(false);
   const [formVisible, setFormVisible] = useState(false);

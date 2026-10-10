@@ -87,21 +87,43 @@ export function DoctorProfileContent({
   return (
     <>
       <div className={portraitWrapperClassName ?? "block w-full"} data-doctor-image {...portraitAttrs}>
-        <PortraitPlaceholder
-          photo={doctor.photo}
-          index={index}
-          corner={index % 2 === 0 ? "tr" : "tl"}
-          className="w-full"
-          drift={drift}
-          objectPosition={doctor.photoPosition}
-          accentWash
-        />
+        <div className="relative">
+          <PortraitPlaceholder
+            photo={doctor.photo}
+            index={index}
+            corner={index % 2 === 0 ? "tr" : "tl"}
+            className="w-full"
+            drift={drift}
+            objectPosition={doctor.photoPosition}
+            accentWash
+          />
+          {((doctor.careAreas && doctor.careAreas.length > 0) || doctor.specialFocus) ? (
+            <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 z-20 rounded-xl bg-white/95 p-3 sm:p-3.5 shadow-[0_8px_20px_rgba(42,32,28,0.08)] border border-[#EAE1D7] backdrop-blur-xs max-w-[210px] sm:max-w-[240px]">
+              <p className="text-[10px] font-semibold tracking-wider text-muted uppercase">SPECIALISES IN</p>
+              <ul className="mt-1 space-y-1 text-xs font-medium text-espresso">
+                {(doctor.careAreas ?? [doctor.specialFocus]).slice(0, 2).map((area, i) => (
+                  <li key={area} className="flex items-center gap-1.5">
+                    <span className={cx("size-1.5 rounded-full shrink-0", i === 0 ? "bg-terracotta" : "bg-sky")} />
+                    <span className="truncate">{area}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </div>
       </div>
 
       <div className={cx("mt-8 sm:mt-0", contentClassName ?? "max-w-[38rem]")} data-doctor-content>
-        <p className="font-body text-[0.6875rem] font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
-          {CATEGORY_LABELS[doctor.team]}
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="font-body text-[0.6875rem] font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
+            {CATEGORY_LABELS[doctor.team]}
+          </p>
+          <div className="flex items-center gap-1.5" aria-hidden="true">
+            <span className="h-0.5 w-6 rounded-full bg-terracotta/60" />
+            <span className="h-0.5 w-6 rounded-full bg-sky/60" />
+          </div>
+        </div>
+
         <Heading
           id={headingId}
           className={cx(
@@ -134,7 +156,24 @@ export function DoctorProfileContent({
           </blockquote>
         ) : null}
 
-        <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3">
+        {relatedServices.length > 0 ? (
+          <div className="mt-6">
+            <ul className="flex flex-wrap gap-2">
+              {relatedServices.map((service) => (
+                <li key={service.slug}>
+                  <Link
+                    href={`/services/${service.slug}`}
+                    className="inline-flex items-center rounded-full border border-terracotta/30 bg-white/70 px-3.5 py-1 text-xs font-medium text-espresso transition-all duration-200 hover:border-terracotta hover:bg-white hover:text-terracotta-deep hover:shadow-xs"
+                  >
+                    {service.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
           <Button href="/#connect" variant="primary">
             Book a Consultation
           </Button>
@@ -149,26 +188,6 @@ export function DoctorProfileContent({
             />
           </Link>
         </div>
-
-        {relatedServices.length > 0 ? (
-          <div className="mt-6">
-            <p className="font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-ink-soft/50 uppercase">
-              Related Care
-            </p>
-            <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1.5">
-              {relatedServices.map((service) => (
-                <li key={service.slug}>
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className="text-sm font-medium text-terracotta-deep underline decoration-[var(--color-border-strong)] underline-offset-4 transition-colors duration-[var(--duration-fast)] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-focus-ring)]"
-                  >
-                    {service.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
       </div>
     </>
   );
