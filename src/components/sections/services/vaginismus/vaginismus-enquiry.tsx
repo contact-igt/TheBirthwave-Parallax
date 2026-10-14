@@ -170,6 +170,10 @@ export function VaginismusEnquiry() {
                 </p>
               ) : null}
 
+              <p className="text-xs leading-relaxed text-ink-soft">
+                {vaginismusEnquiry.disclaimer}
+              </p>
+
               <button type="submit" className={submitButtonClass}>
                 {vaginismusEnquiry.submitLabel}
               </button>

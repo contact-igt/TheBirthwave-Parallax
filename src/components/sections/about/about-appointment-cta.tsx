@@ -11,11 +11,10 @@ const CTA_ATMOSPHERE = [
 ].join(", ");
 
 /**
- * Section 09 — Final Appointment CTA, rebuilt with one atmospheric visual
- * wash behind an enlarged statement (visual architecture rework) — still
- * deliberately simpler than the homepage's own Final CTA (no photograph,
- * no parallax, one action) and still no dark-ink surface (that tonal
- * break stays reserved for the homepage's Final CTA + footer).
+ * Section 11 — Final CTA
+ *
+ * Eyebrow: READY WHEN YOU ARE
+ * Headline, supporting body, and Book a Consultation CTA.
  */
 export function AboutAppointmentCta() {
   return (
@@ -27,18 +26,19 @@ export function AboutAppointmentCta() {
       style={{ backgroundImage: CTA_ATMOSPHERE }}
     >
       <div className="container-birthwave max-w-2xl">
+        <p className="eyebrow text-ink">{aboutAppointmentCta.eyebrow}</p>
         <h2
           id="about-appointment-cta-heading"
-          className="text-[clamp(2.75rem,2rem+3.6vw,4.5rem)] leading-[1.04] font-semibold tracking-[var(--tracking-tight)] text-ink"
+          className="mt-4 text-[clamp(2.5rem,1.9rem+3vw,4rem)] leading-[1.06] font-semibold tracking-[var(--tracking-tight)] text-ink"
         >
           {aboutAppointmentCta.heading}
         </h2>
-        <p className="mt-6 max-w-lg text-xl leading-[var(--leading-relaxed)] text-ink-soft">
+        <p className="mt-6 max-w-lg text-lg sm:text-xl leading-[var(--leading-relaxed)] text-ink-soft">
           {aboutAppointmentCta.supporting}
         </p>
         <div className="mt-10">
           <Button href={aboutAppointmentCta.primaryCta.href} variant="primary">
-            {aboutAppointmentCta.primaryCta.label}
+            {aboutAppointmentCta.primaryCta.label} &rarr;
           </Button>
         </div>
       </div>

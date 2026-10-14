@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { aboutInsideClinic } from "@/content/about-clinic-content";
+import { CtaLink } from "@/components/ui/cta-link";
 import { useReducedMotion } from "@/motion/reduced-motion";
 import { ensureScrollTriggerRegistered, gsap, SIGNATURE_EASE } from "@/motion/gsap-scroll";
 
@@ -169,16 +170,23 @@ export function AboutInsideClinic() {
         <p className="eyebrow">{aboutInsideClinic.eyebrow}</p>
         <h2
           id="about-inside-clinic-heading"
-          className="mt-4 max-w-xl text-[clamp(2.1rem,1.6rem+2.2vw,3rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink"
+          className="mt-4 max-w-2xl text-[clamp(2.1rem,1.6rem+2.2vw,3rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink"
         >
           {aboutInsideClinic.heading}
         </h2>
-        <p className="mt-5 max-w-xl text-lg leading-[var(--leading-relaxed)] text-ink-soft">
-          {aboutInsideClinic.description}
-        </p>
+        <div className="mt-5 max-w-2xl space-y-4 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+          {aboutInsideClinic.paragraphs.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
+        </div>
+        <div className="mt-8">
+          <CtaLink href={aboutInsideClinic.cta.href}>
+            {aboutInsideClinic.cta.label}
+          </CtaLink>
+        </div>
 
         {/* Spacious Landscape Video Frame */}
-        <div className="mt-10 overflow-hidden sm:mt-12">
+        <div className="mt-12 overflow-hidden sm:mt-14">
           <div
             ref={videoFrameRef}
             className="relative w-full overflow-hidden rounded-2xl bg-[#2A201C] ring-1 ring-[var(--color-border)] shadow-[0_4px_24px_rgba(42,32,28,0.04)]"

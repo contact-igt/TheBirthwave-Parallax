@@ -1,21 +1,18 @@
 "use client";
 
-import { servicesFinalCta } from "@/content/services-content";
+import { ourServicesFinalCta } from "@/content/our-services-content";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone, MessageCircle, MapPin } from "lucide-react";
 
 /**
- * Section 05 — Final Appointment CTA.
- *
- * Combines the guidance and appointment invitation into a single definitive closure.
- * Employs the project's signature dark-brown (ink) treatment with subtle atmospheric glow
- * for a clear visual conclusion without looping back to the same section.
+ * Section 13 — Final CTA ("Start With a Conversation").
+ * Definitive closure inviting consultation across all women's & children's care disciplines.
  */
 export function ServicesFinalCta() {
   return (
     <section
-      id="connect"
+      id={ourServicesFinalCta.id}
       aria-labelledby="services-final-cta-heading"
       className="relative isolate overflow-hidden bg-ink py-16 sm:py-20 lg:py-24 text-paper"
       style={{
@@ -26,50 +23,49 @@ export function ServicesFinalCta() {
       }}
     >
       <div className="container-birthwave max-w-2xl">
-        <p className="eyebrow text-coral/80 font-semibold">{servicesFinalCta.eyebrow}</p>
+        <p className="eyebrow text-coral/80 font-semibold">{ourServicesFinalCta.eyebrow}</p>
         <h2
           id="services-final-cta-heading"
           className="mt-4 text-[clamp(2.1rem,1.6rem+2vw,3rem)] leading-[1.08] font-semibold text-paper"
         >
-          {servicesFinalCta.heading}
+          {ourServicesFinalCta.heading}
         </h2>
         <p className="mt-5 max-w-[52ch] text-base leading-[var(--leading-relaxed)] text-paper/70 sm:text-lg">
-          {servicesFinalCta.supporting}
+          {ourServicesFinalCta.body}
         </p>
 
         <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-          <Button href={servicesFinalCta.primaryCta.href} variant="primary">
-            {servicesFinalCta.primaryCta.label}
+          <Button href={ourServicesFinalCta.primaryCta.href} variant="primary">
+            {ourServicesFinalCta.primaryCta.label.replace(/\s*→$/, "")}
           </Button>
 
           <CtaLink
-            href={servicesFinalCta.secondaryCta.href}
+            href={ourServicesFinalCta.secondaryCta.href}
             className="!text-paper/85 hover:!text-paper"
           >
             <span className="flex items-center gap-2">
               <MessageCircle aria-hidden="true" className="size-4 text-coral/80" />
-              {servicesFinalCta.secondaryCta.label}
+              {ourServicesFinalCta.secondaryCta.label.replace(/\s*→$/, "")}
             </span>
           </CtaLink>
         </div>
 
-        <div className="mt-8 flex flex-col gap-2 border-t border-paper/10 pt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+        <div className="mt-8 flex flex-col gap-3 border-t border-paper/10 pt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
           <a
-            href={servicesFinalCta.phoneHref}
-            className="group inline-flex items-center gap-2 text-sm font-medium text-paper/75 transition-colors duration-[var(--duration-fast)] hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)]"
+            href={ourServicesFinalCta.phoneHref}
+            className="group inline-flex items-center gap-2 text-sm font-medium text-paper/80 transition-colors duration-[var(--duration-fast)] hover:text-paper"
           >
             <Phone aria-hidden="true" className="size-4 shrink-0 text-coral/80 transition-transform group-hover:scale-110" />
             <span>
-              <span className="text-paper/50">{servicesFinalCta.phoneLabel}: </span>
-              {servicesFinalCta.phoneNumber}
+              <span className="text-paper/50">Call: </span>
+              {ourServicesFinalCta.phone}
             </span>
           </a>
 
-          {servicesFinalCta.note && (
-            <p className="text-xs text-paper/50">
-              {servicesFinalCta.note}
-            </p>
-          )}
+          <div className="inline-flex items-center gap-2 text-xs text-paper/60">
+            <MapPin aria-hidden="true" className="size-3.5 shrink-0 text-coral/70" />
+            <span>{ourServicesFinalCta.location}</span>
+          </div>
         </div>
       </div>
     </section>

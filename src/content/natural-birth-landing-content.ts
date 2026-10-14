@@ -5,205 +5,181 @@
 export const naturalBirthHero = {
   eyebrow: "YOUR BIRTH, YOUR PREFERENCES",
   heading: "Natural Birth",
-  supportingHeadline: "Prepare for a birth experience that supports your body, your choices and your individual pregnancy.",
+  supportingHeadline:
+    "Prepare for the birth you hope for, with informed choices and individualised care.",
   body: [
-    "At BirthWave, Natural Birth is a physiological approach to labour and vaginal birth that supports the body's natural processes while avoiding unnecessary intervention when it is clinically appropriate.",
-    "Preparation begins during pregnancy — understanding labour, discussing your preferences, learning ways to move, breathe and cope with contractions, and knowing what options may be available to you.",
-    "Your care remains individualised throughout, with the wellbeing of you and your baby guiding every decision.",
+    "Natural Birth at The BirthWave focuses on supporting the body's natural labour process while keeping you and your newborn's wellbeing at the centre of every decision.",
+    "From understanding labour and preparing your birth plan to exploring movement, comfort and pain-relief options, we help you prepare for birth with clarity.",
+    "Every pregnancy is different. Your preferences matter, and your care plan may adapt as labour progresses.",
   ],
   primaryCta: { label: "DISCUSS YOUR BIRTH PREFERENCES ↗", href: "#enquiry" },
-  secondaryCta: { label: "Explore Our Natural Birth Approach ↓", href: "#natural-birth-approach" },
+  secondaryCta: {
+    label: "EXPLORE OUR NATURAL BIRTH APPROACH ↓",
+    href: "#natural-birth-approach",
+  },
 } as const;
 
 export const naturalBirthApproach = {
   eyebrow: "UNDERSTANDING THE APPROACH",
-  heading: "What does Natural Birth mean at BirthWave?",
+  heading: "Natural Birth is about supporting your body, not avoiding medical care.",
   paragraphs: [
-    "Natural Birth can mean different things to different women.",
-    "At BirthWave, we use the term to describe a physiological approach to labour and vaginal birth — supporting labour to progress naturally and minimising unnecessary intervention when it is safe and appropriate to do so.",
-    "Depending on your pregnancy and how labour progresses, this may include:",
+    "Natural Birth focuses on supporting physiological labour, encouraging informed choices and avoiding unnecessary interventions when clinically appropriate.",
+    "At The BirthWave, this approach includes:",
   ],
   elements: [
     {
       title: "MOVEMENT & POSITIONING",
-      body: "Using movement and different labour positions where appropriate and comfortable.",
+      body: "Explore movement and comfortable labour positions suited to your pregnancy.",
     },
     {
       title: "BREATHING & RELAXATION",
-      body: "Using breathing, relaxation and other comfort techniques to help you work through labour.",
-    },
-    {
-      title: "INFORMED CHOICES",
-      body: "Understanding what is happening, what is being recommended and the options available to you.",
-    },
-    {
-      title: "LABOUR SUPPORT",
-      body: "Having continuous emotional and practical support during labour, according to the arrangements available at your birth facility.",
-    },
-    {
-      title: "FLEXIBLE PAIN RELIEF",
-      body: "Discussing both non-medical comfort measures and medical pain-relief options rather than assuming one approach suits everyone.",
-    },
-    {
-      title: "CLINICAL CARE WHEN NEEDED",
-      body: "If you or your baby needs additional monitoring or intervention, your care plan can adapt accordingly.",
-    },
-  ],
-  closing: "Natural Birth is not about avoiding medical care. It is about supporting physiological birth while using medical care thoughtfully when it becomes appropriate.",
-} as const;
-
-export const naturalBirthPreferences = {
-  eyebrow: "YOUR BIRTH PREFERENCES",
-  heading: "Your birth plan starts with what matters to you.",
-  intro: "A birth plan is a way to communicate your preferences before labour — while leaving room for your care to adapt when needed.",
-  themes: [
-    {
-      title: "MOVEMENT & COMFORT",
-      body: "Discuss movement, positioning, breathing and comfort measures you may want to use during labour.",
+      body: "Learn breathing, relaxation and comfort techniques that may help during contractions.",
     },
     {
       title: "SUPPORT DURING LABOUR",
-      body: "Talk about who you would like involved in supporting you and what kind of support matters to you.",
+      body: "Discuss your preferences for emotional support, birth companionship and communication.",
+    },
+    {
+      title: "PAIN-RELIEF CHOICES",
+      body: "Understand non-medical comfort measures and available medical pain-relief options.",
+    },
+    {
+      title: "MEDICAL CARE WHEN NEEDED",
+      body: "Monitoring and medical interventions remain available considerations whenever clinically necessary.",
+    },
+  ],
+  closing:
+    "Natural Birth does not mean refusing medical care. Your health and your newborn's wellbeing guide every decision.",
+} as const;
+
+export const naturalBirthPreferences = {
+  eyebrow: "YOUR BIRTH PLAN",
+  heading: "A birth plan helps your care team understand what matters to you.",
+  intro:
+    "Your birth plan is a way to share your preferences and expectations before labour begins. It should also allow flexibility if circumstances change.",
+  themes: [
+    {
+      title: "MOVEMENT & COMFORT",
+      body: "Discuss preferred labour positions, movement and relaxation techniques.",
+    },
+    {
+      title: "BIRTH PARTNER & SUPPORT",
+      body: "Talk about who you would like beside you and how they can support you.",
     },
     {
       title: "PAIN-RELIEF PREFERENCES",
-      body: "Understand the pain-relief options available so you can make informed choices during labour.",
+      body: "Explore your options for managing discomfort during labour.",
     },
     {
       title: "COMMUNICATION & DECISIONS",
-      body: "Let your care team know how you would like information, recommendations and changes in your care explained.",
+      body: "Share how you would like medical recommendations and changes explained.",
     },
     {
-      title: "EARLY BONDING & FEEDING",
-      body: "Discuss your preferences for the period immediately after birth, where clinically appropriate.",
-    },
-    {
-      title: "IF THE PLAN NEEDS TO CHANGE",
-      body: "Talk beforehand about how your preferences can continue to be respected if labour takes an unexpected direction.",
+      title: "AFTER-BIRTH PREFERENCES",
+      body: "Discuss early contact, newborn care and feeding preferences where clinically appropriate.",
     },
   ],
-  cta: { label: "TALK ABOUT YOUR BIRTH PREFERENCES ↗", href: "#enquiry" },
+  closing:
+    "A birth plan is a guide for communication, not a guarantee of a particular birth experience.",
+  cta: { label: "TALK ABOUT YOUR BIRTH PLAN ↗", href: "#enquiry" },
 } as const;
 
 export const naturalBirthSupport = {
   eyebrow: "PREPARING FOR LABOUR",
-  heading: "Natural Birth preparation begins before labour does.",
+  heading: "Birth preparation begins before labour does.",
   paragraphs: [
-    "You don't need to wait until contractions begin to start preparing.",
-    "Pregnancy gives you time to understand labour, prepare your body, discuss your preferences and involve the people who will support you.",
+    "Understanding labour and preparing during pregnancy can help you feel more informed about the choices ahead.",
   ],
   steps: [
     {
       number: "01",
       title: "UNDERSTAND LABOUR",
-      body: "Learn about the stages of labour, contractions, signs that labour may be beginning and when to contact your maternity team.",
+      body: "Learn about contractions, the stages of labour, early signs and when to contact your maternity team.",
     },
     {
       number: "02",
       title: "PREPARE YOUR BODY",
-      body: "Discuss safe movement, mobility, positioning and pregnancy exercises appropriate for you.",
+      body: "Explore pregnancy-appropriate movement, breathing, relaxation and comfort techniques.",
     },
     {
       number: "03",
-      title: "PRACTISE COMFORT TECHNIQUES",
-      body: "Explore breathing, relaxation, movement and other coping strategies that may support you during labour.",
+      title: "INVOLVE YOUR BIRTH PARTNER",
+      body: "Discuss how your partner can provide practical and emotional support during labour.",
     },
     {
       number: "04",
-      title: "PREPARE YOUR BIRTH PARTNER",
-      body: "Help your partner understand labour and how they may support you practically and emotionally.",
-    },
-    {
-      number: "05",
-      title: "DISCUSS YOUR PREFERENCES",
-      body: "Talk with your obstetrician about the birth experience you hope for, including your questions about monitoring, pain relief and interventions.",
-    },
-    {
-      number: "06",
-      title: "PREPARE FOR FLEXIBILITY",
-      body: "Understand why recommendations sometimes change during labour so that unexpected decisions do not have to feel completely unfamiliar.",
+      title: "PREPARE FOR DIFFERENT POSSIBILITIES",
+      body: "Understand your preferences, pain-relief choices and why plans may change when medical care is needed.",
     },
   ],
-  cta: { label: "START YOUR BIRTH PREPARATION ↗", href: "#enquiry" },
+  cta: {
+    label: "EXPLORE BIRTH PREPARATION & CHILDBIRTH EDUCATION ↗",
+    href: "/services/birth-preparation",
+  },
 } as const;
 
 export const naturalBirthWhenLabourBegins = {
   eyebrow: "DURING LABOUR",
-  heading: "Supporting the natural progress of labour.",
+  heading: "Supporting you through each stage of labour.",
   intro: [
-    "When labour begins, your needs can change from one stage to another.",
-    "Where clinically appropriate, your labour experience may include:",
+    "Labour progresses differently for every woman. Your comfort, preferences and medical needs may change along the way.",
   ],
   points: [
     {
       number: "01",
-      title: "MOVEMENT",
-      body: "Walking, changing positions or remaining mobile according to your comfort and clinical situation.",
+      title: "MOVEMENT & POSITIONS",
+      body: "Walking, changing positions or remaining mobile may be possible depending on your clinical needs.",
     },
     {
       number: "02",
-      title: "BREATHING & RELAXATION",
-      body: "Using breathing, relaxation and comfort techniques as contractions progress.",
+      title: "BREATHING & COMFORT",
+      body: "Breathing, relaxation and other comfort measures may help you cope with contractions.",
     },
     {
       number: "03",
-      title: "POSITIONING",
-      body: "Trying different positions during labour and birth where appropriate.",
+      title: "LABOUR COMPANIONSHIP",
+      body: "Your chosen support person may offer reassurance and practical assistance, subject to facility arrangements.",
     },
     {
       number: "04",
-      title: "CONTINUOUS SUPPORT",
-      body: "Receiving reassurance, practical support and clear communication throughout labour.",
-    },
-    {
-      number: "05",
-      title: "PAIN-RELIEF CHOICES",
-      body: "Discussing comfort measures and available medical pain-relief options if you want or need them.",
-    },
-    {
-      number: "06",
-      title: "ONGOING ASSESSMENT",
-      body: "Your maternity team continues assessing you and your baby's wellbeing and adjusts care when necessary.",
+      title: "MONITORING & PAIN RELIEF",
+      body: "Your maternity team monitors your progress and your newborn's wellbeing, with pain-relief and other care options discussed as needed.",
     },
   ],
 } as const;
 
 export const naturalBirthFlexibility = {
   eyebrow: "CARE THAT ADAPTS WITH YOU",
-  heading: "Your preferences still matter when plans change.",
+  heading: "Your preferences still matter when birth plans change.",
   paragraphs: [
-    "Birth is dynamic, and sometimes labour develops differently from what was expected.",
-    "Additional monitoring, pain relief, induction or augmentation, assisted vaginal birth or Caesarean birth may sometimes be recommended depending on the clinical circumstances.",
-    "If that happens, it doesn't erase the preparation or preferences you brought into labour.",
-    "Your care team can explain what has changed, why a different approach is being recommended and what choices remain available to you.",
-    "The aim is not to follow a birth plan at all costs. It is to keep you informed and involved while protecting the wellbeing of you and your baby.",
+    "Sometimes labour progresses differently from what was expected.",
+    "Additional monitoring, induction, assisted vaginal birth or Caesarean birth may be recommended depending on your circumstances.",
+    "If a change becomes necessary, your maternity team can explain why, discuss the available options and involve you in decisions whenever possible.",
+    "A different birth pathway does not mean your preparation was wasted.",
+    "The priority is appropriate medical care while respecting your needs and preferences.",
   ],
 } as const;
 
 export const naturalBirthJourney = {
   eyebrow: "START WITH A CONVERSATION",
-  heading: "Preparing for Natural Birth starts with understanding your pregnancy.",
-  intro: "You don't need to arrive with a perfect birth plan. Your first conversation can simply begin with what you are hoping for and the questions you have.",
+  heading: "Birth preparation begins with understanding your pregnancy.",
+  intro:
+    "You do not need to arrive with a completed birth plan. Start by discussing what matters to you.",
   steps: [
     {
       number: "01",
       title: "SHARE YOUR PREGNANCY JOURNEY",
-      body: "Discuss your pregnancy so far, relevant medical history and anything that may influence birth planning.",
+      body: "Talk about your pregnancy, medical history and any concerns relevant to birth.",
     },
     {
       number: "02",
-      title: "TELL US WHAT MATTERS TO YOU",
-      body: "Talk about what Natural Birth means to you and the kind of birth experience you are hoping for.",
+      title: "DISCUSS YOUR PREFERENCES",
+      body: "Explain what Natural Birth means to you and the experience you hope for.",
     },
     {
       number: "03",
       title: "UNDERSTAND YOUR OPTIONS",
-      body: "Ask about labour, movement, positioning, comfort measures, pain relief, monitoring and other aspects of birth that matter to you.",
-    },
-    {
-      number: "04",
-      title: "PLAN YOUR PREPARATION",
-      body: "Understand what you can work on during pregnancy and which BirthWave services may support your preparation.",
+      body: "Discuss labour preparation, comfort measures, medical considerations and appropriate next steps.",
     },
   ],
   cta: { label: "DISCUSS NATURAL BIRTH ↗", href: "#enquiry" },
@@ -212,32 +188,58 @@ export const naturalBirthJourney = {
 export const naturalBirthClinician = {
   eyebrow: "THE PEOPLE BEHIND YOUR CARE",
   heading: "Birth preparation begins with a conversation.",
-  body: [
-    "Every pregnancy is different, which means birth planning should be individual too.",
-    "Discuss your pregnancy, questions, preferences and expectations with your obstetrician so that you understand your options before labour begins.",
-  ],
   doctor: {
-    name: "Dr. Santoshi Nandigam",
+    name: "Dr. Santoshini Nandigam",
     role: "Founder · Obstetrician & Gynaecologist",
     credentials: "MBBS, DNB – Obstetrics & Gynaecology",
-    specialFocus: "Natural Birth & VBAC Specialist · Holistic Fertility Coach",
+    specialtyBadge: "Natural Birth, VBAC and Pregnancy Care",
+    paragraphs: [
+      "Dr. Santoshini discusses your pregnancy, birth preferences and available care options to help you make informed decisions.",
+      "Birth planning considers both your preferences and the medical needs of you and your newborn.",
+    ],
+    photo: "/images/clinic/dr-santoshi.JPG",
+    primaryCta: { label: "VIEW DOCTOR PROFILE ↗", href: "/doctors/dr-santoshi-nandigam" },
   },
-  cta: { label: "BOOK A CONSULTATION ↗", href: "#enquiry" },
 } as const;
 
 export const naturalBirthPractical = {
-  eyebrow: "BEFORE YOU PLAN",
-  heading: "Practical questions worth discussing before your due date.",
+  eyebrow: "PRACTICAL INFORMATION",
+  heading: "Questions worth discussing before your due date.",
   info: [
-    { label: "Consultation Location", lines: ["[BirthWave team to confirm]"] },
-    { label: "Delivery Location", lines: ["[BirthWave team to confirm]"] },
-    { label: "Birth Partner / Support Person", lines: ["[BirthWave team to confirm facility policy]"] },
-    { label: "Movement & Birth Positions", lines: ["[BirthWave team to confirm facility arrangements]"] },
-    { label: "Pain-Relief Options", lines: ["[BirthWave team to confirm available options]"] },
-    { label: "Doctor / Care-Team Attendance", lines: ["[BirthWave team to confirm arrangements]"] },
-    { label: "Booking Process", lines: ["[BirthWave team to confirm]"] },
-    { label: "Consultation Fees", lines: ["[BirthWave team to confirm]"] },
-    { label: "Contact / WhatsApp", lines: ["+91 93630 31925"] },
+    {
+      label: "Consultation Location",
+      lines: ["The BirthWave, Mahalingapuram Main Road, Nungambakkam, Chennai – 600034."],
+    },
+    {
+      label: "Consulting Obstetrician",
+      lines: ["Dr. Santoshini Nandigam"],
+    },
+    {
+      label: "Delivery Location",
+      lines: ["Confirm the delivery facility and available maternity services with the team."],
+    },
+    {
+      label: "Birth Partner",
+      lines: ["Discuss whether a chosen companion can attend labour and birth."],
+    },
+    {
+      label: "Movement & Pain Relief",
+      lines: ["Ask about facility-specific arrangements and clinically appropriate options."],
+    },
+    {
+      label: "What to Bring",
+      lines: [
+        "Relevant pregnancy records, scan reports, prescriptions and previous birth records, if available.",
+      ],
+    },
+    {
+      label: "Appointments",
+      lines: ["Contact the appointment team to arrange a consultation."],
+    },
+    {
+      label: "Contact",
+      lines: ["+91 93630 31925"],
+    },
   ],
 } as const;
 
@@ -248,48 +250,53 @@ export const naturalBirthFaq = {
     {
       question: "What does Natural Birth mean?",
       answer:
-        "At BirthWave, Natural Birth refers to a physiological approach to labour and vaginal birth that aims to support the body's natural processes and minimise unnecessary intervention when clinically appropriate. The exact approach depends on your pregnancy, preferences and how labour progresses.",
+        "Natural Birth focuses on supporting physiological labour and vaginal birth, while avoiding unnecessary medical interventions when appropriate. Medical care remains an important part of safe childbirth.",
     },
     {
-      question: "Is Natural Birth the same as Normal Vaginal Delivery?",
+      question: "Is Natural Birth the same as Vaginal Delivery?",
       answer:
-        "Not exactly. Normal Vaginal Delivery describes the mode of birth — the baby is born vaginally rather than by Caesarean section. At BirthWave, Natural Birth describes the approach to labour and birth, with an emphasis on supporting physiological labour and avoiding unnecessary intervention when appropriate.",
+        "Not exactly. Vaginal Delivery describes how a newborn is born. Natural Birth describes an approach to labour that supports the body's natural processes when clinically appropriate.",
     },
     {
       question: "Can Natural Birth be guaranteed?",
       answer:
-        "No particular mode or course of birth can be guaranteed. Pregnancy and labour can change, and recommendations may need to change according to the wellbeing of you and your baby.",
+        "No. Labour can develop unexpectedly, and medical recommendations may change depending on your pregnancy and your newborn's wellbeing.",
     },
     {
-      question: "Can I make a birth plan?",
+      question: "Can I have pain relief during Natural Birth?",
       answer:
-        "Yes. A birth plan can help you communicate preferences around movement, support, comfort, pain relief, communication and other aspects of labour. It is best treated as a flexible guide rather than a fixed set of instructions.",
+        "Yes. You can discuss both non-medical comfort techniques and available medical pain-relief options. Your preferences can also change during labour.",
     },
     {
-      question: "Does Natural Birth mean I cannot have pain relief?",
+      question: "Can I move or choose different positions during labour?",
       answer:
-        "No. Choosing a Natural Birth approach does not mean you must refuse pain relief. You can discuss non-medical comfort measures as well as available medical pain-relief options with your maternity team.",
+        "Movement and different labour positions may be possible depending on your comfort, medical needs and delivery-facility arrangements.",
     },
     {
-      question: "Can I move or use different positions during labour?",
+      question: "Can my partner be present during labour?",
       answer:
-        "Movement and different positions may be encouraged when clinically appropriate and when the birth setting allows them. WHO supports mobility during labour and a woman's choice of birth position as part of woman-centred maternity care.",
+        "A chosen birth companion can provide emotional and practical support. Attendance arrangements should be confirmed with your delivery facility.",
     },
     {
-      question: "Can my partner or another support person be present?",
+      question: "Can I prepare a birth plan?",
       answer:
-        "A chosen companion can provide practical and emotional support during labour, and WHO recommends companionship during labour and childbirth. Whether and how this is arranged at BirthWave's delivery facility should be confirmed with the team.",
+        "Yes. A birth plan helps you communicate your preferences for labour, comfort, support and medical decisions while allowing flexibility when needed.",
     },
     {
-      question: "What happens if an intervention becomes necessary?",
+      question: "Is water birth an option?",
       answer:
-        "Your maternity team may recommend additional monitoring, medication, assisted vaginal birth, Caesarean birth or another intervention depending on the situation. The recommendation and available options should be explained so that you remain informed and involved in decisions about your care.",
+        "Water birth may be considered for some pregnancies following clinical assessment. Availability, suitability and facility arrangements should be discussed with your maternity team.",
     },
     {
-      question: "I have previously had a Caesarean. Is Natural Birth the right page for me?",
+      question: "What happens if a Caesarean becomes necessary?",
       answer:
-        "If you have had a previous Caesarean and are considering a vaginal birth in a subsequent pregnancy, our dedicated VBAC (Vaginal Birth After Caesarean) page is the more relevant place to start.",
-      ctaLink: { label: "Explore VBAC →", href: "/services/vbac" },
+        "Your maternity team may recommend a Caesarean if clinical circumstances require it. They can explain the reasons, available choices and next steps.",
+    },
+    {
+      question: "Can I consider Natural Birth after a previous Caesarean?",
+      answer:
+        "Some women may be suitable for VBAC (Vaginal Birth After Caesarean). Your previous birth history and current pregnancy need individual assessment.",
+      ctaLink: { label: "EXPLORE VBAC ↗", href: "/services/vbac" },
     },
   ],
 } as const;
@@ -298,53 +305,55 @@ export const naturalBirthEnquiry = {
   eyebrow: "START YOUR BIRTH CONVERSATION",
   heading: "Thinking about Natural Birth?",
   body: [
-    "Whether you're early in pregnancy or approaching your due date, you can start by discussing your pregnancy, understanding your options and talking about the birth experience you are hoping for.",
-    "Begin with a consultation at BirthWave.",
+    "Whether you are early in pregnancy or approaching your due date, you can discuss your birth preferences, understand your options and prepare for labour.",
+    "Contact The BirthWave to arrange a consultation.",
   ],
   fields: {
-    name: "Full name",
-    phone: "Phone number",
+    name: "Full Name",
+    phone: "Phone Number",
     email: "Email (optional)",
-    message: "What would you like to discuss?",
-    messagePlaceholder: "Tell us about your pregnancy or the questions you have about Natural Birth.",
+    message: "What would you like to discuss? (optional)",
+    messagePlaceholder: "Share your questions about Natural Birth or birth preparation.",
   },
-  submitLabel: "BOOK A NATURAL BIRTH CONSULTATION",
-  footerNote: "For appointment enquiries only. If you have an urgent pregnancy or medical concern, please contact your healthcare provider or emergency service.",
+  submitLabel: "SEND ENQUIRY",
+  footerNote:
+    "For appointment enquiries only. If you have an urgent pregnancy-related concern, contact your healthcare provider or an emergency medical service.",
 } as const;
 
 export const naturalBirthMobileCta = {
-  label: "BOOK A NATURAL BIRTH CONSULTATION",
+  label: "DISCUSS YOUR BIRTH PREFERENCES",
   href: "#enquiry",
 } as const;
 
 export const naturalBirthRelatedCare = {
   eyebrow: "CONNECTED BIRTH CARE",
   heading: "Support for pregnancy, birth and recovery.",
-  intro: "Natural Birth preparation can connect with other areas of care depending on what you need during your pregnancy and after birth.",
+  intro: "Explore other services that may be relevant to your care.",
   services: [
     {
       title: "Pregnancy & Antenatal Care →",
-      description: "Ongoing pregnancy care, monitoring and preparation for birth.",
+      description: "Pregnancy consultations, monitoring and guidance.",
       href: "/services/pregnancy-antenatal-care",
     },
     {
       title: "Birth Preparation & Childbirth Education →",
-      description: "Understand labour, birth, comfort techniques and how your partner can support you.",
+      description: "Learn about labour, comfort techniques, birth plans and partner involvement.",
       href: "/services/birth-preparation",
     },
     {
-      title: "Normal Vaginal Delivery →",
-      description: "Understand vaginal delivery, labour and your available birth-care options.",
+      title: "Vaginal Delivery →",
+      description: "Understand vaginal birth and the care options relevant to your pregnancy.",
       href: "/services/normal-birth-delivery",
     },
     {
       title: "VBAC (Vaginal Birth After Caesarean) →",
-      description: "Dedicated information for women considering vaginal birth after a previous Caesarean.",
+      description:
+        "Information and individual assessment for women considering vaginal birth after a previous Caesarean.",
       href: "/services/vbac",
     },
     {
       title: "Postpartum Recovery & Care →",
-      description: "Support for physical recovery and wellbeing after childbirth.",
+      description: "Care and guidance for recovery after childbirth.",
       href: "/services/postpartum-care",
     },
   ],

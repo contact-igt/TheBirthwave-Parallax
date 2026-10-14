@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { finalCta } from "@/content/site-content";
 import { Button } from "@/components/ui/button";
-import { CareWaveBackground } from "@/components/ui/backgrounds/care-wave-background";
 import { useParallax } from "@/motion/image-motion";
 import { useScrollReveal } from "@/motion/scroll-scenes";
 import { emergenceBand, finalCtaEmergence } from "@/motion/section-transitions";
@@ -56,9 +55,6 @@ export function FinalCtaSection() {
 
       {/* Dark Espresso Base Scrim */}
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-ink/75" />
-
-      {/* Atmospheric flowing care waves in muted terracotta & coral */}
-      <CareWaveBackground preset="dark-cta" />
 
       {/* Top Emergence Band: Smooth transition from Warm Ivory to Espresso */}
       <div
@@ -116,11 +112,15 @@ export function FinalCtaSection() {
           {/* Statement Headline — explicitly styled with luminous ivory so global h2 styles never override it */}
           <h2
             id="final-cta-heading"
-            className="mt-4 text-balance text-[clamp(2.4rem,2rem+2.6vw,4rem)] font-semibold leading-[1.06] tracking-[var(--tracking-tight)] !text-[#FAF6F2]"
+            className="mt-4 text-balance text-h2 font-semibold leading-[1.06] tracking-[var(--tracking-tight)] !text-[#FAF6F2]"
             style={{ color: "#FAF6F2" }}
           >
-            {finalCta.statementLines.map((line) => (
-              <span key={line} className="block text-[#FAF6F2]" style={{ color: "#FAF6F2" }}>
+            {finalCta.statementLines.map((line, idx) => (
+              <span
+                key={line}
+                className={cx("block text-[#FAF6F2]", idx === 1 && "serif-emphasis")}
+                style={{ color: "#FAF6F2" }}
+              >
                 {line}
               </span>
             ))}

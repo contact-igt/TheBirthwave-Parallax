@@ -6,7 +6,7 @@ import { cx } from "@/lib/cx";
 // to a real clinician's roster entry.
 const MEDIA = {
   consultation: {
-    src: "/images/about/consultation-ai-preview-v1.webp",
+    src: "/images/about/care2.JPG",
     alt: "AI-generated illustration of a clinician and a woman talking in a sunlit consultation room.",
     caption: "AI-generated illustration · Clinic photography pending",
     aspect: "aspect-[3/2]",

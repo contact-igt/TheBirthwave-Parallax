@@ -67,9 +67,9 @@ export function FaqSection() {
           </div>
           <h2
             id="faq-heading"
-            className="mt-3.5 text-balance text-[clamp(2.4rem,2.8vw,3.75rem)] font-semibold leading-[1.06] tracking-[var(--tracking-tight)] text-ink"
+            className="mt-3.5 text-balance text-h2 font-semibold leading-[1.06] tracking-[var(--tracking-tight)] text-ink"
           >
-            {faq.heading}
+            Questions you may already have.
           </h2>
           <p className="mt-4 text-base leading-[1.7] text-ink-soft sm:text-lg">
             Clear guidance and answers to the questions families ask most often
@@ -119,14 +119,12 @@ export function FaqSection() {
                   </span>
                   <span
                     aria-hidden="true"
-                    className="flex size-7 shrink-0 items-center justify-center rounded-full bg-paper/80 text-terracotta transition-all duration-300 ease-[var(--ease-signature)]"
+                    className="flex size-7 shrink-0 items-center justify-center rounded-full bg-paper/80 text-terracotta-deep transition-all duration-300 ease-[var(--ease-signature)]"
                   >
                     <Plus
                       className={cx(
-                        "size-4.5 transition-transform duration-350 ease-[var(--ease-signature)] motion-reduce:transform-none",
-                        isOpen
-                          ? "rotate-45 text-terracotta-deep"
-                          : "text-terracotta",
+                        "size-4.5 transition-transform duration-350 ease-[var(--ease-signature)] motion-reduce:transform-none text-terracotta-deep",
+                        isOpen && "rotate-45",
                       )}
                     />
                   </span>
@@ -150,7 +148,7 @@ export function FaqSection() {
                   }}
                 >
                   <div className="overflow-hidden">
-                    <p className="pb-6 pt-1 font-body text-base leading-[1.7] text-ink-soft">
+                    <p className="pb-6 pt-1 font-body text-base leading-[1.7] text-ink-soft whitespace-pre-line">
                       {item.answer}
                     </p>
                   </div>

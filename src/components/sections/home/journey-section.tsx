@@ -7,7 +7,6 @@ import { CtaLink } from "@/components/ui/cta-link";
 import { useReducedMotion } from "@/motion/reduced-motion";
 import { cx } from "@/lib/cx";
 import { ensureScrollTriggerRegistered, gsap, ScrollTrigger } from "@/motion/gsap-scroll";
-import { CareWaveBackground } from "@/components/ui/backgrounds/care-wave-background";
 
 /**
  * The BirthWave Journey — six stages in normal document flow (no pin),
@@ -31,48 +30,22 @@ import { CareWaveBackground } from "@/components/ui/backgrounds/care-wave-backgr
  * getPointAtLength. Each stage has scrubbed, reversible reveals (see REVEAL).
  */
 
-const STAGE_COUNT = journey.stages.length;
-
-// Stage number colours — unchanged from the previous version: the warm
-// default, a cooler sky lean, and coral for Birth.
+// Stage number colours — accessible deep variants for high-contrast text on light backgrounds:
 const STAGE_HUES = [
-  "--color-terracotta",
-  "--color-sky",
-  "--color-terracotta",
-  "--color-coral",
-  "--color-terracotta",
-  "--color-sky",
+  "--color-terracotta-deep",
+  "--color-sky-deep",
+  "--color-terracotta-deep",
+  "--color-terracotta-deep",
+  "--color-terracotta-deep",
+  "--color-sky-deep",
 ] as const;
-
-// Background atmosphere — one continuous gradient behind all six stages
-// (unchanged).
-const ATMOSPHERE_HUES = [
-  "var(--color-paper)",
-  "color-mix(in srgb, var(--color-sky) 6%, var(--color-paper))",
-  "color-mix(in srgb, var(--color-terracotta) 9%, var(--color-paper-dim))",
-  "color-mix(in srgb, var(--color-terracotta) 16%, var(--color-paper))",
-  "var(--color-paper)",
-  "color-mix(in srgb, var(--color-sky) 7%, var(--color-paper))",
-] as const;
-const ATMOSPHERE_GRADIENT = `linear-gradient(to bottom, ${ATMOSPHERE_HUES[0]} 0%, ${ATMOSPHERE_HUES.map(
-  (hue, i) => `${hue} ${(((i + 0.5) / STAGE_COUNT) * 100).toFixed(1)}%`,
-).join(", ")}, ${ATMOSPHERE_HUES[ATMOSPHERE_HUES.length - 1]} 100%)`;
 
 /**
- * Atmospheric backdrop: one existing still — a cloud/fabric frame from the
- * Hero → Philosophy sequence (warm ivory, peach, dusty rose; no subject).
- * Frame 101 is one every breakpoint's scrub already loads (phones paint
- * every second frame), so `unoptimized` lets it come straight from cache.
- *
- * The section is ~5–6k px tall, so the image sits in a viewport-sized
- * CSS-sticky layer inside the section (released at the section's end)
- * instead of being stretched ~8× over the whole height. It's oversized and
- * anchored toward the upper-left of the frame so the source's
- * bottom-right corner (an AI-generator sparkle mark) is always cropped out.
+ * Atmospheric fabric backdrop: supplied silk drape asset framed along outer margins.
+ * Scaled within a viewport-sized CSS-sticky layer with soft directional masks,
+ * preserving an unencumbered central reading zone on the ivory base.
  */
-const BACKDROP_SRC = "/images/about/hero-transition/frame_000101.jpg";
-/** The existing atmosphere gradient, now a translucent veil over the image. */
-const BACKDROP_VEIL_OPACITY = 0.66;
+const FABRIC_BACKDROP_SRC = "/images/journey/journey-background-v1.webp";
 
 /**
  * Step reveals: the story elements carry the motion, the backdrop stays
@@ -114,6 +87,7 @@ function buildRoute(points: Point[]): string {
 
 export function JourneySection() {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const bgDriftRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const basePathRef = useRef<SVGPathElement>(null);
   const progressPathRef = useRef<SVGPathElement>(null);
@@ -290,7 +264,26 @@ export function JourneySection() {
           }
         });
       };
-      mm.add(DESKTOP_QUERY, () => addReveals(REVEAL.desktop, true));
+      mm.add(DESKTOP_QUERY, () => {
+        addReveals(REVEAL.desktop, true);
+        const bgDrift = bgDriftRef.current;
+        if (bgDrift) {
+          gsap.fromTo(
+            bgDrift,
+            { y: -10 },
+            {
+              y: 10,
+              ease: "none",
+              scrollTrigger: {
+                trigger: wrapper,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+              },
+            },
+          );
+        }
+      });
       mm.add("(min-width: 768px) and (max-width: 1023px)", () => addReveals(REVEAL.tablet, true));
       mm.add("(max-width: 767px)", () => addReveals(REVEAL.mobile, false));
     }, wrapper);
@@ -305,38 +298,81 @@ export function JourneySection() {
     <section
       id="journey"
       aria-labelledby="journey-heading"
-      className="relative isolate overflow-x-clip"
+      className="relative isolate overflow-x-clip bg-[var(--color-paper)]"
     >
-      {/* Restrained color washes only, preserving connecting line */}
-      <CareWaveBackground preset="journey" />
-
-      {/* Backdrop (behind path + content): sticky still → veil → edge fades.
-          `overflow-clip`, not `hidden`, so the sticky child still sticks. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-clip">
+      {/* Decorative background: supplied fabric drape asset framed along outer margins with ivory base */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 overflow-clip select-none"
+      >
         <div className="sticky top-0 h-screen w-full overflow-clip supports-[height:100dvh]:h-dvh">
-          {/* Static: no scroll or pointer motion. The Journey steps move instead. */}
-          <div className="absolute -top-[4%] -left-[2%] h-[132%] w-[128%]">
-            <Image
-              src={BACKDROP_SRC}
-              alt=""
-              fill
-              unoptimized
-              sizes="128vw"
-              className="object-cover object-[30%_30%] lg:object-[20%_30%]"
+          <div ref={bgDriftRef} className="relative h-full w-full">
+            {/* Left fabric drape — terracotta/coral/peach folds along outer left margin */}
+            <div
+              className="absolute top-0 bottom-0 left-0 hidden w-[36vw] min-w-[200px] max-w-[460px] sm:block md:w-[26vw] md:max-w-[340px] lg:w-[30vw] lg:max-w-[440px] xl:w-[28vw] xl:max-w-[480px] opacity-40 md:opacity-60 lg:opacity-90 xl:opacity-95 transition-opacity"
+              style={{
+                WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0) 100%)",
+                maskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0) 100%)",
+              }}
+            >
+              <Image
+                src={FABRIC_BACKDROP_SRC}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 30vw, 36vw"
+                className="object-cover object-left"
+                priority
+              />
+              {/* Soft ivory veil to soften coral area */}
+              <div
+                className="absolute inset-0 bg-[var(--color-paper)] opacity-20"
+              />
+            </div>
+
+            {/* Right fabric drape — pale sky-blue and pearl ivory folds along outer right margin */}
+            <div
+              className="absolute top-0 bottom-0 right-0 hidden w-[36vw] min-w-[200px] max-w-[460px] sm:block md:w-[26vw] md:max-w-[340px] lg:w-[30vw] lg:max-w-[440px] xl:w-[28vw] xl:max-w-[480px] opacity-40 md:opacity-60 lg:opacity-90 xl:opacity-95 transition-opacity"
+              style={{
+                WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0) 100%)",
+                maskImage: "linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0) 100%)",
+              }}
+            >
+              <Image
+                src={FABRIC_BACKDROP_SRC}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 30vw, 36vw"
+                className="object-cover object-right"
+                priority
+              />
+              {/* Soft ivory veil to soften sky-blue/pearl area */}
+              <div
+                className="absolute inset-0 bg-[var(--color-paper)] opacity-20"
+              />
+            </div>
+
+            {/* Central route & text clearance: soft radial ivory wash guaranteeing clear reading zone */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: "radial-gradient(ellipse 65% 85% at 50% 50%, var(--color-paper) 45%, transparent 100%)",
+                opacity: 0.7,
+              }}
             />
           </div>
         </div>
-        <div className="absolute inset-0" style={{ backgroundImage: ATMOSPHERE_GRADIENT, opacity: BACKDROP_VEIL_OPACITY }} />
-        {/* Edge blending into the sections above/below — same colours the
-            old opaque gradient started and ended on, so the seams match. */}
+
+        {/* Soft edge blending into adjacent sections above and below */}
         <div
-          className="absolute inset-x-0 top-0 h-[clamp(8rem,18vh,12rem)]"
-          style={{ backgroundImage: `linear-gradient(to bottom, ${ATMOSPHERE_HUES[0]}, transparent)` }}
+          className="absolute inset-x-0 top-0 h-[clamp(6rem,14vh,10rem)] pointer-events-none"
+          style={{
+            backgroundImage: "linear-gradient(to bottom, var(--color-paper), transparent)",
+          }}
         />
         <div
-          className="absolute inset-x-0 bottom-0 h-[clamp(8rem,18vh,12rem)]"
+          className="absolute inset-x-0 bottom-0 h-[clamp(6rem,14vh,10rem)] pointer-events-none"
           style={{
-            backgroundImage: `linear-gradient(to top, ${ATMOSPHERE_HUES[ATMOSPHERE_HUES.length - 1]}, transparent)`,
+            backgroundImage: "linear-gradient(to top, var(--color-paper), transparent)",
           }}
         />
       </div>
@@ -350,9 +386,10 @@ export function JourneySection() {
         </p>
         <h2
           id="journey-heading"
-          className="mt-3.5 text-balance text-[clamp(2.5rem,2rem+2.4vw,3.5rem)] leading-[1.02] font-semibold tracking-[var(--tracking-tight)] text-ink lg:text-[clamp(2.5rem,1.6rem+2.2vw,3.75rem)]"
+          className="mt-3.5 text-balance text-h2 leading-[1.02] font-semibold tracking-[var(--tracking-tight)] text-ink"
         >
-          {journey.heading}
+          Care that grows{" "}
+          <span className="serif-emphasis">with you.</span>
         </h2>
       </div>
 
@@ -404,7 +441,6 @@ export function JourneySection() {
 
 function JourneyStage({ index, stage }: { index: number; stage: (typeof journey.stages)[number] }) {
   const textLeft = index % 2 === 0; // 01, 03, 05: text left / image right
-  const isBirth = stage.title === "Birth";
 
   return (
     <div
@@ -475,12 +511,7 @@ function JourneyStage({ index, stage }: { index: number; stage: (typeof journey.
 
         <h3
           data-journey-text
-          className={cx(
-            "mt-4 leading-[1.1] font-semibold text-ink lg:mt-5",
-            isBirth
-              ? "text-[clamp(2.1rem,1.4rem+2.8vw,3.6rem)]"
-              : "text-[clamp(1.9rem,1.3rem+2.3vw,3.1rem)]",
-          )}
+          className="mt-4 text-stage leading-[1.1] font-semibold text-ink lg:mt-5"
         >
           {stage.headline.map((line) => (
             <span key={line} className="block">
@@ -489,7 +520,7 @@ function JourneyStage({ index, stage }: { index: number; stage: (typeof journey.
           ))}
         </h3>
 
-        <p data-journey-text className="mt-5 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft lg:mt-6">
+        <p data-journey-text className="mt-5 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft whitespace-pre-line lg:mt-6">
           {stage.supporting}
         </p>
         {stage.cta && (

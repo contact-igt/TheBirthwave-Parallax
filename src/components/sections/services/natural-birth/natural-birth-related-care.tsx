@@ -21,7 +21,7 @@ export function NaturalBirthRelatedCare() {
         <ul className="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
           {naturalBirthRelatedCare.services.map((service) => (
             <li key={service.href} className="border-t border-[var(--color-border)] pt-5">
-              <CtaLink href={service.href}>{service.title}</CtaLink>
+              <CtaLink href={service.href}>{service.title.replace(/\s*→$/, "")}</CtaLink>
               <p className="mt-2 text-sm leading-[var(--leading-relaxed)] text-ink-soft">{service.description}</p>
             </li>
           ))}

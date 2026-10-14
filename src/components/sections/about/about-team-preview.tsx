@@ -1,22 +1,14 @@
 import Link from "next/link";
 import { AboutPreviewImage } from "./about-preview-image";
-import { aboutTeamPreview, aboutDoctorsCta } from "@/content/about-content";
+import { aboutTeamPreview } from "@/content/about-content";
 import { doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { CtaLink } from "@/components/ui/cta-link";
 import { cx } from "@/lib/cx";
 
 /**
- * Section 07 — People Behind the Care, rebuilt as an editorial portrait
- * composition (visual architecture rework) — no cards, no uniform grid.
- * Three positional "slots" (large/primary, medium/offset-down,
- * small/partly bleeding off the right edge) cycle over whatever roster
- * exists in doctors-content.ts.
- *
- * Section 08 (Doctors CTA) is folded directly into this scene's close
- * — a large directional statement + link, not a separate banner section
- * — rather than kept as its own standalone `<section>`
- * (about-doctors-cta.tsx, from Phase 1, is retired).
+ * Section 08 — Our Care Team (People Behind the Care).
+ * Editorial portrait composition cycling over the roster in doctors-content.ts.
  */
 const SLOTS = [
   { width: "w-full sm:w-[42%]", aspect: "aspect-[4/5]", corner: "tr" as const, offset: "" },
@@ -26,17 +18,6 @@ const SLOTS = [
 
 export function AboutTeamPreview() {
   const preview = doctors.slice(0, SLOTS.length);
-  // Image-placeholder placement refinement: with exactly one approved
-  // roster entry, the three-slot editorial composition below reads as
-  // two empty gaps around a single portrait — not "one large, intentional
-  // portrait" as the multi-entry composition intends. This single-entry
-  // case gets its own simple intro-left/portrait-right layout instead
-  // (stacking naturally on mobile, same as every other flex-col-first
-  // section on this page); nothing here is hardcoded to "exactly one"
-  // structurally, it's just which branch renders. The moment a second
-  // approved entry lands, `preview.length` stops being 1 and the
-  // untouched slot composition below takes back over on its own — no
-  // invented doctors, no change needed here.
   const isSingleEntry = preview.length === 1;
 
   return (
@@ -54,7 +35,16 @@ export function AboutTeamPreview() {
               <h2 id="about-team-preview-heading" className="mt-4 text-3xl font-semibold text-ink sm:text-4xl">
                 {aboutTeamPreview.heading}
               </h2>
-              <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{aboutTeamPreview.note}</p>
+              <div className="mt-5 space-y-4 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+                {aboutTeamPreview.paragraphs.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
+              <div className="mt-8">
+                <CtaLink href={aboutTeamPreview.cta.href} className="text-base font-semibold sm:text-lg">
+                  {aboutTeamPreview.cta.label}
+                </CtaLink>
+              </div>
             </div>
 
             <Link
@@ -84,7 +74,16 @@ export function AboutTeamPreview() {
               <h2 id="about-team-preview-heading" className="mt-4 text-3xl font-semibold text-ink sm:text-4xl">
                 {aboutTeamPreview.heading}
               </h2>
-              <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{aboutTeamPreview.note}</p>
+              <div className="mt-5 space-y-4 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+                {aboutTeamPreview.paragraphs.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
+              <div className="mt-8">
+                <CtaLink href={aboutTeamPreview.cta.href} className="text-base font-semibold sm:text-lg">
+                  {aboutTeamPreview.cta.label}
+                </CtaLink>
+              </div>
             </div>
 
             <div className="mt-16 flex flex-col items-start gap-12 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-8 sm:gap-y-0 lg:flex-nowrap">
@@ -116,20 +115,6 @@ export function AboutTeamPreview() {
             </div>
           </>
         )}
-
-        {/* Doctors CTA (Section 08), folded in — a directional close, not
-            a standalone banner. */}
-        <div className="mt-24 flex flex-col items-start gap-6 border-t border-[var(--color-border)] pt-12 sm:mt-28 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-lg">
-            <p className="text-[clamp(1.75rem,1.4rem+1.6vw,2.5rem)] leading-[1.15] font-semibold text-ink">
-              {aboutDoctorsCta.heading}
-            </p>
-            <p className="mt-3 text-base text-ink-soft">{aboutDoctorsCta.supporting}</p>
-          </div>
-          <CtaLink href={aboutDoctorsCta.cta.href} className="shrink-0 text-lg">
-            {aboutDoctorsCta.cta.label}
-          </CtaLink>
-        </div>
       </div>
     </section>
   );

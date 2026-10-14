@@ -1,59 +1,55 @@
 import { birthPrepTopics } from "@/content/birth-preparation-landing-content";
-import { BirthPrepImage } from "./birth-preparation-image";
 import { BirthPrepReveal } from "./birth-preparation-reveal";
-import { cx } from "@/lib/cx";
+import { Button } from "@/components/ui/button";
 
 /**
- * Section 3 — What You'll Learn. Four groups covering understanding labour,
- * comfort/pain-relief, birth preferences, and preparing together.
+ * Section 04 — What Will You Learn? (Inside the Prenatal Workshop).
+ * 8 comprehensive curriculum modules covering labour physiology, comfort techniques,
+ * birth choices, partner preparation, yoga, breastfeeding, newborn care, and postpartum.
  */
 export function BirthPrepTopics() {
   return (
-    <section id="birth-prep-topics" aria-labelledby="birth-prep-topics-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-paper section-pad">
-      <BirthPrepReveal className="container-birthwave">
+    <section id="birth-prep-topics" aria-labelledby="birth-prep-topics-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-[var(--birth-prep-sky-wash)] section-pad">
+      <BirthPrepReveal className="container-birthwave max-w-4xl">
         <p className="eyebrow">{birthPrepTopics.eyebrow}</p>
-        <h2 id="birth-prep-topics-heading" className="mt-4 max-w-2xl text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
+        <h2 id="birth-prep-topics-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
           {birthPrepTopics.heading}
         </h2>
-        <p className="mt-4 max-w-[62ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">{birthPrepTopics.intro}</p>
+        <p className="mt-5 max-w-[64ch] text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+          {birthPrepTopics.intro}
+        </p>
 
-        <div className="mt-10 flex flex-col gap-6">
-          {birthPrepTopics.groups.map((group, index) => {
-            const imageOnRight = index % 2 === 1;
-            return (
-              <div
-                key={group.title}
-                className={cx(
-                  "grid overflow-hidden rounded-xs lg:grid-cols-2 lg:items-stretch",
-                  index % 2 === 0 ? "bg-[var(--color-paper-dim)]" : "bg-[var(--birth-prep-sky-wash)]",
-                )}
-              >
-                <div className={cx("relative", imageOnRight && "lg:order-2")}>
-                  <BirthPrepImage
-                    imageKey={group.imageKey}
-                    aspect="aspect-[4/3] lg:aspect-auto lg:h-full"
-                    corner={index % 2 === 0 ? "tl" : "tr"}
-                    className="h-full min-h-[280px] rounded-none"
-                  />
-                </div>
-
-                <div className={cx("flex flex-col justify-center p-8 sm:p-10", imageOnRight && "lg:order-1")}>
-                  <p className="font-body text-[0.6875rem] font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
-                    {group.title}
-                  </p>
-
-                  <div className="mt-4 flex flex-col">
-                    {group.items.map((item) => (
-                      <div key={item.title} className="border-t border-[var(--color-border)] py-6 first:border-t-0 first:pt-2">
-                        <h3 className="text-lg font-semibold text-ink">{item.title}</h3>
-                        <p className="mt-2 text-sm leading-[var(--leading-relaxed)] text-ink-soft">{item.body}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+        <div className="mt-12 flex flex-col divide-y divide-[var(--color-border)]">
+          {birthPrepTopics.modules.map((moduleItem) => (
+            <div key={moduleItem.number} className="py-8 first:pt-0">
+              <div className="flex items-baseline gap-3">
+                <span className="font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
+                  {moduleItem.number}
+                </span>
+                <h3 className="text-xl font-semibold text-ink sm:text-2xl">
+                  {moduleItem.title}
+                </h3>
               </div>
-            );
-          })}
+
+              {moduleItem.subhead ? (
+                <p className="mt-2 text-sm font-medium text-ink-soft italic">
+                  {moduleItem.subhead}
+                </p>
+              ) : null}
+
+              <div className="mt-4 space-y-3 text-sm leading-[var(--leading-relaxed)] text-ink-soft">
+                {moduleItem.paragraphs.map((para, pIdx) => (
+                  <p key={pIdx}>{para}</p>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-12 border-t border-[var(--color-border)] pt-8">
+          <Button href={birthPrepTopics.cta.href} variant="primary">
+            {birthPrepTopics.cta.label}
+          </Button>
         </div>
       </BirthPrepReveal>
     </section>

@@ -18,7 +18,7 @@ export function RoutePlaceholder({
     <section className="relative [padding-block-start:calc(var(--header-height)+var(--space-section))] [padding-block-end:var(--space-section)]">
       <div className="container-birthwave max-w-2xl">
         <p className="eyebrow">{eyebrow}</p>
-        <h1 className="mt-4 text-3xl font-semibold text-ink sm:text-4xl">{title}</h1>
+        <h1 className="mt-4 text-display font-semibold text-ink">{title}</h1>
         <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{note}</p>
       </div>
     </section>

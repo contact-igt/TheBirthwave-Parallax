@@ -49,10 +49,10 @@ export function CompactCareFinder() {
           </p>
           <h2
             id="care-finder-heading"
-            className="mt-3 text-[clamp(2rem,1.5rem+2vw,2.75rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink"
+            className="mt-3 text-h2 leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink"
           >
             A place for every part of{" "}
-            <span className="font-serif italic font-normal text-ink">you</span>.
+            <span className="font-serif italic font-medium text-ink">you</span>.
           </h2>
           <p className="mt-4 max-w-[54ch] text-base leading-[var(--leading-relaxed)] text-ink-soft sm:text-lg">
             {doorwaysCareFinder.description}
@@ -142,12 +142,12 @@ function DoorwayColumn({
       {/* Group Header: Chapter Number & Heading */}
       <div className="mt-6 sm:mt-7 flex items-baseline gap-2.5 sm:gap-3">
         <span
-          className="font-serif italic text-terracotta text-xl sm:text-2xl font-normal leading-none select-none"
+          className="font-serif italic text-terracotta-deep text-xl sm:text-2xl font-normal leading-none select-none"
           aria-hidden="true"
         >
           {column.number}
         </span>
-        <h3 className="text-xl sm:text-2xl font-semibold tracking-[var(--tracking-tight)] text-ink leading-tight">
+        <h3 className="text-card-title font-semibold tracking-[var(--tracking-tight)] text-ink leading-tight">
           {column.heading}
         </h3>
       </div>

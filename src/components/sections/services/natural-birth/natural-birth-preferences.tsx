@@ -34,9 +34,13 @@ export function NaturalBirthPreferences() {
             ))}
           </div>
 
+          <p className="mt-8 border-l-2 border-terracotta pl-4 text-base leading-[var(--leading-relaxed)] font-medium text-ink">
+            {naturalBirthPreferences.closing}
+          </p>
+
           <div className="mt-8">
             <Button href={naturalBirthPreferences.cta.href} variant="primary">
-              {naturalBirthPreferences.cta.label}
+              {naturalBirthPreferences.cta.label.replace(/\s*↗$/, "")}
             </Button>
           </div>
         </div>

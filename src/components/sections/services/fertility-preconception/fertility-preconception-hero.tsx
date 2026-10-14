@@ -8,11 +8,10 @@ import { cx } from "@/lib/cx";
 import styles from "./fertility-preconception.module.css";
 
 /**
- * Hero: copy and the primary action first, then one clean photograph in a
+ * Section 1 — Hero: Copy and the primary action first, then one clean photograph in a
  * single frame. Stacked on mobile (text before image), two balanced columns
  * from `lg`. The frame height is clamped to the viewport so the headline and
- * primary button stay above the fold on short desktop screens. The
- * illustration disclosure sits under the frame, not over the photograph.
+ * primary button stay above the fold on short desktop screens.
  */
 export function FertilityHero() {
   const image = fertilityImagery.hero;
@@ -26,8 +25,15 @@ export function FertilityHero() {
             <h1 id="fertility-hero-heading" className={cx(styles.display, styles.h1, "mt-5")}>
               {fertilityHero.heading}
             </h1>
-            <p className="mt-6 max-w-[40ch] text-xl leading-[var(--leading-relaxed)] font-medium text-ink">{fertilityHero.supportingLine}</p>
-            <p className="mt-4 max-w-[46ch] text-lg leading-[var(--leading-relaxed)] text-ink-soft">{fertilityHero.body}</p>
+            <p className="mt-6 max-w-[44ch] text-xl leading-[var(--leading-relaxed)] font-medium text-ink">
+              {fertilityHero.supportingLine}
+            </p>
+
+            <div className="mt-4 space-y-3 max-w-[48ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">
+              {fertilityHero.body.map((p, idx) => (
+                <p key={idx}>{p}</p>
+              ))}
+            </div>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Button href={fertilityHero.primaryCta.href} variant="primary">

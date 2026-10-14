@@ -7,11 +7,8 @@ import { cx } from "@/lib/cx";
 import styles from "./fertility-preconception.module.css";
 
 /**
- * Meet your clinicians — Dr. Santoshi Nandigam (Founder, Obstetrician &
- * Gynaecologist, Holistic Fertility Coach) and Dr. Bharathy Kandasamy
- * (Gynaecologist, Laparoscopic Surgeon, Advanced Fertility Specialist).
- * Names, credentials, roles, special focus and portraits are read from
- * `doctors-content.ts`.
+ * Section 6 — The People Behind Your Care.
+ * Meet your clinicians: Dr. Santoshi Nandigam and Dr. Bharathy Kandasamy.
  */
 export function FertilityClinician() {
   const clinicians = fertilityClinicians.clinicians
@@ -60,21 +57,24 @@ export function FertilityClinician() {
                 />
 
                 <div className="max-w-2xl">
-                  <h3 className={cx(styles.display, styles.name)}>{doctor.name}</h3>
-                  {doctor.credentials ? (
+                  <h3 className={cx(styles.display, styles.name)}>{item.name || doctor.name}</h3>
+                  {item.credentials || doctor.credentials ? (
                     <p className="mt-3 font-body text-lg font-semibold text-ink">
-                      {doctor.credentials}
+                      {item.credentials || doctor.credentials}
                     </p>
                   ) : null}
-                  <p className="mt-1 font-body text-base text-ink-soft">{doctor.role}</p>
-                  {doctor.specialFocus ? (
+                  <p className="mt-1 font-body text-base text-ink-soft">{item.role || doctor.role}</p>
+                  {item.specialFocus ? (
                     <p className="mt-2 font-body text-sm font-medium text-terracotta-deep">
-                      {doctor.specialFocus}
+                      {item.specialFocus}
                     </p>
                   ) : null}
-                  <p className="mt-5 max-w-[56ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">
-                    {item.intro}
-                  </p>
+
+                  <div className="mt-5 space-y-3 max-w-[56ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">
+                    {item.description.map((para, pIdx) => (
+                      <p key={pIdx}>{para}</p>
+                    ))}
+                  </div>
 
                   <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
                     <Button href={item.bookHref} variant="primary">

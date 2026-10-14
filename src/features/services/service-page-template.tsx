@@ -13,7 +13,7 @@ export function ServicePageTemplate({ service }: { service: ServiceContent }) {
       <div className="container-birthwave">
         <div className="max-w-3xl">
           <p className="eyebrow">{service.eyebrow}</p>
-          <h1 className="mt-4 text-[clamp(2.25rem,1.5rem+2.6vw,4rem)] leading-[1.02] font-semibold tracking-[var(--tracking-tight)] text-ink">
+          <h1 className="mt-4 text-display leading-[1.02] font-semibold tracking-[var(--tracking-tight)] text-ink">
             {service.name}
           </h1>
           <p className="mt-6 text-xl leading-[var(--leading-relaxed)] text-ink-soft">
@@ -33,7 +33,7 @@ export function ServicePageTemplate({ service }: { service: ServiceContent }) {
                   key={highlight}
                   className="flex gap-6 border-b border-[var(--color-border)] py-6 sm:gap-8"
                 >
-                  <span className="font-display shrink-0 text-lg font-semibold text-terracotta">
+                  <span className="font-display shrink-0 text-lg font-semibold text-terracotta-deep">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <p className="text-lg leading-[var(--leading-relaxed)] text-ink-soft">

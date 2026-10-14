@@ -15,21 +15,9 @@ const DRIFT_PX = 10;
 const MIN_STICKY_TRAVEL_PX = 120;
 
 /**
- * What your consultation covers — the consolidated section.
- *
- * Layout: heading block, photograph and card list share one grid. From `lg`
- * the photograph (left) spans both rows and is `position: sticky` (CSS, not a
- * GSAP pin — normal scrolling, no added scroll distance, no spacer). Because
- * it lives in a grid cell that ends with the section, it releases at the
- * section boundary on its own. Below `lg` everything stacks in DOM order:
- * heading, photograph, cards — no sticky and no drift.
- *
- * Motion (GSAP via the shared `gsap-scroll` module):
- *  - image drift: a scrubbed ±10px translate of the inner image layer, tied to
- *    this section's own scroll progress (trigger = the section), desktop and
- *    no-reduced-motion only; reverted on unmount/breakpoint change.
- *  - cards: the existing `AnimatedContent` (16px rise, 0.5s, once, focus
- *    reveals immediately, visible without JS and under reduced motion).
+ * Section 3 — What We Talk Through.
+ * Topics explored in a consultation: reproductive history, pregnancy plans,
+ * fertility concerns, and available options.
  */
 export function FertilityCovers() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -61,7 +49,6 @@ export function FertilityCovers() {
       );
     });
 
-    // Short list → normal flow: don't stick when there is barely any travel.
     const syncSticky = () => {
       const travel = list.offsetHeight - frame.offsetHeight;
       media.dataset.sticky = travel > MIN_STICKY_TRAVEL_PX ? "on" : "off";
@@ -123,6 +110,10 @@ export function FertilityCovers() {
               </li>
             ))}
           </ul>
+
+          <p className="mt-8 border-l-2 border-terracotta pl-4 text-sm leading-relaxed text-ink-soft">
+            {fertilityCovers.closing}
+          </p>
         </div>
       </div>
     </section>

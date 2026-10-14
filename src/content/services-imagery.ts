@@ -10,7 +10,7 @@ export const servicesImagery = {
   // for where it actually appears on this page, without a second copy of
   // the file itself.
   "pregnancy-antenatal-hero": {
-    src: "/images/services/pregnancy-antenatal-care-hero-ai-preview-v1.webp",
+    src: "/images/services/heroservice.JPG",
     alt: "AI-generated illustration: A pregnant woman in a softly lit, warm interior.",
     // Source photo is 1440x810 (16:9), subject seated at roughly the
     // right two-thirds with a wide, genuinely empty wall on the left —
@@ -21,7 +21,7 @@ export const servicesImagery = {
     focalPoint: { mobile: "74% 22%", tablet: "74% 16%", desktop: "74% 12%" },
   },
   "pregnancy-antenatal-checkins-scans": {
-    src: "/images/services/pregnancy-antenatal-care-ai-preview-v1.webp",
+    src: "/images/services/service3.JPG",
     alt: "AI-generated illustration: A pregnant woman talks with a clinician during an antenatal consultation.",
     objectPosition: "50% 18%",
   },

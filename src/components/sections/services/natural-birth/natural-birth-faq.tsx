@@ -36,7 +36,7 @@ export function NaturalBirthFaq() {
                 <p className="mt-3">
                   <a
                     href={(item.ctaLink as { label: string; href: string }).href}
-                    className="font-body text-sm font-semibold text-terracotta-deep underline underline-offset-4 transition-colors hover:text-coral"
+                    className="font-body text-sm font-semibold text-terracotta-deep underline underline-offset-4 transition-colors hover:text-ink"
                   >
                     {(item.ctaLink as { label: string; href: string }).label}
                   </a>

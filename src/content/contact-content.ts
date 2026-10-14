@@ -68,7 +68,7 @@ export const contactDirectDetails = {
       confirmed: true,
       value:
         "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai \u2013 600034",
-      actionHref: "https://maps.google.com/?q=No.+8%2F15+Mahalingapuram+Main+Road+Nungambakkam+Chennai+600034" as string | undefined,
+      actionHref: "https://maps.app.goo.gl/7bLsmm87HDyki1DJA" as string | undefined,
       note: "Consultations are by appointment in a calm, private environment.",
     },
   ],

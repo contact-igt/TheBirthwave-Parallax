@@ -21,19 +21,13 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-// NOT brand typography (the guideline lists Poppins + Plus Jakarta Sans
-// only). Kept solely for the existing 404 / loading / services care-finder
-// accents pending a client decision; never preloaded, so pages that don't
-// use `font-serif` (the homepage included) don't download it. The variable
-// is `--font-cormorant`, not `--font-serif`: the theme token of that name
-// referenced itself and could never resolve.
+// Cormorant Garamond italic weight 500 is used for editorial emphasis in H1 and section H2s.
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
+  weight: ["500"],
+  style: ["italic"],
   variable: "--font-cormorant",
   display: "swap",
-  preload: false,
 });
 
 // TODO(content): title/description are placeholders — no approved SEO copy

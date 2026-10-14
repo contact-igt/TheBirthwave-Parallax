@@ -25,7 +25,7 @@ export function FindHelpCta() {
         <p className="eyebrow text-coral/80">{findHelpCta.eyebrow}</p>
         <h2
           id="find-help-heading"
-          className="mt-4 text-[clamp(2rem,1.6rem+1.8vw,2.85rem)] leading-[1.1] font-semibold text-paper"
+          className="mt-4 text-h2 leading-[1.1] font-semibold text-paper"
         >
           {findHelpCta.heading}
         </h2>

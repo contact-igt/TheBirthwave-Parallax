@@ -1,17 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { contactPlaceholders } from "@/content/contact-content";
 import { aboutClinicStrip } from "@/content/about-clinic-content";
 import { Button } from "@/components/ui/button";
 import { useReducedMotion } from "@/motion/reduced-motion";
 import { ensureScrollTriggerRegistered, gsap, SIGNATURE_EASE } from "@/motion/gsap-scroll";
 
 /**
- * Section: "Visit The BirthWave" — compact clinic location strip
+ * Section 10: "Visit The BirthWave" — clinic location strip
  *
- * Displays verified clinic address, phone, email, Google Maps link, and
- * appointment booking button in a refined horizontal strip.
+ * Displays clinic name, address, phone, email, and Get Directions CTA.
  */
 export function AboutClinicStrip() {
   const stripRef = useRef<HTMLElement>(null);
@@ -44,8 +42,6 @@ export function AboutClinicStrip() {
     return () => ctx.revert();
   }, [reducedMotion]);
 
-  const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(contactPlaceholders.clinicAddress)}`;
-
   return (
     <section
       ref={stripRef}
@@ -57,47 +53,45 @@ export function AboutClinicStrip() {
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-12">
           {/* Clinic Details */}
           <div className="space-y-3 max-w-xl">
-            <p className="eyebrow text-terracotta">Visit Us</p>
+            <p className="eyebrow text-terracotta">{aboutClinicStrip.eyebrow}</p>
             <h2
               id="clinic-strip-heading"
               className="text-2xl sm:text-3xl font-light text-espresso tracking-tight"
             >
               {aboutClinicStrip.heading}
             </h2>
+            <p className="font-semibold text-espresso text-base sm:text-lg">
+              {aboutClinicStrip.clinicName}
+            </p>
             <p className="text-sm sm:text-base text-muted leading-relaxed">
-              {contactPlaceholders.clinicAddress}
+              {aboutClinicStrip.address}
             </p>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm pt-1">
               <a
-                href={`tel:${contactPlaceholders.phone.replace(/[^+\d]/g, "")}`}
+                href={`tel:${aboutClinicStrip.phone.replace(/[^+\d]/g, "")}`}
                 className="text-espresso hover:text-terracotta font-medium transition-colors"
               >
-                {contactPlaceholders.phone}
+                Phone: {aboutClinicStrip.phone}
               </a>
               <span className="text-muted/40" aria-hidden="true">·</span>
               <a
-                href={`mailto:${contactPlaceholders.email}`}
+                href={`mailto:${aboutClinicStrip.email}`}
                 className="text-espresso hover:text-terracotta font-medium transition-colors"
               >
-                {contactPlaceholders.email}
-              </a>
-              <span className="text-muted/40" aria-hidden="true">·</span>
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-terracotta hover:underline font-medium inline-flex items-center gap-1"
-              >
-                <span>{aboutClinicStrip.directionsLabel}</span>
-                <span aria-hidden="true">↗</span>
+                Email: {aboutClinicStrip.email}
               </a>
             </div>
           </div>
 
-          {/* Action Button */}
+          {/* Action Button: Get Directions */}
           <div className="flex items-center gap-4 shrink-0">
-            <Button href={aboutClinicStrip.appointmentHref} variant="primary">
-              {aboutClinicStrip.appointmentLabel}
+            <Button
+              href={aboutClinicStrip.directionsHref}
+              variant="primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {aboutClinicStrip.directionsLabel} &rarr;
             </Button>
           </div>
         </div>

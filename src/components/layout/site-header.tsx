@@ -223,10 +223,7 @@ export function SiteHeader() {
             href="/"
             aria-label={`${brand.name} — home`}
             data-header-wordmark=""
-            className={cx(
-              "inline-flex shrink-0 items-center rounded-lg px-1.5 py-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-ink)]",
-              isHome && "invisible motion-reduce:visible",
-            )}
+            className="inline-flex shrink-0 items-center rounded-lg px-1.5 py-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-ink)]"
           >
             <Image
               src={brand.logo.wordmarkMauve}

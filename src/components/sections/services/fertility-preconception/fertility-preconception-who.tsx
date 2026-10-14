@@ -4,9 +4,8 @@ import { cx } from "@/lib/cx";
 import styles from "./fertility-preconception.module.css";
 
 /**
- * Who this consultation helps — one compact, readable list (not a card per
- * sentence). The heading stays on the left beside the list from `lg`. This is
- * orientation copy, not a self-assessment: nothing here is selectable.
+ * Section 2 — Is This the Right Place to Start?
+ * Who this consultation helps — orientation list of 8 relatable indicators.
  */
 export function FertilityWho() {
   return (
@@ -17,6 +16,7 @@ export function FertilityWho() {
           <h2 id="fertility-who-heading" className={cx(styles.display, styles.h2, "mt-4")}>
             {fertilityWho.heading}
           </h2>
+          <p className="mt-5 font-medium text-base text-ink">{fertilityWho.intro}</p>
         </div>
 
         <div>

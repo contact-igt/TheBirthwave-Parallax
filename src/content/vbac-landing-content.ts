@@ -1,286 +1,348 @@
 /**
  * VBAC (Vaginal Birth After Caesarean) — dedicated landing page content.
  *
- * A SEPARATE content file from `services-content.ts`, exactly like
- * `pregnancy-antenatal-landing-content.ts`, `birth-preparation-landing-content.ts`
- * and `normal-birth-delivery-landing-content.ts`: that file's own `vbac` entry
- * (name, slug, shortDescription, heroStatement, overview, highlights,
- * media.alt) is the shared service record every other consumer reads (Quick
- * Overview, the Sticky Showcase, Find the Right Care, `generateStaticParams`)
- * — untouched by this page. Everything below is this landing page's own,
- * additional copy, built only from that record's three confirmed facts
- * (conversations about eligibility, birth-planning support, care through
- * labour and delivery) — nothing here adds a medical eligibility rule, a
- * success rate, a guarantee, a clinician claim, a hospital affiliation, an
- * emergency capability, a price or a policy.
- *
- * VBAC is deliberately NOT positioned as guaranteed, universally suitable,
- * safer or better than any alternative, or available to every person —
- * every section that touches the decision itself routes the reader back to
- * "discuss this with your treating obstetrician," never to a page-provided
- * determination. Every fact this project cannot currently verify is left as
- * an explicit bracketed placeholder, the same pattern the other three
- * landing pages already establish — never silently filled with a
- * plausible-sounding guess.
- *
- * CLINICIAN SECTION: `doctors-content.ts` records the founder's
- * `specialFocus` as including "Natural Birth & VBAC Specialist," but she
- * carries no `relatedCareSlugs`/`careAreas` mapping to this or any specific
- * programme (unlike the other nine profiles, which do), and the brief for
- * this page explicitly rules out auto-assigning the founder — or anyone else
- * — as this page's named VBAC provider. This page's own Section 7 therefore
- * stays the same neutral, no-name placeholder pattern
- * `normal-birth-delivery-landing-content.ts` already establishes for an
- * unconfirmed clinician mapping.
- *
- * IMAGES: five original placeholder subjects are mapped in
- * `vbac-landing-imagery.ts` (no image-generation tool was available while
- * building this page — see that file's own top comment and
- * `docs/vbac-ai-imagery.md` for the pending generation briefs). Clinician
- * and facility slots remain reserved for approved real photography, never
- * an AI illustration.
+ * Full approved copy for all 13 sections:
+ * 01 — HERO
+ * 02 — BEGIN WITH YOUR FULL STORY
+ * 03 — WHAT A VBAC CONSULTATION MAY COVER
+ * 04 — VBAC: BENEFITS, RISKS & ALTERNATIVES
+ * 05 — WHAT MAY INFLUENCE THE DISCUSSION?
+ * 06 — PLANNING LABOUR AFTER A CAESAREAN
+ * 07 — YOUR FIRST CONSULTATION
+ * 08 — YOUR OBSTETRICIAN (Dr. Santoshini Nandigam)
+ * 09 — IF THE BIRTH PLAN CHANGES
+ * 10 — PRACTICAL INFORMATION
+ * 11 — FAQs (8 questions & answers)
+ * 12 — FINAL CTA (Direct contacts + Consultation Enquiry Form)
+ * 13 — RELATED CARE (5 connected services)
  */
 
 export const vbacHero = {
   eyebrow: "BIRTH AFTER CAESAREAN",
-  headingLines: ["VBAC", "(Vaginal Birth After Caesarean)"],
-  supportingHeadline: "A conversation about the birth options that fit your circumstances.",
-  body: "A previous caesarean is one part of your history — not the whole picture of this pregnancy or this birth.",
-  bodySecondary: "The Birthwave can help you begin a careful, informed conversation about what may be worth discussing with your obstetrician.",
-  primaryCta: { label: "Discuss VBAC Care", href: "#vbac-enquiry" },
-  secondaryCta: { label: "Explore what to discuss", href: "#vbac-conversation" },
+  heading: "Had a C-section before? Let's talk about your birth options this time.",
+  supportingLine: "A previous caesarean doesn't always mean your next birth must be the same.",
+  body: [
+    "VBAC (Vaginal Birth After Caesarean) may be an option for some women who have previously had a C-section.",
+    "At The BirthWave, Dr. Santoshini Nandigam helps you understand your previous birth, assess your current pregnancy and explore the birth options that may be appropriate for you.",
+  ],
+  primaryCta: { label: "DISCUSS VBAC WITH DR. SANTOSHINI ↗", href: "#vbac-enquiry" },
+  secondaryCta: { label: "UNDERSTAND VBAC ↓", href: "#vbac-story" },
 } as const;
 
 export const vbacIntro = {
-  eyebrow: "Begin With Your Full Story",
-  heading: ["A previous caesarean is part of your history.", "It does not answer every question about this birth."],
-  paragraphs: [
-    "Every VBAC conversation is individual. What may be worth discussing depends on your birth history, your current pregnancy, your priorities and your practical circumstances.",
-    "This page is a starting point for informed questions, not a clinical assessment. It cannot tell you whether a vaginal birth after caesarean is appropriate for you — only your treating obstetrician and care team can do that, with your full history in front of them.",
+  eyebrow: "UNDERSTANDING YOUR OPTIONS",
+  heading: "One previous C-section doesn't tell the whole story of your next birth.",
+  intro: [
+    "VBAC means giving birth vaginally after a previous caesarean.",
+    "Whether it may be suitable for you depends on your previous birth, medical history and current pregnancy.",
   ],
-  points: [
-    { title: "Review your birth history.", body: "Gather what you know about your previous birth so it can be discussed properly." },
-    { title: "Understand the questions worth asking.", body: "Know what to raise with your care team before you're in the room." },
-    { title: "Plan the next conversation.", body: "Use this as preparation for a real discussion with your treating obstetrician." },
-  ],
-} as const;
-
-/**
- * What a VBAC conversation may cover — four topics as two alternating
- * image-and-text compositions, matching the "avoid one photograph per short
- * sentence" instruction and the same alternating-story layout the other
- * landing pages already establish for a comparable need. Every topic is
- * phrased as something to discuss, never something Birthwave automatically
- * offers or approves.
- */
-export const vbacConversation = {
-  eyebrow: "Starting The Conversation",
-  heading: "What a VBAC conversation may cover.",
-  compositions: [
+  cards: [
     {
-      tag: "Your history, and what's changed",
-      imageKey: "birth-history" as const,
-      blocks: [
-        {
-          title: "Your previous birth",
-          body: "Discuss what happened during your previous caesarean, why it was recommended, and what your care team noted about it afterwards.",
-        },
-        {
-          title: "This pregnancy",
-          body: "Talk through what is different this time — your current pregnancy, your health, and anything that has changed since your last birth.",
-        },
-      ],
+      title: "Your previous birth",
+      body: "Understand why your earlier caesarean was performed and whether there were complications.",
     },
     {
-      tag: "Your preferences, and if things change",
-      imageKey: "next-steps" as const,
-      blocks: [
-        {
-          title: "Preferences, support and practical arrangements",
-          body: "Ask about the support people, comfort preferences and practical arrangements worth raising ahead of labour.",
-        },
-        {
-          title: "If the plan needs to change",
-          body: "Understand how your care team would talk you through a change of plan, and what that conversation might look like.",
-        },
-      ],
+      title: "Your current pregnancy",
+      body: "Review your health, your baby's wellbeing and how your pregnancy is progressing.",
+    },
+    {
+      title: "Your previous caesarean records",
+      body: "The type of incision made on your uterus and your previous surgical records can help guide the assessment.",
     },
   ],
 } as const;
 
-export const vbacInformed = {
-  eyebrow: "Informed Choices",
-  heading: "A decision made with your full picture in view.",
-  statement: "Whether a vaginal birth after caesarean may be appropriate is a discussion between you and your treating obstetrician.",
-  body: "Bringing your history, this pregnancy and your questions into one conversation is the most useful preparation you can do before that discussion.",
-  questions: [
-    "What information from my previous birth would be useful to review?",
-    "What options are relevant to my current pregnancy?",
-    "What should I understand before making a birth plan?",
-    "What practical arrangements should I ask about?",
-    "Who will guide me if my plan changes?",
+export const vbacConsultationCover = {
+  eyebrow: "STARTING THE CONVERSATION",
+  heading: "Understanding whether VBAC may be an option for you.",
+  topics: [
+    {
+      title: "Your previous birth",
+      body: "Discuss your earlier caesarean, the reason it was performed and any previous vaginal births.",
+    },
+    {
+      title: "Your current pregnancy",
+      body: "Understand the medical factors that may influence your birth options.",
+    },
+    {
+      title: "Your preferences",
+      body: "Talk about your previous birth experience, concerns and what you hope for this time.",
+    },
   ],
-  cta: { label: "Ask about a VBAC consultation", href: "#vbac-enquiry" },
 } as const;
 
-export const vbacPlanning = {
-  eyebrow: "Planning With Flexibility",
-  heading: "Make space for preferences, and for change.",
-  body: [
-    "A birth plan can express what matters most to you — while still leaving room for clinical conversations and for circumstances that change along the way.",
-    "None of this can guarantee a particular outcome. It can make sure your preferences are heard and understood before labour begins.",
+export const vbacBenefitsRisks = {
+  eyebrow: "MAKING AN INFORMED DECISION",
+  heading: "Understand both options before deciding.",
+  intro:
+    "After a previous caesarean, you may be able to consider VBAC or a planned repeat caesarean. Both have benefits and risks.",
+  cards: [
+    {
+      title: "Potential benefits of VBAC",
+      body: "A successful vaginal birth avoids another operation and may allow a shorter hospital stay and quicker recovery.",
+      tag: "Benefits",
+    },
+    {
+      title: "Risks to understand",
+      body: "VBAC carries a small but important risk of uterine scar rupture. Some women may require an emergency caesarean during labour.",
+      tag: "Risks",
+    },
+    {
+      title: "Planned repeat caesarean",
+      body: "A repeat caesarean is another birth option, with its own benefits, surgical risks and implications for future pregnancies.",
+      tag: "Alternative",
+    },
   ],
-  items: [
-    "Questions you want answered",
-    "The people you would like involved",
-    "Comfort and support preferences",
-    "Practical arrangements to confirm",
-    "A plan for continuing the conversation",
+  closing: "Your obstetrician will help you understand these considerations based on your individual circumstances.",
+  cta: { label: "DISCUSS YOUR BIRTH OPTIONS ↗", href: "#vbac-enquiry" },
+} as const;
+
+export const vbacAssessmentFactors = {
+  eyebrow: "YOUR INDIVIDUAL ASSESSMENT",
+  heading: "Every pregnancy deserves an individual assessment.",
+  intro: "Your obstetrician may consider:",
+  factors: [
+    {
+      title: "Previous caesarean",
+      body: "The reason for your previous surgery and any complications.",
+    },
+    {
+      title: "Uterine incision",
+      body: "The type of incision made on your uterus during your previous caesarean.",
+    },
+    {
+      title: "Previous vaginal birth",
+      body: "Whether you have delivered vaginally before.",
+    },
+    {
+      title: "Current pregnancy",
+      body: "Your health, your baby's wellbeing and any pregnancy-related complications.",
+    },
+    {
+      title: "Your birth preferences",
+      body: "Your concerns, expectations and plans for future pregnancies.",
+    },
   ],
+} as const;
+
+export const vbacPlanningLabour = {
+  eyebrow: "PREPARING FOR BIRTH",
+  heading: "Prepare for the birth you hope for, while understanding your options.",
+  intro: "If VBAC is considered suitable, your obstetrician can guide you through planning for labour.",
+  phases: [
+    {
+      title: "Before labour",
+      body: "Understand when to contact your maternity team and what to do when labour begins.",
+    },
+    {
+      title: "During labour",
+      body: "Discuss monitoring, comfort measures and available pain-relief options.",
+    },
+    {
+      title: "If plans change",
+      body: "Understand when assisted vaginal birth or an emergency caesarean may become necessary.",
+    },
+  ],
+  requirementNote:
+    "Planned VBAC requires appropriate fetal monitoring and a maternity facility with immediate access to emergency caesarean care and blood transfusion services.",
 } as const;
 
 export const vbacFirstVisit = {
-  eyebrow: "Your First Consultation",
-  heading: "Bring your questions. Start the conversation.",
+  eyebrow: "YOUR FIRST CONVERSATION",
+  heading: "Bring your history. Bring your questions.",
   steps: [
     {
       number: "01",
-      title: "Share your questions and history",
-      body: "Bring what you'd like to discuss about your previous birth and this pregnancy.",
+      title: "Review your previous birth",
+      body: "Share your earlier caesarean experience and relevant medical records.",
     },
     {
       number: "02",
-      title: "Talk through your current circumstances",
-      body: "Discuss your current pregnancy and priorities with the care team.",
+      title: "Discuss this pregnancy",
+      body: "Talk about your current health, concerns and birth preferences.",
     },
     {
       number: "03",
-      title: "Confirm the practical next steps",
-      body: "Clarify what to bring and what happens after this conversation.",
+      title: "Understand your options",
+      body: "Discuss whether VBAC may be appropriate and what the next steps could involve.",
     },
   ],
+  cta: { label: "BOOK A VBAC CONSULTATION ↗", href: "#vbac-enquiry" },
 } as const;
 
-/**
- * Meet the Care Team — no confirmed VBAC-specific clinician assignment
- * exists for this page (see this file's own top comment). A neutral,
- * no-name placeholder, per the brief — deliberately without a
- * name/credentials placeholder pair (unlike a genuinely pending single
- * profile), since no specific individual is being lined up to fill this
- * spot.
- */
 export const vbacClinician = {
-  eyebrow: "The People Involved",
-  heading: "Guided by the right clinician for you.",
-  statement: "Your consultation should be guided by the appropriate treating clinician and care team.",
-  body: "This page is a starting point for a conversation, not an assignment of a specific clinician. Which obstetrician and care team are involved in your VBAC discussion will be confirmed as part of booking your consultation.",
-  portraitPendingLabel: "Care-team photography pending",
+  eyebrow: "THE PERSON BEHIND YOUR CARE",
+  heading: "Your previous birth matters. So does your next one.",
+  doctor: {
+    slug: "dr-santoshi-nandigam",
+    name: "Dr. Santoshini Nandigam",
+    credentials: "MBBS, DNB – Obstetrics & Gynaecology",
+    role: "Founder · Obstetrician & Gynaecologist",
+    specialtyBadge: "Natural Birth & VBAC Care",
+    paragraphs: [
+      "A previous caesarean may leave you with questions about your next pregnancy and delivery.",
+      "Dr. Santoshini's approach focuses on understanding your previous experience, reviewing your current pregnancy and discussing your birth options with you.",
+    ],
+    photo: "/images/clinic/dr-santoshi.JPG",
+    primaryCta: { label: "BOOK A CONSULTATION ↗", href: "#vbac-enquiry" },
+    secondaryCta: { label: "VIEW FULL PROFILE ↗", href: "/doctors/dr-santoshi-nandigam" },
+  },
 } as const;
 
-/**
- * Practical Information — every field is an explicit confirmed-pending
- * placeholder. No verified consultation location, appointment process,
- * delivery facility, care-team arrangement, support-person policy, fee or
- * contact detail exists anywhere in this project yet.
- */
-export const vbacPractical = {
-  eyebrow: "Practical Information",
-  heading: "What to know before you enquire.",
-  intro: "Some details are still being confirmed. Where that's the case, we say so plainly below rather than guessing.",
-  facilityPhotoPendingLabel: "Actual consultation-space photograph\nApproved photography pending",
-  info: [
-    { label: "Consultation location", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "How to request an appointment", lines: ["[To be confirmed by The Birthwave — ask the team]"] },
-    { label: "Delivery facility or hospital arrangements", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "Care-team involvement", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "Support-person guidance", lines: ["[To be confirmed by The Birthwave — ask the team]"] },
-    { label: "Fees & inclusions", lines: ["[To be confirmed by The Birthwave]"] },
-    { label: "Contact details", lines: ["[To be confirmed by The Birthwave]"] },
+export const vbacPlanChanges = {
+  eyebrow: "CARE THAT ADAPTS",
+  heading: "A change in the birth plan doesn't mean your preparation was wasted.",
+  paragraphs: [
+    "Labour can be unpredictable, even when VBAC has been carefully planned.",
+    "If labour does not progress as expected or concerns arise about you or your baby, your obstetric team may recommend a different approach.",
+    "The priority is appropriate medical care, clear communication and informed decisions as circumstances change.",
   ],
+} as const;
+
+export const vbacPractical = {
+  eyebrow: "BEFORE YOUR CONSULTATION",
+  heading: "What to know before you visit.",
+  items: [
+    {
+      label: "Consultation location",
+      lines: [
+        "The BirthWave",
+        "Mahalingapuram Main Road, Nungambakkam, Chennai – 600034",
+      ],
+    },
+    {
+      label: "Consulting doctor",
+      lines: [
+        "Dr. Santoshini Nandigam",
+        "Obstetrician & Gynaecologist",
+      ],
+    },
+    {
+      label: "What to bring",
+      lines: [
+        "Previous caesarean records, discharge summary, operative notes if available, recent scans and current pregnancy records.",
+      ],
+    },
+    {
+      label: "Appointments",
+      lines: ["Consultations by appointment."],
+    },
+    {
+      label: "Contact",
+      lines: ["+91 93630 31925"],
+    },
+  ],
+  cta: { label: "BOOK A CONSULTATION ↗", href: "#vbac-enquiry" },
 } as const;
 
 export const vbacFaq = {
-  eyebrow: "Good to Know",
-  heading: "Questions before you enquire.",
+  eyebrow: "GOOD TO KNOW",
+  heading: "Questions about VBAC.",
   items: [
     {
       question: "What does VBAC mean?",
-      answer: "VBAC stands for vaginal birth after caesarean — attempting a vaginal delivery in a pregnancy that follows one or more previous caesarean births.",
+      answer:
+        "VBAC stands for Vaginal Birth After Caesarean. It means delivering vaginally after having had a caesarean in an earlier pregnancy.",
     },
     {
-      question: "Does a previous caesarean mean I cannot have a vaginal birth?",
-      answer: "Not necessarily. Many people who have had a caesarean go on to discuss a vaginal birth for a later pregnancy. Whether it may be appropriate for you depends on your individual history and current pregnancy.",
+      question: "Can I have a vaginal delivery after a C-section?",
+      answer:
+        "Possibly. A previous C-section does not automatically rule out vaginal birth. Your obstetrician will assess your previous surgery and current pregnancy before discussing whether VBAC is appropriate.",
     },
     {
-      question: "Am I eligible for VBAC?",
-      answer: "This page cannot answer that. Eligibility depends on your individual medical history and current pregnancy, and can only be assessed by your treating obstetrician.",
+      question: "How likely am I to have a successful VBAC?",
+      answer:
+        "According to the Royal College of Obstetricians and Gynaecologists (RCOG), about three in four women with one previous caesarean whose labour begins naturally give birth vaginally when planning VBAC. Individual chances vary.",
     },
     {
-      question: "Can VBAC be guaranteed?",
-      answer: "No. No approach to birth can be guaranteed in advance, and your care team may recommend a different approach depending on your pregnancy or how labour progresses.",
+      question: "Is VBAC safe?",
+      answer:
+        "VBAC may be a suitable option for selected women, but it has risks, including uterine scar rupture and the possibility of emergency caesarean. Your obstetrician will discuss the risks and benefits of VBAC and repeat caesarean with you.",
     },
     {
-      question: "What should I bring to a VBAC consultation?",
-      answer: "Bring what you know about your previous birth, your questions, and anything about your current pregnancy you'd like to discuss.",
+      question: "Can I consider VBAC after two C-sections?",
+      answer:
+        "It may be considered in selected circumstances, following specialist assessment of your previous surgeries, uterine scars and current pregnancy.",
     },
     {
-      question: "Where would my delivery be planned?",
-      answer: "[Verified delivery-facility details and its relationship with The Birthwave will appear here.]",
+      question: "What if labour needs to be induced?",
+      answer:
+        "Induction may increase the risk of uterine rupture and emergency caesarean. Your obstetrician will discuss whether induction is appropriate and what alternatives are available.",
     },
     {
-      question: "Who would be involved in my care?",
-      answer: "[Confirmed care-team and attendance arrangements will appear here.] Ask your care team who will be involved as part of booking your consultation.",
+      question: "Does planning VBAC guarantee vaginal delivery?",
+      answer:
+        "No. Even when VBAC is considered suitable, the final mode of birth depends on how labour progresses and the wellbeing of you and your baby.",
     },
     {
-      question: "What does a consultation cost?",
-      answer: "[Approved fee and inclusions will appear here.] Ask the team for current consultation pricing.",
-    },
-    {
-      question: "What if a different birth approach is recommended?",
-      answer: "Your care team may recommend a different approach at any point, based on your circumstances or how labour progresses. This would be discussed with you directly.",
+      question: "What happens if VBAC is no longer suitable?",
+      answer:
+        "Your obstetrician will explain the reasons and discuss other birth options, which may include a caesarean.",
     },
   ],
 } as const;
 
-/**
- * Final Enquiry — TODO(infra): exactly like `normalBirthEnquiry` and the
- * other two landing pages' own forms, no backend endpoint or verified inbox
- * exists yet to actually receive a submission. Shows the same honest
- * "design preview, not connected" pattern rather than a fake
- * submission-success message. Deliberately short: full name, a single
- * phone-or-email contact field, and an optional message — no medical
- * history or health information, reinforced by the visible note and the
- * urgent-care line. Nothing here is written to browser storage.
- */
 export const vbacEnquiry = {
-  eyebrow: "Start The Conversation",
-  heading: "Let's talk about birth after caesarean.",
-  body: "Enquire about a VBAC consultation at The Birthwave and begin an informed conversation about your circumstances.",
+  eyebrow: "START THE CONVERSATION",
+  heading: "Thinking about vaginal birth after a C-section?",
+  body: [
+    "Your previous birth is part of your story, but it doesn't have to determine every decision about your next one.",
+    "Meet Dr. Santoshini Nandigam to discuss your pregnancy, previous caesarean and the birth options that may be appropriate for you.",
+  ],
+  primaryCta: "BOOK A VBAC CONSULTATION ↗",
+  whatsappCta: "CHAT ON WHATSAPP ↗",
+  whatsappUrl: "https://wa.me/919363031925",
+  phone: "+91 93630 31925",
   fields: {
-    name: "Full name",
-    contact: "Phone number or email",
-    message: "What would you like to discuss about birth after caesarean? (optional)",
+    name: "Full Name",
+    phone: "Phone Number",
+    caesareanCount: "How many previous caesarean births have you had?",
+    discussionTopic: "What would you like to discuss?",
   },
-  submitLabel: "Send Enquiry",
-  formNote: "Please don't include detailed medical records or test results in this form — a member of the team will discuss those with you directly.",
-  urgentNote: "This enquiry form is for appointment information, not urgent maternity advice. For urgent concerns, contact your maternity team or local emergency services.",
-  previewNotice: "Preview — enquiry integration pending.",
-  previewResult: "This is a design preview. No enquiry has been sent — connect this form to a real enquiry endpoint before publishing.",
+  caesareanOptions: ["1", "2", "More than 2"] as const,
+  discussionOptions: [
+    "VBAC after a previous C-section",
+    "Birth options",
+    "Previous birth experience",
+    "Current pregnancy",
+    "Other",
+  ] as const,
+  submitLabel: "REQUEST A CONSULTATION",
 } as const;
 
 export const vbacMobileCta = {
-  label: "Discuss VBAC Care",
+  label: "Book a VBAC Consultation",
   href: "#vbac-enquiry",
 } as const;
 
-/**
- * Related Care — restrained links to four separate, existing services
- * (their real names/slugs read from `services-content.ts`, never re-typed),
- * explicitly not automatic inclusions of VBAC care.
- */
 export const vbacRelatedCare = {
-  eyebrow: "Related Care",
-  heading: "Explore related, separate services.",
-  note: "These are separate services at The Birthwave, not automatically included in VBAC care.",
-  slugs: ["pregnancy-antenatal-care", "birth-preparation", "natural-birth", "normal-birth-delivery", "postpartum-care"],
+  eyebrow: "CONTINUE YOUR CARE",
+  heading: "Explore care around pregnancy, birth and recovery.",
+  services: [
+    {
+      title: "Pregnancy & Antenatal Care ↗",
+      description: "Medical care, monitoring and support throughout your pregnancy.",
+      href: "/services/pregnancy-antenatal-care",
+    },
+    {
+      title: "Natural Birth ↗",
+      description: "A physiological, low-intervention approach supported by clinical safety.",
+      href: "/services/natural-birth",
+    },
+    {
+      title: "Vaginal Delivery ↗",
+      description: "Understanding labour progression, birth preparation and delivery care.",
+      href: "/services/normal-birth-delivery",
+    },
+    {
+      title: "Birth Preparation & Childbirth Education ↗",
+      description: "Practical preparation, labour comfort, partner roles and newborn care.",
+      href: "/services/birth-preparation",
+    },
+    {
+      title: "Postpartum Recovery & Care ↗",
+      description: "Physical healing, pelvic health, emotional wellbeing and recovery support.",
+      href: "/services/postpartum-care",
+    },
+  ],
 } as const;

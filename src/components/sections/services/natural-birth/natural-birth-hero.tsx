@@ -35,9 +35,14 @@ export function NaturalBirthHero() {
           ))}
           <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
             <Button href={naturalBirthHero.primaryCta.href} variant="primary">
-              {naturalBirthHero.primaryCta.label}
+              {naturalBirthHero.primaryCta.label.replace(/\s*↗$/, "")}
             </Button>
-            <CtaLink href={naturalBirthHero.secondaryCta.href}>{naturalBirthHero.secondaryCta.label}</CtaLink>
+            <a
+              href={naturalBirthHero.secondaryCta.href}
+              className="font-body text-base font-semibold text-terracotta-deep transition-colors hover:text-ink"
+            >
+              {naturalBirthHero.secondaryCta.label}
+            </a>
           </div>
         </div>
       </div>

@@ -51,7 +51,7 @@ export function DoctorsHero() {
       <div className="container-birthwave flex flex-col gap-10 sm:grid sm:grid-cols-[1.05fr_0.95fr] sm:items-center sm:gap-10 lg:gap-16">
         <div className="max-w-xl sm:order-1">
           <p className="eyebrow">{doctorsHero.eyebrow}</p>
-          <h1 className="mt-5 text-[clamp(2.5rem,1.9rem+3.2vw,4.25rem)] leading-[1.05] font-semibold tracking-[var(--tracking-tight)] text-ink">
+          <h1 className="mt-5 text-display leading-[1.05] font-semibold tracking-[var(--tracking-tight)] text-ink">
             {doctorsHero.headlineLines.map((line) => (
               <span key={line} className="block">
                 {line}

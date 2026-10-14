@@ -3,10 +3,7 @@ import { BirthPrepImage } from "./birth-preparation-image";
 import { BirthPrepReveal } from "./birth-preparation-reveal";
 
 /**
- * Section 2 — the substantial introduction. A full section with a
- * generous consultation image opposite the text, following the same
- * balanced editorial composition as `pregnancy-antenatal-intro.tsx` —
- * not compressed into a narrow text strip.
+ * Section 02 — Why Prepare for Birth? (Before Your Little One Arrives).
  */
 export function BirthPrepIntro() {
   return (
@@ -18,18 +15,14 @@ export function BirthPrepIntro() {
           <div className="order-1 max-w-xl lg:order-2">
             <p className="eyebrow">{birthPrepIntro.eyebrow}</p>
             <h2 id="birth-prep-understand-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-              {birthPrepIntro.heading.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
+              {birthPrepIntro.heading}
             </h2>
 
-            {birthPrepIntro.paragraphs.map((paragraph) => (
-              <p key={paragraph} className="mt-4 max-w-[52ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">
-                {paragraph}
-              </p>
-            ))}
+            <div className="mt-6 space-y-4 text-base leading-[var(--leading-relaxed)] text-ink-soft">
+              {birthPrepIntro.paragraphs.map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
+            </div>
 
             <div className="mt-8 flex flex-col">
               {birthPrepIntro.points.map((point) => (

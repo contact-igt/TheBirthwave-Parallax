@@ -4,37 +4,38 @@ import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 
 /**
- * Full-bleed background composition only from `lg` upward; below that,
- * normal document flow (copy first, then the image panel) — no fixed top
- * offsets or hard-coded mobile image positioning, so the hero never
- * overlaps its own copy at 768px/1024px. Same responsive structure
- * `normal-birth-delivery-hero.tsx` already establishes; the image layer
- * here is a gradient panel rather than a `next/image`, since no
- * image-generation tool was available while this page was built (see
- * `vbac-landing-imagery.ts`'s own top comment).
+ * Section 01 — HERO:
+ * Warm, reassuring editorial layout for VBAC care with Dr. Santoshini Nandigam.
  */
 export function VbacHero() {
   const image = vbacImagery.hero;
+
   return (
     <section id="vbac-hero" aria-label="VBAC (Vaginal Birth After Caesarean)" className="relative isolate overflow-hidden bg-paper-dim lg:min-h-[640px] lg:bg-[#eee0cb]">
       <div className="container-birthwave relative z-10 pt-[calc(var(--header-height)+2.5rem)] pb-10 lg:flex lg:min-h-[640px] lg:items-center lg:pb-20">
-        <div className="max-w-2xl lg:max-w-[52%]">
+        <div className="max-w-2xl lg:max-w-[56%]">
           <p className="eyebrow">{vbacHero.eyebrow}</p>
-          <h1 className="mt-5 text-[clamp(2.25rem,1.5rem+3.4vw,4rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
-            {vbacHero.headingLines.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
+          <h1 className="mt-5 text-[clamp(2.25rem,1.5rem+3.4vw,3.8rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
+            {vbacHero.heading}
           </h1>
-          <p className="mt-6 max-w-md text-xl leading-[var(--leading-relaxed)] font-medium text-ink">{vbacHero.supportingHeadline}</p>
-          <p className="mt-4 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">{vbacHero.body}</p>
-          <p className="mt-3 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">{vbacHero.bodySecondary}</p>
+
+          <p className="mt-6 max-w-xl text-xl leading-[var(--leading-relaxed)] font-medium text-ink">
+            {vbacHero.supportingLine}
+          </p>
+
+          <div className="mt-4 max-w-xl space-y-3 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+            {vbacHero.body.map((para) => (
+              <p key={para}>{para}</p>
+            ))}
+          </div>
+
           <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
             <Button href={vbacHero.primaryCta.href} variant="primary">
-              {vbacHero.primaryCta.label}
+              {vbacHero.primaryCta.label.replace(/\s*↗$/, "")}
             </Button>
-            <CtaLink href={vbacHero.secondaryCta.href}>{vbacHero.secondaryCta.label}</CtaLink>
+            <CtaLink href={vbacHero.secondaryCta.href}>
+              {vbacHero.secondaryCta.label}
+            </CtaLink>
           </div>
         </div>
       </div>

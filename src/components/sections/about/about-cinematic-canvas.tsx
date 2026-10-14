@@ -412,7 +412,7 @@ function AboutCinematicCanvasDesktop() {
                   <span key={line} className="block">{line}</span>
                 ))}
               </h1>
-              <p className="mt-6 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft whitespace-pre-line">
+              <p className="mt-6 max-w-xl text-lg leading-[var(--leading-relaxed)] text-ink-soft whitespace-pre-line">
                 {aboutHero.supporting}
               </p>
             </div>
@@ -472,7 +472,7 @@ function AboutCinematicCanvasDesktop() {
                   <span key={line} className="block">{line}</span>
                 ))}
               </h1>
-              <p className="mt-6 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft whitespace-pre-line">
+              <p className="mt-6 max-w-xl text-lg leading-[var(--leading-relaxed)] text-ink-soft whitespace-pre-line">
                 {aboutHero.supporting}
               </p>
             </div>
@@ -488,16 +488,18 @@ function AboutCinematicCanvasDesktop() {
           className="absolute inset-0 z-10 flex items-start"
         >
           <div className="container-birthwave pt-24 xl:pt-32">
-            <div className="relative mr-10 ml-auto max-w-md text-right xl:mr-14">
+            <div className="relative mr-10 ml-auto max-w-lg text-right xl:mr-14">
               <Scrim />
               <p className="eyebrow text-ink">{aboutProblem.eyebrow}</p>
-              <h2 className="mt-5 text-[clamp(2.1rem,1.6rem+2.4vw,3.25rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
+              <h2 className="mt-5 text-[clamp(2rem,1.5rem+2.2vw,3rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
                 {aboutProblem.heading}
               </h2>
-              <p className="mt-6 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
-                {aboutProblem.body}
-              </p>
-              <ul className="mt-7 flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
+              <div className="mt-5 space-y-3 text-base xl:text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+                {aboutProblem.paragraphs.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
+              <ul className="mt-6 flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
                 {aboutProblem.stages.map((stage, index) => (
                   <li key={stage} className="flex items-center gap-3">
                     {index > 0 ? (
@@ -525,12 +527,14 @@ function AboutCinematicCanvasDesktop() {
             <div className="relative max-w-[52.5rem] -translate-x-10 -translate-y-10">
               <Scrim strong />
               <p className="eyebrow text-ink">{aboutBelief.eyebrow}</p>
-              <h2 className="mt-5 text-[clamp(2.75rem,2rem+3.6vw,5rem)] leading-[1.02] font-semibold tracking-[var(--tracking-tight)] text-ink uppercase">
+              <h2 className="mt-5 text-[clamp(2.4rem,1.8rem+2.8vw,4rem)] leading-[1.05] font-semibold tracking-[var(--tracking-tight)] text-ink">
                 {aboutBelief.heading}
               </h2>
-              <p className="mt-8 max-w-md text-lg leading-[var(--leading-relaxed)] text-ink-soft">
-                {aboutBelief.body}
-              </p>
+              <div className="mt-6 max-w-xl space-y-3 text-base xl:text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+                {aboutBelief.paragraphs.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -550,13 +554,13 @@ function AboutCinematicCanvasDesktop() {
               <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
                 {aboutFounderIntro.introLabel}
               </h2>
-              <p className="mt-1 text-base text-ink-soft">
+              <p className="mt-1 text-base font-medium text-ink-soft">
                 {aboutFounderIntro.founderName} &mdash; {aboutFounderIntro.founderCredentials}
               </p>
-              <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+              <p className="mt-5 text-base sm:text-lg leading-[var(--leading-relaxed)] text-ink-soft whitespace-pre-line">
                 {aboutFounderIntro.story}
               </p>
-              <p className="mt-6 border-r-2 border-terracotta pr-5 text-xl leading-[1.4] font-medium text-ink italic">
+              <p className="mt-6 border-r-2 border-terracotta pr-5 text-lg xl:text-xl leading-[1.4] font-medium text-ink italic">
                 &ldquo;{aboutFounderIntro.quote}&rdquo;
               </p>
             </div>
@@ -624,9 +628,11 @@ function AboutCinematicCanvasStatic() {
           <h2 className="mt-4 text-[clamp(1.9rem,1.6rem+1.4vw,2.5rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
             {aboutProblem.heading}
           </h2>
-          <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
-            {aboutProblem.body}
-          </p>
+          <div className="mt-5 space-y-3 text-base sm:text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+            {aboutProblem.paragraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
           <ul className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2">
             {aboutProblem.stages.map((stage, index) => (
               <li key={stage} className="flex items-center gap-3">
@@ -649,12 +655,14 @@ function AboutCinematicCanvasStatic() {
           data-about-copy={BEATS[2].key}
         >
           <p className="eyebrow">{aboutBelief.eyebrow}</p>
-          <h2 className="mt-4 text-[clamp(2.1rem,1.7rem+1.8vw,2.75rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink uppercase">
+          <h2 className="mt-4 text-[clamp(2.1rem,1.7rem+1.8vw,2.75rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
             {aboutBelief.heading}
           </h2>
-          <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
-            {aboutBelief.body}
-          </p>
+          <div className="mt-5 space-y-3 text-base sm:text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+            {aboutBelief.paragraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
         </div>
       </StaticBeat>
 
@@ -672,13 +680,13 @@ function AboutCinematicCanvasStatic() {
           <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
             {aboutFounderIntro.introLabel}
           </h2>
-          <p className="mt-1 text-sm text-ink-soft">
+          <p className="mt-1 text-sm font-medium text-ink-soft">
             {aboutFounderIntro.founderName} &mdash; {aboutFounderIntro.founderCredentials}
           </p>
-          <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+          <p className="mt-5 text-base sm:text-lg leading-[var(--leading-relaxed)] text-ink-soft whitespace-pre-line">
             {aboutFounderIntro.story}
           </p>
-          <p className="mt-5 border-l-2 border-terracotta pl-5 text-xl leading-[1.4] font-medium text-ink italic">
+          <p className="mt-5 border-l-2 border-terracotta pl-5 text-lg sm:text-xl leading-[1.4] font-medium text-ink italic">
             &ldquo;{aboutFounderIntro.quote}&rdquo;
           </p>
         </div>

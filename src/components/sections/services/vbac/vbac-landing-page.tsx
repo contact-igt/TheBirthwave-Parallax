@@ -1,37 +1,32 @@
 import type { CSSProperties } from "react";
 import { VbacHero } from "./vbac-hero";
 import { VbacIntro } from "./vbac-intro";
-import { VbacConversation, VbacInformed } from "./vbac-conversation";
-import { VbacPlanning } from "./vbac-planning";
+import { VbacConversation, VbacBenefitsRisks } from "./vbac-conversation";
+import { VbacAssessmentFactors, VbacPlanningLabour } from "./vbac-planning";
 import { VbacFirstVisit } from "./vbac-first-visit";
 import { VbacClinician } from "./vbac-clinician";
+import { VbacPlanChanges } from "./vbac-plan-changes";
 import { VbacPracticalInformation } from "./vbac-practical-information";
 import { VbacFaq } from "./vbac-faq";
 import { VbacEnquiry, VbacMobileEnquiryBar } from "./vbac-enquiry";
 import { VbacRelatedCare } from "./vbac-related-care";
 
 /**
- * VBAC (Vaginal Birth After Caesarean) — dedicated landing page, following
- * the exact same additive pattern the other three dedicated landing pages
- * establish: rendered for exactly one slug (`vbac`) by
- * `app/services/[slug]/page.tsx`, which still generates all 11 service
- * routes and still reads the same shared `services-content.ts` record for
- * this slug's metadata — only this one route's own body swaps; the other
- * ten routes still render exactly as they did before this page existed.
- *
- * `--vbac-sky-wash`/`--vbac-coral-wash`: this page's own page-scoped wash
- * tokens, built from BirthWave's existing confirmed brand hues
- * (`--color-sky`, `--color-coral`) — a deliberately different pairing from
- * Normal Birth & Delivery Care's own rose+sky wash, so the two "Birth"
- * chapter pages don't read as recolours of each other, without inventing a
- * fourth brand colour.
- *
- * The `<noscript>` block is this page's own no-JS safety net for
- * `VbacReveal` (see that component's own comment) — every reveal instance
- * ships `opacity-0` in the server-rendered HTML and only ever becomes
- * visible via a client-side `IntersectionObserver` effect, so without JS
- * every section below the hero would stay permanently invisible. This
- * forces them back to their settled, visible state.
+ * VBAC (Vaginal Birth After Caesarean) — dedicated service landing page.
+ * Renders all 13 approved sections in exact order:
+ * 01. HERO
+ * 02. BEGIN WITH YOUR FULL STORY
+ * 03. WHAT A VBAC CONSULTATION MAY COVER
+ * 04. VBAC: BENEFITS, RISKS & ALTERNATIVES
+ * 05. WHAT MAY INFLUENCE THE DISCUSSION?
+ * 06. PLANNING LABOUR AFTER A CAESAREAN
+ * 07. YOUR FIRST CONSULTATION
+ * 08. YOUR OBSTETRICIAN (Dr. Santoshini Nandigam)
+ * 09. IF THE BIRTH PLAN CHANGES
+ * 10. PRACTICAL INFORMATION
+ * 11. FAQs (8 questions)
+ * 12. FINAL CTA (Enquiry Form & Direct Contact)
+ * 13. RELATED CARE (5 services)
  */
 export function VbacLandingPage() {
   return (
@@ -47,17 +42,45 @@ export function VbacLandingPage() {
         <style>{`.vbac-reveal{opacity:1 !important;transform:none !important}`}</style>
       </noscript>
 
+      {/* 01 — HERO */}
       <VbacHero />
+
+      {/* 02 — BEGIN WITH YOUR FULL STORY */}
       <VbacIntro />
+
+      {/* 03 — WHAT A VBAC CONSULTATION MAY COVER */}
       <VbacConversation />
-      <VbacInformed />
-      <VbacPlanning />
+
+      {/* 04 — VBAC: BENEFITS, RISKS & ALTERNATIVES */}
+      <VbacBenefitsRisks />
+
+      {/* 05 — WHAT MAY INFLUENCE THE DISCUSSION? */}
+      <VbacAssessmentFactors />
+
+      {/* 06 — PLANNING LABOUR AFTER A CAESAREAN */}
+      <VbacPlanningLabour />
+
+      {/* 07 — YOUR FIRST CONSULTATION */}
       <VbacFirstVisit />
+
+      {/* 08 — YOUR OBSTETRICIAN */}
       <VbacClinician />
+
+      {/* 09 — IF THE BIRTH PLAN CHANGES */}
+      <VbacPlanChanges />
+
+      {/* 10 — PRACTICAL INFORMATION */}
       <VbacPracticalInformation />
+
+      {/* 11 — FAQs */}
       <VbacFaq />
+
+      {/* 12 — FINAL CTA */}
       <VbacEnquiry />
+
+      {/* 13 — RELATED CARE */}
       <VbacRelatedCare />
+
       <VbacMobileEnquiryBar />
     </div>
   );

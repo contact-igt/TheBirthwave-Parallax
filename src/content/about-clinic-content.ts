@@ -1,27 +1,23 @@
 /**
- * About page — new section content for "Inside The BirthWave", "Your First
- * Visit" and the compact clinic location strip.
- *
- * Verified facts (clinic name, address, phone, email, Google Maps link) are
- * read directly from `contact-content.ts` at render time — never re-typed
- * here. Only section-specific copy lives in this file.
- *
- * PENDING CLIENT CONFIRMATION:
- *   • No approved interior photographs of the clinic exist in the project.
- *     Placeholders are used and clearly labelled.
- *   • "Your first visit" step descriptions are proposed — needs clinic review.
- *   • Consultation timings are still unconfirmed (contact-content.ts marks
- *     them as "[Birthwave confirmation needed]").
- *   • No founding year or milestone dates found in the existing content.
+ * About page — clinic section content for "Our Clinic / Our Space", "Your First
+ * Visit" and "Visit The BirthWave".
  */
 
-// ── Inside The BirthWave ──────────────────────────────────────────────────
+// ── Section 06 — Our Clinic ──────────────────────────────────────────────────
 
 export const aboutInsideClinic = {
-  eyebrow: "Our Clinic",
-  heading: "Get to know the space before you visit.",
+  eyebrow: "Our Space",
+  heading: "A welcoming space for conversations that matter.",
+  paragraphs: [
+    "Located in Nungambakkam, Chennai, The BirthWave is designed around respectful, attentive healthcare conversations.",
+    "Whether you are visiting for gynaecological concerns, fertility guidance, pregnancy care or birth preparation, our aim is to make room for your questions and help you understand the next steps.",
+  ],
   description:
-    "Take a look inside our clinic in Nungambakkam, Chennai, and explore the spaces where consultations and care take place.",
+    "Located in Nungambakkam, Chennai, The BirthWave is designed around respectful, attentive healthcare conversations.\n\nWhether you are visiting for gynaecological concerns, fertility guidance, pregnancy care or birth preparation, our aim is to make room for your questions and help you understand the next steps.",
+  cta: {
+    label: "Explore Our Clinic",
+    href: "#clinic-location",
+  },
   video: {
     src: "/brand/about/birthwave-hospital-experience.mp4",
     poster: "/brand/about/birthwave-hospital-experience-poster.jpg",
@@ -33,46 +29,45 @@ export const aboutInsideClinic = {
   },
 } as const;
 
-// ── Your First Visit ──────────────────────────────────────────────────────
+// ── Section 09 — Before You Arrive ──────────────────────────────────────────
 
-/**
- * Proposed descriptions of the clinic's intake/consultation process.
- * TODO(approval): confirm with BirthWave that these accurately describe
- * the real patient experience before publishing.
- */
 export const aboutFirstVisit = {
-  eyebrow: "Before You Arrive",
-  heading: "A little clarity before your first appointment.",
+  eyebrow: "Your First Visit",
+  heading: "Your questions are a good place to begin.",
   steps: [
     {
       index: "01",
-      title: "Before you arrive",
+      title: "Book Your Consultation",
       description:
-        "Confirm your appointment and any records to bring.",
+        "Contact The BirthWave to arrange an appointment for the service you need.",
     },
     {
       index: "02",
-      title: "During your consultation",
+      title: "Share Your Concerns",
       description:
-        "Discuss your concerns, relevant history and questions with the appropriate professional.",
+        "Discuss your health history, symptoms, questions and preferences with the appropriate healthcare professional.",
     },
     {
       index: "03",
-      title: "Your next steps",
+      title: "Understand Your Options",
       description:
-        "Understand the recommendations and any follow-up discussed during your consultation.",
+        "Your clinician can explain relevant findings, recommendations and any follow-up or further assessment that may be appropriate.",
     },
   ],
 } as const;
 
-// ── Visit Our Clinic (compact strip) ──────────────────────────────────────
+// ── Section 10 — Visit The BirthWave ─────────────────────────────────────────
 
 export const aboutClinicStrip = {
-  heading: "Visit The BirthWave.",
-  /** Consultation timings are still unconfirmed. The component renders
-   *  this field only when it contains a real string, not the bracket-
-   *  wrapped placeholder from contact-content.ts. */
+  eyebrow: "Visit Us",
+  heading: "Find us in Nungambakkam, Chennai.",
+  clinicName: "The BirthWave",
+  address: "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai \u2013 600034",
+  phone: "+91 93630 31925",
+  email: "drsantoshi@thebirthwave.com",
   directionsLabel: "Get Directions",
+  directionsHref:
+    "https://maps.google.com/?q=No.+8%2F15%2C+Mahalingapuram+Main+Road%2C+Nungambakkam%2C+Chennai+%E2%80%93+600034",
   appointmentLabel: "Book an Appointment",
   appointmentHref: "/#connect",
 } as const;

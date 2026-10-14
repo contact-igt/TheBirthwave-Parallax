@@ -518,20 +518,8 @@ function TeamJourneyScene({
     >
       <div
         ref={contentRef}
-        className="relative z-10 w-full max-w-5xl overflow-hidden rounded-3xl border border-[#EAE1D7] bg-[#FAF5EE] shadow-[0_12px_40px_rgba(42,32,28,0.06)] p-6 sm:p-10 lg:p-12"
+        className="relative z-10 w-full max-w-5xl"
       >
-        {/* Botanical watercolor background image */}
-        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-3xl">
-          <Image
-            src="/images/doctors/doctor-card-background.webp"
-            alt=""
-            fill
-            sizes="(max-width: 1024px) 100vw, 1152px"
-            className="object-cover object-center opacity-90"
-            priority={index === 0}
-          />
-        </div>
-
         <div className="relative z-10 grid gap-8 sm:grid-cols-[1.15fr_0.85fr] lg:grid-cols-[1.2fr_0.8fr] sm:items-center sm:gap-12 lg:gap-16">
           <DoctorProfileContent
             doctor={doctor}

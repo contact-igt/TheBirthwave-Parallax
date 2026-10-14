@@ -19,7 +19,7 @@ export function NaturalBirthJourney() {
         </h2>
         <p className="mt-4 max-w-[56ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">{naturalBirthJourney.intro}</p>
 
-        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {naturalBirthJourney.steps.map((step) => (
             <div key={step.number} className="border-t border-[var(--color-border)] pt-5">
               <span className="font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
@@ -32,7 +32,7 @@ export function NaturalBirthJourney() {
 
         <div className="mt-10">
           <Button href={naturalBirthJourney.cta.href} variant="primary">
-            {naturalBirthJourney.cta.label}
+            {naturalBirthJourney.cta.label.replace(/\s*↗$/, "")}
           </Button>
         </div>
       </NaturalBirthReveal>

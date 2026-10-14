@@ -9,12 +9,12 @@
  */
 export const fertilityImagery = {
   hero: {
-    src: "/images/generated/consultation.jpeg",
+    src: "/images/web-ready/planning2.jpg",
     alt: "A woman and a man sit side by side at a wooden table, talking with a female clinician who holds a pen above an open notebook.",
     objectPosition: "50% 45%",
   },
   covers: {
-    src: "/images/generated/g-consultation2.jpeg",
+    src: "/images/web-ready/fertility2.jpg",
     alt: "A woman and a clinician in pink scrubs sit close together at a wooden table, writing in an open notebook.",
     objectPosition: "50% 40%",
   },

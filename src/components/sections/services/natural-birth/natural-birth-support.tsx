@@ -39,7 +39,7 @@ export function NaturalBirthSupport() {
 
           <div className="mt-8">
             <Button href={naturalBirthSupport.cta.href} variant="primary">
-              {naturalBirthSupport.cta.label}
+              {naturalBirthSupport.cta.label.replace(/\s*↗$/, "")}
             </Button>
           </div>
         </div>
