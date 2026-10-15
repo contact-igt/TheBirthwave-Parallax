@@ -7,7 +7,7 @@ export const ourServicesHero = {
   eyebrow: "OUR SERVICES",
   heading: "Women's healthcare for every stage of life.",
   paragraphs: [
-    "At The BirthWave, we bring together gynaecology, fertility, maternity care, preventive health and supportive wellness services to help women understand their health and access appropriate care.",
+    "At The Birthwave, we bring together gynaecology, fertility, maternity care, preventive health and supportive wellness services to help women understand their health and access appropriate care.",
     "Our approach considers physical, hormonal, emotional and lifestyle factors, with care tailored to individual needs.",
   ],
   primaryCta: { label: "FIND YOUR CARE →", href: "#service-navigation" },
@@ -69,13 +69,13 @@ export const womensHealthSection = {
   heading: "Your health matters at every stage.",
   intro: [
     "Women's healthcare extends beyond fertility and pregnancy.",
-    "From adolescence and menstrual health to hormonal changes, menopause and preventive screening, The BirthWave offers consultations for different gynaecological and women's health concerns.",
+    "From adolescence and menstrual health to hormonal changes, menopause and preventive screening, The Birthwave offers consultations for different gynaecological and women's health concerns.",
   ],
   services: [
     {
       title: "Gynaecology & Menstrual Health",
       body: "Medical consultations for irregular or painful periods, abnormal bleeding, pelvic discomfort and other reproductive health concerns.",
-      cta: { label: "EXPLORE GYNAECOLOGY CARE →", href: "/services/gynaecology" },
+      cta: { label: "ENQUIRE ABOUT GYNAECOLOGY →", href: "/contact?service=gynaecology" },
     },
     {
       title: "Adolescent Health",
@@ -100,7 +100,7 @@ export const womensHealthSection = {
     {
       title: "Mental & Emotional Well-being",
       body: "Psychological and emotional well-being support for concerns arising during adolescence, reproductive years, pregnancy, postpartum, perimenopause and menopause.",
-      cta: { label: "EXPLORE EMOTIONAL WELL-BEING →", href: "/services/mental-emotional-wellbeing" },
+      cta: { label: "ENQUIRE ABOUT EMOTIONAL WELL-BEING →", href: "/contact?service=emotional-wellbeing" },
     },
     {
       title: "Perimenopause, Menopause & Post-Menopause",
@@ -121,7 +121,7 @@ export const fertilityPreconceptionSection = {
   heading: "Fertility care begins with understanding your reproductive health.",
   intro: [
     "Whether you are preparing for pregnancy, experiencing difficulty conceiving or considering fertility preservation, understanding your individual circumstances is an important starting point.",
-    "The BirthWave combines medical consultations with appropriate guidance on nutrition, lifestyle, emotional well-being and reproductive choices.",
+    "The Birthwave combines medical consultations with appropriate guidance on nutrition, lifestyle, emotional well-being and reproductive choices.",
   ],
   services: [
     {
@@ -147,7 +147,7 @@ export const fertilityPreconceptionSection = {
     {
       title: "Preconception Nutrition",
       body: "Nutritional assessment and individual guidance to address dietary needs, nutritional deficiencies and relevant metabolic concerns while preparing for pregnancy.",
-      cta: { label: "EXPLORE NUTRITION SUPPORT →", href: "/services/nutrition-emotional-wellbeing" },
+      cta: { label: "ENQUIRE ABOUT NUTRITION SUPPORT →", href: "/contact?service=nutrition" },
     },
     {
       title: "Strength & Conditioning",
@@ -163,7 +163,7 @@ export const pregnancyAntenatalSection = {
   heading: "Medical care for your pregnancy. Support for you as a person.",
   intro: [
     "Pregnancy involves important medical assessments alongside changes in physical health, emotions and everyday life.",
-    "The BirthWave's antenatal approach brings together obstetric care and appropriate supportive services, with recommendations based on each woman's health and pregnancy.",
+    "The Birthwave's antenatal approach brings together obstetric care and appropriate supportive services, with recommendations based on each woman's health and pregnancy.",
   ],
   services: [
     {
@@ -210,7 +210,7 @@ export const birthPreparationSection = {
   eyebrow: "PREPARING FOR BIRTH",
   heading: "Understand birth before labour begins.",
   intro: [
-    "Childbirth education has been an important part of The BirthWave's work over the past two years.",
+    "Childbirth education has been an important part of The Birthwave's work over the past two years.",
     "Through childbirth education workshops and preparation sessions, we aim to help expectant parents understand labour, explore birth options, prepare questions and participate in conversations about their care.",
     "Our approach combines practical birth-related information with physical preparation, emotional awareness and partner involvement.",
   ],
@@ -263,7 +263,7 @@ export const birthOptionsSection = {
     {
       title: "Vaginal Birth",
       body: "Vaginal birth involves delivery through the birth canal. Consultations can help women understand the stages of labour, potential interventions, pain-relief options and what may happen during delivery.",
-      cta: { label: "EXPLORE VAGINAL BIRTH →", href: "/services/normal-birth-delivery" },
+      cta: { label: "ENQUIRE ABOUT VAGINAL BIRTH →", href: "/contact?service=vaginal-birth" },
     },
     {
       title: "VBAC — Vaginal Birth After Caesarean",
@@ -273,7 +273,7 @@ export const birthOptionsSection = {
     {
       title: "Caesarean Birth",
       body: "Caesarean birth is a surgical delivery that may be planned or recommended based on maternal or fetal health considerations. Women can discuss indications, preparation, anaesthesia, recovery and postoperative care.",
-      cta: { label: "EXPLORE CAESAREAN BIRTH →", href: "/services/normal-birth-delivery#caesarean" },
+      cta: { label: "ENQUIRE ABOUT CAESAREAN BIRTH →", href: "/contact?service=caesarean-birth" },
     },
     {
       title: "Water Birth",
@@ -288,7 +288,7 @@ export const birthApproachSection = {
   eyebrow: "YOUR BIRTH EXPERIENCE",
   heading: "Your preferences deserve a place in the conversation.",
   intro: [
-    "At The BirthWave, preparing for birth includes understanding how you would like to experience labour and delivery.",
+    "At The Birthwave, preparing for birth includes understanding how you would like to experience labour and delivery.",
     "A positive birth experience may involve clear communication, informed choices, emotional support and respect for personal preferences, regardless of the eventual mode of delivery.",
   ],
   points: [
@@ -325,38 +325,38 @@ export const postpartumSection = {
   heading: "Your care continues after childbirth.",
   intro: [
     "The weeks and months following delivery can bring physical, hormonal, emotional and practical changes.",
-    "The BirthWave's postpartum approach considers maternal recovery, feeding needs, pelvic health, emotional well-being and the transition into parenthood.",
+    "The Birthwave's postpartum approach considers maternal recovery, feeding needs, pelvic health, emotional well-being and the transition into parenthood.",
   ],
   services: [
     {
       title: "Postpartum Recovery",
       body: "Postnatal consultations to assess recovery, healing, physical symptoms and maternal well-being following childbirth.",
-      cta: { label: "EXPLORE POSTPARTUM CARE →", href: "/services/postpartum-care" },
+      cta: { label: "ENQUIRE ABOUT POSTPARTUM CARE →", href: "/contact?service=postpartum-care" },
     },
     {
       title: "Lactation & Breastfeeding Support",
       body: "Professional guidance for breastfeeding, latching difficulties, feeding concerns, milk-supply questions and early infant feeding.",
-      cta: { label: "EXPLORE LACTATION SUPPORT →", href: "/services/lactation" },
+      cta: { label: "ENQUIRE ABOUT LACTATION SUPPORT →", href: "/contact?service=lactation" },
     },
     {
       title: "Pelvic Health & Physiotherapy",
       body: "Assessment and appropriate physiotherapy guidance for postpartum pelvic-floor concerns, musculoskeletal symptoms and physical recovery.",
-      cta: { label: "EXPLORE PELVIC HEALTH →", href: "/services/postpartum-care#pelvic-health" },
+      cta: { label: "ENQUIRE ABOUT PELVIC HEALTH →", href: "/contact?service=pelvic-health" },
     },
     {
       title: "Postpartum Mental Health",
       body: "Support for emotional changes, anxiety, low mood, stress, adjustment difficulties and other psychological concerns after childbirth. Concerns suggestive of postpartum depression or other mental health conditions may require further professional assessment and treatment.",
-      cta: { label: "EXPLORE MATERNAL MENTAL HEALTH →", href: "/services/mental-emotional-wellbeing" },
+      cta: { label: "ENQUIRE ABOUT MATERNAL MENTAL HEALTH →", href: "/contact?service=maternal-mental-health" },
     },
     {
       title: "Physical Fitness & Postpartum Wellness",
       body: "Individual guidance on returning to physical activity, rebuilding functional strength and addressing recovery-related fitness concerns.",
-      cta: { label: "EXPLORE POSTPARTUM WELLNESS →", href: "/services/postpartum-care#fitness" },
+      cta: { label: "ENQUIRE ABOUT POSTPARTUM WELLNESS →", href: "/contact?service=postpartum-fitness" },
     },
     {
       title: "Parenting & Family Adjustment",
       body: "Supportive guidance for parents navigating newborn care, changing routines, feeding, sleep-related questions and the emotional adjustments of parenthood.",
-      cta: { label: "EXPLORE PARENTING SUPPORT →", href: "/services/parenting-support" },
+      cta: { label: "ENQUIRE ABOUT PARENTING SUPPORT →", href: "/contact?service=parenting-support" },
     },
   ],
 } as const;
@@ -367,7 +367,7 @@ export const newbornPediatricSection = {
   heading: "Care for your newborn. Guidance as your child grows.",
   intro: [
     "From the first days after birth through infancy and childhood, children require age-appropriate healthcare, growth monitoring and preventive care.",
-    "The BirthWave offers newborn and paediatric consultations along with relevant guidance for parents.",
+    "The Birthwave offers newborn and paediatric consultations along with relevant guidance for parents.",
   ],
   services: [
     {
@@ -396,8 +396,8 @@ export const newbornPediatricSection = {
     },
   ],
   cta: {
-    label: "EXPLORE NEWBORN & PAEDIATRIC CARE →",
-    href: "/services/newborn-pediatric-care",
+    label: "ENQUIRE ABOUT PAEDIATRIC CARE →",
+    href: "/contact?service=paediatric-care",
   },
 } as const;
 
@@ -416,25 +416,25 @@ export const findYourCareSection = {
 
 export const ourApproachSection = {
   id: "our-approach",
-  eyebrow: "THE BIRTHWAVE APPROACH",
+  eyebrow: "The Birthwave APPROACH",
   heading: "Different needs. Connected care.",
   paragraphs: [
-    "At The BirthWave, women's healthcare is approached through medical assessment alongside relevant physical, nutritional, emotional and lifestyle considerations.",
+    "At The Birthwave, women's healthcare is approached through medical assessment alongside relevant physical, nutritional, emotional and lifestyle considerations.",
     "Depending on individual needs, care may involve obstetricians, gynaecologists, paediatricians, physiotherapists, nutrition professionals, psychologists and other qualified care providers.",
     "The aim is to support informed decisions and coordinate relevant services without assuming that every woman requires the same care pathway.",
   ],
-  cta: { label: "ABOUT THE BIRTHWAVE →", href: "/about" },
+  cta: { label: "ABOUT The Birthwave →", href: "/about" },
 } as const;
 
 export const ourServicesFinalCta = {
   id: "contact",
   eyebrow: "START WITH A CONVERSATION",
   heading: "Whatever your concern, start with a conversation.",
-  body: "Whether you have a gynaecological concern, are exploring fertility options, preparing for childbirth, recovering after delivery or seeking newborn and paediatric care, The BirthWave provides consultations across different areas of women's and children's health.",
+  body: "Whether you have a gynaecological concern, are exploring fertility options, preparing for childbirth, recovering after delivery or seeking newborn and paediatric care, The Birthwave provides consultations across different areas of women's and children's health.",
   primaryCta: { label: "BOOK A CONSULTATION →", href: "/contact" },
   secondaryCta: {
     label: "CHAT ON WHATSAPP →",
-    href: "https://wa.me/919363031925",
+    href: "https://wa.me/917904251378",
   },
   phone: "+91 93630 31925",
   phoneHref: "tel:+919363031925",

@@ -1,4 +1,4 @@
-﻿import { vaginismusFirstConsultation } from "@/content/pages/vaginismus";
+import { vaginismusFirstConsultation } from "@/content/pages/vaginismus";
 import { VaginismusImage } from "./vaginismus-image";
 import { VaginismusReveal } from "./vaginismus-reveal";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,11 @@ import { Button } from "@/components/ui/button";
  * Section 8 — Your First Conversation.
  * 3 clear, unhurried steps emphasizing no pre-diagnosis required,
  * safe listening, and collaborative option exploring.
+ *
+ * Layout redesign: header + 3 large-numbered steps span the left column
+ * while the image fills the right — creating an editorial asymmetric split.
+ * Steps are displayed as prominent numbered rows with a visual accent that
+ * reads more like a process timeline than a plain divider list.
  */
 export function VaginismusFirstConsultation() {
   return (
@@ -16,17 +21,9 @@ export function VaginismusFirstConsultation() {
       className="relative isolate bg-paper section-pad"
     >
       <VaginismusReveal className="container-birthwave">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
-          <div className="order-2 lg:order-1">
-            <VaginismusImage
-              imageKey="first-consultation"
-              corner="tl"
-              aspect="aspect-[4/5]"
-              className="w-full"
-            />
-          </div>
-
-          <div className="order-1 max-w-xl lg:order-2">
+        <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16">
+          {/* Left — header + steps */}
+          <div>
             <p className="eyebrow">{vaginismusFirstConsultation.eyebrow}</p>
             <h2
               id="vaginismus-first-consultation-heading"
@@ -35,24 +32,50 @@ export function VaginismusFirstConsultation() {
               {vaginismusFirstConsultation.heading}
             </h2>
 
-            <div className="mt-8 flex flex-col divide-y divide-[var(--color-border)]">
-              {vaginismusFirstConsultation.steps.map((step) => (
-                <div key={step.number} className="py-6 first:pt-2">
-                  <span className="font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
-                    {step.number} — {step.title}
+            {/* Steps — numbered big-index rows */}
+            <div className="mt-10 space-y-0">
+              {vaginismusFirstConsultation.steps.map((step, idx) => (
+                <div
+                  key={step.number}
+                  className="flex items-start gap-6 border-b border-[var(--color-border)] py-7 first:border-t first:border-t-[var(--color-border)]"
+                >
+                  {/* Large number */}
+                  <span
+                    aria-hidden="true"
+                    className="shrink-0 font-display text-[2.5rem] font-bold leading-none text-terracotta-deep/20 sm:text-[3rem]"
+                  >
+                    {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <p className="mt-2 text-base leading-[var(--leading-relaxed)] text-ink-soft">
-                    {step.body}
-                  </p>
+                  <div className="pt-1">
+                    <span className="font-body text-[0.6875rem] font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
+                      {step.title}
+                    </span>
+                    <p className="mt-2 text-base leading-[var(--leading-relaxed)] text-ink-soft">
+                      {step.body}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-8">
-              <Button href={vaginismusFirstConsultation.cta.href} variant="primary">
+            <div className="mt-10">
+              <Button
+                href={vaginismusFirstConsultation.cta.href}
+                variant="primary"
+              >
                 {vaginismusFirstConsultation.cta.label}
               </Button>
             </div>
+          </div>
+
+          {/* Right — image */}
+          <div>
+            <VaginismusImage
+              imageKey="first-consultation"
+              corner="tr"
+              aspect="aspect-[4/5]"
+              className="w-full"
+            />
           </div>
         </div>
       </VaginismusReveal>

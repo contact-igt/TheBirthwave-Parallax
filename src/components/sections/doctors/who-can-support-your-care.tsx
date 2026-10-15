@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { whoCanSupportYourCare, whoCanSupportGroups, type DoctorContent } from "@/content/doctors-content";
 import { getServiceBySlug } from "@/content/services-content";
+import { HIDDEN_SERVICE_SLUGS } from "@/content/nav-care-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { useScrollReveal } from "@/motion/scroll-scenes";
 import { cx } from "@/lib/cx";
@@ -136,7 +137,7 @@ function PersonLine({ doctor }: { doctor: DoctorContent }) {
 }
 
 function RelatedCareCta({ doctor, className }: { doctor: DoctorContent; className?: string }) {
-  const primarySlug = doctor.relatedCareSlugs?.[0];
+  const primarySlug = (doctor.relatedCareSlugs ?? []).find((slug) => !HIDDEN_SERVICE_SLUGS.has(slug));
   const service = primarySlug ? getServiceBySlug(primarySlug) : undefined;
 
   if (service) {
@@ -162,7 +163,7 @@ function RelatedCareCta({ doctor, className }: { doctor: DoctorContent; classNam
   // generic booking link, never a guessed service mapping.
   return (
     <Link
-      href="/#connect"
+      href="/contact"
       aria-label={`Book a Consultation with ${doctor.name}`}
       className={cx(
         "group inline-flex w-fit items-center gap-1.5 rounded-xs py-1 font-body text-sm font-semibold text-terracotta-deep transition-colors duration-[var(--duration-fast)] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-focus-ring)]",

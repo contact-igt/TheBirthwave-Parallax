@@ -60,9 +60,6 @@ export function NaturalBirthHero() {
           sizes="100vw"
           className={`object-cover ${heroFocalPointClassName(image.focalPoint)}`}
         />
-        <span className="absolute right-4 bottom-4 z-10 rounded-xs bg-paper/95 px-2.5 py-1 font-body text-[0.6875rem] leading-snug text-ink-soft">
-          AI-generated illustration
-        </span>
       </div>
 
       <div

@@ -1,4 +1,7 @@
-﻿"use client";
+"use client";
+
+import conversion from "../shared/service-conversion.module.css";
+
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { newbornEnquiry, newbornMobileCta } from "@/content/pages/newborn-pediatric-care";
@@ -65,7 +68,7 @@ export function NewbornEnquiry() {
   }
 
   return (
-    <section id="enquiry" aria-labelledby="newborn-enquiry-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad">
+    <section id="enquiry" aria-labelledby="newborn-enquiry-heading" data-service-enquiry className={`${conversion.enquiry} relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad`}>
       <NewbornReveal className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
         <div className="max-w-md">
           <p className="eyebrow">{newbornEnquiry.eyebrow}</p>

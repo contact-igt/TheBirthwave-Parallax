@@ -15,10 +15,8 @@
 
 export const brand = {
   name: "The Birthwave",
-  shortName: "Birthwave",
-  // TODO(brand): confirm whether "The Birth Wave" or "Birthwave" is the
-  // preferred written form outside the logo lockup — the guide's business
-  // card footer prints "thebirthwave.com" as one word.
+  shortName: "The Birthwave",
+  // Approved written brand name: The Birthwave.
   logo: {
     wordmarkMauve: "/brand/wordmark-mauve.png",
     wordmarkCream: "/brand/wordmark-cream.png",
@@ -33,7 +31,7 @@ export const hero = {
   headlineLead: "Care that moves",
   headlineEmphasis: "with you.",
   subhead:
-    "From women's health and fertility to pregnancy, birth preparation, childbirth, postpartum recovery and newborn care, The BirthWave brings together medical care and holistic support for the different stages of your journey.",
+    "From women's health and fertility to pregnancy, birth preparation, childbirth, postpartum recovery and newborn care, The Birthwave brings together medical care and holistic support for the different stages of your journey.",
   // Mobile/tablet only: small cue at the bottom of the full-screen Hero,
   // faded out as soon as scrolling starts (hero-philosophy-scroll-scene.tsx).
   scrollCue: "Scroll to discover",
@@ -91,7 +89,7 @@ export const philosophy = {
   resolution: "One connected journey of care.",
   // Closing paragraph shown after the resolution line.
   closing:
-    "From preparing for pregnancy to caring for you and your baby after birth, BirthWave is here through the stages that matter.",
+    "From preparing for pregnancy to caring for you and your baby after birth, The Birthwave is here through the stages that matter.",
   // Approved (docs/implementation-brief.md §28): the generated editorial
   // daylight photograph used as this scene's atmospheric background
   // layer — see philosophy-section.tsx. Replaces the earlier reuse of
@@ -179,7 +177,7 @@ export const journey = {
       headline: ["Your birth.", "Your care.", "Your individual needs."],
       supporting:
         "Every birth experience is different. Discuss your preferences for natural birth, vaginal delivery, water birth and Vaginal Birth After Caesarean (VBAC), along with the medical considerations involved.\nYour obstetrician can explain which approaches may be appropriate for your pregnancy and what delivery arrangements are available.",
-      cta: { label: "Explore Birth Care", href: "/services/normal-birth-delivery" },
+      cta: { label: "Explore Birth Care", href: "/services/natural-birth" },
       image: "/images/web-ready/birth.jpg",
       objectPosition: "50% 55%",
       alt: "Two hands held together, a quiet moment of human connection during labour.",
@@ -190,7 +188,7 @@ export const journey = {
       headline: ["Your care continues", "after delivery."],
       supporting:
         "The postpartum period involves physical recovery, hormonal changes and adjustments to everyday life.\nExplore support for postpartum recovery, breastfeeding, pelvic health and mental health concerns, including emotional changes, anxiety and postpartum depression.",
-      cta: { label: "Explore Postpartum Care", href: "/services/postpartum-care" },
+      cta: { label: "Explore Postpartum Care", href: "/services#postpartum-care" },
       image: "/images/web-ready/afterbirth.jpg",
       objectPosition: "40% 22%",
       alt: "A mother resting in bed, her newborn asleep against her chest.",
@@ -201,7 +199,7 @@ export const journey = {
       headline: ["And care continues", "with your baby."],
       supporting:
         "From newborn health assessments and vaccinations to feeding, growth, development and childhood health concerns, paediatric consultations support your child's changing needs.\nExplore guidance on early parenting, conscious parenting and understanding your child's physical and emotional development.",
-      cta: { label: "Explore Newborn Care", href: "/services/newborn-pediatric-care" },
+      cta: { label: "Explore Newborn Care", href: "/services#newborn-care" },
       image: "/images/journey/care.jpg",
       objectPosition: "50% 35%",
       alt: "A mother holding her swaddled newborn while a doctor checks in with a stethoscope.",
@@ -278,7 +276,7 @@ export const care = {
     {
       index: "01",
       title: "Listen First",
-      text: "Your experiences, concerns and questions deserve time and attention.\n\nAt The BirthWave, we aim to create space for meaningful conversations, understanding your individual needs rather than rushing through appointments.",
+      text: "Your experiences, concerns and questions deserve time and attention.\n\nAt The Birthwave, we aim to create space for meaningful conversations, understanding your individual needs rather than rushing through appointments.",
     },
     {
       index: "02",
@@ -293,7 +291,7 @@ export const care = {
     {
       index: "04",
       title: "Care for the Whole Person",
-      text: "Women's healthcare involves more than addressing physical symptoms.\n\nThe BirthWave takes a holistic approach by considering medical needs alongside nutrition, emotional well-being, lifestyle, mental health and supportive care where appropriate.",
+      text: "Women's healthcare involves more than addressing physical symptoms.\n\nThe Birthwave takes a holistic approach by considering medical needs alongside nutrition, emotional well-being, lifestyle, mental health and supportive care where appropriate.",
     },
   ],
   image: {
@@ -320,7 +318,7 @@ export const finalCta = {
     "we can begin there.",
   ] as const,
   supporting:
-    "Planning a pregnancy, expecting a baby, preparing for birth or adjusting to life after delivery? Start with a conversation with the BirthWave team.",
+    "Planning a pregnancy, expecting a baby, preparing for birth or adjusting to life after delivery? Start with a conversation with The Birthwave team.",
   note: "Not sure which service you need? Tell us what you're looking for and our team can help you find the right place to start.",
   primaryCta: {
     label: "Book a Consultation",
@@ -387,21 +385,21 @@ export const careDiscovery = {
       title: "Birth",
       description:
         "Understand natural birth, vaginal delivery, water birth and VBAC, with guidance on clinical suitability, individual preferences and available birth options.",
-      cta: { label: "Explore Birth Care", href: "/services/normal-birth-delivery" },
+      cta: { label: "Explore Birth Care", href: "/services/natural-birth" },
     },
     {
       category: "AFTER BIRTH",
       title: "After Birth",
       description:
         "Postpartum recovery, breastfeeding, pelvic health and support for mental health concerns, including emotional changes and postpartum depression.",
-      cta: { label: "Explore Postpartum Care", href: "/services/postpartum-care" },
+      cta: { label: "Explore Postpartum Care", href: "/services#postpartum-care" },
     },
     {
       category: "NEWBORN & PAEDIATRIC CARE",
       title: "Newborn & Paediatric Care",
       description:
         "Newborn health, vaccinations, feeding, growth, child development and guidance on conscious parenting as your child grows.",
-      cta: { label: "Explore Newborn & Paediatric Care", href: "/services/newborn-pediatric-care" },
+      cta: { label: "Explore Newborn & Paediatric Care", href: "/services#newborn-care" },
     },
   ],
 } as const;

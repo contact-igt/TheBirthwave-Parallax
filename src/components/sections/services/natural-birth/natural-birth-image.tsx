@@ -63,9 +63,6 @@ export function NaturalBirthImage({
         className="object-cover"
         style={"objectPosition" in image && image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
       />
-      <span className="absolute right-3 bottom-3 left-3 z-10 w-fit max-w-[calc(100%-1.5rem)] rounded-xs bg-paper/95 px-2 py-1 font-body text-[0.6875rem] leading-snug text-ink-soft">
-        AI-generated illustration
-      </span>
     </div>
   );
 }

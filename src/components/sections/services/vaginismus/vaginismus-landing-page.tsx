@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import styles from "./vaginismus-page.module.css";
 import { VaginismusHero } from "./vaginismus-hero";
 import { VaginismusWhatIs } from "./vaginismus-what-is";
 import { VaginismusWho } from "./vaginismus-who";
@@ -19,6 +20,7 @@ import { VaginismusEnquiry, VaginismusMobileEnquiryBar } from "./vaginismus-enqu
 export function VaginismusLandingPage() {
   return (
     <div
+      className={styles.root}
       style={
         {
           "--vaginismus-rose-wash": "color-mix(in srgb, var(--color-terracotta) 14%, var(--color-paper))",

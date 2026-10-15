@@ -25,23 +25,23 @@ import { servicesImagery } from "@/content/services-imagery";
 export const lactationImagery = {
   hero: {
     src: servicesImagery.lactation.src,
-    alt: "AI-generated illustration: A mother holds her newborn while talking with a lactation care professional in a calm, warmly lit room.",
+    alt: "A mother holds her newborn while talking with a lactation care professional in a calm, warmly lit room.",
     focalPoint: { mobile: "28% 20%", desktop: "30% 24%" },
   },
   consultation: {
-    alt: "AI-generated illustration pending: a lactation counsellor speaking with a mother who is holding her baby.",
+    alt: "A lactation counsellor speaking with a mother who is holding her baby.",
     gradient: portraitGradient(0),
   },
   "feeding-support": {
-    alt: "AI-generated illustration pending: a warm, everyday parent-and-newborn feeding moment.",
+    alt: "A warm, everyday parent-and-newborn feeding moment.",
     gradient: portraitGradient(1),
   },
   "preparing-before-birth": {
-    alt: "AI-generated illustration pending: a pregnant woman thinking through feeding preparation.",
+    alt: "A pregnant woman thinking through feeding preparation.",
     gradient: portraitGradient(2),
   },
   "first-consultation": {
-    alt: "AI-generated illustration pending: a parent asking questions in a supportive lactation-care setting.",
+    alt: "A parent asking questions in a supportive lactation-care setting.",
     gradient: portraitGradient(0),
   },
 } as const;
@@ -56,7 +56,7 @@ export const lactationHero = {
   supportingHeadline: "Support for the questions that can begin before birth and continue after your baby arrives.",
   body: "Breastfeeding can bring questions at different stages — while you are preparing during pregnancy, when feeding begins after birth, or as you and your baby adjust over time.",
   bodySecondary: "A lactation consultation gives you space to talk about what you are experiencing, understand what may need attention and discuss the next step with The Birthwave care team.",
-  primaryCta: { label: "Book a Lactation Consultation", href: "#enquiry" },
+  primaryCta: { label: "Book a Lactation Consultation", href: "/contact" },
   secondaryCta: { label: "Explore how support works ↓", href: "#what-we-cover" },
 } as const;
 
@@ -74,7 +74,7 @@ export const lactationIntro = {
     { title: "In the early days", body: "Talk about your experience once feeding has started and bring forward anything you are unsure about." },
     { title: "As feeding changes", body: "Return with new questions as you and your baby move through different stages." },
   ],
-  cta: { label: "Book a Consultation", href: "#enquiry" },
+  cta: { label: "Book a Consultation", href: "/contact" },
 } as const;
 
 export const lactationCovers = {
@@ -113,7 +113,7 @@ export const lactationFirstConsultation = {
     { number: "03", title: "Understand your next step", body: "Ask what follow-up, further assessment or additional care may be appropriate for you and your baby." },
   ],
   note: "Observation, physical assessment and any particular intervention depend on what is appropriate for your consultation — none is automatic.",
-  cta: { label: "Book a Lactation Consultation", href: "#enquiry" },
+  cta: { label: "Book a Lactation Consultation", href: "/contact" },
 } as const;
 
 export const lactationClinician = {
@@ -122,7 +122,7 @@ export const lactationClinician = {
   doctorSlug: "sheethal-sathya",
   profileLabel: "View Full Profile",
   bookLabel: "Book a Lactation Consultation",
-  bookHref: "#enquiry",
+  bookHref: "/contact",
 } as const;
 
 export const lactationPractical = {
@@ -215,5 +215,5 @@ export const lactationEnquiry = {
 
 export const lactationMobileCta = {
   label: "Book a Lactation Consultation",
-  href: "#enquiry",
+  href: "/contact",
 } as const;

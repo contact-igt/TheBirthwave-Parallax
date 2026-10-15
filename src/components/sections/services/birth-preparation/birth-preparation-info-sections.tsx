@@ -10,7 +10,7 @@ import { birthPrepFaq, birthPrepProgramme } from "@/content/birth-preparation-la
 import { Button } from "@/components/ui/button";
 import { BirthPrepReveal } from "./birth-preparation-reveal";
 import { DotFieldRegion } from "@/components/layout/dot-field-region";
-import { FaqSection } from "@/components/sections/home/faq-section";
+import { ServiceFaqSection } from "../shared/service-faq-section";
 import { servicesImagery } from "@/content/services-imagery";
 
 const programmeItemMeta = [
@@ -136,7 +136,7 @@ export function BirthPrepProgramme() {
 export function BirthPrepFaq() {
   return (
     <DotFieldRegion>
-      <FaqSection
+      <ServiceFaqSection
         id="birth-prep-faq"
         eyebrow={birthPrepFaq.eyebrow}
         heading={birthPrepFaq.heading}

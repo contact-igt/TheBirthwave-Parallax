@@ -72,7 +72,7 @@ export function ServicesHero() {
             className="relative"
           >
             <ServicesEditorialImage
-              imageKey="services-hero"
+              imageKey="hero"
               eager
               sizes="(max-width: 639px) 92vw, (max-width: 1023px) 85vw, 540px"
               corner="tr"

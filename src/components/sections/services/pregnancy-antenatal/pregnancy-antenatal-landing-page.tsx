@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import styles from "./pregnancy-backgrounds.module.css";
 import { PregnancyAntenatalHero } from "./pregnancy-antenatal-hero";
 import { PregnancyAntenatalIntro } from "./pregnancy-antenatal-intro";
 import { PregnancyAntenatalCareIncludes, PregnancyAntenatalFirstConsultation } from "./pregnancy-antenatal-care-includes";
@@ -28,6 +29,7 @@ import { PregnancyAntenatalRelatedCare } from "./pregnancy-antenatal-related-car
 export function PregnancyAntenatalLandingPage() {
   return (
     <div
+      className={styles.root}
       style={
         {
           "--pregnancy-sage-wash": "color-mix(in srgb, #CA9585 12%, var(--color-paper))",

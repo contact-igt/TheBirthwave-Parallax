@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { ServiceFaqSection } from "../shared/service-faq-section";
 import { normalBirthCareTeam, normalBirthArrangements, normalBirthFaq } from "@/content/normal-birth-delivery-landing-content";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
@@ -97,29 +97,5 @@ export function NormalBirthArrangements() {
  * accordion `faq-section.tsx` and every other landing page already
  * establish site-wide. */
 export function NormalBirthFaq() {
-  return (
-    <section id="nbd-faq" aria-labelledby="nbd-faq-heading" className="relative isolate bg-paper section-pad">
-      <NormalBirthReveal className="container-birthwave max-w-3xl">
-        <p className="eyebrow">{normalBirthFaq.eyebrow}</p>
-        <h2 id="nbd-faq-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-          {normalBirthFaq.heading}
-        </h2>
-
-        <div className="mt-10 border-t border-[var(--color-border)]">
-          {normalBirthFaq.items.map((item) => (
-            <details key={item.question} className="group border-b border-[var(--color-border)] py-6">
-              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6 font-body text-lg font-medium text-balance text-ink [&::-webkit-details-marker]:hidden">
-                {item.question}
-                <Plus
-                  aria-hidden="true"
-                  className="size-5 shrink-0 text-terracotta transition-transform duration-[var(--duration-fast)] ease-[var(--ease-signature)] group-open:rotate-45"
-                />
-              </summary>
-              <p className="mt-4 max-w-2xl text-base leading-[var(--leading-relaxed)] text-ink-soft">{item.answer}</p>
-            </details>
-          ))}
-        </div>
-      </NormalBirthReveal>
-    </section>
-  );
+  return <ServiceFaqSection id="nbd-faq" eyebrow={normalBirthFaq.eyebrow} heading={normalBirthFaq.heading} items={normalBirthFaq.items} />;
 }

@@ -11,7 +11,7 @@ import type { HeroFocalPoint } from "@/lib/hero-focal-point";
 
 export const gynaecologyImagery = {
   hero: {
-    src: "/images/generated/g-hero.jpeg",
+    src: "/images/web-ready/service1.JPG",
     alt: "Woman speaking with a gynaecologist during a consultation",
     focalPoint: {
       mobile: "70% 35%",
@@ -54,7 +54,7 @@ export const gynaecologyHero = {
   heading: "Gynaecology care for every stage of a woman's life.",
   supportingHeadline: "From periods and reproductive health to contraception, preconception and changing concerns — start with care that listens before deciding what comes next.",
   body: "Whether something has recently changed or you have been managing a concern for some time, a gynaecology consultation gives you space to discuss your symptoms, understand possible next steps and receive care based on your individual health needs.",
-  primaryCta: { label: "BOOK A GYNAECOLOGY CONSULTATION", href: "#gynaecology-enquiry" },
+  primaryCta: { label: "BOOK A GYNAECOLOGY CONSULTATION", href: "/contact" },
   secondaryCta: { label: "Explore what we can help with ↓", href: "#gynaecology-covers" },
 } as const;
 
@@ -148,7 +148,7 @@ export const gynaecologyClinicians = {
       profileHref: "/doctors/dr-santoshi-nandigam",
       viewProfileLabel: "View Full Profile",
       bookLabel: "BOOK CONSULTATION",
-      bookHref: "#gynaecology-enquiry",
+      bookHref: "/contact",
     },
     {
       doctorSlug: "dr-bharathy-kandasamy",
@@ -159,7 +159,7 @@ export const gynaecologyClinicians = {
       profileHref: "/doctors/dr-bharathy-kandasamy",
       viewProfileLabel: "View Full Profile",
       bookLabel: "BOOK CONSULTATION",
-      bookHref: "#gynaecology-enquiry",
+      bookHref: "/contact",
     },
   ],
 } as const;
@@ -191,7 +191,7 @@ export const gynaecologyFirstConsultation = {
       body: "Your doctor will explain whether treatment, further assessment, investigations, follow-up or another type of care may be appropriate.",
     },
   ],
-  cta: { label: "BOOK A GYNAECOLOGY CONSULTATION", href: "#gynaecology-enquiry" },
+  cta: { label: "BOOK A GYNAECOLOGY CONSULTATION", href: "/contact" },
 } as const;
 
 export const gynaecologyPractical = {
@@ -221,7 +221,7 @@ export const gynaecologyPractical = {
     },
     {
       label: "Booking & contact",
-      lines: ["For appointments or questions before your visit, contact the BirthWave team."],
+      lines: ["For appointments or questions before your visit, contact The Birthwave team."],
     },
   ],
   phone: "+91 93630 31925",
@@ -257,7 +257,7 @@ export const gynaecologyFaq = {
     },
     {
       question: "Can I discuss fertility during a gynaecology appointment?",
-      answer: "Yes. Initial reproductive and fertility questions can be discussed. If more focused fertility assessment or preconception care is appropriate, your doctor can guide you towards the relevant BirthWave service.",
+      answer: "Yes. Initial reproductive and fertility questions can be discussed. If more focused fertility assessment or preconception care is appropriate, your doctor can guide you towards the relevant The Birthwave service.",
     },
     {
       question: "Can I discuss contraception?",
@@ -322,5 +322,5 @@ export const gynaecologyEnquiry = {
 
 export const gynaecologyMobileCta = {
   label: "Book a Consultation",
-  href: "#gynaecology-enquiry",
+  href: "/contact",
 } as const;

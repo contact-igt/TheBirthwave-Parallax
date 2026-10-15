@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { fertilityCovers } from "@/content/pages/fertility-preconception";
-import { fertilityImagery, fertilityImageDisclosure } from "@/content/pages/fertility-preconception";
+import { fertilityImagery } from "@/content/pages/fertility-preconception";
 import { AnimatedContent } from "@/components/ui/animations/animated-content";
 import { ensureScrollTriggerRegistered, gsap } from "@/motion/gsap-scroll";
 import { cx } from "@/lib/cx";
@@ -93,7 +93,6 @@ export function FertilityCovers() {
                 />
               </div>
             </div>
-            <figcaption className="mt-2 font-body text-xs text-ink-soft">{fertilityImageDisclosure}</figcaption>
           </figure>
         </div>
 

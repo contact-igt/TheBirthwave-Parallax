@@ -23,7 +23,7 @@ export const pregnancyLandingHero = {
     "At The Birthwave, pregnancy care brings together obstetric consultations, pregnancy monitoring, guidance on recommended tests and scans, nutrition, physical and emotional wellbeing, and preparation for childbirth.",
     "Every pregnancy is different. Your care is planned around your medical needs, personal concerns and the changes that happen along the way.",
   ],
-  primaryCta: { label: "REQUEST A CONSULTATION ↗", href: "#appointment" },
+  primaryCta: { label: "REQUEST A CONSULTATION ↗", href: "/contact" },
   secondaryCta: { label: "Explore Your First Visit ↗", href: "#pregnancy-first" },
   location: "The Birthwave · Nungambakkam, Chennai",
 } as const;
@@ -166,7 +166,7 @@ export const pregnancyLandingClinician = {
 } as const;
 
 export const pregnancyLandingApproach = {
-  eyebrow: "THE BIRTHWAVE APPROACH",
+  eyebrow: "The Birthwave APPROACH",
   heading: ["Know what's happening.", "Know what comes next."],
   supportingLine:
     "Pregnancy care should help you understand the recommendations being made and feel involved in decisions about your health.",
@@ -255,7 +255,7 @@ export const pregnancyLandingFaq = {
 } as const;
 
 export const pregnancyLandingVisit = {
-  eyebrow: "VISIT THE BIRTHWAVE",
+  eyebrow: "VISIT The Birthwave",
   heading: "Plan your visit.",
   supportingLine: "Find the clinic and contact the team for appointment information.",
   clinic: {
@@ -315,18 +315,6 @@ export const pregnancyLandingRelatedCare = {
     "Explore related services that may be relevant during pregnancy, childbirth preparation and recovery.",
   services: [
     {
-      title: "Pregnancy Yoga & Movement ↗",
-      description:
-        "Guided movement, pregnancy-appropriate yoga and physical wellbeing support based on individual suitability.",
-      href: "/services/nutrition-emotional-wellbeing",
-    },
-    {
-      title: "Nutrition During Pregnancy ↗",
-      description:
-        "Nutrition guidance that considers your dietary needs, lifestyle and stage of pregnancy.",
-      href: "/services/nutrition-emotional-wellbeing",
-    },
-    {
       title: "Birth Preparation & Childbirth Education ↗",
       description:
         "Explore labour, birth options, comfort measures, partner preparation, breastfeeding education and the early days with your newborn.",
@@ -339,28 +327,16 @@ export const pregnancyLandingRelatedCare = {
       href: "/services/natural-birth",
     },
     {
-      title: "Vaginal Delivery ↗",
-      description:
-        "Learn about vaginal birth, labour progression, birth preparation and medical decisions that may arise during delivery.",
-      href: "/services/normal-birth-delivery",
-    },
-    {
       title: "VBAC — Vaginal Birth After Caesarean ↗",
       description:
         "Understand the considerations involved in planning for vaginal birth following a previous caesarean.",
       href: "/services/vbac",
     },
     {
-      title: "Lactation & Breastfeeding Support ↗",
+      title: "Fertility & Preconception ↗",
       description:
-        "Explore breastfeeding preparation, feeding concerns and support available after childbirth.",
-      href: "/services/lactation",
-    },
-    {
-      title: "Postpartum Recovery & Care ↗",
-      description:
-        "Understand physical recovery, pelvic health, emotional wellbeing and follow-up care after delivery.",
-      href: "/services/postpartum-care",
+        "Reproductive health consultations and planning for future pregnancies with compassionate guidance.",
+      href: "/services/fertility-preconception",
     },
   ],
   cta: {
@@ -371,7 +347,7 @@ export const pregnancyLandingRelatedCare = {
 
 export const pregnancyLandingMobileCta = {
   label: "Request a Consultation",
-  href: "#appointment",
+  href: "/contact",
 } as const;
 
 export const pregnancyLandingFinalCta = {
@@ -381,11 +357,11 @@ export const pregnancyLandingFinalCta = {
     "Whether you're early in pregnancy, planning your care pathway, or seeking a supportive second opinion, our team is here to listen and guide you forward.",
   primaryCta: {
     label: "Request a consultation",
-    href: "#appointment",
+    href: "/contact",
   },
   secondaryCta: {
     label: "Ask a question",
-    href: "https://wa.me/919363031925",
+    href: "https://wa.me/917904251378",
   },
   benefits: [
     "One-on-one clinician time",

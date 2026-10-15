@@ -1,59 +1,64 @@
-﻿import { vbacHero } from "@/content/pages/vbac";
+import { vbacHero } from "@/content/pages/vbac";
 import { vbacImagery } from "@/content/pages/vbac";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 
 /**
  * Section 01 — HERO:
- * Warm, reassuring editorial layout for VBAC care with Dr. Santoshini Nandigam.
+ * Premium split hero layout (55% content / 45% editorial framed image).
  */
 export function VbacHero() {
   const image = vbacImagery.hero;
 
   return (
-    <section id="vbac-hero" aria-label="VBAC (Vaginal Birth After Caesarean)" className="relative isolate overflow-hidden bg-paper-dim lg:min-h-[640px] lg:bg-[#eee0cb]">
-      <div className="container-birthwave relative z-10 pt-[calc(var(--header-height)+2.5rem)] pb-10 lg:flex lg:min-h-[640px] lg:items-center lg:pb-20">
-        <div className="max-w-2xl lg:max-w-[56%]">
-          <p className="eyebrow">{vbacHero.eyebrow}</p>
-          <h1 className="mt-5 text-[clamp(2.25rem,1.5rem+3.4vw,3.8rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
-            {vbacHero.heading}
-          </h1>
+    <section
+      id="vbac-hero"
+      aria-label="VBAC (Vaginal Birth After Caesarean)"
+      className="relative isolate overflow-hidden bg-paper-dim pt-[calc(var(--header-height)+2rem)] pb-12 lg:pt-[calc(var(--header-height)+3.5rem)] lg:pb-20"
+    >
+      <div className="container-birthwave">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+          {/* Left Column: Content (55%) */}
+          <div className="max-w-2xl">
+            <p className="eyebrow">{vbacHero.eyebrow}</p>
+            <h1 className="mt-4 text-[clamp(2.25rem,1.5rem+3.4vw,3.8rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
+              {vbacHero.heading}
+            </h1>
 
-          <p className="mt-6 max-w-xl text-xl leading-[var(--leading-relaxed)] font-medium text-ink">
-            {vbacHero.supportingLine}
-          </p>
+            <p className="mt-5 max-w-xl text-lg font-medium leading-[var(--leading-relaxed)] text-ink sm:text-xl">
+              {vbacHero.supportingLine}
+            </p>
 
-          <div className="mt-4 max-w-xl space-y-3 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
-            {vbacHero.body.map((para) => (
-              <p key={para}>{para}</p>
-            ))}
+            <div className="mt-4 max-w-xl space-y-3 text-base leading-[var(--leading-relaxed)] text-ink-soft sm:text-lg">
+              {vbacHero.body.map((para) => (
+                <p key={para}>{para}</p>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4 sm:mt-10">
+              <Button href={vbacHero.primaryCta.href} variant="primary">
+                {vbacHero.primaryCta.label.replace(/\s*↗$/, "")}
+              </Button>
+              <CtaLink href={vbacHero.secondaryCta.href}>
+                {vbacHero.secondaryCta.label}
+              </CtaLink>
+            </div>
           </div>
 
-          <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-            <Button href={vbacHero.primaryCta.href} variant="primary">
-              {vbacHero.primaryCta.label.replace(/\s*↗$/, "")}
-            </Button>
-            <CtaLink href={vbacHero.secondaryCta.href}>
-              {vbacHero.secondaryCta.label}
-            </CtaLink>
+          {/* Right Column: Editorial Framed Media (45%) */}
+          <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
+            <div
+              data-vbac-image="hero"
+              className="relative aspect-[4/3] sm:aspect-[4/4.2] lg:aspect-[4/4.6] w-full overflow-hidden rounded-tr-panel rounded-tl-sm rounded-br-sm rounded-bl-panel border border-[var(--color-border)] bg-paper shadow-sm"
+              style={{ backgroundImage: image.gradient }}
+            >
+              <p className="absolute right-3.5 bottom-3.5 max-w-[calc(100%-2rem)] rounded-xs bg-paper/95 px-3 py-1.5 font-body text-[0.6875rem] leading-snug text-ink-soft shadow-xs backdrop-blur-xs">
+                {image.alt}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-
-      <div
-        data-vbac-image="hero"
-        className="relative z-0 mx-5 mb-10 aspect-[4/3] overflow-hidden rounded-tr-panel lg:absolute lg:inset-0 lg:m-0 lg:aspect-auto lg:rounded-none"
-        style={{ backgroundImage: image.gradient }}
-      >
-        <p className="absolute right-4 bottom-4 max-w-[calc(100%-2rem)] rounded-xs bg-paper/95 px-2.5 py-1 font-body text-[0.6875rem] leading-snug text-ink-soft">
-          {image.alt}
-        </p>
-      </div>
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[1] hidden lg:block lg:bg-[linear-gradient(90deg,color-mix(in_srgb,var(--color-paper)_97%,transparent)_0%,color-mix(in_srgb,var(--color-paper)_91%,transparent)_34%,color-mix(in_srgb,var(--color-paper)_45%,transparent)_62%,transparent_80%),linear-gradient(0deg,color-mix(in_srgb,var(--color-paper)_85%,transparent)_0%,transparent_19%)]"
-      />
     </section>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import styles from "./doctors-hero.module.css";
 import { doctorsHero } from "@/content/doctors-content";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
@@ -46,7 +47,7 @@ export function DoctorsHero() {
     <section
       id="doctors-hero"
       aria-label="Our care team"
-      className="relative isolate overflow-hidden bg-paper [padding-block-start:calc(var(--header-height)+var(--space-section-sm))] [padding-block-end:var(--space-section)]"
+      className={`${styles.hero} relative isolate overflow-hidden bg-paper [padding-block-start:calc(var(--header-height)+var(--space-section-sm))] [padding-block-end:var(--space-section)]`}
     >
       <div className="container-birthwave flex flex-col gap-10 sm:grid sm:grid-cols-[1.05fr_0.95fr] sm:items-center sm:gap-10 lg:gap-16">
         <div className="max-w-xl sm:order-1">

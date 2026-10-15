@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/page-shell";
 import { ServicePageTemplate } from "@/features/services/service-page-template";
 import { services, getServiceBySlug } from "@/content/services-content";
+import { HIDDEN_SERVICE_SLUGS } from "@/content/nav-care-content";
 import { PregnancyAntenatalLandingPage } from "@/components/sections/services/pregnancy-antenatal/pregnancy-antenatal-landing-page";
 import { BirthPreparationLandingPage } from "@/components/sections/services/birth-preparation/birth-preparation-landing-page";
 import { NormalBirthDeliveryLandingPage } from "@/components/sections/services/normal-birth-delivery/normal-birth-delivery-landing-page";
@@ -64,7 +65,9 @@ const DEDICATED_LANDING_DESCRIPTIONS: Record<string, string> = {
 };
 
 export function generateStaticParams() {
-  return services.map((service) => ({ slug: service.slug }));
+  return services
+    .filter((service) => !HIDDEN_SERVICE_SLUGS.has(service.slug))
+    .map((service) => ({ slug: service.slug }));
 }
 
 export async function generateMetadata({
@@ -73,6 +76,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  if (HIDDEN_SERVICE_SLUGS.has(slug)) {
+    return { title: "Page Not Found: The Birthwave" };
+  }
   const service = getServiceBySlug(slug);
   if (!service) return { title: "Service: The Birthwave" };
 
@@ -94,6 +100,9 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (HIDDEN_SERVICE_SLUGS.has(slug)) {
+    notFound();
+  }
   const service = getServiceBySlug(slug);
   if (!service) notFound();
 

@@ -40,7 +40,7 @@ export function FaqSection({
   id = "faq",
   eyebrow = faq.eyebrow,
   heading = faq.heading,
-  description = "Clear guidance and answers to the questions families ask most often when planning their care with BirthWave.",
+  description = "Clear guidance and answers to the questions families ask most often when planning their care with The Birthwave.",
   items = faq.items,
   media = faq.media,
 }: {

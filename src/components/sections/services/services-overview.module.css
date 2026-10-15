@@ -343,3 +343,25 @@
   .lowerGrid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 4rem; }
 }
 
+
+/* Uploaded decorative backgrounds, confined to the services overview. */
+.root {
+  --services-bg-botanical: url('/images/about/backgrounds/birth-prep-starting-point-background-v1.png');
+  --services-bg-watercolor: url('/images/about/backgrounds/birth-prep-topics-background-v1.png');
+  --services-bg-learning: url('/images/about/backgrounds/birth-prep-learning-background-v2.png');
+  --services-bg-preferences: url('/images/about/backgrounds/birth-prep-preferences-illustration-bg-v1.png');
+  --services-bg-wash: color-mix(in srgb, var(--color-paper) 20%, transparent);
+}
+.root :is(.hero, .overview, .chapter, .birthApproach, .approach) {
+  background-image: linear-gradient(var(--services-bg-wash), var(--services-bg-wash)), var(--services-section-background);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.root .hero { --services-section-background: var(--services-bg-botanical); }
+.root .overview { --services-section-background: var(--services-bg-watercolor); }
+.root .chapter { --services-section-background: var(--services-bg-learning); }
+.root .chapter:nth-child(even) { --services-section-background: var(--services-bg-watercolor); }
+.root .chapter[id="birth-preparation"],
+.root .birthApproach { --services-section-background: var(--services-bg-preferences); }
+.root .approach { --services-section-background: var(--services-bg-botanical); }

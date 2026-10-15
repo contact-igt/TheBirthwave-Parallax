@@ -1,4 +1,7 @@
-﻿"use client";
+"use client";
+
+import conversion from "../shared/service-conversion.module.css";
+
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { gynaecologyEnquiry, gynaecologyMobileCta } from "@/content/pages/gynaecology";
@@ -52,7 +55,7 @@ export function GynaecologyEnquiry() {
   }
 
   return (
-    <section id="gynaecology-enquiry" aria-labelledby="gynaecology-enquiry-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad">
+    <section id="gynaecology-enquiry" aria-labelledby="gynaecology-enquiry-heading" data-service-enquiry className={`${conversion.enquiry} relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad`}>
       <GynaecologyReveal className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
         <div className="max-w-md">
           <p className="eyebrow">{gynaecologyEnquiry.eyebrow}</p>
@@ -63,7 +66,7 @@ export function GynaecologyEnquiry() {
 
           <div className="mt-6 flex flex-wrap items-center gap-4 text-sm font-medium text-ink">
             {gynaecologyEnquiry.whatsapp ? (
-              <a href="https://wa.me/919363031925" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-terracotta-deep underline hover:text-coral">
+              <a href="https://wa.me/917904251378" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-terracotta-deep underline hover:text-coral">
                 {gynaecologyEnquiry.whatsapp} ↗
               </a>
             ) : null}

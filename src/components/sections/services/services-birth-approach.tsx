@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { birthApproachSection } from "@/content/our-services-content";
-import { servicesImagery } from "@/content/services-imagery";
+import { servicesOverviewImagery } from "@/content/services-overview-imagery";
 import { Button } from "@/components/ui/button";
 import styles from "./services-overview.module.css";
 
@@ -12,7 +12,7 @@ import styles from "./services-overview.module.css";
  * and adaptive care during labour.
  */
 export function ServicesBirthApproach() {
-  const image = servicesImagery["birth-prep-landing-preferences"];
+  const image = servicesOverviewImagery.birthApproach;
 
   return (
     <section

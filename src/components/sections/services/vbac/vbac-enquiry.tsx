@@ -1,4 +1,7 @@
-﻿"use client";
+"use client";
+
+import conversion from "../shared/service-conversion.module.css";
+
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { MessageCircle, Phone } from "lucide-react";
@@ -54,7 +57,7 @@ export function VbacEnquiry() {
   }
 
   return (
-    <section id="vbac-enquiry" aria-labelledby="vbac-enquiry-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad">
+    <section id="vbac-enquiry" aria-labelledby="vbac-enquiry-heading" data-service-enquiry className={`${conversion.enquiry} relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad`}>
       <VbacReveal className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
         <div className="max-w-md">
           <p className="eyebrow">{vbacEnquiry.eyebrow}</p>
@@ -70,7 +73,7 @@ export function VbacEnquiry() {
 
           <div className="mt-8 flex flex-col gap-4 border-t border-[var(--color-border)] pt-6">
             <a
-              href="#vbac-form"
+              href="/contact"
               className="inline-flex items-center gap-2 font-body text-sm font-semibold tracking-[0.08em] text-terracotta-deep uppercase transition-colors hover:text-terracotta"
             >
               <span>{vbacEnquiry.primaryCta}</span>

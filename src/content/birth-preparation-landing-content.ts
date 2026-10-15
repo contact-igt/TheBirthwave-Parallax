@@ -4,17 +4,17 @@
  */
 
 export const birthPrepHero = {
-  eyebrow: "THE BIRTHWAVE ALL-IN-ONE PRENATAL WORKSHOP",
+  eyebrow: "The Birthwave ALL-IN-ONE PRENATAL WORKSHOP",
   heading: "Prepare for birth. Understand what comes next.",
   supportingHeadline:
     "Childbirth education, prenatal yoga, breastfeeding preparation, birth-partner involvement and newborn care — brought together in one prenatal workshop.",
   body: [
     "Pregnancy brings excitement, anticipation and plenty of questions. What happens when labour begins? How can you prepare your body and mind? How can your partner support you? What should you know about breastfeeding and caring for your newborn?",
-    "At The BirthWave, our prenatal workshop brings these important conversations together through guided education, practical preparation and opportunities to ask questions.",
+    "At The Birthwave, our prenatal workshop brings these important conversations together through guided education, practical preparation and opportunities to ask questions.",
     "Whether this is your first pregnancy or you have given birth before, the workshop is designed to help you and your birth partner understand the journey ahead and participate more confidently in conversations about your care.",
   ],
   primaryCta: { label: "ENQUIRE ABOUT THE NEXT WORKSHOP", href: "#birth-prep-enquiry" },
-  secondaryCta: { label: "EXPLORE WHAT YOU'LL LEARN", href: "#birth-prep-topics" },
+  secondaryCta: { label: "EXPLORE WHAT YOU'LL LEARN", href: "#birth-prep-experience" },
 } as const;
 
 export const birthPrepIntro = {
@@ -82,7 +82,7 @@ export const birthPrepTopics = {
   eyebrow: "INSIDE THE PRENATAL WORKSHOP",
   heading: "From understanding labour to caring for your newborn.",
   intro:
-    "The BirthWave prenatal workshop brings together different areas of pregnancy and birth preparation so that you can look at the complete journey rather than learning about each stage in isolation.",
+    "The Birthwave prenatal workshop brings together different areas of pregnancy and birth preparation so that you can look at the complete journey rather than learning about each stage in isolation.",
   modules: [
     {
       number: "01",
@@ -171,7 +171,7 @@ export const birthPrepExperience = {
   eyebrow: "MORE THAN LISTENING TO A CLASS",
   heading: "Learn. Practise. Ask questions. Prepare together.",
   intro: [
-    "The BirthWave workshop is designed to make childbirth education understandable and practical.",
+    "The Birthwave workshop is designed to make childbirth education understandable and practical.",
     "Rather than learning only through reading or watching videos, you have opportunities to engage with educators, explore techniques and discuss situations that may be relevant to your pregnancy.",
   ],
   steps: [
@@ -240,7 +240,7 @@ export const birthPrepPreferences = {
 } as const;
 
 export const birthPrepTeam = {
-  eyebrow: "GUIDED BY THE BIRTHWAVE CARE TEAM",
+  eyebrow: "GUIDED BY The Birthwave CARE TEAM",
   heading: "Meet the professionals involved in your preparation.",
   intro:
     "The workshop brings together knowledge from obstetrics, childbirth education, lactation and newborn care.",
@@ -249,7 +249,7 @@ export const birthPrepTeam = {
       slug: "dr-santoshi-nandigam",
       name: "Dr. Santoshi Nandigam",
       credentials: "MBBS, DNB — Obstetrics & Gynaecology",
-      role: "Founder, The BirthWave · Obstetrician & Gynaecologist",
+      role: "Founder, The Birthwave · Obstetrician & Gynaecologist",
       bio: "Dr. Santoshi's approach to pregnancy and birth care places importance on understanding each woman's health, preferences and concerns. Her involvement brings an obstetric perspective to childbirth preparation, including labour, birth choices, medical considerations and informed decision-making.",
       cta: { label: "VIEW PROFILE →", href: "/doctors/dr-santoshi-nandigam" },
     },
@@ -274,7 +274,7 @@ export const birthPrepTeam = {
       name: "Prenatal Yoga & Movement",
       credentials: "Movement & Body Awareness",
       role: "Specialist Facilitator",
-      bio: "Prenatal yoga is also part of The BirthWave's workshop experience. The team can confirm the session facilitator and specific movement activities for each workshop.",
+      bio: "Prenatal yoga is also part of The Birthwave's workshop experience. The team can confirm the session facilitator and specific movement activities for each workshop.",
       cta: { label: "MEET OUR CARE TEAM →", href: "/doctors" },
     },
   ],
@@ -285,7 +285,7 @@ export const birthPrepGallery = {
   eyebrow: "A LOOK AT THE LEARNING EXPERIENCE",
   heading: "Important conversations. Practical preparation. Learning together.",
   intro: [
-    "At The BirthWave, childbirth education creates space for expectant parents to learn about pregnancy, labour, birth and the beginning of parenthood.",
+    "At The Birthwave, childbirth education creates space for expectant parents to learn about pregnancy, labour, birth and the beginning of parenthood.",
     "Our workshops bring educators and participants together to explore practical preparation, ask questions and better understand different aspects of the birth journey.",
   ],
   captions: [
@@ -311,7 +311,7 @@ export const birthPrepProgramme = {
     },
     {
       label: "Workshop schedule",
-      text: "Contact The BirthWave for upcoming workshop dates and availability.",
+      text: "Contact The Birthwave for upcoming workshop dates and availability.",
     },
     {
       label: "Session format & venue",
@@ -334,14 +334,14 @@ export const birthPrepFaq = {
   heading: "Questions before you join.",
   items: [
     {
-      question: "What is The BirthWave All-in-One Prenatal Workshop?",
+      question: "What is The Birthwave All-in-One Prenatal Workshop?",
       answer:
         "It is a birth-preparation workshop that brings together childbirth education, prenatal yoga, labour preparation, breastfeeding guidance and newborn care. It is intended to help expecting parents understand the stages of birth and early parenthood through guided learning and practical preparation.",
     },
     {
       question: "When should I attend a prenatal workshop?",
       answer:
-        "You can enquire during pregnancy, rather than waiting until the final weeks. Attending with enough time before your due date may give you an opportunity to practise what you learn and discuss any questions with your maternity care team. The BirthWave team can help you understand which upcoming session may be suitable.",
+        "You can enquire during pregnancy, rather than waiting until the final weeks. Attending with enough time before your due date may give you an opportunity to practise what you learn and discuss any questions with your maternity care team. The Birthwave team can help you understand which upcoming session may be suitable.",
     },
     {
       question: "Is this workshop only for first-time parents?",
@@ -391,7 +391,7 @@ export const birthPrepFaq = {
     {
       question: "How can I register for the workshop?",
       answer:
-        "Contact The BirthWave through phone or WhatsApp. The team can share information about the upcoming workshop, attendance arrangements, location and registration.",
+        "Contact The Birthwave through phone or WhatsApp. The team can share information about the upcoming workshop, attendance arrangements, location and registration.",
     },
   ],
 } as const;
@@ -400,7 +400,7 @@ export const birthPrepRelatedCare = {
   eyebrow: "SUPPORT THROUGH YOUR JOURNEY",
   heading: "Your preparation can continue beyond the workshop.",
   intro:
-    "The BirthWave also provides related pregnancy, birth and newborn services. These are separate clinical and supportive services that may be relevant to your individual needs.",
+    "The Birthwave also provides related pregnancy, birth and newborn services. These are separate clinical and supportive services that may be relevant to your individual needs.",
   services: [
     {
       title: "Pregnancy & Antenatal Care",
@@ -413,24 +413,14 @@ export const birthPrepRelatedCare = {
       href: "/services/natural-birth",
     },
     {
-      title: "Vaginal Delivery Care",
-      description: "Understand vaginal birth, labour and the medical considerations involved in planning delivery.",
-      href: "/services/normal-birth-delivery",
-    },
-    {
       title: "VBAC — Vaginal Birth After Caesarean",
       description: "Individual assessment and guidance for women considering vaginal birth after a previous Caesarean.",
       href: "/services/vbac",
     },
     {
-      title: "Lactation & Breastfeeding Support",
-      description: "Individual guidance for breastfeeding preparation, feeding concerns and lactation support.",
-      href: "/services/lactation",
-    },
-    {
-      title: "Newborn & Paediatric Care",
-      description: "Medical assessment, routine newborn care and paediatric guidance.",
-      href: "/services/newborn-pediatric-care",
+      title: "Fertility & Preconception",
+      description: "Reproductive health consultations and planning for future pregnancies.",
+      href: "/services/fertility-preconception",
     },
   ],
   cta: { label: "EXPLORE OUR SERVICES →", href: "/services" },
@@ -440,12 +430,12 @@ export const birthPrepEnquiry = {
   eyebrow: "START YOUR PREPARATION",
   heading: "Your questions are a good place to begin.",
   body: [
-    "Whether you are in the early stages of pregnancy or getting closer to your due date, you can enquire about The BirthWave's upcoming prenatal workshop.",
+    "Whether you are in the early stages of pregnancy or getting closer to your due date, you can enquire about The Birthwave's upcoming prenatal workshop.",
     "Tell us where you are in your pregnancy and what you would like to learn. Our team can help you understand the workshop details and registration process.",
   ],
   primaryCta: "ENQUIRE ABOUT THE NEXT WORKSHOP",
   whatsapp: "CHAT ON WHATSAPP",
-  whatsappUrl: "https://wa.me/919363031925",
+  whatsappUrl: "https://wa.me/917904251378",
   phone: "+91 93630 31925",
   fields: {
     name: "Full Name",

@@ -1,4 +1,7 @@
-﻿"use client";
+"use client";
+
+import conversion from "../shared/service-conversion.module.css";
+
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { naturalBirthEnquiry, naturalBirthMobileCta } from "@/content/pages/natural-birth";
@@ -54,7 +57,7 @@ export function NaturalBirthEnquiry() {
   }
 
   return (
-    <section id="enquiry" aria-labelledby="natural-birth-enquiry-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad">
+    <section id="enquiry" aria-labelledby="natural-birth-enquiry-heading" data-service-enquiry className={`${conversion.enquiry} relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad`}>
       <NaturalBirthReveal className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
         <div className="max-w-md">
           <p className="eyebrow">{naturalBirthEnquiry.eyebrow}</p>

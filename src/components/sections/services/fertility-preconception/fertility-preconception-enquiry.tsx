@@ -1,5 +1,8 @@
-﻿"use client";
+"use client";
 
+import conversion from "../shared/service-conversion.module.css";
+
+import { contactPlaceholders } from "@/content/contact-content";
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { fertilityEnquiry, fertilityMobileCta } from "@/content/pages/fertility-preconception";
 import { cx } from "@/lib/cx";
@@ -7,7 +10,7 @@ import styles from "./fertility-preconception.module.css";
 
 const phoneDigits = fertilityEnquiry.phone.replace(/\D/g, "");
 const phoneHref = `tel:+${phoneDigits}`;
-const whatsappHref = `https://wa.me/${phoneDigits}`;
+const whatsappHref = `https://wa.me/${contactPlaceholders.whatsapp.replace(/[^0-9]/g, "")}`;
 
 const labelClass = "font-body text-sm font-semibold text-ink-soft";
 const inputClass =
@@ -61,7 +64,7 @@ export function FertilityEnquiry() {
   }
 
   return (
-    <section id="fertility-enquiry" aria-labelledby="fertility-enquiry-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad">
+    <section id="fertility-enquiry" aria-labelledby="fertility-enquiry-heading" data-service-enquiry className={`${conversion.enquiry} relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad`}>
       <div className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
         <div className="max-w-md">
           <p className="eyebrow">{fertilityEnquiry.eyebrow}</p>

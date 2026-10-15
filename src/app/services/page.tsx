@@ -14,9 +14,9 @@ import { ServicesChapterNavigation } from "@/components/sections/services/servic
 import styles from "@/components/sections/services/services-overview.module.css";
 
 export const metadata: Metadata = {
-  title: "Our Services: The BirthWave",
+  title: "Our Services: The Birthwave",
   description:
-    "Women's healthcare for every stage of life. From gynaecology and fertility to maternity care, birth, recovery and paediatric support at The BirthWave, Chennai.",
+    "Women's healthcare for every stage of life. From gynaecology and fertility to maternity care, birth, recovery and paediatric support at The Birthwave, Chennai.",
 };
 
 /**

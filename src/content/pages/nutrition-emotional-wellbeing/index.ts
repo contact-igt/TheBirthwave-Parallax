@@ -24,23 +24,23 @@ import { servicesImagery } from "@/content/services-imagery";
 export const nutritionImagery = {
   hero: {
     src: servicesImagery["nutrition-emotional-wellbeing"].src,
-    alt: "AI-generated illustration: A pregnant woman talks with a wellness professional over a balanced, home-cooked meal.",
+    alt: "A pregnant woman talks with a wellness professional over a balanced, home-cooked meal.",
     focalPoint: { mobile: "30% 20%", desktop: "38% 22%" },
   },
   introduction: {
-    alt: "AI-generated illustration pending: a supportive conversation in warm, natural surroundings.",
+    alt: "A supportive conversation in warm, natural surroundings.",
     gradient: portraitGradient(1),
   },
   nutrition: {
-    alt: "AI-generated illustration pending: a natural meal-preparation or nourishment moment, no diet-culture styling.",
+    alt: "A natural meal-preparation or nourishment moment, no diet-culture styling.",
     gradient: portraitGradient(2),
   },
   "emotional-wellbeing": {
-    alt: "AI-generated illustration pending: a quiet, reflective or supportive conversation scene.",
+    alt: "A quiet, reflective or supportive conversation scene.",
     gradient: portraitGradient(0),
   },
   "first-consultation": {
-    alt: "AI-generated illustration pending: a warm, respectful well-being consultation scene.",
+    alt: "A warm, respectful well-being consultation scene.",
     gradient: portraitGradient(1),
   },
 } as const;
@@ -55,8 +55,8 @@ export const nutritionHero = {
   supportingHeadline: "Support for how you nourish yourself, how you feel, and how you adjust through different stages of women's health.",
   body: "Your nutritional and emotional needs can change while preparing for pregnancy, during pregnancy and after birth.",
   bodySecondary:
-    "At BirthWave, nutrition and emotional well-being are supported by dedicated professionals, so you can ask questions, understand what your body and mind may need, and receive guidance relevant to your stage of care.",
-  primaryCta: { label: "BOOK A CONSULTATION ↗", href: "#enquiry" },
+    "At The Birthwave, nutrition and emotional well-being are supported by dedicated professionals, so you can ask questions, understand what your body and mind may need, and receive guidance relevant to your stage of care.",
+  primaryCta: { label: "BOOK A CONSULTATION ↗", href: "/contact" },
   secondaryCta: { label: "Explore Support Options ↓", href: "#nutrition-intro" },
 } as const;
 
@@ -66,7 +66,7 @@ export const nutritionIntro = {
   paragraphs: [
     "Pregnancy, fertility journeys, birth and postpartum recovery can affect your appetite, energy, routines, body and emotions in different ways.",
     "You may have a specific concern, or you may simply want guidance about eating well, coping with changes or feeling more supported during this stage of life.",
-    "At BirthWave, you don't have to fit every concern into one category. Start with what you're experiencing, and the team can help you identify the appropriate support.",
+    "At The Birthwave, you don't have to fit every concern into one category. Start with what you're experiencing, and the team can help you identify the appropriate support.",
   ],
   themes: [
     {
@@ -78,7 +78,7 @@ export const nutritionIntro = {
       body: "Talk through stress, emotional changes, adjustment, overwhelm or other concerns affecting how you're feeling during your fertility, pregnancy or postpartum journey.",
     },
   ],
-  cta: { label: "BOOK A CONSULTATION ↗", href: "#enquiry" },
+  cta: { label: "BOOK A CONSULTATION ↗", href: "/contact" },
 } as const;
 
 export const nutritionCovers = {
@@ -114,7 +114,7 @@ export const nutritionTogether = {
   heading: "Care does not always fit neatly into one category.",
   body: "Food, energy, sleep, recovery and emotional well-being can influence how you experience different stages of women's health.",
   bodySecondary:
-    "You might come in with a nutrition question and also want to talk about how you're coping with change. Or you may be feeling emotionally overwhelmed while your eating patterns and everyday routines have also changed.\n\nBirthWave's multidisciplinary approach allows different areas of support to connect when relevant, while keeping each professional's role clear.",
+    "You might come in with a nutrition question and also want to talk about how you're coping with change. Or you may be feeling emotionally overwhelmed while your eating patterns and everyday routines have also changed.\n\nThe Birthwave's multidisciplinary approach allows different areas of support to connect when relevant, while keeping each professional's role clear.",
   themes: [
     {
       title: "NOURISHING YOURSELF",
@@ -155,11 +155,11 @@ export const nutritionFirstConsultation = {
     {
       number: "03",
       title: "DISCUSS YOUR NEXT STEPS",
-      body: "Based on the consultation, you'll receive guidance relevant to your needs and understand whether follow-up or another BirthWave service may be helpful.",
+      body: "Based on the consultation, you'll receive guidance relevant to your needs and understand whether follow-up or another service at The Birthwave may be helpful.",
     },
   ],
   note: "Recommendations and follow-up are individualised according to the consultation and the professional's scope of care.",
-  cta: { label: "BOOK A WELL-BEING CONSULTATION ↗", href: "#enquiry" },
+  cta: { label: "BOOK A WELL-BEING CONSULTATION ↗", href: "/contact" },
 } as const;
 
 export const nutritionClinician = {
@@ -172,17 +172,17 @@ export const nutritionClinician = {
   },
   profileLabel: "View Full Profile ↗",
   bookLabel: "BOOK A CONSULTATION ↗",
-  bookHref: "#enquiry",
+  bookHref: "/contact",
 } as const;
 
 export const nutritionPractical = {
   eyebrow: "BEFORE YOUR VISIT",
   heading: "A few practical details before you book.",
-  facilityPhotoPendingLabel: "The BirthWave Consultation Center",
+  facilityPhotoPendingLabel: "The Birthwave Consultation Center",
   info: [
     {
       label: "Consultation Location",
-      lines: ["The BirthWave", "Mahalingapuram Main Road,", "Nungambakkam, Chennai – 600034"],
+      lines: ["The Birthwave", "Mahalingapuram Main Road,", "Nungambakkam, Chennai – 600034"],
     },
     {
       label: "Choose Your Support",
@@ -197,15 +197,15 @@ export const nutritionPractical = {
     },
     {
       label: "What to Bring",
-      lines: ["If relevant, bring recent prescriptions, test reports or other medical records connected to your current BirthWave care."],
+      lines: ["If relevant, bring recent prescriptions, test reports or other medical records connected to your current The Birthwave care."],
     },
     {
       label: "Consultation Duration",
-      lines: ["[Confirm with BirthWave]"],
+      lines: ["[Confirm with The Birthwave]"],
     },
     {
       label: "Consultation Fee",
-      lines: ["[Confirm with BirthWave]"],
+      lines: ["[Confirm with The Birthwave]"],
     },
     {
       label: "Follow-up",
@@ -223,15 +223,15 @@ export const nutritionFaq = {
   heading: "Questions about Nutrition & Emotional Well-being",
   items: [
     {
-      question: "Who can seek nutrition and emotional well-being support at BirthWave?",
+      question: "Who can seek nutrition and emotional well-being support at The Birthwave?",
       answer: "Support may be relevant at different stages, including preconception, pregnancy and postpartum recovery. The appropriate professional and type of consultation will depend on what you would like help with.",
     },
     {
       question: "Can I get nutrition guidance during pregnancy?",
-      answer: "Yes. You can discuss pregnancy nutrition, changing nutritional needs, eating patterns and practical food-related questions with BirthWave's nutrition professional.",
+      answer: "Yes. You can discuss pregnancy nutrition, changing nutritional needs, eating patterns and practical food-related questions with The Birthwave's nutrition professional.",
     },
     {
-      question: "Does BirthWave provide nutrition support while trying to conceive?",
+      question: "Does The Birthwave provide nutrition support while trying to conceive?",
       answer: "Nutrition can form part of preconception and fertility support. Your individual needs can be discussed during a nutrition consultation and coordinated with your broader care where relevant.",
     },
     {
@@ -247,12 +247,12 @@ export const nutritionFaq = {
       answer: "No. You may come with a particular concern or simply because you would like support understanding and navigating emotional changes during this stage of your life.",
     },
     {
-      question: "What if I need support beyond what BirthWave provides?",
+      question: "What if I need support beyond what The Birthwave provides?",
       answer: "If your concern requires another type or level of professional support, the team can discuss an appropriate next step or referral with you.",
     },
     {
       question: "Can nutrition and emotional well-being support be part of my pregnancy care?",
-      answer: "Yes. These services can complement your antenatal care where relevant. They are separate areas of professional support but can connect with your broader BirthWave care.",
+      answer: "Yes. These services can complement your antenatal care where relevant. They are separate areas of professional support but can connect with your broader The Birthwave care.",
     },
     {
       question: "Will I need more than one consultation?",
@@ -260,15 +260,15 @@ export const nutritionFaq = {
     },
     {
       question: "What should I do if I feel unsafe or need urgent mental-health support?",
-      answer: "BirthWave's website and routine consultation enquiry service are not emergency services. If you or someone else is in immediate danger or requires urgent mental-health care, seek appropriate emergency medical assistance immediately.",
+      answer: "The Birthwave's website and routine consultation enquiry service are not emergency services. If you or someone else is in immediate danger or requires urgent mental-health care, seek appropriate emergency medical assistance immediately.",
     },
   ],
 } as const;
 
 export const nutritionRelatedCare = {
   eyebrow: "CONNECTED CARE",
-  heading: "Well-being support can connect with the rest of your BirthWave journey.",
-  note: "Nutrition and emotional well-being are available as dedicated areas of support and can complement other BirthWave services when relevant to your care.",
+  heading: "Well-being support can connect with the rest of your The Birthwave journey.",
+  note: "Nutrition and emotional well-being are available as dedicated areas of support and can complement other The Birthwave services when relevant to your care.",
   services: [
     {
       title: "Pregnancy & Antenatal Care ↗",
@@ -311,5 +311,5 @@ export const nutritionEnquiry = {
 
 export const nutritionMobileCta = {
   label: "BOOK A CONSULTATION",
-  href: "#enquiry",
+  href: "/contact",
 } as const;

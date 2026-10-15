@@ -27,7 +27,6 @@ export const fertilityImagery = {
   },
 } as const;
 
-export const fertilityImageDisclosure = "AI-generated illustration";
 
 export type FertilityImageKey = keyof typeof fertilityImagery;
 
@@ -39,9 +38,9 @@ export const fertilityHero = {
   supportingLine: "Start with your health. Prepare with clarity, not guesswork.",
   body: [
     "Whether you're preparing for pregnancy, have questions about your fertility or have been trying to conceive, understanding your reproductive health is an important first step.",
-    "At The BirthWave, fertility and preconception care begins with understanding your health, menstrual cycle, lifestyle, concerns and pregnancy plans. From preparing for natural conception to exploring fertility treatments when medically appropriate, the focus is on helping you understand your options and make informed decisions.",
+    "At The Birthwave, fertility and preconception care begins with understanding your health, menstrual cycle, lifestyle, concerns and pregnancy plans. From preparing for natural conception to exploring fertility treatments when medically appropriate, the focus is on helping you understand your options and make informed decisions.",
   ],
-  primaryCta: { label: "BOOK A FERTILITY CONSULTATION →", href: "#fertility-enquiry" },
+  primaryCta: { label: "BOOK A FERTILITY CONSULTATION →", href: "/contact" },
   secondaryCta: { label: "Explore Your Fertility Options ↓", href: "#fertility-options" },
   location: "Nungambakkam, Chennai",
   locationNote: "Consultations by appointment",
@@ -95,7 +94,7 @@ export const fertilityPreparing = {
   heading: "Preparation can begin before the positive test.",
   intro: [
     "Preconception care gives you time to understand your health, discuss potential concerns and prepare for pregnancy.",
-    "At The BirthWave, this includes medical guidance alongside discussions about physical health, emotional well-being and supportive lifestyle practices.",
+    "At The Birthwave, this includes medical guidance alongside discussions about physical health, emotional well-being and supportive lifestyle practices.",
   ],
   points: [
     {
@@ -116,7 +115,7 @@ export const fertilityPreparing = {
       title: "Conscious fertility & holistic preparation",
       paragraphs: [
         "Preparing for pregnancy can also involve paying attention to emotional well-being, relationships, stress and everyday routines.",
-        "The BirthWave's holistic approach may include discussions about mindfulness, yoga, relaxation, conscious conception and Garbh Sanskar practices according to your interests and preferences.",
+        "The Birthwave's holistic approach may include discussions about mindfulness, yoga, relaxation, conscious conception and Garbh Sanskar practices according to your interests and preferences.",
         "These supportive practices complement medical fertility care. They do not replace appropriate investigations or fertility treatment when required.",
       ],
     },
@@ -129,7 +128,7 @@ export const fertilityOptions = {
   heading: "Fertility care is not the same for everyone.",
   intro: [
     "Some people may need guidance on timing intercourse and understanding ovulation. Others may benefit from medical investigations, medication or assisted reproductive treatments.",
-    "At The BirthWave, fertility consultations can help you understand the available approaches and what may be appropriate for your circumstances.",
+    "At The Birthwave, fertility consultations can help you understand the available approaches and what may be appropriate for your circumstances.",
   ],
   basicCare: {
     title: "Basic fertility care",
@@ -206,7 +205,7 @@ export const fertilityClinicians = {
         "Her consultations consider medical guidance alongside nutrition, emotional well-being and supportive lifestyle practices, helping you understand the options relevant to your reproductive health.",
       ],
       bookLabel: "BOOK CONSULTATION →",
-      bookHref: "#fertility-enquiry",
+      bookHref: "/contact",
       viewProfileLabel: "View Full Profile →",
       profileHref: "/doctors/dr-santoshi-nandigam",
     },
@@ -221,7 +220,7 @@ export const fertilityClinicians = {
         "Depending on your medical history and individual needs, consultations may include guidance on ovulation-related concerns, fertility investigations and assisted reproductive treatments such as IUI or IVF.",
       ],
       bookLabel: "BOOK CONSULTATION →",
-      bookHref: "#fertility-enquiry",
+      bookHref: "/contact",
       viewProfileLabel: "View Full Profile →",
       profileHref: "/doctors/dr-bharathy-kandasamy",
     },
@@ -252,14 +251,14 @@ export const fertilityFirstConsultation = {
       body: "Your doctor can explain whether preconception guidance, follow-up, investigations or fertility treatment may be appropriate based on your individual circumstances.",
     },
   ],
-  cta: { label: "BOOK A FERTILITY CONSULTATION →", href: "#fertility-enquiry" },
+  cta: { label: "BOOK A FERTILITY CONSULTATION →", href: "/contact" },
 } as const;
 
 export const fertilityVisit = {
   eyebrow: "BEFORE YOU VISIT",
   heading: "A little preparation can make your first conversation more useful.",
   locationLabel: "Where consultations take place",
-  clinicName: "The BirthWave",
+  clinicName: "The Birthwave",
   clinicAddress: "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai – 600034",
   clinicNote: "Consultations by appointment.",
   checklistLabel: "Helpful to bring, if you have them",
@@ -291,7 +290,7 @@ export const fertilityVisit = {
   ],
   closing:
     "Don't have all these details? You can still book a consultation and discuss what information may be needed.",
-  cta: { label: "BOOK AN APPOINTMENT →", href: "#fertility-enquiry" },
+  cta: { label: "BOOK AN APPOINTMENT →", href: "/contact" },
   directionsLabel: "Open in Maps",
 } as const;
 
@@ -362,24 +361,24 @@ export const fertilityRelatedCare = {
   heading: "Care that may become relevant along your journey.",
   items: [
     {
-      slug: "gynaecology",
-      title: "Gynaecology & Women's Health",
-      description: "Care for menstrual concerns, reproductive health, PCOS and other gynaecological needs.",
-    },
-    {
       slug: "pregnancy-antenatal-care",
       title: "Pregnancy & Antenatal Care",
       description: "Medical consultations, pregnancy monitoring and support during pregnancy.",
     },
     {
-      slug: "nutrition-emotional-wellbeing",
-      title: "Nutrition & Lifestyle Support",
-      description: "Individualised nutrition guidance and lifestyle support relevant to reproductive health and pregnancy preparation.",
+      slug: "vaginismus",
+      title: "Vaginismus & Intimate Wellness",
+      description: "A private and supportive setting to discuss intimate wellness and pelvic-floor concerns.",
     },
     {
-      slug: "nutrition-emotional-wellbeing",
-      title: "Mental & Emotional Well-being",
-      description: "Support for emotional concerns that may arise during fertility planning or treatment.",
+      slug: "birth-preparation",
+      title: "Birth Preparation & Education",
+      description: "Explore childbirth education, labour preparation and early parenting conversations.",
+    },
+    {
+      slug: "natural-birth",
+      title: "Natural Birth Care",
+      description: "Support for physiological labour, comfort measures and birth preferences.",
     },
   ],
 } as const;
@@ -388,7 +387,7 @@ export const fertilityEnquiry = {
   eyebrow: "PLAN YOUR NEXT STEP",
   heading: "Thinking about pregnancy or fertility? Start with a conversation.",
   body: [
-    "Whether you're preparing for your first pregnancy, exploring your fertility or considering treatment, you can begin by discussing your questions with The BirthWave team.",
+    "Whether you're preparing for your first pregnancy, exploring your fertility or considering treatment, you can begin by discussing your questions with The Birthwave team.",
     "A consultation can help you understand your health and the options that may be relevant to your individual circumstances.",
   ],
   callLabel: "Call",
@@ -419,5 +418,5 @@ export const fertilityEnquiry = {
 
 export const fertilityMobileCta = {
   label: "Book a Fertility Consultation",
-  href: "#fertility-enquiry",
+  href: "/contact",
 } as const;

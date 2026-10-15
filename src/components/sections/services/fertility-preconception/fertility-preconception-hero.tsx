@@ -1,7 +1,7 @@
 ﻿import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { fertilityHero } from "@/content/pages/fertility-preconception";
-import { fertilityImagery, fertilityImageDisclosure } from "@/content/pages/fertility-preconception";
+import { fertilityImagery } from "@/content/pages/fertility-preconception";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { cx } from "@/lib/cx";
@@ -63,7 +63,6 @@ export function FertilityHero() {
                 style={{ objectPosition: image.objectPosition }}
               />
             </div>
-            <figcaption className="mt-2 font-body text-xs text-ink-soft">{fertilityImageDisclosure}</figcaption>
           </figure>
         </div>
       </div>

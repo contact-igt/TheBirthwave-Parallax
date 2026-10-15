@@ -19,23 +19,23 @@ import { portraitGradient } from "@/components/ui/portrait-gradient";
  */
 export const postpartumImagery = {
   hero: {
-    alt: "AI-generated illustration pending: a South Asian mother with her newborn in a calm, lived-in recovery setting.",
+    alt: "A South Asian mother with her newborn in a calm, lived-in recovery setting.",
     gradient: portraitGradient(0),
   },
   introduction: {
-    alt: "AI-generated illustration pending: a mother resting or having a supportive conversation after birth.",
+    alt: "A mother resting or having a supportive conversation after birth.",
     gradient: portraitGradient(1),
   },
   recovery: {
-    alt: "AI-generated illustration pending: an editorial, non-graphic postpartum lifestyle scene.",
+    alt: "An editorial, non-graphic postpartum lifestyle scene.",
     gradient: portraitGradient(2),
   },
   "first-consultation": {
-    alt: "AI-generated illustration pending: a clinician speaking with a mother after birth.",
+    alt: "A clinician speaking with a mother after birth.",
     gradient: portraitGradient(0),
   },
   closing: {
-    alt: "AI-generated illustration pending: a calm mother, newborn and supportive-care moment.",
+    alt: "A calm mother, newborn and supportive-care moment.",
     gradient: portraitGradient(1),
   },
 } as const;
@@ -51,7 +51,7 @@ export const postpartumHero = {
   body: "Recovery after birth can look different for every person.",
   bodySecondary:
     "You may have questions about healing, physical changes, feeding, rest, emotional adjustment or what is normal for your recovery. A postpartum consultation gives you space to talk through what you are experiencing and understand what may need attention next.",
-  primaryCta: { label: "Book a Postpartum Consultation", href: "#enquiry" },
+  primaryCta: { label: "Book a Postpartum Consultation", href: "/contact" },
   secondaryCta: { label: "Explore postpartum support ↓", href: "#what-we-cover" },
 } as const;
 
@@ -69,7 +69,7 @@ export const postpartumIntro = {
     { title: "Day-to-day adjustment", body: "Discuss how recovery, rest, feeding and caring for your baby are affecting you." },
     { title: "Questions after birth", body: "Bring anything that feels unclear, different or difficult to interpret." },
   ],
-  cta: { label: "Book a Postpartum Consultation", href: "#enquiry" },
+  cta: { label: "Book a Postpartum Consultation", href: "/contact" },
 } as const;
 
 export const postpartumCovers = {
@@ -108,7 +108,7 @@ export const postpartumFirstConsultation = {
     { number: "03", title: "Understand your next step", body: "Ask what follow-up, additional assessment or related care may be appropriate." },
   ],
   note: "Observation, physical assessment and any particular intervention depend on what is appropriate for your consultation — none is automatic.",
-  cta: { label: "Book a Postpartum Consultation", href: "#enquiry" },
+  cta: { label: "Book a Postpartum Consultation", href: "/contact" },
 } as const;
 
 export const postpartumClinician = {
@@ -117,7 +117,7 @@ export const postpartumClinician = {
   doctorSlugs: ["dr-amudha-varshini", "dr-adithi-nair"],
   profileLabel: "View Full Profile",
   bookLabel: "Book Consultation",
-  bookHref: "#enquiry",
+  bookHref: "/contact",
 } as const;
 
 export const postpartumPractical = {
@@ -211,5 +211,5 @@ export const postpartumEnquiry = {
 
 export const postpartumMobileCta = {
   label: "Book a Postpartum Consultation",
-  href: "#enquiry",
+  href: "/contact",
 } as const;

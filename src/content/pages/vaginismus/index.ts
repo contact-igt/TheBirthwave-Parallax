@@ -11,7 +11,7 @@ import type { HeroFocalPoint } from "@/lib/hero-focal-point";
 
 export const vaginismusImagery = {
   hero: {
-    src: "/images/generated/v-banner.png",
+    src: "/images/services/v-hero.JPG",
     alt: "Woman speaking privately with a clinician",
     focalPoint: {
       mobile: "68% 42%",
@@ -19,27 +19,27 @@ export const vaginismusImagery = {
     } satisfies HeroFocalPoint,
   },
   "who-this-is-for": {
-    src: "/images/generated/v-consultation.png",
+    src: "/images/services/v2.JPG",
     alt: "Woman discussing an intimate wellness concern with a clinician",
     objectPosition: "50% 38%",
   },
   consultation: {
-    src: "/images/generated/v-understanding.png",
+    src: "/images/services/v3.JPG",
     alt: "Patient and clinician discussing health questions together",
     objectPosition: "50% 40%",
   },
   "care-at-your-pace": {
-    src: "/images/generated/v-discussion.png",
+    src: "/images/services/service3.JPG",
     alt: "Woman having a calm supportive consultation",
     objectPosition: "50% 38%",
   },
   "first-consultation": {
-    src: "/images/generated/v-questions.png",
+    src: "/images/services/service6.JPG",
     alt: "Woman preparing questions before an intimate wellness appointment",
     objectPosition: "50% 40%",
   },
   practical: {
-    src: "/images/generated/v-beforevisit.png",
+    src: "/images/services/faq.JPG",
     alt: "Woman preparing for an upcoming clinic visit",
     objectPosition: "50% 35%",
   },
@@ -55,8 +55,8 @@ export const vaginismusHero = {
   supportingHeadline:
     "Vaginismus can involve involuntary tightening of the pelvic-floor muscles around the vaginal opening, making penetration, intimacy or vaginal examinations difficult or painful.",
   body:
-    "At The BirthWave, you can begin with a private, respectful conversation about what you are experiencing. Our approach brings together gynaecological care, pelvic-floor physiotherapy and emotional well-being support according to your individual needs.",
-  primaryCta: { label: "BOOK A PRIVATE CONSULTATION", href: "#vaginismus-enquiry" },
+    "At The Birthwave, you can begin with a private, respectful conversation about what you are experiencing. Our approach brings together gynaecological care, pelvic-floor physiotherapy and emotional well-being support according to your individual needs.",
+  primaryCta: { label: "BOOK A PRIVATE CONSULTATION", href: "/contact" },
   secondaryCta: { label: "Understand Vaginismus ↓", href: "#vaginismus-what-is" },
 } as const;
 
@@ -145,7 +145,7 @@ export const vaginismusWho = {
   },
   comparisonTable: {
     heading: "Understanding different care approaches",
-    headers: ["Area of care", "Online counselling-focused approach", "The BirthWave's coordinated care approach"],
+    headers: ["Area of care", "Online counselling-focused approach", "The Birthwave's coordinated care approach"],
     rows: [
       {
         area: "Initial discussion",
@@ -203,7 +203,7 @@ export const vaginismusFeelHeard = {
     "Some women seeking help for vaginismus have experienced uncomfortable examinations, dismissive responses or advice that did not adequately address their concerns.",
     "Being told to relax, tolerate discomfort or simply keep trying can leave a woman feeling misunderstood, anxious or hesitant about seeking further help.",
     "For some, this hesitation may continue for months or years. The thought of meeting another gynaecologist can itself become overwhelming.",
-    "At The BirthWave, we want your concerns to be taken seriously.",
+    "At The Birthwave, we want your concerns to be taken seriously.",
     "You can begin by explaining what you have experienced, what has been difficult and what you are comfortable discussing.",
     "You can ask why an examination or treatment is being suggested. You can discuss previous experiences, express your concerns and make informed decisions about your care.",
     "A history of painful penetration or an uncomfortable medical experience deserves thoughtful assessment, not assumptions.",
@@ -253,7 +253,7 @@ export const vaginismusCovers = {
   note: "You can ask questions throughout your consultation. Any intimate examination requires your informed consent, and your concerns should be addressed before proceeding.",
   cta: {
     label: "BOOK YOUR FIRST CONSULTATION",
-    href: "#vaginismus-enquiry",
+    href: "/contact",
   },
 } as const;
 
@@ -262,7 +262,7 @@ export const vaginismusSupportWork = {
   heading: "Vaginismus care is not one-size-fits-all.",
   intro: [
     "Vaginismus can involve physical, psychological and relationship-related factors. Understanding these different aspects helps guide an individual treatment plan.",
-    "At The BirthWave, our approach may involve different care professionals working together according to your assessment, preferences and clinical needs.",
+    "At The Birthwave, our approach may involve different care professionals working together according to your assessment, preferences and clinical needs.",
   ],
   pillars: [
     {
@@ -414,7 +414,7 @@ export const vaginismusClinicians = {
   eyebrow: "THE PEOPLE BEHIND YOUR CARE",
   heading: "Different areas of expertise, working around your individual needs.",
   intro:
-    "The BirthWave's vaginismus and intimate wellness approach brings together medical and allied-care professionals to address different aspects of pelvic and sexual well-being.",
+    "The Birthwave's vaginismus and intimate wellness approach brings together medical and allied-care professionals to address different aspects of pelvic and sexual well-being.",
   team: [
     {
       slug: "dr-santoshi-nandigam",
@@ -455,7 +455,7 @@ export const vaginismusClinicians = {
   ],
   closing:
     "Your care plan may involve one or more professionals. The appropriate combination of support depends on your individual assessment and preferences.",
-  cta: { label: "BOOK A CONSULTATION", href: "#vaginismus-enquiry" },
+  cta: { label: "BOOK A CONSULTATION", href: "/contact" },
 } as const;
 
 export const vaginismusFirstConsultation = {
@@ -479,7 +479,7 @@ export const vaginismusFirstConsultation = {
       body: "Your clinician can explain whether further assessment, pelvic-floor therapy or another form of support may be appropriate.",
     },
   ],
-  cta: { label: "BOOK A PRIVATE CONSULTATION", href: "#vaginismus-enquiry" },
+  cta: { label: "BOOK A PRIVATE CONSULTATION", href: "/contact" },
 } as const;
 
 export const vaginismusPractical = {
@@ -489,7 +489,7 @@ export const vaginismusPractical = {
     {
       label: "Consultation location",
       lines: [
-        "The BirthWave",
+        "The Birthwave",
         "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai – 600034",
       ],
     },
@@ -523,7 +523,7 @@ export const vaginismusPractical = {
     },
   ],
   phone: "+91 93630 31925",
-  cta: { label: "BOOK A PRIVATE CONSULTATION", href: "#vaginismus-enquiry" },
+  cta: { label: "BOOK A PRIVATE CONSULTATION", href: "/contact" },
 } as const;
 
 export const vaginismusFaq = {
@@ -635,14 +635,9 @@ export const vaginismusFaq = {
 
 export const vaginismusRelatedCare = {
   eyebrow: "CONNECTED WOMEN'S HEALTH SUPPORT",
-  heading: "Other BirthWave services that may be relevant to your care.",
+  heading: "Other The Birthwave services that may be relevant to your care.",
   note: "These services may also connect with your care journey. They are separate services and are not automatically included in vaginismus support.",
   items: [
-    {
-      slug: "gynaecology",
-      label: "Gynaecology & Women's Health",
-      description: "For menstrual, pelvic and other gynaecological concerns.",
-    },
     {
       slug: "fertility-preconception",
       label: "Fertility & Preconception",
@@ -654,9 +649,14 @@ export const vaginismusRelatedCare = {
       description: "Doctor-led pregnancy care and preparation, including discussions about pelvic health and birth-related concerns.",
     },
     {
-      slug: "nutrition-emotional-wellbeing",
-      label: "Mental & Emotional Well-being",
-      description: "Support for emotional and psychological concerns relevant to your overall well-being.",
+      slug: "birth-preparation",
+      label: "Birth Preparation & Education",
+      description: "Childbirth education, relaxation and body awareness for expecting families.",
+    },
+    {
+      slug: "natural-birth",
+      label: "Natural Birth Care",
+      description: "Explore low-intervention birth care and informed choices.",
     },
   ],
 } as const;
@@ -665,7 +665,7 @@ export const vaginismusEnquiry = {
   eyebrow: "START WHEN YOU FEEL READY",
   heading: "You can begin with a private conversation.",
   body:
-    "If penetration, intimacy or vaginal examinations have been painful or difficult, you do not need to work out the reason on your own before seeking help.\n\nStart by telling us what you are comfortable sharing. The BirthWave team can help you understand the appropriate next step.",
+    "If penetration, intimacy or vaginal examinations have been painful or difficult, you do not need to work out the reason on your own before seeking help.\n\nStart by telling us what you are comfortable sharing. The Birthwave team can help you understand the appropriate next step.",
   primaryCta: "BOOK A PRIVATE CONSULTATION",
   whatsapp: "CHAT ON WHATSAPP",
   phone: "CALL +91 93630 31925",
@@ -694,5 +694,5 @@ export const vaginismusEnquiry = {
 
 export const vaginismusMobileCta = {
   label: "Book a Private Consultation",
-  href: "#vaginismus-enquiry",
+  href: "/contact",
 } as const;

@@ -312,7 +312,12 @@ export function SiteHeader() {
                             content width, five only from 63rem — where every
                             column keeps ≥ ~176px for 15px service names. Each
                             group stays one unit (label + its links). */}
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-7 @min-[40rem]:grid-cols-3 @min-[63rem]:grid-cols-5">
+                        <div
+                          className={cx(
+                            "grid grid-cols-2 gap-x-8 gap-y-7 @min-[40rem]:grid-cols-3",
+                            navCareGroups.length <= 4 ? "@min-[63rem]:grid-cols-4" : "@min-[63rem]:grid-cols-5",
+                          )}
+                        >
                           {navCareGroups.map((group) => (
                             <div key={group.id} className="flex min-w-0 flex-col">
                               <span className="font-body text-xs leading-snug font-semibold tracking-[0.12em] text-terracotta-deep uppercase">

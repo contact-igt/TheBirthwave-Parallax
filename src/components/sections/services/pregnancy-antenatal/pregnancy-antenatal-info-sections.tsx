@@ -1,6 +1,7 @@
+import { ServiceFaqSection } from "../shared/service-faq-section";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, CheckCircle2, ChevronDown, Compass, MapPin, MessageSquare, Phone } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Compass, MapPin, MessageSquare, Phone } from "lucide-react";
 import {
   pregnancyLandingClinician,
   pregnancyLandingApproach,
@@ -174,76 +175,7 @@ export function PregnancyAntenatalApproach() {
  * Clean accordion direction with native details/summary accessibility.
  */
 export function PregnancyAntenatalFaq() {
-  const faqImage = servicesImagery["pregnancy-antenatal-faq-visual"];
-
-  return (
-    <section
-      id="pregnancy-faq"
-      aria-labelledby="pregnancy-faq-heading"
-      className="relative isolate bg-[#FAF6F2] section-pad"
-    >
-      <PregnancyReveal className="container-birthwave">
-        <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-start lg:gap-14 xl:gap-16">
-          {/* Left Column: Heading & Maternity Visual */}
-          <div className="lg:sticky lg:top-28">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--color-terracotta)_28%,transparent)] bg-[color-mix(in_srgb,var(--color-terracotta)_10%,var(--color-paper))] px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-terracotta-deep mb-3.5">
-              <span className="size-1.5 rounded-full bg-coral" aria-hidden="true" />
-              {pregnancyLandingFaq.eyebrow}
-            </div>
-            <h2
-              id="pregnancy-faq-heading"
-              className="text-[clamp(2.1rem,1.5rem+2.6vw,3.2rem)] leading-[1.12] font-semibold tracking-[var(--tracking-tight)] text-ink"
-            >
-              {pregnancyLandingFaq.heading}
-            </h2>
-
-            {/* Supporting Editorial Image Card */}
-            <div className="mt-8 hidden overflow-hidden rounded-3xl border border-[color-mix(in_srgb,var(--color-terracotta)_22%,transparent)] bg-white shadow-[0_16px_40px_-16px_rgba(53,43,41,0.08)] lg:block">
-              <div className="relative aspect-[16/10] w-full">
-                <Image
-                  src={faqImage.src}
-                  alt={faqImage.alt}
-                  fill
-                  sizes="480px"
-                  className="object-cover"
-                  style={{ objectPosition: faqImage.objectPosition }}
-                />
-              </div>
-              <div className="px-5 py-3.5 font-body text-xs text-ink-soft">
-                Continuous reassurance throughout your pregnancy journey
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Clean Accordion List (12 items) */}
-          <div className="space-y-3.5 sm:space-y-4">
-            {pregnancyLandingFaq.items.map((item, idx) => (
-              <details
-                key={item.question}
-                className="group bg-white rounded-2xl border border-[color-mix(in_srgb,var(--color-terracotta)_20%,transparent)] overflow-hidden transition-all duration-300 open:shadow-xs"
-                open={idx === 0}
-              >
-                <summary className="flex justify-between items-center p-5 sm:p-6 cursor-pointer list-none select-none text-left [&::-webkit-details-marker]:hidden">
-                  <span className="font-body text-base sm:text-lg font-semibold text-ink group-hover:text-terracotta-deep transition-colors pr-4">
-                    {item.question}
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className="size-7 rounded-full bg-[#FAF6F2] border border-terracotta/25 flex items-center justify-center text-terracotta-deep transition-transform duration-300 group-open:rotate-180 shrink-0"
-                  >
-                    <ChevronDown className="size-4" />
-                  </span>
-                </summary>
-                <div className="px-5 sm:px-6 pb-6 pt-1 text-sm sm:text-base leading-[var(--leading-relaxed)] text-ink-soft border-t border-[color-mix(in_srgb,var(--color-terracotta)_12%,transparent)]">
-                  {item.answer}
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </PregnancyReveal>
-    </section>
-  );
+  return <ServiceFaqSection id="pregnancy-faq" eyebrow={pregnancyLandingFaq.eyebrow} heading={pregnancyLandingFaq.heading} items={pregnancyLandingFaq.items} media={servicesImagery["pregnancy-antenatal-faq-visual"]} mediaCaption="Continuous reassurance throughout your pregnancy journey" />;
 }
 
 /**

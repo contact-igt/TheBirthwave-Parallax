@@ -158,7 +158,7 @@ vec3 StarLayer(vec2 uv) {
       float size = fract(seed * 345.32);
       float glossLocal = tri(uStarSpeed / (PERIOD * seed + 1.0));
       float flareSize = smoothstep(0.9, 1.0, size) * glossLocal;
-      // Birthwave tint mode: keep large glows round — no cross-shaped flare rays.
+      // The Birthwave tint mode: keep large glows round — no cross-shaped flare rays.
       flareSize *= 1.0 - 0.85 * uTintMode;
 
       float red = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 1.0)) + STAR_COLOR_CUTOFF;
@@ -224,7 +224,7 @@ void main() {
     col += StarLayer(uv * scale + i * 453.32) * fade;
   }
 
-  // Birthwave tint mode: brand-coloured glow with energy-driven alpha,
+  // The Birthwave tint mode: brand-coloured glow with energy-driven alpha,
   // for light surfaces (see the header comment, item 6).
   if (uTintMode > 0.5) {
     float energy = max(max(col.r, col.g), col.b);

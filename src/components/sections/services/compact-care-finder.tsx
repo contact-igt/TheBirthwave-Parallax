@@ -5,10 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { doorwaysCareFinder, type CareFinderColumn } from "@/content/services-content";
-import { servicesImagery } from "@/content/services-imagery";
+import { servicesOverviewImagery } from "@/content/services-overview-imagery";
 import { useScrollReveal } from "@/motion/scroll-scenes";
 import { useParallax } from "@/motion/image-motion";
 import { cx } from "@/lib/cx";
+
+const careFinderImageKeys = {
+  "care-finder-your-health": "careFinderYourHealth",
+  "care-finder-pregnancy-birth": "careFinderPregnancyBirth",
+  "care-finder-after-birth-baby": "careFinderAfterBirthBaby",
+} as const;
 
 /**
  * Section 02 — Doorways into Care ("What can we help you with?").
@@ -96,7 +102,7 @@ function DoorwayColumn({
     minViewportWidth: 1024,
   });
 
-  const image = servicesImagery[column.imageKey];
+  const image = servicesOverviewImagery[careFinderImageKeys[column.imageKey]];
 
   return (
     <article
@@ -134,9 +140,6 @@ function DoorwayColumn({
         </div>
 
         {/* Clinical illustration disclaimer badge */}
-        <p className="absolute bottom-2.5 right-2.5 left-2.5 z-10 w-fit max-w-[calc(100%-1.25rem)] rounded-xs bg-paper/95 px-2 py-0.5 font-body text-[0.625rem] leading-snug text-ink-soft backdrop-blur-xs select-none">
-          AI-generated illustration · Clinic photography pending
-        </p>
       </div>
 
       {/* Group Header: Chapter Number & Heading */}

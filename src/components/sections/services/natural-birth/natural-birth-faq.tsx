@@ -1,11 +1,11 @@
 import { DotFieldRegion } from "@/components/layout/dot-field-region";
-import { FaqSection } from "@/components/sections/home/faq-section";
+import { ServiceFaqSection } from "../shared/service-faq-section";
 import { naturalBirthFaq, naturalBirthHero, naturalBirthImagery } from "@/content/pages/natural-birth";
 
 export function NaturalBirthFaq() {
   return (
     <DotFieldRegion>
-      <FaqSection
+      <ServiceFaqSection
         id="natural-birth-faq"
         eyebrow={naturalBirthFaq.eyebrow}
         heading={naturalBirthFaq.heading}

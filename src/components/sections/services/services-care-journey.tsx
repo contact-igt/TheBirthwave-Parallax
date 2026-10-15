@@ -13,7 +13,7 @@ import {
   postpartumSection,
   newbornPediatricSection,
 } from "@/content/our-services-content";
-import { servicesImagery, type ServicesImageKey } from "@/content/services-imagery";
+import { servicesOverviewImagery, type ServicesOverviewImageKey } from "@/content/services-overview-imagery";
 import { useParallax } from "@/motion/image-motion";
 import { Button } from "@/components/ui/button";
 import { cx } from "@/lib/cx";
@@ -32,7 +32,7 @@ interface ChapterData {
   intro: readonly string[];
   services: readonly ChapterItem[];
   cta?: { label: string; href: string };
-  imageKey: ServicesImageKey;
+  imageKey: ServicesOverviewImageKey;
   focalPoint?: string;
   sectionNumber: string;
 }
@@ -41,31 +41,31 @@ const CHAPTERS_PART_1: ChapterData[] = [
   {
     ...womensHealthSection,
     sectionNumber: "03",
-    imageKey: "care-journey-womens-health",
+    imageKey: "careJourneyWomensHealth",
     focalPoint: "center 20%",
   },
   {
     ...fertilityPreconceptionSection,
     sectionNumber: "04",
-    imageKey: "care-journey-planning-a-pregnancy",
+    imageKey: "careJourneyPlanningPregnancy",
     focalPoint: "center 25%",
   },
   {
     ...pregnancyAntenatalSection,
     sectionNumber: "05",
-    imageKey: "care-journey-pregnancy-care",
+    imageKey: "careJourneyPregnancyCare",
     focalPoint: "center 25%",
   },
   {
     ...birthPreparationSection,
     sectionNumber: "06",
-    imageKey: "care-journey-preparing-for-birth",
+    imageKey: "careJourneyPreparingBirth",
     focalPoint: "center 20%",
   },
   {
     ...birthOptionsSection,
     sectionNumber: "07",
-    imageKey: "care-journey-birth-options",
+    imageKey: "careJourneyBirthOptions",
     focalPoint: "center 25%",
   },
 ];
@@ -74,13 +74,13 @@ const CHAPTERS_PART_2: ChapterData[] = [
   {
     ...postpartumSection,
     sectionNumber: "09",
-    imageKey: "care-journey-after-birth",
+    imageKey: "careJourneyAfterBirth",
     focalPoint: "center 20%",
   },
   {
     ...newbornPediatricSection,
     sectionNumber: "10",
-    imageKey: "care-journey-baby-care",
+    imageKey: "careJourneyBabyCare",
     focalPoint: "center 20%",
   },
 ];
@@ -124,7 +124,7 @@ function useFittingChapterColumn() {
  */
 function ChapterArticle({ chapter, index }: { chapter: ChapterData; index: number }) {
   const narrativeRef = useFittingChapterColumn();
-  const image = servicesImagery[chapter.imageKey];
+  const image = servicesOverviewImagery[chapter.imageKey];
   const parallaxRef = useParallax<HTMLDivElement>({
     factor: 0.06,
     maxOffsetPx: 18,
@@ -173,9 +173,6 @@ function ChapterArticle({ chapter, index }: { chapter: ChapterData; index: numbe
                   style={{ objectPosition: chapter.focalPoint ?? "center center" }}
                 />
               </div>
-              <p className="absolute right-3 bottom-3 left-3 z-10 w-fit max-w-[calc(100%-1.5rem)] rounded-xs bg-paper/95 px-2.5 py-1 font-body text-[0.6875rem] leading-snug text-ink-soft backdrop-blur-xs select-none">
-                AI-generated illustration · Clinic photography pending
-              </p>
             </div>
           </div>
 

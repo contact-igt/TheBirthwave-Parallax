@@ -143,7 +143,7 @@ export const doctors: DoctorContent[] = [
     description:
       "The Birthwave is designed as one continuous care journey, with space for questions, preferences, preparation and follow-up — across pregnancy, birth and recovery.",
     photo: {
-      src: "/images/clinic/dr-santoshi.JPG",
+      src: "/images/web-ready/founder.JPG",
       alt: "Dr. Santoshi Nandigam",
       placeholderLabel: "Dr. Santoshi Nandigam",
     },
@@ -313,7 +313,7 @@ export const doctorsHero = {
     "The Birthwave brings together specialists across women's health, pregnancy, birth, recovery and newborn care so that support continues across the full journey.",
   primaryCta: {
     label: "Book a Consultation",
-    href: "/#connect",
+    href: "/contact",
     todo: "Placeholder destination — no booking flow exists yet (see site-content.ts's own finalCta/hero TODOs).",
   },
   secondaryCta: {
@@ -481,13 +481,13 @@ export const doctorsAppointmentCta = {
     "Tell us where you are in your journey and we'll help you find the right place to begin.",
   primaryCta: {
     label: "Book an Appointment",
-    href: "/#connect",
+    href: "/contact",
     todo: "Placeholder destination — no booking flow exists yet (see site-content.ts's own finalCta TODO).",
   },
   secondaryCta: {
     label: "WhatsApp Us",
-    href: "/#connect",
-    todo: "No verified WhatsApp number exists for this project — mirrors site-content.ts's own finalCta.secondaryCta, which resolves to the same closing anchor rather than a fabricated wa.me link.",
+    href: "https://wa.me/917904251378",
+
   },
 } as const;
 
@@ -529,7 +529,7 @@ export const doctorsEnquiryForm = {
 
 export const founderSectionContent = {
   eyebrow: "Founder",
-  cta: { label: "Book an Appointment", href: "/#connect" },
+  cta: { label: "Book an Appointment", href: "/contact" },
 } as const;
 
 export const medicalTeamGridContent = {

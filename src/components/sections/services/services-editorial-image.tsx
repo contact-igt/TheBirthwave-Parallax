@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { servicesImagery, type ServicesImageKey } from "@/content/services-imagery";
+import { servicesOverviewImagery, type ServicesOverviewImageKey } from "@/content/services-overview-imagery";
 import { cx } from "@/lib/cx";
 
 const corners = {
@@ -8,7 +8,7 @@ const corners = {
 };
 
 type Props = {
-  imageKey: ServicesImageKey;
+  imageKey: ServicesOverviewImageKey;
   corner?: keyof typeof corners;
   aspect?: string;
   className?: string;
@@ -20,18 +20,15 @@ export function ServicesEditorialImage({
   imageKey, corner = "tr", aspect = "aspect-[4/5]", className,
   eager = false, sizes = "(max-width: 639px) 85vw, (max-width: 1023px) 45vw, 560px",
 }: Props) {
-  const image = servicesImagery[imageKey];
+  const image = servicesOverviewImagery[imageKey];
   return (
     <div data-care-image={imageKey} className={cx("relative overflow-hidden bg-paper-dim", aspect, corners[corner], className)}>
       <Image
         src={image.src} alt={image.alt} fill sizes={sizes}
         loading={eager ? "eager" : "lazy"}
-        fetchPriority={imageKey === "services-hero" ? "high" : undefined}
+        fetchPriority={imageKey === "hero" ? "high" : undefined}
         className="object-cover object-center"
       />
-      <p className="absolute right-3 bottom-3 left-3 z-10 w-fit max-w-[calc(100%-1.5rem)] rounded-xs bg-paper/95 px-2 py-1 font-body text-[0.6875rem] leading-snug text-ink-soft">
-        AI-generated illustration · Clinic photography pending
-      </p>
     </div>
   );
 }

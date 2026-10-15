@@ -1,4 +1,4 @@
-﻿import { vaginismusClinicians } from "@/content/pages/vaginismus";
+import { vaginismusClinicians } from "@/content/pages/vaginismus";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,12 @@ import { VaginismusReveal } from "./vaginismus-reveal";
  * Section 7 — The People Behind Your Care.
  * 4-person multidisciplinary clinical team:
  * Dr. Santoshi Nandigam, Dr. Adithi Nair, Dr. Amudha Varshini, and Deepa.
+ *
+ * Layout redesign: a full-width spotlight card for each clinician
+ * (portrait left, credentials + description right) on desktop —
+ * replacing the symmetric 2×2 card grid. This mirrors the premium
+ * doctor-spotlight treatment on the Pregnancy & Antenatal Care page
+ * and gives each care professional their own editorial presence.
  */
 export function VaginismusClinician() {
   return (
@@ -18,7 +24,8 @@ export function VaginismusClinician() {
       className="relative isolate border-t border-[var(--color-border)] bg-paper section-pad"
     >
       <VaginismusReveal className="container-birthwave">
-        <div className="max-w-3xl">
+        {/* Section header */}
+        <div className="max-w-3xl mb-12 sm:mb-16">
           <p className="eyebrow">{vaginismusClinicians.eyebrow}</p>
           <h2
             id="vaginismus-clinician-heading"
@@ -31,58 +38,83 @@ export function VaginismusClinician() {
           </p>
         </div>
 
-        {/* 4 Team Members Grid */}
-        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:gap-12">
-          {vaginismusClinicians.team.map((member) => {
+        {/* Clinician spotlight cards — stacked vertically */}
+        <div className="space-y-6">
+          {vaginismusClinicians.team.map((member, memberIdx) => {
             const doctor = getDoctorBySlug(member.slug);
-            const doctorIndex = doctor ? doctors.findIndex((d) => d.slug === doctor.slug) : 0;
-            const photo = doctor ? doctor.photo : { src: null, alt: member.name, placeholderLabel: member.name };
+            const doctorIndex = doctor
+              ? doctors.findIndex((d) => d.slug === doctor.slug)
+              : memberIdx;
+            const photo = doctor
+              ? doctor.photo
+              : { src: null, alt: member.name, placeholderLabel: member.name };
 
             return (
-              <div
+              <article
                 key={member.slug}
-                className="flex flex-col justify-between rounded-xs border border-[var(--color-border)] bg-[var(--vaginismus-rose-wash)]/30 p-6 sm:p-8"
+                className="overflow-hidden rounded-xs border border-[var(--color-border)] bg-[var(--vaginismus-rose-wash)]/30 grid grid-cols-1 lg:grid-cols-[280px_1fr] xl:grid-cols-[320px_1fr]"
               >
-                <div>
-                  <div className="max-w-[220px]">
-                    <PortraitPlaceholder photo={photo} index={doctorIndex} className="w-full" />
-                  </div>
-
-                  <h3 className="mt-6 text-xl font-semibold text-ink sm:text-2xl">
-                    {member.name}
-                  </h3>
-
-                  {member.credentials ? (
-                    <p className="mt-1 text-xs font-semibold uppercase tracking-[var(--tracking-wider)] text-terracotta-deep">
-                      {member.credentials}
-                    </p>
-                  ) : null}
-
-                  <p className="mt-1 font-body text-sm font-medium text-ink-soft">
-                    {member.role}
-                  </p>
-
-                  <div className="mt-5 space-y-3 text-sm leading-[var(--leading-relaxed)] text-ink-soft">
-                    {member.description.split("\n\n").map((para, pIdx) => (
-                      <p key={pIdx}>{para}</p>
-                    ))}
+                {/* Portrait */}
+                <div className="h-64 sm:h-72 lg:h-auto bg-paper-dim overflow-hidden">
+                  <div className="h-full w-full [&>*]:h-full [&>*]:w-full [&>*]:rounded-none">
+                    <PortraitPlaceholder
+                      photo={photo}
+                      index={doctorIndex}
+                      className="h-full w-full rounded-none object-cover"
+                    />
                   </div>
                 </div>
 
-                <div className="mt-6 border-t border-[var(--color-border)] pt-4">
-                  <CtaLink href={member.cta.href}>{member.cta.label}</CtaLink>
+                {/* Details */}
+                <div className="flex flex-col justify-between p-7 sm:p-8 lg:p-10">
+                  <div>
+                    {/* Role tag */}
+                    <div className="inline-flex items-center gap-2 mb-4">
+                      <span
+                        aria-hidden="true"
+                        className="size-1.5 rounded-full bg-terracotta-deep"
+                      />
+                      <span className="font-body text-[0.6875rem] font-semibold uppercase tracking-[var(--tracking-wider)] text-terracotta-deep">
+                        {member.role}
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl font-semibold text-ink sm:text-3xl">
+                      {member.name}
+                    </h3>
+
+                    {member.credentials ? (
+                      <p className="mt-1 font-body text-xs font-semibold uppercase tracking-[var(--tracking-wider)] text-ink-soft">
+                        {member.credentials}
+                      </p>
+                    ) : null}
+
+                    <div className="mt-5 space-y-3 text-sm leading-[var(--leading-relaxed)] text-ink-soft">
+                      {member.description.split("\n\n").map((para, pIdx) => (
+                        <p key={pIdx}>{para}</p>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-7 border-t border-[var(--color-border)] pt-5">
+                    <CtaLink href={member.cta.href}>{member.cta.label}</CtaLink>
+                  </div>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>
 
         {/* Closing note & CTA */}
-        <div className="mt-12 flex flex-col items-start justify-between gap-6 rounded-xs border border-[var(--color-border)] bg-paper p-8 sm:flex-row sm:items-center">
+        <div className="mt-12 flex flex-col items-start justify-between gap-6 rounded-xs border border-[var(--color-border)] bg-[var(--vaginismus-sky-wash)] p-8 sm:flex-row sm:items-center">
           <p className="max-w-2xl text-base leading-[var(--leading-relaxed)] text-ink">
             {vaginismusClinicians.closing}
           </p>
-          <Button href={vaginismusClinicians.cta.href} variant="primary" className="shrink-0">
+          <Button
+            href={vaginismusClinicians.cta.href}
+            variant="primary"
+            className="shrink-0"
+          >
             {vaginismusClinicians.cta.label}
           </Button>
         </div>

@@ -24,23 +24,23 @@ import { servicesImagery } from "@/content/services-imagery";
 export const newbornImagery = {
   hero: {
     src: servicesImagery["newborn-pediatric-care"].src,
-    alt: "AI-generated illustration: Both parents hold their newborn while talking with a paediatrician in a calm, home-adjacent room.",
+    alt: "Both parents hold their newborn while talking with a paediatrician in a calm, home-adjacent room.",
     focalPoint: { mobile: "32% 30%", desktop: "38% 24%" },
   },
   introduction: {
-    alt: "AI-generated illustration pending: a parent noticing and interacting with their baby in a warm everyday environment.",
+    alt: "A parent noticing and interacting with their baby in a warm everyday environment.",
     gradient: portraitGradient(1),
   },
   consultation: {
-    alt: "AI-generated illustration pending: a paediatrician speaking with a parent while their baby is present.",
+    alt: "A paediatrician speaking with a parent while their baby is present.",
     gradient: portraitGradient(2),
   },
   "daily-care": {
-    alt: "AI-generated illustration pending: a natural parent-and-baby daily routine moment.",
+    alt: "A natural parent-and-baby daily routine moment.",
     gradient: portraitGradient(0),
   },
   "first-visit": {
-    alt: "AI-generated illustration pending: a warm, respectful pediatric consultation scene.",
+    alt: "A warm, respectful pediatric consultation scene.",
     gradient: portraitGradient(1),
   },
 } as const;
@@ -56,7 +56,7 @@ export const newbornHero = {
   body: "The early days with a newborn can bring new routines, new observations and plenty of questions.",
   bodySecondary:
     "You may want to ask about feeding, growth, behaviour, general health or something that simply feels different from what you expected. A pediatric consultation gives you space to describe what you are noticing and understand what may need attention next.",
-  primaryCta: { label: "Book a Pediatric Consultation", href: "#enquiry" },
+  primaryCta: { label: "Book a Pediatric Consultation", href: "/contact" },
   secondaryCta: { label: "Explore what the visit may cover ↓", href: "#what-we-cover" },
 } as const;
 
@@ -74,7 +74,7 @@ export const newbornIntro = {
     { title: "General health", body: "Discuss concerns about your baby or child's health and what your paediatrician recommends next." },
     { title: "Ongoing questions", body: "As your child grows, new questions may come up and can be discussed in follow-up care." },
   ],
-  cta: { label: "Book a Consultation", href: "#enquiry" },
+  cta: { label: "Book a Consultation", href: "/contact" },
 } as const;
 
 export const newbornCovers = {
@@ -111,7 +111,7 @@ export const newbornFirstConsultation = {
     { number: "03", title: "Understand the next step", body: "Ask what follow-up, further assessment or additional care may be appropriate." },
   ],
   note: "Diagnosis in one visit, tests, medications, vaccinations, procedures and specific growth assessments are never assumed — what's appropriate depends on your child's individual consultation.",
-  cta: { label: "Book a Pediatric Consultation", href: "#enquiry" },
+  cta: { label: "Book a Pediatric Consultation", href: "/contact" },
 } as const;
 
 export const newbornClinician = {
@@ -120,7 +120,7 @@ export const newbornClinician = {
   doctorSlug: "dr-deepika-sivathanu",
   profileLabel: "View Full Profile",
   bookLabel: "Book Consultation",
-  bookHref: "#enquiry",
+  bookHref: "/contact",
 } as const;
 
 export const newbornPractical = {
@@ -210,5 +210,5 @@ export const newbornEnquiry = {
 
 export const newbornMobileCta = {
   label: "Book a Pediatric Consultation",
-  href: "#enquiry",
+  href: "/contact",
 } as const;

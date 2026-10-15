@@ -60,7 +60,7 @@ export const naturalBirthHero = {
   supportingHeadline:
     "Prepare for the birth you hope for, with informed choices and individualised care.",
   body: [
-    "Natural Birth at The BirthWave focuses on supporting the body's natural labour process while keeping you and your newborn's wellbeing at the centre of every decision.",
+    "Natural Birth at The Birthwave focuses on supporting the body's natural labour process while keeping you and your newborn's wellbeing at the centre of every decision.",
     "From understanding labour and preparing your birth plan to exploring movement, comfort and pain-relief options, we help you prepare for birth with clarity.",
     "Every pregnancy is different. Your preferences matter, and your care plan may adapt as labour progresses.",
   ],
@@ -76,7 +76,7 @@ export const naturalBirthApproach = {
   heading: "Natural Birth is about supporting your body, not avoiding medical care.",
   paragraphs: [
     "Natural Birth focuses on supporting physiological labour, encouraging informed choices and avoiding unnecessary interventions when clinically appropriate.",
-    "At The BirthWave, this approach includes:",
+    "At The Birthwave, this approach includes:",
   ],
   elements: [
     {
@@ -260,7 +260,7 @@ export const naturalBirthPractical = {
   info: [
     {
       label: "Consultation Location",
-      lines: ["The BirthWave, Mahalingapuram Main Road, Nungambakkam, Chennai – 600034."],
+      lines: ["The Birthwave, Mahalingapuram Main Road, Nungambakkam, Chennai – 600034."],
     },
     {
       label: "Consulting Obstetrician",
@@ -358,7 +358,7 @@ export const naturalBirthEnquiry = {
   heading: "Thinking about Natural Birth?",
   body: [
     "Whether you are early in pregnancy or approaching your due date, you can discuss your birth preferences, understand your options and prepare for labour.",
-    "Contact The BirthWave to arrange a consultation.",
+    "Contact The Birthwave to arrange a consultation.",
   ],
   fields: {
     name: "Full Name",
@@ -393,20 +393,15 @@ export const naturalBirthRelatedCare = {
       href: "/services/birth-preparation",
     },
     {
-      title: "Vaginal Delivery →",
-      description: "Understand vaginal birth and the care options relevant to your pregnancy.",
-      href: "/services/normal-birth-delivery",
-    },
-    {
       title: "VBAC (Vaginal Birth After Caesarean) →",
       description:
         "Information and individual assessment for women considering vaginal birth after a previous Caesarean.",
       href: "/services/vbac",
     },
     {
-      title: "Postpartum Recovery & Care →",
-      description: "Care and guidance for recovery after childbirth.",
-      href: "/services/postpartum-care",
+      title: "Fertility & Preconception →",
+      description: "Reproductive health consultations and planning for future pregnancies.",
+      href: "/services/fertility-preconception",
     },
   ],
 } as const;

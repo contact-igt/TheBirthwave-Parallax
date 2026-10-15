@@ -14,7 +14,6 @@ export function NormalBirthHero() {
       primaryCta={normalBirthHero.primaryCta}
       secondaryCta={normalBirthHero.secondaryCta}
       image={{ src: image.src, alt: image.alt, objectPosition: image.objectPosition }}
-      disclosure="AI-generated illustration"
     />
   );
 }

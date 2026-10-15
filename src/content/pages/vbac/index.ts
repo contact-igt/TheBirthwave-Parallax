@@ -24,23 +24,23 @@ import { portraitGradient } from "@/components/ui/portrait-gradient";
  */
 export const vbacImagery = {
   hero: {
-    alt: "AI-generated illustration pending: a thoughtful expectant mother and her partner near a sunlit window.",
+    alt: "A thoughtful expectant mother and her partner near a sunlit window.",
     gradient: portraitGradient(0),
   },
   consultation: {
-    alt: "AI-generated illustration pending: a calm one-to-one maternity-care consultation.",
+    alt: "A calm one-to-one maternity-care consultation.",
     gradient: portraitGradient(1),
   },
   "birth-history": {
-    alt: "AI-generated illustration pending: a reflective conversation about a personal birth history, no medical records shown.",
+    alt: "A reflective conversation about a personal birth history, no medical records shown.",
     gradient: portraitGradient(2),
   },
   planning: {
-    alt: "AI-generated illustration pending: a couple discussing birth preferences together at home.",
+    alt: "A couple discussing birth preferences together at home.",
     gradient: portraitGradient(0),
   },
   "next-steps": {
-    alt: "AI-generated illustration pending: a warm, practical preparation moment at home.",
+    alt: "A warm, practical preparation moment at home.",
     gradient: portraitGradient(1),
   },
 } as const;
@@ -55,7 +55,7 @@ export const vbacHero = {
   supportingLine: "A previous caesarean doesn't always mean your next birth must be the same.",
   body: [
     "VBAC (Vaginal Birth After Caesarean) may be an option for some women who have previously had a C-section.",
-    "At The BirthWave, Dr. Santoshini Nandigam helps you understand your previous birth, assess your current pregnancy and explore the birth options that may be appropriate for you.",
+    "At The Birthwave, Dr. Santoshini Nandigam helps you understand your previous birth, assess your current pregnancy and explore the birth options that may be appropriate for you.",
   ],
   primaryCta: { label: "DISCUSS VBAC WITH DR. SANTOSHINI ↗", href: "#vbac-enquiry" },
   secondaryCta: { label: "UNDERSTAND VBAC ↓", href: "#vbac-story" },
@@ -199,7 +199,7 @@ export const vbacFirstVisit = {
       body: "Discuss whether VBAC may be appropriate and what the next steps could involve.",
     },
   ],
-  cta: { label: "BOOK A VBAC CONSULTATION ↗", href: "#vbac-enquiry" },
+  cta: { label: "BOOK A VBAC CONSULTATION ↗", href: "/contact" },
 } as const;
 
 export const vbacClinician = {
@@ -216,7 +216,7 @@ export const vbacClinician = {
       "Dr. Santoshini's approach focuses on understanding your previous experience, reviewing your current pregnancy and discussing your birth options with you.",
     ],
     photo: "/images/clinic/dr-santoshi.JPG",
-    primaryCta: { label: "BOOK A CONSULTATION ↗", href: "#vbac-enquiry" },
+    primaryCta: { label: "BOOK A CONSULTATION ↗", href: "/contact" },
     secondaryCta: { label: "VIEW FULL PROFILE ↗", href: "/doctors/dr-santoshi-nandigam" },
   },
 } as const;
@@ -238,7 +238,7 @@ export const vbacPractical = {
     {
       label: "Consultation location",
       lines: [
-        "The BirthWave",
+        "The Birthwave",
         "Mahalingapuram Main Road, Nungambakkam, Chennai – 600034",
       ],
     },
@@ -264,7 +264,7 @@ export const vbacPractical = {
       lines: ["+91 93630 31925"],
     },
   ],
-  cta: { label: "BOOK A CONSULTATION ↗", href: "#vbac-enquiry" },
+  cta: { label: "BOOK A CONSULTATION ↗", href: "/contact" },
 } as const;
 
 export const vbacFaq = {
@@ -323,7 +323,7 @@ export const vbacEnquiry = {
   ],
   primaryCta: "BOOK A VBAC CONSULTATION ↗",
   whatsappCta: "CHAT ON WHATSAPP ↗",
-  whatsappUrl: "https://wa.me/919363031925",
+  whatsappUrl: "https://wa.me/917904251378",
   phone: "+91 93630 31925",
   fields: {
     name: "Full Name",
@@ -344,7 +344,7 @@ export const vbacEnquiry = {
 
 export const vbacMobileCta = {
   label: "Book a VBAC Consultation",
-  href: "#vbac-enquiry",
+  href: "/contact",
 } as const;
 
 export const vbacRelatedCare = {
@@ -362,19 +362,14 @@ export const vbacRelatedCare = {
       href: "/services/natural-birth",
     },
     {
-      title: "Vaginal Delivery ↗",
-      description: "Understanding labour progression, birth preparation and delivery care.",
-      href: "/services/normal-birth-delivery",
-    },
-    {
       title: "Birth Preparation & Childbirth Education ↗",
       description: "Practical preparation, labour comfort, partner roles and newborn care.",
       href: "/services/birth-preparation",
     },
     {
-      title: "Postpartum Recovery & Care ↗",
-      description: "Physical healing, pelvic health, emotional wellbeing and recovery support.",
-      href: "/services/postpartum-care",
+      title: "Fertility & Preconception ↗",
+      description: "Reproductive health consultations and planning for future pregnancies.",
+      href: "/services/fertility-preconception",
     },
   ],
 } as const;

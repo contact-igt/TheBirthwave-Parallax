@@ -1,6 +1,7 @@
 ﻿import { vaginismusWho } from "@/content/pages/vaginismus";
 import { VaginismusImage } from "./vaginismus-image";
 import { VaginismusReveal } from "./vaginismus-reveal";
+import styles from "./vaginismus-page.module.css";
 import { Button } from "@/components/ui/button";
 
 /**
@@ -42,26 +43,26 @@ export function VaginismusWho() {
               {vaginismusWho.intro}
             </p>
 
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <ul className={styles.relevanceList}>
               {vaginismusWho.points.map((point) => (
-                <div
+                <li
                   key={point.title}
-                  className="rounded-xs border border-[var(--color-border)] bg-paper/80 p-5 backdrop-blur-xs"
+                  className={styles.relevanceItem}
                 >
-                  <h3 className="font-body text-sm font-semibold text-ink">
+                  <h3 className={styles.relevanceTitle}>
                     {point.title}
                   </h3>
-                  <p className="mt-2 text-xs leading-[var(--leading-relaxed)] text-ink-soft">
+                  <p className="mt-2 text-base leading-[var(--leading-relaxed)] text-ink-soft">
                     {point.body}
                   </p>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
 
         {/* Middle: Online counselling alone context */}
-        <div className="mt-16 rounded-xs border border-[var(--color-border)] bg-paper p-8 sm:p-10 lg:mt-20">
+        <div className={styles.comparisonPanel}>
           <div className="max-w-3xl">
             <h3 className="text-xl font-semibold text-ink sm:text-2xl">
               {onlineCounselling.heading}
@@ -86,6 +87,7 @@ export function VaginismusWho() {
                   <tr>
                     {comparisonTable.headers.map((header, idx) => (
                       <th
+                        scope="col"
                         key={header}
                         className={`p-4 ${idx === 2 ? "bg-[var(--vaginismus-sky-wash)] text-terracotta-deep font-bold" : ""}`}
                       >
@@ -113,21 +115,21 @@ export function VaginismusWho() {
               {comparisonTable.rows.map((row) => (
                 <div
                   key={row.area}
-                  className="rounded-xs border border-[var(--color-border)] bg-paper-warm/40 p-4"
+                  className={styles.mobileComparisonRow}
                 >
                   <strong className="block font-body text-sm font-semibold text-ink">
                     {row.area}
                   </strong>
-                  <div className="mt-3 space-y-2 text-xs leading-relaxed">
-                    <div className="rounded-xs border border-[var(--color-border)] bg-paper p-3">
-                      <span className="block font-semibold text-ink-soft/70 uppercase text-[0.6875rem]">
+                  <div className="mt-3 space-y-4 text-base leading-relaxed">
+                    <div className={styles.comparisonOnline}>
+                      <span className="block font-semibold text-ink-soft uppercase text-xs">
                         Online counselling-focused
                       </span>
                       <p className="mt-1 text-ink-soft">{row.online}</p>
                     </div>
-                    <div className="rounded-xs border border-terracotta/30 bg-[var(--vaginismus-sky-wash)] p-3">
-                      <span className="block font-semibold text-terracotta-deep uppercase text-[0.6875rem]">
-                        The BirthWave coordinated care
+                    <div className={styles.comparisonCoordinated}>
+                      <span className="block font-semibold text-terracotta-deep uppercase text-xs">
+                        The Birthwave coordinated care
                       </span>
                       <p className="mt-1 font-medium text-ink">{row.birthwave}</p>
                     </div>

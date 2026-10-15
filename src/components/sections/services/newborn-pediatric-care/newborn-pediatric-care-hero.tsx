@@ -64,9 +64,6 @@ export function NewbornHero() {
         </div>
       </div>
 
-      <span className="absolute top-4 right-4 z-10 rounded-xs bg-paper/90 px-2 py-1 font-body text-[0.6875rem] text-ink-soft">
-        AI-generated illustration
-      </span>
     </section>
   );
 }
