@@ -24,12 +24,12 @@ import { portraitGradient } from "@/components/ui/portrait-gradient";
  */
 export const vbacImagery = {
   hero: {
-    src: "/images/services/service8.JPG",
+    src: "/images/services/service8.jpg",
     alt: "A thoughtful expectant mother and her partner near a sunlit window.",
     gradient: portraitGradient(0),
   },
   consultation: {
-    src: "/images/services/service5.JPG",
+    src: "/images/services/service5.jpg",
     alt: "A calm one-to-one maternity-care consultation.",
     gradient: portraitGradient(1),
   },
@@ -38,7 +38,7 @@ export const vbacImagery = {
     gradient: portraitGradient(2),
   },
   planning: {
-    src: "/images/services/planning2.JPG",
+    src: "/images/services/planning2.jpg",
     alt: "A couple discussing birth preferences together at home.",
     gradient: portraitGradient(0),
   },

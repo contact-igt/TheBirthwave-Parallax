@@ -143,7 +143,7 @@ export const doctors: DoctorContent[] = [
     description:
       "The Birthwave is designed as one continuous care journey, with space for questions, preferences, preparation and follow-up — across pregnancy, birth and recovery.",
     photo: {
-      src: "/images/web-ready/founder.JPG",
+      src: "/images/doctors/dr-santoshi-web.jpg",
       alt: "Dr. Santoshi Nandigam",
       placeholderLabel: "Dr. Santoshi Nandigam",
     },
@@ -321,7 +321,7 @@ export const doctorsHero = {
     href: "#team-directory",
   },
   media: {
-    src: "/images/web-ready/birth.JPG",
+    src: "/images/web-ready/birth.jpg",
     alt: "Doctor consultation with patient at The Birthwave",
   },
 } as const;

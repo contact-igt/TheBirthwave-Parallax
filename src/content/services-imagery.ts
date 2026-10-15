@@ -1,6 +1,6 @@
 /** Temporary AI illustrations used only on /services. Replace each asset here with approved clinic photography. */
 export const servicesImagery = {
-  "services-hero": { src: "/images/services/heroservice.JPG", alt: "A mother cradles her sleeping newborn beside a softly lit window." },
+  "services-hero": { src: "/images/services/heroservice.jpg", alt: "A mother cradles her sleeping newborn beside a softly lit window." },
   // Pregnancy & Antenatal Care landing page — its own dedicated hero
   // background, copied in from the approved visual reference (see
   // pregnancy-antenatal-landing-content.ts's own header comment) and
@@ -10,7 +10,7 @@ export const servicesImagery = {
   // for where it actually appears on this page, without a second copy of
   // the file itself.
   "pregnancy-antenatal-hero": {
-    src: "/images/services/heroservice.JPG",
+    src: "/images/services/heroservice.jpg",
     alt: "A pregnant woman in a softly lit, warm interior.",
     // Source photo is 1440x810 (16:9), subject seated at roughly the
     // right two-thirds with a wide, genuinely empty wall on the left —
@@ -21,27 +21,27 @@ export const servicesImagery = {
     focalPoint: { mobile: "74% 22%", tablet: "74% 16%", desktop: "74% 12%" },
   },
   "pregnancy-antenatal-checkins-scans": {
-    src: "/images/services/service3.JPG",
+    src: "/images/services/service3.jpg",
     alt: "A pregnant woman talks with a clinician during an antenatal consultation.",
     objectPosition: "50% 18%",
   },
   "pregnancy-antenatal-wellbeing-birth-prep": {
-    src: "/images/services/service4.JPG",
+    src: "/images/services/service4.jpg",
     alt: "An expectant couple practises calm breathing with a childbirth educator.",
     objectPosition: "50% 16%",
   },
   "pregnancy-antenatal-first-consultation": {
-    src: "/images/services/service5.JPG",
+    src: "/images/services/service5.jpg",
     alt: "A woman discusses her health with a clinician in a calm consultation room.",
     objectPosition: "50% 20%",
   },
   "pregnancy-antenatal-care-team": {
-    src: "/images/services/service6.JPG",
+    src: "/images/services/service6.jpg",
     alt: "Three care professionals discuss care together around a table.",
     objectPosition: "50% 20%",
   },
   "pregnancy-antenatal-faq-visual": {
-    src: "/images/services/service6.JPG",
+    src: "/images/services/service6.jpg",
     alt: "An expectant mother peacefully looking out a sunlit window beside soft linen curtains.",
     objectPosition: "35% 25%",
   },
@@ -81,18 +81,18 @@ export const servicesImagery = {
     src: "/images/web-ready/exp04665.jpg",
     alt: "Educator demonstrating newborn care with a training doll.",
   },
-  "fertility-preconception": { src: "/images/services/service1.JPG", alt: "A couple talks with a clinician about planning a pregnancy." },
-  "vaginismus": { src: "/images/services/service2.JPG", alt: "A woman has a private, supportive conversation with a clinician." },
-  "gynaecology": { src: "/images/services/service2.JPG", alt: "A woman discusses her health with a clinician in a calm consultation room." },
-  "pregnancy-antenatal-care": { src: "/images/services/service2.JPG", alt: "A pregnant woman talks with a clinician during an antenatal consultation." },
-  "nutrition-emotional-wellbeing": { src: "/images/services/service3.JPG", alt: "A pregnant woman discusses everyday nutrition and wellbeing with a care professional." },
-  "birth-preparation": { src: "/images/services/service4.JPG", alt: "An expectant couple practises calm breathing with a childbirth educator." },
-  "normal-birth-delivery": { src: "/images/services/service5.JPG", alt: "A pregnant woman receives reassurance from her partner and a care professional during labour." },
-  "vbac": { src: "/images/services/faq.JPG", alt: "An expectant couple discusses birth options with a clinician." },
-  "postpartum-care": { src: "/images/services/service5.JPG", alt: "A resting new mother talks with a clinician about her recovery." },
-  "lactation": { src: "/images/services/service3.JPG", alt: "A mother holds her newborn during a feeding-support consultation." },
-  "newborn-pediatric-care": { src: "/images/services/service3.JPG", alt: "Parents hold their newborn during a conversation with a paediatric clinician." },
-  "connected-care": { src: "/images/services/service3.JPG", alt: "Three care professionals discuss care together around a table." },
+  "fertility-preconception": { src: "/images/web-ready/service1.jpg", alt: "A couple talks with a clinician about planning a pregnancy." },
+  "vaginismus": { src: "/images/services/service2.jpg", alt: "A woman has a private, supportive conversation with a clinician." },
+  "gynaecology": { src: "/images/services/service2.jpg", alt: "A woman discusses her health with a clinician in a calm consultation room." },
+  "pregnancy-antenatal-care": { src: "/images/services/service2.jpg", alt: "A pregnant woman talks with a clinician during an antenatal consultation." },
+  "nutrition-emotional-wellbeing": { src: "/images/services/service3.jpg", alt: "A pregnant woman discusses everyday nutrition and wellbeing with a care professional." },
+  "birth-preparation": { src: "/images/services/service4.jpg", alt: "An expectant couple practises calm breathing with a childbirth educator." },
+  "normal-birth-delivery": { src: "/images/services/service5.jpg", alt: "A pregnant woman receives reassurance from her partner and a care professional during labour." },
+  "vbac": { src: "/images/services/faq.jpg", alt: "An expectant couple discusses birth options with a clinician." },
+  "postpartum-care": { src: "/images/services/service5.jpg", alt: "A resting new mother talks with a clinician about her recovery." },
+  "lactation": { src: "/images/services/service3.jpg", alt: "A mother holds her newborn during a feeding-support consultation." },
+  "newborn-pediatric-care": { src: "/images/services/service3.jpg", alt: "Parents hold their newborn during a conversation with a paediatric clinician." },
+  "connected-care": { src: "/images/services/service3.jpg", alt: "Three care professionals discuss care together around a table." },
   // Care Finder 3-column "doorways into care" imagery
   "care-finder-your-health": {
     src: "/images/services/service2.jpg",
@@ -108,15 +108,15 @@ export const servicesImagery = {
   },
   // Care Journey chapter-level images for the 7 chapters
   "care-journey-womens-health": {
-    src: "/images/services/service2.JPG",
+    src: "/images/services/service2.jpg",
     alt: "A woman discusses her health and wellbeing with a clinician in a calm consultation room.",
   },
   "care-journey-planning-a-pregnancy": {
-    src: "/images/services/service4.JPG",
+    src: "/images/services/service4.jpg",
     alt: "A couple talks with a clinician about planning a pregnancy.",
   },
   "care-journey-pregnancy-care": {
-    src: "/images/services/service4.JPG",
+    src: "/images/services/service4.jpg",
     alt: "A pregnant woman talks with a clinician during an antenatal consultation.",
   },
   "care-journey-preparing-for-birth": {

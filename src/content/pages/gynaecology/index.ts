@@ -11,7 +11,7 @@ import type { HeroFocalPoint } from "@/lib/hero-focal-point";
 
 export const gynaecologyImagery = {
   hero: {
-    src: "/images/web-ready/service1.JPG",
+    src: "/images/web-ready/service1.jpg",
     alt: "Woman speaking with a gynaecologist during a consultation",
     focalPoint: {
       mobile: "70% 35%",

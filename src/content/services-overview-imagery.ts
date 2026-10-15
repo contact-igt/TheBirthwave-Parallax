@@ -32,15 +32,15 @@ export const servicesOverviewImagery = {
     alt: "An expectant couple practises calm breathing with a childbirth educator.",
   },
   careJourneyBirthOptions: {
-    src: "/images/services/service1.JPG",
+    src: "/images/web-ready/service1.jpg",
     alt: "An expectant couple discusses birth plans and options with a clinician.",
   },
   careJourneyAfterBirth: {
-    src: "/images/services/afterbirth.JPG",
+    src: "/images/services/afterbirth.jpg",
     alt: "A mother holds her newborn during a feeding-support consultation.",
   },
   careJourneyBabyCare: {
-    src: "/images/services/planning2.JPG",
+    src: "/images/services/planning2.jpg",
     alt: "Parents hold their newborn during a conversation with a paediatric clinician.",
   },
   birthApproach: {
