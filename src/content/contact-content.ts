@@ -17,7 +17,7 @@ export const contactHero = {
     href: "https://wa.me/917904251378",
   },
   media: {
-    src: "/brand/about/about-belief-poster.jpg",
+    src: "/images/web-ready/contactus.JPG",
     alt: "A warm, supportive consultation setting at The Birthwave",
   },
 } as const;
