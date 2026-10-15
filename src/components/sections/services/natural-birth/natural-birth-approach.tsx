@@ -1,4 +1,4 @@
-import { naturalBirthApproach } from "@/content/natural-birth-landing-content";
+﻿import { naturalBirthApproach } from "@/content/pages/natural-birth";
 import { NaturalBirthImage } from "./natural-birth-image";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
 

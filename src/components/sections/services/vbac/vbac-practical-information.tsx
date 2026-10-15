@@ -1,4 +1,4 @@
-import { vbacPractical } from "@/content/vbac-landing-content";
+﻿import { vbacPractical } from "@/content/pages/vbac";
 import { VbacReveal } from "./vbac-reveal";
 import { Button } from "@/components/ui/button";
 

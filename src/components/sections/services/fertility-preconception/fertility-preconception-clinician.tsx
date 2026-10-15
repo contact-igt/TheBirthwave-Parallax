@@ -1,4 +1,4 @@
-import { fertilityClinicians } from "@/content/fertility-preconception-landing-content";
+﻿import { fertilityClinicians } from "@/content/pages/fertility-preconception";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";

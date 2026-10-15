@@ -1,4 +1,4 @@
-import { gynaecologyFirstConsultation } from "@/content/gynaecology-landing-content";
+﻿import { gynaecologyFirstConsultation } from "@/content/pages/gynaecology";
 import { GynaecologyImage } from "./gynaecology-image";
 import { GynaecologyReveal } from "./gynaecology-reveal";
 import { Button } from "@/components/ui/button";

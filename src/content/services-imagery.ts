@@ -1,6 +1,6 @@
 /** Temporary AI illustrations used only on /services. Replace each asset here with approved clinic photography. */
 export const servicesImagery = {
-  "services-hero": { src: "/images/services/services-hero-ai-preview-v1.webp", alt: "AI-generated illustration: A mother cradles her sleeping newborn beside a softly lit window." },
+  "services-hero": { src: "/images/services/heroservice.JPG", alt: "AI-generated illustration: A mother cradles her sleeping newborn beside a softly lit window." },
   // Pregnancy & Antenatal Care landing page — its own dedicated hero
   // background, copied in from the approved visual reference (see
   // pregnancy-antenatal-landing-content.ts's own header comment) and

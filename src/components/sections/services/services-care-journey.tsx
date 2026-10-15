@@ -1,5 +1,6 @@
 "use client";
 
+import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -16,6 +17,7 @@ import { servicesImagery, type ServicesImageKey } from "@/content/services-image
 import { useParallax } from "@/motion/image-motion";
 import { Button } from "@/components/ui/button";
 import { cx } from "@/lib/cx";
+import styles from "./services-overview.module.css";
 
 interface ChapterItem {
   title: string;
@@ -83,10 +85,45 @@ const CHAPTERS_PART_2: ChapterData[] = [
   },
 ];
 
+/** Keep the whole narrative column sticky only when all its content fits. */
+function useFittingChapterColumn() {
+  const ref = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const column = ref.current;
+    if (!column) return;
+    const root = column.closest("[data-services-overview]");
+    const nav = root?.querySelector("#care-chapters");
+    const header = document.querySelector("body > header");
+    let frame = 0;
+    const measure = () => {
+      const top = parseFloat(getComputedStyle(column).top) || 0;
+      const fits = window.innerWidth >= 1024 && column.offsetHeight <= window.innerHeight - top - 24;
+      column.dataset.sticky = fits ? "on" : "off";
+    };
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measure);
+    };
+    const observer = new ResizeObserver(schedule);
+    observer.observe(column);
+    if (nav) observer.observe(nav);
+    if (header) observer.observe(header);
+    window.addEventListener("resize", schedule);
+    measure();
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", schedule);
+    };
+  }, []);
+  return ref;
+}
+
 /**
  * Single Chapter Article Renderer.
  */
-function ChapterArticle({ chapter }: { chapter: ChapterData }) {
+function ChapterArticle({ chapter, index }: { chapter: ChapterData; index: number }) {
+  const narrativeRef = useFittingChapterColumn();
   const image = servicesImagery[chapter.imageKey];
   const parallaxRef = useParallax<HTMLDivElement>({
     factor: 0.06,
@@ -98,98 +135,90 @@ function ChapterArticle({ chapter }: { chapter: ChapterData }) {
     <article
       id={chapter.id}
       aria-labelledby={`chapter-${chapter.id}-heading`}
-      className="scroll-mt-[calc(var(--header-height)+1.5rem)]"
+      className={cx(styles.chapter, index % 2 === 1 && styles.alternate)}
     >
-      {/* Category Header */}
-      <header className="max-w-3xl">
-        <p className="eyebrow text-terracotta-deep font-semibold">
-          {chapter.sectionNumber} — {chapter.eyebrow}
-        </p>
-        <h2
-          id={`chapter-${chapter.id}-heading`}
-          className="mt-3 text-h2 leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink"
-        >
-          {chapter.heading}
-        </h2>
-        <div className="mt-4 max-w-[56ch] space-y-2 text-base leading-[var(--leading-relaxed)] text-ink-soft sm:text-lg">
-          {chapter.intro.map((para) => (
-            <p key={para}>{para}</p>
-          ))}
-        </div>
-      </header>
-
-      {/* Main Chapter Grid: ~42% Image Left / ~58% Service Cards Right */}
-      <div className="mt-10 lg:mt-12 md:grid md:grid-cols-12 md:gap-8 lg:gap-10 xl:gap-14">
-        {/* Left Column: Photograph */}
-        <div className="md:col-span-5">
-          <div className="group/image relative w-full overflow-hidden rounded-[16px] sm:rounded-[18px] bg-paper-dim shadow-[0_12px_36px_rgba(42,36,33,0.04)] aspect-[4/3] md:aspect-[4/4.5] lg:aspect-[4/5] md:sticky md:top-[calc(var(--header-height)+2rem)]">
-            <div
-              ref={parallaxRef}
-              style={{ transform: "translate3d(0, var(--parallax-y, 0px), 0) scale(1.08)" }}
-              className="relative h-full w-full will-change-transform transition-transform duration-700 ease-out group-hover/image:scale-[1.12]"
-            >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes="(max-width: 639px) 92vw, (max-width: 1023px) 80vw, 480px"
-                className="object-cover"
-                style={{ objectPosition: chapter.focalPoint ?? "center center" }}
-              />
-            </div>
-            <p className="absolute right-3 bottom-3 left-3 z-10 w-fit max-w-[calc(100%-1.5rem)] rounded-xs bg-paper/95 px-2.5 py-1 font-body text-[0.6875rem] leading-snug text-ink-soft backdrop-blur-xs select-none">
-              AI-generated illustration · Clinic photography pending
+      <div className={`container-birthwave ${styles.chapterGrid}`}>
+        <div ref={narrativeRef} data-sticky="off" className={styles.chapterNarrative}>
+          <header className={styles.chapterHeader}>
+            <p className="eyebrow text-terracotta-deep font-semibold">
+              {chapter.sectionNumber} — {chapter.eyebrow}
             </p>
+            <h2
+              id={`chapter-${chapter.id}-heading`}
+              className="mt-3 text-h2 leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink"
+            >
+              {chapter.heading}
+            </h2>
+            <div className="mt-4 max-w-[56ch] space-y-2 text-base leading-[var(--leading-relaxed)] text-ink-soft sm:text-lg">
+              {chapter.intro.map((para) => (
+                <p key={para}>{para}</p>
+              ))}
+            </div>
+          </header>
+
+          {/* Parallax stays on the image, never the introduction or links. */}
+          <div className={styles.chapterMedia}>
+            <div className={styles.photoFrame}>
+              <div
+                ref={parallaxRef}
+                style={{ transform: "translate3d(0, var(--parallax-y, 0px), 0) scale(1.08)" }}
+                className="relative h-full w-full will-change-transform"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes="(max-width: 1023px) 92vw, 480px"
+                  className="object-cover"
+                  style={{ objectPosition: chapter.focalPoint ?? "center center" }}
+                />
+              </div>
+              <p className="absolute right-3 bottom-3 left-3 z-10 w-fit max-w-[calc(100%-1.5rem)] rounded-xs bg-paper/95 px-2.5 py-1 font-body text-[0.6875rem] leading-snug text-ink-soft backdrop-blur-xs select-none">
+                AI-generated illustration · Clinic photography pending
+              </p>
+            </div>
           </div>
+
         </div>
 
-        {/* Right Column: Service Cards List */}
-        <div className="mt-8 md:mt-0 md:col-span-7">
+        {/* Linked services are cards; informational items remain plain rows. */}
+        <div className={styles.chapterServices}>
           <div className="mb-4 flex items-center justify-between text-xs text-ink-soft">
             <span className="font-semibold uppercase tracking-wider text-terracotta-deep">
               {chapter.services.length} {chapter.services.length === 1 ? "Area of Care" : "Areas of Care"}
             </span>
           </div>
 
-          <ul className="flex flex-col gap-4">
+          <ul className={styles.serviceList}>
             {chapter.services.map((service) => (
-              <li
-                key={service.title}
-                className="group rounded-[12px] border border-[var(--color-border)] bg-white p-6 sm:p-7 transition-all duration-[var(--duration-fast)] ease-[var(--ease-signature)] hover:-translate-y-1 hover:border-terracotta/50 hover:bg-[#FDFBF9] hover:shadow-[0_12px_28px_-6px_rgba(196,112,89,0.12),0_4px_12px_rgba(42,36,33,0.04)]"
-              >
-                <h3 className="text-xl font-semibold tracking-[var(--tracking-tight)] text-ink transition-colors duration-[var(--duration-fast)] group-hover:text-terracotta-deep">
-                  {service.title}
-                </h3>
-                <p className="mt-2 text-sm leading-[var(--leading-relaxed)] text-ink-soft">
-                  {service.body}
-                </p>
-
+              <li key={service.title}>
                 {service.cta ? (
-                  <div className="mt-4 pt-3 border-t border-[var(--color-border)]/60">
-                    <Link
-                      href={service.cta.href}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-terracotta-deep transition-colors duration-[var(--duration-fast)] hover:text-ink"
-                    >
+                  <Link href={service.cta.href} className={styles.serviceCard}>
+                    <h3 className={styles.serviceTitle}>{service.title}</h3>
+                    <p className={styles.serviceBody}>{service.body}</p>
+                    <span className={styles.serviceAction}>
                       <span>{service.cta.label.replace(/\s*→$/, "")}</span>
-                      <ArrowUpRight
-                        aria-hidden="true"
-                        className="size-3.5 transition-transform duration-[var(--duration-fast)] group-hover:translate-x-1 group-hover:-translate-y-1"
-                      />
-                    </Link>
+                      <ArrowUpRight aria-hidden="true" className="size-4 shrink-0" />
+                    </span>
+                  </Link>
+                ) : (
+                  <div className={styles.infoRow}>
+                    <h3 className={styles.serviceTitle}>{service.title}</h3>
+                    <p className={styles.serviceBody}>{service.body}</p>
                   </div>
-                ) : null}
+                )}
               </li>
             ))}
           </ul>
 
-          {/* Optional Chapter-level CTA */}
-          {chapter.cta ? (
-            <div className="mt-8">
+          <div className={styles.chapterActions}>
+            {chapter.cta ? (
               <Button href={chapter.cta.href} variant="primary">
                 {chapter.cta.label.replace(/\s*→$/, "")}
               </Button>
-            </div>
-          ) : null}
+            ) : null}
+            <a href="#care-chapters" className={styles.backLink}>Back to care chapters</a>
+          </div>
         </div>
       </div>
     </article>
@@ -206,10 +235,10 @@ function ChapterArticle({ chapter }: { chapter: ChapterData }) {
  */
 export function ServicesCareJourneyPart1() {
   return (
-    <section aria-label="Care chapters directory part 1" className="relative isolate bg-paper py-16 sm:py-20 lg:py-24">
-      <div className="container-birthwave flex flex-col gap-24 sm:gap-28 lg:gap-32">
-        {CHAPTERS_PART_1.map((chapter) => (
-          <ChapterArticle key={chapter.id} chapter={chapter} />
+    <section aria-label="Care chapters directory part 1" className="relative isolate bg-paper">
+      <div className={styles.chapters}>
+        {CHAPTERS_PART_1.map((chapter, index) => (
+          <ChapterArticle key={chapter.id} chapter={chapter} index={index} />
         ))}
       </div>
     </section>
@@ -223,10 +252,10 @@ export function ServicesCareJourneyPart1() {
  */
 export function ServicesCareJourneyPart2() {
   return (
-    <section aria-label="Care chapters directory part 2" className="relative isolate bg-paper py-16 sm:py-20 lg:py-24">
-      <div className="container-birthwave flex flex-col gap-24 sm:gap-28 lg:gap-32">
-        {CHAPTERS_PART_2.map((chapter) => (
-          <ChapterArticle key={chapter.id} chapter={chapter} />
+    <section aria-label="Care chapters directory part 2" className="relative isolate bg-paper">
+      <div className={styles.chapters}>
+        {CHAPTERS_PART_2.map((chapter, index) => (
+          <ChapterArticle key={chapter.id} chapter={chapter} index={index + CHAPTERS_PART_1.length} />
         ))}
       </div>
     </section>

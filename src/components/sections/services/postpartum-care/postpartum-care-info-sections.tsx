@@ -1,5 +1,5 @@
-import { Plus } from "lucide-react";
-import { postpartumPractical, postpartumFaq } from "@/content/postpartum-care-landing-content";
+﻿import { Plus } from "lucide-react";
+import { postpartumPractical, postpartumFaq } from "@/content/pages/postpartum-care";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { PostpartumReveal } from "./postpartum-care-reveal";
 

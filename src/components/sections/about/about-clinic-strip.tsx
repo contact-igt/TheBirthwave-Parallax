@@ -1,98 +1,142 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { ArrowUpRight, ImageIcon } from "lucide-react";
 import { aboutClinicStrip } from "@/content/about-clinic-content";
-import { Button } from "@/components/ui/button";
-import { useReducedMotion } from "@/motion/reduced-motion";
-import { ensureScrollTriggerRegistered, gsap, SIGNATURE_EASE } from "@/motion/gsap-scroll";
+
+interface AboutClinicStripProps {
+  /** Optional custom image path once ready. If omitted, displays the visual placeholder. */
+  imageSrc?: string;
+  imageAlt?: string;
+}
 
 /**
- * Section 10: "Visit The BirthWave" — clinic location strip
+ * Section: "Visit Us" — Clinic location card
  *
- * Displays clinic name, address, phone, email, and Get Directions CTA.
+ * Displays clinic name, address, contact details, "Get Directions" button,
+ * and an image placeholder formatted to match the reference design.
  */
-export function AboutClinicStrip() {
-  const stripRef = useRef<HTMLElement>(null);
-  const reducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (reducedMotion) return;
-    const strip = stripRef.current;
-    if (!strip) return;
-
-    ensureScrollTriggerRegistered();
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        strip,
-        { opacity: 0, y: 16 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: SIGNATURE_EASE,
-          scrollTrigger: {
-            trigger: strip,
-            start: "top 88%",
-            toggleActions: "play none none none",
-          },
-        },
-      );
-    }, strip);
-
-    return () => ctx.revert();
-  }, [reducedMotion]);
-
+export function AboutClinicStrip({ imageSrc, imageAlt }: AboutClinicStripProps) {
   return (
     <section
-      ref={stripRef}
       id="clinic-location"
       aria-labelledby="clinic-strip-heading"
-      className="py-12 sm:py-16 bg-[#F5EFEB] border-y border-[#E8DFC8]/40"
+      className="py-12 sm:py-16 bg-[#FAF5F0]"
     >
-      <div className="container-birthwave">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-12">
-          {/* Clinic Details */}
-          <div className="space-y-3 max-w-xl">
-            <p className="eyebrow text-terracotta">{aboutClinicStrip.eyebrow}</p>
-            <h2
-              id="clinic-strip-heading"
-              className="text-2xl sm:text-3xl font-light text-espresso tracking-tight"
-            >
-              {aboutClinicStrip.heading}
-            </h2>
-            <p className="font-semibold text-espresso text-base sm:text-lg">
-              {aboutClinicStrip.clinicName}
-            </p>
-            <p className="text-sm sm:text-base text-muted leading-relaxed">
-              {aboutClinicStrip.address}
-            </p>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm pt-1">
-              <a
-                href={`tel:${aboutClinicStrip.phone.replace(/[^+\d]/g, "")}`}
-                className="text-espresso hover:text-terracotta font-medium transition-colors"
+      <div className="container-birthwave max-w-5xl lg:max-w-6xl mx-auto px-4 sm:px-6">
+        <div
+          style={{ backgroundColor: "#EFE7E0", borderColor: "#E4D9CF" }}
+          className="border rounded-3xl p-7 sm:p-10 lg:p-12 shadow-[0_4px_24px_rgba(36,26,23,0.02)]"
+        >
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 lg:gap-12">
+            {/* Left Details */}
+            <div className="w-full md:flex-1 flex flex-col justify-center">
+              <p
+                style={{ color: "#B37055" }}
+                className="font-semibold tracking-[0.2em] text-[11px] sm:text-xs uppercase mb-2"
               >
-                Phone: {aboutClinicStrip.phone}
-              </a>
-              <span className="text-muted/40" aria-hidden="true">·</span>
-              <a
-                href={`mailto:${aboutClinicStrip.email}`}
-                className="text-espresso hover:text-terracotta font-medium transition-colors"
+                {aboutClinicStrip.eyebrow}
+              </p>
+              <h2
+                id="clinic-strip-heading"
+                style={{ color: "#241A17" }}
+                className="text-[clamp(1.75rem,1.4rem+1.6vw,2.5rem)] font-light tracking-tight leading-snug mb-3.5"
               >
-                Email: {aboutClinicStrip.email}
-              </a>
-            </div>
-          </div>
+                {aboutClinicStrip.heading}
+              </h2>
+              <p
+                style={{ color: "#241A17" }}
+                className="font-semibold text-base sm:text-lg mb-1"
+              >
+                {aboutClinicStrip.clinicName}
+              </p>
+              <p
+                style={{ color: "#6E5D53" }}
+                className="text-sm sm:text-base leading-relaxed mb-4 max-w-md"
+              >
+                {aboutClinicStrip.address}
+              </p>
 
-          {/* Action Button: Get Directions */}
-          <div className="flex items-center gap-4 shrink-0">
-            <Button
-              href={aboutClinicStrip.directionsHref}
-              variant="primary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {aboutClinicStrip.directionsLabel} &rarr;
-            </Button>
+              <div
+                style={{ color: "#6E5D53" }}
+                className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm mb-6"
+              >
+                <div>
+                  <span style={{ color: "#241A17" }} className="font-semibold">
+                    Phone:
+                  </span>{" "}
+                  <a
+                    href={`tel:${aboutClinicStrip.phone.replace(/[^+\d]/g, "")}`}
+                    className="hover:underline transition-colors"
+                  >
+                    {aboutClinicStrip.phone}
+                  </a>
+                </div>
+                <div>
+                  <span style={{ color: "#241A17" }} className="font-semibold">
+                    Email:
+                  </span>{" "}
+                  <a
+                    href={`mailto:${aboutClinicStrip.email}`}
+                    className="hover:underline transition-colors"
+                  >
+                    {aboutClinicStrip.email}
+                  </a>
+                </div>
+              </div>
+
+              <div>
+                <a
+                  href={aboutClinicStrip.directionsHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ backgroundColor: "#8C4B35" }}
+                  className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-xs sm:text-sm font-semibold tracking-wider text-white uppercase shadow-sm transition-all duration-200 hover:opacity-90 hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8C4B35] focus-visible:ring-offset-2"
+                >
+                  <span>{aboutClinicStrip.directionsLabel}</span>
+                  <ArrowUpRight className="size-4 shrink-0" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+
+            {/* Right: Image Placeholder */}
+            <div className="w-full md:w-[320px] lg:w-[400px] shrink-0">
+              {imageSrc ? (
+                <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
+                  <Image
+                    src={imageSrc}
+                    alt={imageAlt || aboutClinicStrip.clinicName}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 400px"
+                  />
+                </div>
+              ) : (
+                <div
+                  style={{ backgroundColor: "#E2D8CF", borderColor: "#C5B7AA" }}
+                  className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden border-2 border-dashed flex flex-col items-center justify-center p-6 text-center shadow-sm"
+                >
+                  <div
+                    style={{ backgroundColor: "#D6C7BC", color: "#8C4B35" }}
+                    className="size-14 rounded-full flex items-center justify-center mb-3 shadow-inner"
+                  >
+                    <ImageIcon className="size-6" aria-hidden="true" />
+                  </div>
+                  <p
+                    style={{ color: "#241A17" }}
+                    className="text-sm font-medium tracking-tight"
+                  >
+                    Image Placeholder
+                  </p>
+                  <p
+                    style={{ color: "#7A6A60" }}
+                    className="text-xs mt-1 max-w-[200px] leading-relaxed"
+                  >
+                    Add clinic sanctuary or facade image here (recommended 4:3)
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

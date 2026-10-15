@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { gynaecologyEnquiry, gynaecologyMobileCta } from "@/content/gynaecology-landing-content";
+import { gynaecologyEnquiry, gynaecologyMobileCta } from "@/content/pages/gynaecology";
 import { GynaecologyReveal } from "./gynaecology-reveal";
 import { cx } from "@/lib/cx";
 

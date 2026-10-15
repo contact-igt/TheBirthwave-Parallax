@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { MessageCircle, Phone } from "lucide-react";
-import { vbacEnquiry, vbacMobileCta } from "@/content/vbac-landing-content";
+import { vbacEnquiry, vbacMobileCta } from "@/content/pages/vbac";
 import { VbacReveal } from "./vbac-reveal";
 import { cx } from "@/lib/cx";
 

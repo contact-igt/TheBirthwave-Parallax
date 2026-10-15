@@ -1,4 +1,4 @@
-import { vbacConsultationCover, vbacBenefitsRisks } from "@/content/vbac-landing-content";
+﻿import { vbacConsultationCover, vbacBenefitsRisks } from "@/content/pages/vbac";
 import { VbacImage } from "./vbac-image";
 import { VbacReveal } from "./vbac-reveal";
 import { Button } from "@/components/ui/button";

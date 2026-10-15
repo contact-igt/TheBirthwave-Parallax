@@ -1,5 +1,5 @@
-import { Plus, Phone } from "lucide-react";
-import { gynaecologyPractical, gynaecologyFaq } from "@/content/gynaecology-landing-content";
+﻿import { Plus, Phone } from "lucide-react";
+import { gynaecologyPractical, gynaecologyFaq } from "@/content/pages/gynaecology";
 import { GynaecologyImage } from "./gynaecology-image";
 import { GynaecologyReveal } from "./gynaecology-reveal";
 import { Button } from "@/components/ui/button";

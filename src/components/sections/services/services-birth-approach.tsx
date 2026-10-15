@@ -4,7 +4,7 @@ import Image from "next/image";
 import { birthApproachSection } from "@/content/our-services-content";
 import { servicesImagery } from "@/content/services-imagery";
 import { Button } from "@/components/ui/button";
-import { useScrollReveal } from "@/motion/scroll-scenes";
+import styles from "./services-overview.module.css";
 
 /**
  * Section 08 — The BirthWave Approach to Birth ("Your Birth Experience").
@@ -12,16 +12,15 @@ import { useScrollReveal } from "@/motion/scroll-scenes";
  * and adaptive care during labour.
  */
 export function ServicesBirthApproach() {
-  const { ref } = useScrollReveal<HTMLDivElement>({ threshold: 0.08 });
   const image = servicesImagery["birth-prep-landing-preferences"];
 
   return (
     <section
       id={birthApproachSection.id}
       aria-labelledby="birth-approach-heading"
-      className="relative isolate scroll-mt-[calc(var(--header-height)+1.5rem)] bg-[#faede6] py-20 sm:py-24 lg:py-28"
+      className={`relative isolate scroll-mt-[calc(var(--header-height)+var(--services-nav-clearance)+1.5rem)] ${styles.section} ${styles.birthApproach}`}
     >
-      <div ref={ref} className="container-birthwave">
+      <div className="container-birthwave">
         <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
           {/* Editorial Content */}
           <div className="max-w-xl">
@@ -41,13 +40,13 @@ export function ServicesBirthApproach() {
               ))}
             </div>
 
-            <div className="mt-8 flex flex-col divide-y divide-[var(--color-border)] border-y border-[var(--color-border)]">
+            <div className="mt-6 flex flex-col gap-5">
               {birthApproachSection.points.map((point) => (
-                <div key={point.title} className="py-4">
+                <div key={point.title}>
                   <h3 className="font-body text-sm font-semibold tracking-wider text-terracotta-deep uppercase">
                     {point.title}
                   </h3>
-                  <p className="mt-1.5 text-sm leading-[var(--leading-relaxed)] text-ink-soft">
+                  <p className="mt-1.5 text-base leading-[var(--leading-relaxed)] text-ink-soft">
                     {point.body}
                   </p>
                 </div>

@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { naturalBirthImagery, type NaturalBirthImageKey } from "@/content/natural-birth-landing-imagery";
+﻿import Image from "next/image";
+import { naturalBirthImagery, type NaturalBirthImageKey } from "@/content/pages/natural-birth";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { cx } from "@/lib/cx";
 

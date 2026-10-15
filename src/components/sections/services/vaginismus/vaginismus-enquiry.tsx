@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { vaginismusEnquiry, vaginismusMobileCta } from "@/content/vaginismus-landing-content";
+import { vaginismusEnquiry, vaginismusMobileCta } from "@/content/pages/vaginismus";
 import { VaginismusReveal } from "./vaginismus-reveal";
 import { cx } from "@/lib/cx";
 

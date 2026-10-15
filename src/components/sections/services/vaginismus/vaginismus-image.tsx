@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { vaginismusImagery, type VaginismusImageKey } from "@/content/vaginismus-landing-imagery";
+﻿import Image from "next/image";
+import { vaginismusImagery, type VaginismusImageKey } from "@/content/pages/vaginismus";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { cx } from "@/lib/cx";
 

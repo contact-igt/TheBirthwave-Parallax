@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { newbornHero } from "@/content/newborn-pediatric-care-landing-content";
-import { newbornImagery } from "@/content/newborn-pediatric-care-landing-imagery";
+﻿import Image from "next/image";
+import { newbornHero } from "@/content/pages/newborn-pediatric-care";
+import { newbornImagery } from "@/content/pages/newborn-pediatric-care";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { heroFocalPointClassName } from "@/lib/hero-focal-point";

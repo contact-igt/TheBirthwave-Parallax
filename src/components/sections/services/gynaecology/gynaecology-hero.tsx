@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { gynaecologyHero } from "@/content/gynaecology-landing-content";
-import { gynaecologyImagery } from "@/content/gynaecology-landing-imagery";
+﻿import Image from "next/image";
+import { gynaecologyHero } from "@/content/pages/gynaecology";
+import { gynaecologyImagery } from "@/content/pages/gynaecology";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { heroFocalPointClassName } from "@/lib/hero-focal-point";

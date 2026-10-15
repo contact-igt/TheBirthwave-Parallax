@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { nutritionEnquiry, nutritionMobileCta } from "@/content/nutrition-emotional-wellbeing-landing-content";
+import { nutritionEnquiry, nutritionMobileCta } from "@/content/pages/nutrition-emotional-wellbeing";
 import { NutritionReveal } from "./nutrition-emotional-wellbeing-reveal";
 import { cx } from "@/lib/cx";
 

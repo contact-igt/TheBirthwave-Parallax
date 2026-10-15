@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { fertilityCovers } from "@/content/fertility-preconception-landing-content";
-import { fertilityImagery, fertilityImageDisclosure } from "@/content/fertility-preconception-landing-imagery";
+import { fertilityCovers } from "@/content/pages/fertility-preconception";
+import { fertilityImagery, fertilityImageDisclosure } from "@/content/pages/fertility-preconception";
 import { AnimatedContent } from "@/components/ui/animations/animated-content";
 import { ensureScrollTriggerRegistered, gsap } from "@/motion/gsap-scroll";
 import { cx } from "@/lib/cx";

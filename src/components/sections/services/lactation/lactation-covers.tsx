@@ -1,4 +1,4 @@
-import { lactationCovers } from "@/content/lactation-landing-content";
+﻿import { lactationCovers } from "@/content/pages/lactation";
 import { LactationImage } from "./lactation-image";
 import { LactationReveal } from "./lactation-reveal";
 

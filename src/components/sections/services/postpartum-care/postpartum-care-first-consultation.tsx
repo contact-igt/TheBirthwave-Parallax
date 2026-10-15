@@ -1,4 +1,4 @@
-import { postpartumFirstConsultation } from "@/content/postpartum-care-landing-content";
+﻿import { postpartumFirstConsultation } from "@/content/pages/postpartum-care";
 import { PostpartumImage } from "./postpartum-care-image";
 import { PostpartumReveal } from "./postpartum-care-reveal";
 import { Button } from "@/components/ui/button";

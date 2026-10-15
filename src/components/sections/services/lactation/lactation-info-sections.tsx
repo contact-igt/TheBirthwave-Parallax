@@ -1,5 +1,5 @@
-import { Plus } from "lucide-react";
-import { lactationPractical, lactationFaq } from "@/content/lactation-landing-content";
+﻿import { Plus } from "lucide-react";
+import { lactationPractical, lactationFaq } from "@/content/pages/lactation";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { LactationReveal } from "./lactation-reveal";
 

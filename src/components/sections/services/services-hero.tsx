@@ -2,15 +2,15 @@
 
 import { ourServicesHero } from "@/content/our-services-content";
 import { Button } from "@/components/ui/button";
-import { CtaLink } from "@/components/ui/cta-link";
 import { ServicesEditorialImage } from "./services-editorial-image";
 import { useParallax } from "@/motion/image-motion";
+import styles from "./services-overview.module.css";
 
 /**
  * Section 01 — Our Services Hero.
  *
  * Balanced editorial split layout:
- * - Left: Eyebrow, display heading, 3 body paragraphs, primary "Find your care" CTA, secondary "Book a consultation" CTA.
+ * - Left: Eyebrow, display heading, body copy, primary "Find your care" CTA, secondary "Book a consultation" CTA.
  * - Right: Large editorial photograph in an aspect-[4/5] frame with subtle multi-plane scroll parallax and signature corner.
  * - Mobile: Content strictly precedes image in natural reading order.
  */
@@ -23,7 +23,7 @@ export function ServicesHero() {
     <section
       id="our-services-hero"
       aria-labelledby="services-hero-heading"
-      className="relative isolate overflow-hidden bg-paper [padding-block-start:calc(var(--header-height)+var(--space-section-sm))] [padding-block-end:var(--space-section)]"
+      className={`relative isolate overflow-hidden bg-paper ${styles.hero}`}
     >
       {/* Background typographic atmosphere layer */}
       <div
@@ -37,13 +37,13 @@ export function ServicesHero() {
         </span>
       </div>
 
-      <div className="container-birthwave relative z-10 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+      <div className={`container-birthwave relative z-10 ${styles.heroGrid}`}>
         {/* Editorial Text Column */}
-        <div className="order-1 max-w-xl">
+        <div className="order-1 min-w-0">
           <p className="eyebrow text-terracotta-deep">{ourServicesHero.eyebrow}</p>
           <h1
             id="services-hero-heading"
-            className="mt-4 text-display leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink"
+            className={`mt-4 leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink ${styles.heroTitle}`}
           >
             {ourServicesHero.heading}
           </h1>
@@ -58,9 +58,9 @@ export function ServicesHero() {
             <Button href={ourServicesHero.primaryCta.href} variant="primary">
               {ourServicesHero.primaryCta.label.replace(/\s*→$/, "")}
             </Button>
-            <CtaLink href={ourServicesHero.secondaryCta.href}>
+            <Button href={ourServicesHero.secondaryCta.href} variant="ghost" withArrow>
               {ourServicesHero.secondaryCta.label.replace(/\s*→$/, "")}
-            </CtaLink>
+            </Button>
           </div>
         </div>
 
@@ -77,7 +77,7 @@ export function ServicesHero() {
               sizes="(max-width: 639px) 92vw, (max-width: 1023px) 85vw, 540px"
               corner="tr"
               aspect="aspect-[4/5]"
-              className="shadow-[0_20px_50px_rgba(42,36,33,0.06)]"
+              className={styles.heroPhoto}
             />
           </div>
 

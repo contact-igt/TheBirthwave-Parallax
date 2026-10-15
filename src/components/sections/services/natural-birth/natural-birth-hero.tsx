@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { naturalBirthHero } from "@/content/natural-birth-landing-content";
-import { naturalBirthImagery } from "@/content/natural-birth-landing-imagery";
+﻿import Image from "next/image";
+import { naturalBirthHero } from "@/content/pages/natural-birth";
+import { naturalBirthImagery } from "@/content/pages/natural-birth";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { heroFocalPointClassName } from "@/lib/hero-focal-point";

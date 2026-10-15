@@ -1,4 +1,4 @@
-import { naturalBirthRelatedCare } from "@/content/natural-birth-landing-content";
+﻿import { naturalBirthRelatedCare } from "@/content/pages/natural-birth";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
 import { CtaLink } from "@/components/ui/cta-link";
 

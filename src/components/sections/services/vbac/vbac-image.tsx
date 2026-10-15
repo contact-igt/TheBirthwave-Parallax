@@ -1,4 +1,4 @@
-import { vbacImagery, type VbacImageKey } from "@/content/vbac-landing-imagery";
+﻿import { vbacImagery, type VbacImageKey } from "@/content/pages/vbac";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 
 /**

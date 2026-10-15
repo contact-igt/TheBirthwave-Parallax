@@ -7,7 +7,6 @@ export const ourServicesHero = {
   eyebrow: "OUR SERVICES",
   heading: "Women's healthcare for every stage of life.",
   paragraphs: [
-    "Women's health needs change from adolescence through the reproductive years, pregnancy, menopause and beyond.",
     "At The BirthWave, we bring together gynaecology, fertility, maternity care, preventive health and supportive wellness services to help women understand their health and access appropriate care.",
     "Our approach considers physical, hormonal, emotional and lifestyle factors, with care tailored to individual needs.",
   ],
@@ -61,7 +60,7 @@ export const serviceNavigation = {
       href: "#newborn-care",
     },
   ],
-  cta: { label: "VIEW ALL SERVICES →", href: "#womens-health" },
+  cta: { label: "Explore care areas", href: "#womens-health" },
 } as const;
 
 export const womensHealthSection = {

@@ -1,4 +1,4 @@
-import { vaginismusFeelHeard } from "@/content/vaginismus-landing-content";
+﻿import { vaginismusFeelHeard } from "@/content/pages/vaginismus";
 import { VaginismusReveal } from "./vaginismus-reveal";
 import { Button } from "@/components/ui/button";
 

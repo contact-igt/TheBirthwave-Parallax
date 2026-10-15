@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { naturalBirthEnquiry, naturalBirthMobileCta } from "@/content/natural-birth-landing-content";
+import { naturalBirthEnquiry, naturalBirthMobileCta } from "@/content/pages/natural-birth";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
 import { cx } from "@/lib/cx";
 

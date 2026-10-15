@@ -1,5 +1,5 @@
-import { Plus } from "lucide-react";
-import { naturalBirthFaq } from "@/content/natural-birth-landing-content";
+﻿import { Plus } from "lucide-react";
+import { naturalBirthFaq } from "@/content/pages/natural-birth";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
 
 /** Section 09 — FAQ. Native `<details>/<summary>` — the same accessible

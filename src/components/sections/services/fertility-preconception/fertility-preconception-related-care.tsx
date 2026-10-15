@@ -1,4 +1,4 @@
-import { fertilityRelatedCare } from "@/content/fertility-preconception-landing-content";
+﻿import { fertilityRelatedCare } from "@/content/pages/fertility-preconception";
 import { CtaLink } from "@/components/ui/cta-link";
 
 /**

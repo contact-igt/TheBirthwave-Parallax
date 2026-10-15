@@ -1,4 +1,4 @@
-import { newbornRelatedCare } from "@/content/newborn-pediatric-care-landing-content";
+﻿import { newbornRelatedCare } from "@/content/pages/newborn-pediatric-care";
 import { getServiceBySlug } from "@/content/services-content";
 import { NewbornReveal } from "./newborn-pediatric-care-reveal";
 import { CtaLink } from "@/components/ui/cta-link";

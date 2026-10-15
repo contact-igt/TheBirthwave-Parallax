@@ -10,6 +10,8 @@ import { ServicesBirthApproach } from "@/components/sections/services/services-b
 import { ServicesFindYourCare } from "@/components/sections/services/services-find-your-care";
 import { ServicesApproachSection } from "@/components/sections/services/services-approach-section";
 import { ServicesFinalCta } from "@/components/sections/services/services-final-cta";
+import { ServicesChapterNavigation } from "@/components/sections/services/services-chapter-navigation";
+import styles from "@/components/sections/services/services-overview.module.css";
 
 export const metadata: Metadata = {
   title: "Our Services: The BirthWave",
@@ -40,14 +42,17 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <PageShell>
-      <ServicesHero />
-      <ServicesNavigationSection />
-      <ServicesCareJourneyPart1 />
-      <ServicesBirthApproach />
-      <ServicesCareJourneyPart2 />
-      <ServicesFindYourCare />
-      <ServicesApproachSection />
-      <ServicesFinalCta />
+      <div className={styles.root} data-services-overview>
+        <ServicesHero />
+        <ServicesChapterNavigation />
+        <ServicesNavigationSection />
+        <ServicesCareJourneyPart1 />
+        <ServicesBirthApproach />
+        <ServicesCareJourneyPart2 />
+        <ServicesFindYourCare />
+        <ServicesApproachSection />
+        <ServicesFinalCta />
+      </div>
     </PageShell>
   );
 }

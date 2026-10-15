@@ -1,5 +1,5 @@
-import { vbacHero } from "@/content/vbac-landing-content";
-import { vbacImagery } from "@/content/vbac-landing-imagery";
+﻿import { vbacHero } from "@/content/pages/vbac";
+import { vbacImagery } from "@/content/pages/vbac";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 

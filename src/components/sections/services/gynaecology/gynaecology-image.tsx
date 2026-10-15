@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { gynaecologyImagery, type GynaecologyImageKey } from "@/content/gynaecology-landing-imagery";
+﻿import Image from "next/image";
+import { gynaecologyImagery, type GynaecologyImageKey } from "@/content/pages/gynaecology";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { cx } from "@/lib/cx";
 

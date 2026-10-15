@@ -1,4 +1,4 @@
-import { nutritionClinician } from "@/content/nutrition-emotional-wellbeing-landing-content";
+﻿import { nutritionClinician } from "@/content/pages/nutrition-emotional-wellbeing";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";

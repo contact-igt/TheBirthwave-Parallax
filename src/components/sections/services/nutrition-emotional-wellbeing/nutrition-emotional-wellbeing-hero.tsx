@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { nutritionHero } from "@/content/nutrition-emotional-wellbeing-landing-content";
-import { nutritionImagery } from "@/content/nutrition-emotional-wellbeing-landing-imagery";
+﻿import Image from "next/image";
+import { nutritionHero } from "@/content/pages/nutrition-emotional-wellbeing";
+import { nutritionImagery } from "@/content/pages/nutrition-emotional-wellbeing";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { heroFocalPointClassName } from "@/lib/hero-focal-point";

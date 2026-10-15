@@ -1,5 +1,5 @@
-import { postpartumHero } from "@/content/postpartum-care-landing-content";
-import { postpartumImagery } from "@/content/postpartum-care-landing-imagery";
+﻿import { postpartumHero } from "@/content/pages/postpartum-care";
+import { postpartumImagery } from "@/content/pages/postpartum-care";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 

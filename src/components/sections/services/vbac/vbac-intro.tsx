@@ -1,4 +1,4 @@
-import { vbacIntro } from "@/content/vbac-landing-content";
+﻿import { vbacIntro } from "@/content/pages/vbac";
 import { VbacImage } from "./vbac-image";
 import { VbacReveal } from "./vbac-reveal";
 

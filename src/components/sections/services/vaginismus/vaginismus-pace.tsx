@@ -1,4 +1,4 @@
-import { vaginismusPace } from "@/content/vaginismus-landing-content";
+﻿import { vaginismusPace } from "@/content/pages/vaginismus";
 import { VaginismusImage } from "./vaginismus-image";
 import { VaginismusReveal } from "./vaginismus-reveal";
 

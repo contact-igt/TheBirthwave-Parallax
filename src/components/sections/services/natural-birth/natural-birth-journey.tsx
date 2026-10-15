@@ -1,4 +1,4 @@
-import { naturalBirthJourney } from "@/content/natural-birth-landing-content";
+﻿import { naturalBirthJourney } from "@/content/pages/natural-birth";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
 import { Button } from "@/components/ui/button";
 

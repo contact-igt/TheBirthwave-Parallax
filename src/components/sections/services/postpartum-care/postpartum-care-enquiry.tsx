@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { postpartumEnquiry, postpartumMobileCta } from "@/content/postpartum-care-landing-content";
+import { postpartumEnquiry, postpartumMobileCta } from "@/content/pages/postpartum-care";
 import { PostpartumReveal } from "./postpartum-care-reveal";
 import { cx } from "@/lib/cx";
 

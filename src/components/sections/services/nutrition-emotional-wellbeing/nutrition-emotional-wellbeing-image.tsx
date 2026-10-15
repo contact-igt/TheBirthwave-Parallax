@@ -1,4 +1,4 @@
-import { nutritionImagery, type NutritionImageKey } from "@/content/nutrition-emotional-wellbeing-landing-imagery";
+﻿import { nutritionImagery, type NutritionImageKey } from "@/content/pages/nutrition-emotional-wellbeing";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 
 /**

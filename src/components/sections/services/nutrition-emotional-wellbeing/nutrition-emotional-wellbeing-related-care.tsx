@@ -1,4 +1,4 @@
-import { nutritionRelatedCare } from "@/content/nutrition-emotional-wellbeing-landing-content";
+﻿import { nutritionRelatedCare } from "@/content/pages/nutrition-emotional-wellbeing";
 import { NutritionReveal } from "./nutrition-emotional-wellbeing-reveal";
 import { CtaLink } from "@/components/ui/cta-link";
 

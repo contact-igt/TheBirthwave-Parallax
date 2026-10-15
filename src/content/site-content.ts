@@ -202,7 +202,7 @@ export const journey = {
       supporting:
         "From newborn health assessments and vaccinations to feeding, growth, development and childhood health concerns, paediatric consultations support your child's changing needs.\nExplore guidance on early parenting, conscious parenting and understanding your child's physical and emotional development.",
       cta: { label: "Explore Newborn Care", href: "/services/newborn-pediatric-care" },
-      image: "/images/journey/journey-baby.jpg",
+      image: "/images/journey/care.jpg",
       objectPosition: "50% 35%",
       alt: "A mother holding her swaddled newborn while a doctor checks in with a stethoscope.",
     },

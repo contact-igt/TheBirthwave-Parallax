@@ -1,4 +1,4 @@
-import { vaginismusWholePerson } from "@/content/vaginismus-landing-content";
+﻿import { vaginismusWholePerson } from "@/content/pages/vaginismus";
 import { VaginismusReveal } from "./vaginismus-reveal";
 
 /**

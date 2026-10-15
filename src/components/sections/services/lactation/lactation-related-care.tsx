@@ -1,4 +1,4 @@
-import { lactationRelatedCare } from "@/content/lactation-landing-content";
+﻿import { lactationRelatedCare } from "@/content/pages/lactation";
 import { getServiceBySlug } from "@/content/services-content";
 import { LactationReveal } from "./lactation-reveal";
 import { CtaLink } from "@/components/ui/cta-link";

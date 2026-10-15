@@ -1,4 +1,4 @@
-import { newbornImagery, type NewbornImageKey } from "@/content/newborn-pediatric-care-landing-imagery";
+﻿import { newbornImagery, type NewbornImageKey } from "@/content/pages/newborn-pediatric-care";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 
 /**

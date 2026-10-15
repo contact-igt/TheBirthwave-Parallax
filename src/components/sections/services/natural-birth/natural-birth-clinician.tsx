@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { naturalBirthClinician } from "@/content/natural-birth-landing-content";
+﻿import Image from "next/image";
+import { naturalBirthClinician } from "@/content/pages/natural-birth";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
 import { Button } from "@/components/ui/button";
 

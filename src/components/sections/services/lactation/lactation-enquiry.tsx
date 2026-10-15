@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { lactationEnquiry, lactationMobileCta } from "@/content/lactation-landing-content";
+import { lactationEnquiry, lactationMobileCta } from "@/content/pages/lactation";
 import { LactationReveal } from "./lactation-reveal";
 import { cx } from "@/lib/cx";
 

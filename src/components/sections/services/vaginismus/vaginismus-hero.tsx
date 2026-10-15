@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { vaginismusHero } from "@/content/vaginismus-landing-content";
-import { vaginismusImagery } from "@/content/vaginismus-landing-imagery";
+﻿import Image from "next/image";
+import { vaginismusHero } from "@/content/pages/vaginismus";
+import { vaginismusImagery } from "@/content/pages/vaginismus";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { heroFocalPointClassName } from "@/lib/hero-focal-point";

@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { fertilityEnquiry, fertilityMobileCta } from "@/content/fertility-preconception-landing-content";
+import { fertilityEnquiry, fertilityMobileCta } from "@/content/pages/fertility-preconception";
 import { cx } from "@/lib/cx";
 import styles from "./fertility-preconception.module.css";
 

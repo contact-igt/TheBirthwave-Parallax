@@ -1,5 +1,5 @@
-import { Plus } from "lucide-react";
-import { nutritionPractical, nutritionFaq } from "@/content/nutrition-emotional-wellbeing-landing-content";
+﻿import { Plus } from "lucide-react";
+import { nutritionPractical, nutritionFaq } from "@/content/pages/nutrition-emotional-wellbeing";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { NutritionReveal } from "./nutrition-emotional-wellbeing-reveal";
 

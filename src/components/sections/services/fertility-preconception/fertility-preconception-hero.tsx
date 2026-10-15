@@ -1,7 +1,7 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { MapPin } from "lucide-react";
-import { fertilityHero } from "@/content/fertility-preconception-landing-content";
-import { fertilityImagery, fertilityImageDisclosure } from "@/content/fertility-preconception-landing-imagery";
+import { fertilityHero } from "@/content/pages/fertility-preconception";
+import { fertilityImagery, fertilityImageDisclosure } from "@/content/pages/fertility-preconception";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { cx } from "@/lib/cx";

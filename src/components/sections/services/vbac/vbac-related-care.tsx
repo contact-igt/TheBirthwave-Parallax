@@ -1,6 +1,6 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { vbacRelatedCare } from "@/content/vbac-landing-content";
+import { vbacRelatedCare } from "@/content/pages/vbac";
 import { VbacReveal } from "./vbac-reveal";
 
 /**

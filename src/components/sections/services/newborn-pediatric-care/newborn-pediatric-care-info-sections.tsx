@@ -1,5 +1,5 @@
-import { Plus } from "lucide-react";
-import { newbornPractical, newbornFaq } from "@/content/newborn-pediatric-care-landing-content";
+﻿import { Plus } from "lucide-react";
+import { newbornPractical, newbornFaq } from "@/content/pages/newborn-pediatric-care";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { NewbornReveal } from "./newborn-pediatric-care-reveal";
 

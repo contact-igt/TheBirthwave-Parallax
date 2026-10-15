@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { lactationHero } from "@/content/lactation-landing-content";
-import { lactationImagery } from "@/content/lactation-landing-imagery";
+﻿import Image from "next/image";
+import { lactationHero } from "@/content/pages/lactation";
+import { lactationImagery } from "@/content/pages/lactation";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { heroFocalPointClassName } from "@/lib/hero-focal-point";

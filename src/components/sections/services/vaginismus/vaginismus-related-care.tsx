@@ -1,4 +1,4 @@
-import { vaginismusRelatedCare } from "@/content/vaginismus-landing-content";
+﻿import { vaginismusRelatedCare } from "@/content/pages/vaginismus";
 import { VaginismusReveal } from "./vaginismus-reveal";
 import { CtaLink } from "@/components/ui/cta-link";
 

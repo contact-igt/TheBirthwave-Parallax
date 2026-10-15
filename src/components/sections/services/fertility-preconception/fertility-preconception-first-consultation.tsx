@@ -1,4 +1,4 @@
-import { fertilityFirstConsultation } from "@/content/fertility-preconception-landing-content";
+﻿import { fertilityFirstConsultation } from "@/content/pages/fertility-preconception";
 import { AnimatedContent } from "@/components/ui/animations/animated-content";
 import { Button } from "@/components/ui/button";
 import { cx } from "@/lib/cx";

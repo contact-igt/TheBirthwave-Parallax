@@ -1,4 +1,4 @@
-import { nutritionTogether } from "@/content/nutrition-emotional-wellbeing-landing-content";
+﻿import { nutritionTogether } from "@/content/pages/nutrition-emotional-wellbeing";
 import { NutritionImage } from "./nutrition-emotional-wellbeing-image";
 import { NutritionReveal } from "./nutrition-emotional-wellbeing-reveal";
 import { Button } from "@/components/ui/button";

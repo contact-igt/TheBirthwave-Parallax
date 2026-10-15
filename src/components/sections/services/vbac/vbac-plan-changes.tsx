@@ -1,4 +1,4 @@
-import { vbacPlanChanges } from "@/content/vbac-landing-content";
+﻿import { vbacPlanChanges } from "@/content/pages/vbac";
 import { VbacReveal } from "./vbac-reveal";
 
 /**

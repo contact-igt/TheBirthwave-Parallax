@@ -1,5 +1,5 @@
-import { Plus, Phone } from "lucide-react";
-import { vaginismusPractical, vaginismusFaq } from "@/content/vaginismus-landing-content";
+﻿import { Plus, Phone } from "lucide-react";
+import { vaginismusPractical, vaginismusFaq } from "@/content/pages/vaginismus";
 import { VaginismusImage } from "./vaginismus-image";
 import { VaginismusReveal } from "./vaginismus-reveal";
 import { Button } from "@/components/ui/button";

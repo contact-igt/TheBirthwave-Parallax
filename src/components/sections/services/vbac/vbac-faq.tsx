@@ -1,5 +1,5 @@
-import { Plus } from "lucide-react";
-import { vbacFaq } from "@/content/vbac-landing-content";
+﻿import { Plus } from "lucide-react";
+import { vbacFaq } from "@/content/pages/vbac";
 import { VbacReveal } from "./vbac-reveal";
 
 /** Section 9 — FAQ. Native `<details>/<summary>` — the same accessible

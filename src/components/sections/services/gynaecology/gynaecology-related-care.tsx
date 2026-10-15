@@ -1,4 +1,4 @@
-import { gynaecologyRelatedCare } from "@/content/gynaecology-landing-content";
+﻿import { gynaecologyRelatedCare } from "@/content/pages/gynaecology";
 import { GynaecologyReveal } from "./gynaecology-reveal";
 import { CtaLink } from "@/components/ui/cta-link";
 

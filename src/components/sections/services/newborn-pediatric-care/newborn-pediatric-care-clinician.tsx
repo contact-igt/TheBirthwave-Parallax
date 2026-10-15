@@ -1,4 +1,4 @@
-import { newbornClinician } from "@/content/newborn-pediatric-care-landing-content";
+﻿import { newbornClinician } from "@/content/pages/newborn-pediatric-care";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";

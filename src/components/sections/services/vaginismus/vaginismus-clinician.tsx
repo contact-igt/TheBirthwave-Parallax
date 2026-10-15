@@ -1,4 +1,4 @@
-import { vaginismusClinicians } from "@/content/vaginismus-landing-content";
+﻿import { vaginismusClinicians } from "@/content/pages/vaginismus";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";

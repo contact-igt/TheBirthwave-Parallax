@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { vbacClinician } from "@/content/vbac-landing-content";
+﻿import Image from "next/image";
+import { vbacClinician } from "@/content/pages/vbac";
 import { VbacReveal } from "./vbac-reveal";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";

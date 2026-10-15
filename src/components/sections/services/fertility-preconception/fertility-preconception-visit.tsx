@@ -1,5 +1,5 @@
-import { MapPin } from "lucide-react";
-import { fertilityVisit } from "@/content/fertility-preconception-landing-content";
+﻿import { MapPin } from "lucide-react";
+import { fertilityVisit } from "@/content/pages/fertility-preconception";
 import { AnimatedContent } from "@/components/ui/animations/animated-content";
 import { Button } from "@/components/ui/button";
 import { cx } from "@/lib/cx";
