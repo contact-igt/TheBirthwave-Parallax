@@ -1,16 +1,18 @@
-﻿import { vbacImagery, type VbacImageKey } from "@/content/pages/vbac";
+import Image from "next/image";
+import { vbacImagery, type VbacImageKey } from "@/content/pages/vbac";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
+import { cx } from "@/lib/cx";
+
+const corners = {
+  tr: "rounded-tr-panel rounded-tl-xs rounded-br-xs rounded-bl-xs",
+  tl: "rounded-tl-panel rounded-tr-xs rounded-br-xs rounded-bl-xs",
+  br: "rounded-br-panel rounded-tl-xs rounded-tr-xs rounded-bl-xs",
+  bl: "rounded-bl-panel rounded-tl-xs rounded-tr-xs rounded-br-xs",
+} as const;
 
 /**
- * The one non-hero image spot this page uses. No image-generation tool was
- * available while this page was built (see `vbac-landing-imagery.ts`'s own
- * top comment), so every instance renders the site's established
- * "built visual placeholder" — `MediaPlaceholder` with a page-local brand
- * gradient — rather than a real photograph. Swapping a real `src` into
- * `vbacImagery` once approved illustrations exist would mean upgrading this
- * component to a real `next/image`, exactly the same change
- * `PortraitPlaceholder` documents for a clinician photo — no consumer below
- * needs to change shape.
+ * Editorial image wrapper for VBAC landing page.
+ * Renders Next/Image when a real src exists with fallback to MediaPlaceholder.
  */
 export function VbacImage({
   imageKey,
@@ -19,10 +21,48 @@ export function VbacImage({
   className,
 }: {
   imageKey: VbacImageKey;
-  corner?: "tr" | "tl" | "br" | "bl";
+  corner?: keyof typeof corners;
   aspect?: string;
   className?: string;
 }) {
-  const image = vbacImagery[imageKey];
-  return <MediaPlaceholder alt={image.alt} gradient={image.gradient} corner={corner} aspect={aspect} className={className} />;
+  const image = vbacImagery[imageKey] as {
+    src?: string;
+    alt: string;
+    gradient?: string;
+    objectPosition?: string;
+  };
+
+  if (image.src) {
+    return (
+      <div
+        data-vbac-image={imageKey}
+        className={cx(
+          "relative overflow-hidden border border-[var(--color-border)] bg-paper shadow-sm",
+          aspect,
+          corners[corner],
+          className
+        )}
+      >
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          sizes="(max-width: 639px) 90vw, (max-width: 1023px) 45vw, 600px"
+          className="object-cover"
+          style={{ objectPosition: image.objectPosition ?? "50% 35%" }}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <MediaPlaceholder
+      alt={image.alt}
+      gradient={image.gradient ?? "linear-gradient(135deg, var(--color-paper-dim), var(--color-terracotta))"}
+      corner={corner}
+      aspect={aspect}
+      className={className}
+    />
+  );
 }
+

@@ -88,7 +88,7 @@ export const servicesImagery = {
   "nutrition-emotional-wellbeing": { src: "/images/services/service3.JPG", alt: "A pregnant woman discusses everyday nutrition and wellbeing with a care professional." },
   "birth-preparation": { src: "/images/services/service4.JPG", alt: "An expectant couple practises calm breathing with a childbirth educator." },
   "normal-birth-delivery": { src: "/images/services/service5.JPG", alt: "A pregnant woman receives reassurance from her partner and a care professional during labour." },
-  "vbac": { src: "/images/services/service4.JPG", alt: "An expectant couple discusses birth options with a clinician." },
+  "vbac": { src: "/images/services/faq.JPG", alt: "An expectant couple discusses birth options with a clinician." },
   "postpartum-care": { src: "/images/services/service5.JPG", alt: "A resting new mother talks with a clinician about her recovery." },
   "lactation": { src: "/images/services/service3.JPG", alt: "A mother holds her newborn during a feeding-support consultation." },
   "newborn-pediatric-care": { src: "/images/services/service3.JPG", alt: "Parents hold their newborn during a conversation with a paediatric clinician." },
