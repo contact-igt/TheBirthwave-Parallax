@@ -188,7 +188,7 @@ export const doctors: DoctorContent[] = [
     careAreas: ["Pregnancy & Antenatal Care", "Birth Preparation", "Postpartum Recovery"],
     description: null,
     photo: {
-      src: "/images/clinic/Dr._Amudha_Varshini.JPG",
+      src: "/images/doctors/dr-amudha-varshini.jpg",
       alt: "Dr. Amudha Varshini",
       placeholderLabel: "Dr. Amudha Varshini",
     },

@@ -13,7 +13,7 @@ const LEARNING_IMAGES = [
 export function BirthPrepIntro() {
   return (
     <section id="birth-prep-understand" aria-labelledby="birth-prep-understand-heading" className="relative isolate overflow-hidden bg-paper section-pad">
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/natural-birth/natural-birth-journey-background-v1.png')] bg-cover bg-right" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/services/birth-prep-starting-point-background-v1.png')] bg-cover bg-center" />
 
       <BirthPrepReveal className="relative z-10 container-birthwave">
         <header className="mx-auto max-w-[96rem] text-center">
@@ -28,14 +28,14 @@ export function BirthPrepIntro() {
 
         <ol className="relative mx-auto mt-12 grid max-w-[96rem] gap-10 xl:grid-cols-3 xl:gap-10">
           {birthPrepIntro.points.map((point, index) => (
-            <li key={point.title} className="relative grid grid-cols-[minmax(9rem,11.5rem)_minmax(0,1fr)] items-start gap-5 sm:grid-cols-[13rem_minmax(0,1fr)] xl:grid-cols-[minmax(10rem,12.5rem)_minmax(0,1fr)] xl:gap-6">
+            <li key={point.title} className={`relative grid grid-cols-1 items-start gap-6 sm:grid-cols-[13rem_minmax(0,1fr)] sm:gap-5 xl:grid-cols-[minmax(10rem,12.5rem)_minmax(0,1fr)] xl:gap-6${index === birthPrepIntro.points.length - 1 && birthPrepIntro.points.length % 3 === 1 ? " xl:col-start-2" : ""}`}>
               <BirthPrepImage
                 imageKey={LEARNING_IMAGES[index]}
                 corner="tl"
                 aspect="aspect-[4/5]"
-                className="!rounded-[48%] border-[0.85rem] border-[color-mix(in_srgb,var(--color-terracotta)_10%,var(--color-paper))] shadow-none"
+                className="mx-auto w-full max-w-[14rem] sm:mx-0 sm:max-w-none !rounded-[48%] border-[0.85rem] border-[color-mix(in_srgb,var(--color-terracotta)_10%,var(--color-paper))] shadow-none"
               />
-              <div className="pt-3">
+              <div className="pt-0 sm:pt-3">
                 <div className="flex items-center gap-4 xl:min-w-[13rem]">
                   <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--color-terracotta)_13%,var(--color-paper))] font-display text-xl font-semibold text-terracotta-deep">
                     {String(index + 1).padStart(2, "0")}

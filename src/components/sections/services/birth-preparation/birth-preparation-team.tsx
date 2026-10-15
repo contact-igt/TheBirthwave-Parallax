@@ -57,9 +57,10 @@ export function BirthPrepTeam() {
                   ) : (
                     <div className="relative aspect-[4/5] w-full overflow-hidden rounded-tl-panel rounded-tr-sm rounded-br-sm rounded-bl-sm bg-paper-dim shadow-xs">
                       <Image
-                        src="/images/web-ready/exp04693.jpg"
-                        alt="Facilitator speaking with participants during a prenatal workshop"
+                        src="/images/doctors/dr-amudha-varshini.jpg"
+                        alt="Dr. Amudha Varshini, prenatal and postpartum yoga specialist"
                         fill
+                        style={{ objectPosition: "50% 30%" }}
                         sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 25vw"
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                       />

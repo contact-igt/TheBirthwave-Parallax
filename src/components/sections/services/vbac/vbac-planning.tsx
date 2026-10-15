@@ -8,7 +8,8 @@ import { VbacReveal } from "./vbac-reveal";
  */
 export function VbacAssessmentFactors() {
   return (
-    <section id="vbac-assessment" aria-labelledby="vbac-assessment-heading" className="relative isolate bg-paper section-pad border-t border-[var(--color-border)]">
+    <section id="vbac-assessment" aria-labelledby="vbac-assessment-heading" className="relative isolate overflow-hidden bg-paper section-pad border-t border-[var(--color-border)]">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/services/birth-prep-topics-background-v1.png')] bg-cover bg-center" />
       <VbacReveal className="container-birthwave">
         <div className="max-w-2xl">
           <p className="eyebrow">{vbacAssessmentFactors.eyebrow}</p>
@@ -55,7 +56,8 @@ export function VbacAssessmentFactors() {
  */
 export function VbacPlanningLabour() {
   return (
-    <section id="vbac-planning" aria-labelledby="vbac-planning-heading" className="relative isolate bg-[var(--vbac-sky-wash)] section-pad border-t border-[var(--color-border)]">
+    <section id="vbac-planning" aria-labelledby="vbac-planning-heading" className="relative isolate overflow-hidden bg-[var(--vbac-sky-wash)] section-pad border-t border-[var(--color-border)]">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/natural-birth/natural-birth-flexibility-background-v1.png')] bg-cover bg-center" />
       <VbacReveal className="container-birthwave">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
           {/* Left Column: Heading, intro, vertical preparation list */}

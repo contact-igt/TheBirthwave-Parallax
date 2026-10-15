@@ -7,7 +7,8 @@ import { VbacReveal } from "./vbac-reveal";
  */
 export function VbacPlanChanges() {
   return (
-    <section id="vbac-plan-changes" aria-labelledby="vbac-plan-changes-heading" className="relative isolate bg-paper border-t border-[var(--color-border)] py-20 md:py-28 text-center">
+    <section id="vbac-plan-changes" aria-labelledby="vbac-plan-changes-heading" className="relative isolate overflow-hidden bg-paper border-t border-[var(--color-border)] py-20 md:py-28 text-center">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/natural-birth/natural-birth-labour-background-v1.png')] bg-cover bg-center" />
       <VbacReveal className="container-birthwave max-w-4xl mx-auto">
         <div className="flex items-center justify-center gap-3">
           <span className="h-px w-8 bg-terracotta/40" />

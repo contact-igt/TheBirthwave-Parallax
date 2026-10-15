@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
  */
 export function VbacPracticalInformation() {
   return (
-    <section id="vbac-practical" aria-labelledby="vbac-practical-heading" className="relative isolate bg-[var(--vbac-sky-wash)]/40 section-pad border-t border-[var(--color-border)]">
+    <section id="vbac-practical" aria-labelledby="vbac-practical-heading" className="relative isolate overflow-hidden bg-[var(--vbac-sky-wash)]/40 section-pad border-t border-[var(--color-border)]">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/natural-birth/natural-birth-practical-background-v1.png')] bg-cover bg-center" />
       <VbacReveal className="container-birthwave">
         <div className="max-w-2xl md:mx-auto md:text-center">
           <p className="eyebrow">{vbacPractical.eyebrow}</p>

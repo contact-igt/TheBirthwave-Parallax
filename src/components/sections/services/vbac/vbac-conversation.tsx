@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
  */
 export function VbacConversation() {
   return (
-    <section id="vbac-conversation" aria-labelledby="vbac-conversation-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-paper-dim/60 section-pad border-t border-[var(--color-border)]">
+    <section id="vbac-conversation" aria-labelledby="vbac-conversation-heading" className="relative isolate overflow-hidden scroll-mt-[var(--header-height)] bg-paper-dim/60 section-pad border-t border-[var(--color-border)]">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/natural-birth/natural-birth-preferences-background-v1.png')] bg-cover bg-center" />
       <VbacReveal className="container-birthwave">
         <div className="max-w-2xl">
           <p className="eyebrow">{vbacConsultationCover.eyebrow}</p>
@@ -52,7 +53,8 @@ export function VbacConversation() {
  */
 export function VbacBenefitsRisks() {
   return (
-    <section id="vbac-benefits-risks" aria-labelledby="vbac-benefits-risks-heading" className="relative isolate bg-[var(--vbac-coral-wash)] section-pad border-t border-[var(--color-border)]">
+    <section id="vbac-benefits-risks" aria-labelledby="vbac-benefits-risks-heading" className="relative isolate overflow-hidden bg-[var(--vbac-coral-wash)] section-pad border-t border-[var(--color-border)]">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/natural-birth/natural-birth-support-background-v1.png')] bg-cover bg-center" />
       <VbacReveal className="container-birthwave">
         <div className="max-w-2xl">
           <p className="eyebrow">{vbacBenefitsRisks.eyebrow}</p>

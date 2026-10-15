@@ -20,7 +20,7 @@ const audienceIcons = [
 export function BirthPrepWho() {
   return (
     <section id="birth-prep-who-for" aria-labelledby="birth-prep-who-for-heading" className="relative isolate overflow-hidden bg-paper py-14 lg:py-16">
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/natural-birth/natural-birth-clinician-background-v1.png')] bg-cover bg-center" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/services/birth-prep-learning-background-v2.png')] bg-cover bg-center" />
       <BirthPrepReveal className="container-birthwave max-w-4xl">
         <p className="eyebrow">{birthPrepWhoFor.eyebrow}</p>
         <h2 id="birth-prep-who-for-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
