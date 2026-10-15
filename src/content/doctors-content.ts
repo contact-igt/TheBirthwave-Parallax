@@ -158,7 +158,7 @@ export const doctors: DoctorContent[] = [
     careAreas: ["Fertility & Preconception", "Gynaecology & Women's Wellness"],
     description: null,
     photo: {
-      src: "/images/clinic/dr-bharathy.jpeg",
+      src: "/images/doctors/dr-bharathy-web.jpg",
       alt: "Dr. Bharathy Kandasamy",
       placeholderLabel: "Dr. Bharathy Kandasamy",
     },
@@ -173,7 +173,7 @@ export const doctors: DoctorContent[] = [
     careAreas: ["Newborn & Pediatric Care"],
     description: null,
     photo: {
-      src: "/images/clinic/dr-deepika.PNG",
+      src: "/images/doctors/dr-deepika.PNG",
       alt: "Dr. Deepika Sivathanu",
       placeholderLabel: "Dr. Deepika Sivathanu",
     },
@@ -203,7 +203,7 @@ export const doctors: DoctorContent[] = [
     careAreas: ["Vaginismus & Intimate Wellness", "Postpartum Recovery"],
     description: null,
     photo: {
-      src: "/images/clinic/Dr_Adithi_Nair.jpg",
+      src: "/images/doctors/Dr_Adithi_Nair.jpg",
       alt: "Dr. Adithi Nair",
       placeholderLabel: "Dr. Adithi Nair",
     },
@@ -218,7 +218,7 @@ export const doctors: DoctorContent[] = [
     careAreas: ["Birth Preparation", "Lactation", "Pregnancy & Antenatal Care"],
     description: null,
     photo: {
-      src: "/images/clinic/sheethal-sathya.png",
+      src: "/images/doctors/sheethal-sathya.png",
       alt: "Dr. Sheethal Sathya",
       placeholderLabel: "Dr. Sheethal Sathya",
     },
@@ -233,7 +233,7 @@ export const doctors: DoctorContent[] = [
     careAreas: ["Nutrition & Emotional Well-being"],
     description: null,
     photo: {
-      src: "/images/clinic/dr-deepa.jpeg",
+      src: "/images/doctors/dr-deepa.jpeg",
       alt: "Dr. Deepa",
       placeholderLabel: "Dr. Deepa",
     },
@@ -245,7 +245,7 @@ export const doctors: DoctorContent[] = [
     role: "School Psychology",
     description: null,
     photo: {
-      src: "/images/clinic/dr-rakshitha.jpeg",
+      src: "/images/doctors/dr-rakshitha.jpeg",
       alt: "Dr. Rakshitha",
       placeholderLabel: "Dr. Rakshitha",
     },
@@ -257,7 +257,7 @@ export const doctors: DoctorContent[] = [
     role: "Strength & Conditioning",
     description: null,
     photo: {
-      src: "/images/clinic/coach_tilak.JPG",
+      src: "/images/doctors/coach-tilak-web.jpg",
       alt: "Dr. Coach-tilak",
       placeholderLabel: "Dr. Coach-tilak",
     },
@@ -271,7 +271,7 @@ export const doctors: DoctorContent[] = [
     careAreas: ["Nutrition & Emotional Well-being"],
     description: null,
     photo: {
-      src: "/images/clinic/dr-sherene.jpeg",
+      src: "/images/doctors/dr-sherene-web.jpg",
       alt: "Dr. Sherene",
       placeholderLabel: "Dr. Sherene",
     },

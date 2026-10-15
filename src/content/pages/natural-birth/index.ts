@@ -249,7 +249,7 @@ export const naturalBirthClinician = {
       "Dr. Santoshini discusses your pregnancy, birth preferences and available care options to help you make informed decisions.",
       "Birth planning considers both your preferences and the medical needs of you and your newborn.",
     ],
-    photo: "/images/clinic/dr-santoshi.JPG",
+    photo: "/images/doctors/dr-santoshi-web.jpg",
     primaryCta: { label: "VIEW DOCTOR PROFILE ↗", href: "/doctors/dr-santoshi-nandigam" },
   },
 } as const;

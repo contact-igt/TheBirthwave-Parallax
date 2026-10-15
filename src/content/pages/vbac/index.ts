@@ -218,7 +218,7 @@ export const vbacClinician = {
       "A previous caesarean may leave you with questions about your next pregnancy and delivery.",
       "Dr. Santoshini's approach focuses on understanding your previous experience, reviewing your current pregnancy and discussing your birth options with you.",
     ],
-    photo: "/images/clinic/dr-santoshi.JPG",
+    photo: "/images/doctors/dr-santoshi-web.jpg",
     primaryCta: { label: "BOOK A CONSULTATION ↗", href: "/contact" },
     secondaryCta: { label: "VIEW FULL PROFILE ↗", href: "/doctors/dr-santoshi-nandigam" },
   },
