@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { gynaecologyImagery, type GynaecologyImageKey } from "@/content/gynaecology-landing-imagery";
+﻿import Image from "next/image";
+import { gynaecologyImagery, type GynaecologyImageKey } from "@/content/pages/gynaecology";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { cx } from "@/lib/cx";
 
@@ -63,9 +63,6 @@ export function GynaecologyImage({
         className="object-cover"
         style={"objectPosition" in image && image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
       />
-      <span className="absolute right-3 bottom-3 left-3 z-10 w-fit max-w-[calc(100%-1.5rem)] rounded-xs bg-paper/95 px-2 py-1 font-body text-[0.6875rem] leading-snug text-ink-soft">
-        AI-generated illustration
-      </span>
     </div>
   );
 }

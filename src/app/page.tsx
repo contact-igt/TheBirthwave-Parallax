@@ -5,9 +5,7 @@ import { JourneySection } from "@/components/sections/home/journey-section";
 import { TeamIntroSection } from "@/components/sections/home/team-intro-section";
 import { CareSection } from "@/components/sections/home/care-section";
 import { CareDiscoverySection } from "@/components/sections/home/care-discovery-section";
-import { FirstVisitSection } from "@/components/sections/home/first-visit-section";
 import { FaqSection } from "@/components/sections/home/faq-section";
-import { VisitClinicSection } from "@/components/sections/home/visit-clinic-section";
 import { FinalCtaSection } from "@/components/sections/home/final-cta-section";
 
 export default function Home() {
@@ -28,10 +26,7 @@ export default function Home() {
       {/* 6. Service Overview (6 Pathways) */}
       <CareDiscoverySection />
 
-      {/* 7. Your First Visit, Made Clearer (3-Step Connected Sequence) */}
-      <FirstVisitSection />
-
-      {/* 8. Frequently Asked Questions.
+      {/* 7. Frequently Asked Questions.
           Testimonials (ReviewsSection) are deliberately NOT rendered: its
           three quotes, names, localities and 5-star ratings are illustrative
           placeholders with no approved source or patient consent (see that
@@ -40,10 +35,7 @@ export default function Home() {
         <FaqSection />
       </DotFieldRegion>
 
-      {/* 9. Visit The Birthwave (Clinic Video & Location Showcase) */}
-      <VisitClinicSection />
-
-      {/* 10. Final Consultation CTA */}
+      {/* 8. Final Consultation CTA */}
       <FinalCtaSection />
     </PageShell>
   );

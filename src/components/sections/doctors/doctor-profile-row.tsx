@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import type { DoctorContent } from "@/content/doctors-content";
 import { DoctorProfileContent } from "@/components/sections/doctors/doctor-profile-content";
 import { useReducedMotion } from "@/motion/reduced-motion";
 import { ensureScrollTriggerRegistered, gsap } from "@/motion/gsap-scroll";
-import { cx } from "@/lib/cx";
 
 export function DoctorProfileRow({ doctor, index }: { doctor: DoctorContent; index: number }) {
   const rowRef = useRef<HTMLElement>(null);
@@ -59,22 +57,9 @@ export function DoctorProfileRow({ doctor, index }: { doctor: DoctorContent; ind
   return (
     <article
       ref={rowRef}
-      className={cx(
-        "relative overflow-hidden rounded-3xl border border-[#EAE1D7] bg-[#FAF5EE] shadow-[0_8px_30px_rgba(42,32,28,0.04)] p-6 sm:p-10 lg:p-12 mb-8 sm:mb-12",
-      )}
+      className="relative py-10 sm:py-14 border-b border-[var(--color-border)] last:border-b-0"
     >
-      {/* Botanical watercolor background */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-3xl">
-        <Image
-          src="/images/doctors/doctor-card-background.webp"
-          alt=""
-          fill
-          sizes="(max-width: 1024px) 100vw, 1152px"
-          className="object-cover object-center opacity-90"
-        />
-      </div>
-
-      <div className="relative z-10 grid gap-8 sm:grid-cols-[1.15fr_0.85fr] lg:grid-cols-[1.2fr_0.8fr] sm:items-center sm:gap-12 lg:gap-16">
+      <div className="grid gap-8 sm:grid-cols-[1.15fr_0.85fr] lg:grid-cols-[1.2fr_0.8fr] sm:items-center sm:gap-12 lg:gap-16">
         <DoctorProfileContent
           doctor={doctor}
           index={index}

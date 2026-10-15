@@ -1,51 +1,45 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { fertilityEnquiry, fertilityMobileCta } from "@/content/fertility-preconception-landing-content";
+import conversion from "../shared/service-conversion.module.css";
+
 import { contactPlaceholders } from "@/content/contact-content";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { fertilityEnquiry, fertilityMobileCta } from "@/content/pages/fertility-preconception";
 import { cx } from "@/lib/cx";
 import styles from "./fertility-preconception.module.css";
 
-// Same destinations this page already used, now derived from the one confirmed
-// phone number in contact-content.ts: a tel: link and a wa.me link on that
-// number. NOTE: contact-content.ts lists this number as a phone line only —
-// whether it is also registered on WhatsApp is not confirmed there.
-const phoneDigits = contactPlaceholders.phone.replace(/\D/g, "");
+const phoneDigits = fertilityEnquiry.phone.replace(/\D/g, "");
 const phoneHref = `tel:+${phoneDigits}`;
-const whatsappHref = `https://wa.me/${phoneDigits}`;
+const whatsappHref = `https://wa.me/${contactPlaceholders.whatsapp.replace(/[^0-9]/g, "")}`;
 
 const labelClass = "font-body text-sm font-semibold text-ink-soft";
 const inputClass =
   "w-full rounded-xs border border-[var(--color-border-strong)] bg-paper px-4 py-3 text-base text-ink placeholder:text-ink-soft/50 transition-colors duration-[var(--duration-fast)] focus:border-terracotta-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta-deep";
 const contactLinkClass =
-  "inline-flex min-h-11 items-center rounded-xs !text-terracotta-deep underline underline-offset-4 hover:!text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta-deep";
+  "inline-flex min-h-11 items-center rounded-xs !text-terracotta-deep underline underline-offset-4 hover:!text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta-deep font-semibold";
 const submitButtonClass =
   "group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3.5 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] ease-[var(--ease-signature)] hover:bg-coral focus-ring-on-brand disabled:cursor-not-allowed disabled:opacity-60";
 
 /**
- * Request a consultation. TODO(infra): no backend endpoint or verified
- * enquiry inbox exists in this project — a persistent "Preview" notice stays
- * visible above the form and submitting shows an honest "design preview, no
- * enquiry has been sent" message, never a success/confirmation. Short on
- * purpose: full name, one phone-or-email field, an optional message. Nothing
- * is written to browser storage.
+ * Section 11 — Plan Your Next Step.
+ * Enquiry form and communication channels.
  */
 export function FertilityEnquiry() {
   const nameId = useId();
   const contactId = useId();
+  const topicId = useId();
   const messageId = useId();
   const formRef = useRef<HTMLFormElement>(null);
 
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
+  const [topic, setTopic] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "previewed">("idle");
   const [touched, setTouched] = useState(false);
 
   const isValid = name.trim().length > 0 && contact.trim().length > 0;
 
-  // Broadcasts focus state on the form so `FertilityMobileEnquiryBar` can hide
-  // itself while a field is being edited.
   useEffect(() => {
     const form = formRef.current;
     if (!form) return;
@@ -66,24 +60,27 @@ export function FertilityEnquiry() {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    // No backend endpoint exists yet — never call fetch or claim a send.
     setStatus("previewed");
   }
 
   return (
-    <section id="fertility-enquiry" aria-labelledby="fertility-enquiry-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad">
+    <section id="fertility-enquiry" aria-labelledby="fertility-enquiry-heading" data-service-enquiry className={`${conversion.enquiry} relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad`}>
       <div className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
         <div className="max-w-md">
           <p className="eyebrow">{fertilityEnquiry.eyebrow}</p>
           <h2 id="fertility-enquiry-heading" className={cx(styles.display, styles.h2, "mt-4")}>
             {fertilityEnquiry.heading}
           </h2>
-          <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{fertilityEnquiry.body}</p>
+          <div className="mt-5 space-y-3 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+            {fertilityEnquiry.body.map((p, idx) => (
+              <p key={idx}>{p}</p>
+            ))}
+          </div>
 
-          <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-1 text-sm font-medium">
+          <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium">
             <li>
               <a href={phoneHref} className={contactLinkClass}>
-                {fertilityEnquiry.callLabel} {contactPlaceholders.phone}
+                Call: {fertilityEnquiry.phone}
               </a>
             </li>
             <li>
@@ -94,18 +91,22 @@ export function FertilityEnquiry() {
             </li>
           </ul>
 
-          <p className="mt-8 border-t border-[var(--color-border)] pt-4 text-sm leading-relaxed text-ink-soft">{fertilityEnquiry.urgentNote}</p>
+          <p className="mt-8 border-t border-[var(--color-border)] pt-4 text-sm leading-relaxed text-ink-soft">
+            {fertilityEnquiry.disclaimer}
+          </p>
         </div>
 
         <div className="w-full max-w-md rounded-sm bg-paper p-7 sm:p-8">
-          <p className="mb-5 font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">{fertilityEnquiry.previewNotice}</p>
+          <p className="mb-5 font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
+            {fertilityEnquiry.previewNotice}
+          </p>
 
           {status === "previewed" ? (
             <p role="status" className="text-base leading-[var(--leading-relaxed)] text-ink-soft">
               {fertilityEnquiry.previewResult}
             </p>
           ) : (
-            <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+            <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
               <div className="flex flex-col gap-1.5">
                 <label htmlFor={nameId} className={labelClass}>
                   {fertilityEnquiry.fields.name}
@@ -130,7 +131,7 @@ export function FertilityEnquiry() {
                   id={contactId}
                   name="contact"
                   type="text"
-                  autoComplete="tel"
+                  autoComplete="email"
                   value={contact}
                   onChange={(event) => setContact(event.target.value)}
                   aria-invalid={touched && contact.trim().length === 0}
@@ -139,10 +140,37 @@ export function FertilityEnquiry() {
               </div>
 
               <div className="flex flex-col gap-1.5">
+                <label htmlFor={topicId} className={labelClass}>
+                  {fertilityEnquiry.fields.topic}
+                </label>
+                <select
+                  id={topicId}
+                  name="topic"
+                  value={topic}
+                  onChange={(event) => setTopic(event.target.value)}
+                  className={inputClass}
+                >
+                  <option value="">Select an option...</option>
+                  {fertilityEnquiry.dropdownOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
                 <label htmlFor={messageId} className={labelClass}>
                   {fertilityEnquiry.fields.message}
                 </label>
-                <textarea id={messageId} name="message" rows={3} value={message} onChange={(event) => setMessage(event.target.value)} className={cx(inputClass, "resize-none")} />
+                <textarea
+                  id={messageId}
+                  name="message"
+                  rows={3}
+                  value={message}
+                  onChange={(event) => setMessage(event.target.value)}
+                  className={cx(inputClass, "resize-none")}
+                />
               </div>
 
               {touched && !isValid ? (
@@ -183,32 +211,31 @@ export function FertilityMobileEnquiryBar() {
 
     const formEl = form.querySelector("form");
     const syncEditing = () => setFormEditing(formEl?.dataset.editing === "true");
-    const editingObserver = formEl ? new MutationObserver(syncEditing) : null;
-    if (formEl && editingObserver) {
-      editingObserver.observe(formEl, { attributes: true, attributeFilter: ["data-editing"] });
+    const focusObserver = new MutationObserver(syncEditing);
+    if (formEl) {
+      focusObserver.observe(formEl, { attributes: true, attributeFilter: ["data-editing"] });
     }
 
     return () => {
       heroObserver.disconnect();
       formObserver.disconnect();
-      editingObserver?.disconnect();
+      focusObserver.disconnect();
     };
   }, []);
 
-  const visible = pastHero && !formVisible && !formEditing;
+  const show = pastHero && !formVisible && !formEditing;
 
   return (
     <div
+      aria-hidden={!show}
       className={cx(
-        "fixed inset-x-0 bottom-0 z-30 border-t border-[var(--color-border)] bg-paper px-4 py-3 transition-transform duration-[var(--duration-base)] ease-[var(--ease-signature)] sm:hidden",
-        visible ? "translate-y-0" : "translate-y-full",
+        "fixed inset-x-0 bottom-0 z-40 border-t border-[var(--color-border)] bg-paper/95 px-4 py-3 shadow-[var(--shadow-panel)] backdrop-blur-md transition-transform duration-[var(--duration-normal)] ease-[var(--ease-signature)] lg:hidden",
+        show ? "translate-y-0" : "pointer-events-none translate-y-full",
       )}
-      style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
-      inert={!visible}
     >
       <a
         href={fertilityMobileCta.href}
-        className="group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] hover:bg-coral focus-ring-on-brand"
+        className="flex min-h-11 w-full items-center justify-center rounded-xs bg-terracotta px-4 py-2.5 font-body text-sm font-semibold tracking-wider text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] ease-[var(--ease-signature)] hover:bg-coral focus-ring-on-brand"
       >
         {fertilityMobileCta.label}
       </a>

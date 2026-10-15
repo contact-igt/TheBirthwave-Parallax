@@ -1,7 +1,6 @@
 "use client";
 
 import { aboutInsideClinic } from "@/content/about-clinic-content";
-import { CareWaveBackground } from "@/components/ui/backgrounds/care-wave-background";
 
 /**
  * Section: "Visit The Birthwave"
@@ -23,9 +22,6 @@ export function VisitClinicSection() {
       aria-labelledby="visit-clinic-heading"
       className="relative isolate overflow-hidden bg-paper-dim/40 py-20 sm:py-24 lg:py-32 border-t border-ink/8"
     >
-      {/* Restrained ambient washes outside media frame & controls */}
-      <CareWaveBackground preset="clinic" />
-
       <div className="container-birthwave relative z-10">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
@@ -34,7 +30,7 @@ export function VisitClinicSection() {
           </p>
           <h2
             id="visit-clinic-heading"
-            className="mt-3.5 text-balance font-display text-[clamp(2.3rem,1.9rem+2.4vw,3.75rem)] font-semibold leading-[1.08] tracking-[var(--tracking-tight)] text-ink"
+            className="mt-3.5 text-balance font-display text-h2 font-semibold leading-[1.08] tracking-[var(--tracking-tight)] text-ink"
           >
             Visit The Birthwave.
           </h2>

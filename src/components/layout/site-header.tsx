@@ -223,10 +223,7 @@ export function SiteHeader() {
             href="/"
             aria-label={`${brand.name} — home`}
             data-header-wordmark=""
-            className={cx(
-              "inline-flex shrink-0 items-center rounded-lg px-1.5 py-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-ink)]",
-              isHome && "invisible motion-reduce:visible",
-            )}
+            className="inline-flex shrink-0 items-center rounded-lg px-1.5 py-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-ink)]"
           >
             <Image
               src={brand.logo.wordmarkMauve}
@@ -275,10 +272,10 @@ export function SiteHeader() {
                       aria-controls={desktopCarePanelId}
                       onClick={handleDesktopCareClick}
                       className={cx(
-                        "group inline-flex items-center gap-1 rounded-full px-4 py-2 font-body text-sm font-medium tracking-[0.02em] transition-colors duration-[var(--duration-fast)]",
+                        "group inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 font-body text-sm font-medium tracking-[0.02em] transition-colors duration-[var(--duration-fast)]",
                         desktopCareOpen || isServicesActive
-                          ? "bg-paper text-ink font-semibold"
-                          : "text-ink-soft hover:bg-paper hover:text-ink",
+                          ? "bg-[#F3E8E2] text-ink font-semibold border border-[#E3D1C7]"
+                          : "bg-[#F6ECE7] text-ink hover:bg-[#EFE2DB] border border-[#ECD9CE]",
                       )}
                     >
                       <span>Our Care</span>
@@ -315,7 +312,12 @@ export function SiteHeader() {
                             content width, five only from 63rem — where every
                             column keeps ≥ ~176px for 15px service names. Each
                             group stays one unit (label + its links). */}
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-7 @min-[40rem]:grid-cols-3 @min-[63rem]:grid-cols-5">
+                        <div
+                          className={cx(
+                            "grid grid-cols-2 gap-x-8 gap-y-7 @min-[40rem]:grid-cols-3",
+                            navCareGroups.length <= 4 ? "@min-[63rem]:grid-cols-4" : "@min-[63rem]:grid-cols-5",
+                          )}
+                        >
                           {navCareGroups.map((group) => (
                             <div key={group.id} className="flex min-w-0 flex-col">
                               <span className="font-body text-xs leading-snug font-semibold tracking-[0.12em] text-terracotta-deep uppercase">

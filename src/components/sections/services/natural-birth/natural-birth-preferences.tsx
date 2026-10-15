@@ -1,20 +1,12 @@
-import { naturalBirthPreferences } from "@/content/natural-birth-landing-content";
+import { naturalBirthPreferences } from "@/content/pages/natural-birth";
 import { NaturalBirthImage } from "./natural-birth-image";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
 import { Button } from "@/components/ui/button";
 
-/**
- * Section 03 — What You Can Plan and Discuss. Five themes as a compact
- * hairline-divided list beside a generous preferences-conversation image
- * — matching the same text-plus-image composition `vbac-planning.tsx`
- * already establishes. Every theme is phrased as something to discuss,
- * never something automatically offered or facility-confirmed (no
- * facility-specific option is claimed here).
- */
 export function NaturalBirthPreferences() {
   return (
-    <section id="natural-birth-preferences" aria-labelledby="natural-birth-preferences-heading" className="relative isolate bg-paper section-pad">
-      <NaturalBirthReveal className="container-birthwave grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
+    <section id="natural-birth-preferences" aria-labelledby="natural-birth-preferences-heading" className="relative isolate overflow-hidden bg-paper bg-[url('/images/natural-birth/natural-birth-preferences-background-v1.png')] bg-cover bg-center section-pad">
+      <NaturalBirthReveal className="container-birthwave relative z-10 grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
         <div className="max-w-xl">
           <p className="eyebrow">{naturalBirthPreferences.eyebrow}</p>
           <h2
@@ -34,9 +26,13 @@ export function NaturalBirthPreferences() {
             ))}
           </div>
 
+          <p className="mt-8 border-l-2 border-terracotta pl-4 text-base leading-[var(--leading-relaxed)] font-medium text-ink">
+            {naturalBirthPreferences.closing}
+          </p>
+
           <div className="mt-8">
             <Button href={naturalBirthPreferences.cta.href} variant="primary">
-              {naturalBirthPreferences.cta.label}
+              {naturalBirthPreferences.cta.label.replace(/\s*↗$/, "")}
             </Button>
           </div>
         </div>

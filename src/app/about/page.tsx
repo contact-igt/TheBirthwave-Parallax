@@ -9,6 +9,8 @@ import { AboutFirstVisit } from "@/components/sections/about/about-first-visit";
 import { AboutClinicStrip } from "@/components/sections/about/about-clinic-strip";
 import { AboutAppointmentCta } from "@/components/sections/about/about-appointment-cta";
 
+import styles from "./about-backgrounds.module.css";
+
 export const metadata: Metadata = {
   title: "About: The Birthwave",
   description:
@@ -30,6 +32,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <PageShell>
+      <div className={styles.page}>
       <AboutCinematicCanvas />
       <AboutFounderStory />
       <AboutInsideClinic />
@@ -38,6 +41,7 @@ export default function AboutPage() {
       <AboutFirstVisit />
       <AboutClinicStrip />
       <AboutAppointmentCta />
+      </div>
     </PageShell>
   );
 }

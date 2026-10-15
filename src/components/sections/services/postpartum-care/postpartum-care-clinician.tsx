@@ -1,4 +1,4 @@
-import { postpartumClinician } from "@/content/postpartum-care-landing-content";
+﻿import { postpartumClinician } from "@/content/pages/postpartum-care";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";

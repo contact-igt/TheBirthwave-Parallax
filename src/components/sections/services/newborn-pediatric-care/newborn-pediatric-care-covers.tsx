@@ -1,4 +1,4 @@
-import { newbornCovers } from "@/content/newborn-pediatric-care-landing-content";
+﻿import { newbornCovers } from "@/content/pages/newborn-pediatric-care";
 import { NewbornImage } from "./newborn-pediatric-care-image";
 import { NewbornReveal } from "./newborn-pediatric-care-reveal";
 

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { preload } from "react-dom";
 import { ArrowDown } from "lucide-react";
-import { hero, brand, philosophy } from "@/content/site-content";
+import { hero, philosophy } from "@/content/site-content";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { useReducedMotion } from "@/motion/reduced-motion";
@@ -20,17 +20,17 @@ import { SceneDebugOverlay } from "@/motion/scene-debug-overlay";
 import { CareWaveBackground } from "@/components/ui/backgrounds/care-wave-background";
 
 // ---------------------------------------------------------------------------
-// Frame sequence — public/images/about/nested (99 × 1280×720 JPEG)
+// Frame sequence — public/images/hero-frames (50 WebP frames per set)
 // ---------------------------------------------------------------------------
 
-const FRAME_COUNT = 99;
+const FRAME_COUNT = 50;
 
-/** index 0 → frame_000001.jpg … index 98 → frame_000099.jpg */
-const getFrameSrc = (index: number) =>
-  `/images/about/nested/frame_${String(index + 1).padStart(6, "0")}.jpg`;
-
-/** Size of each background batch after the eager set. */
-const BATCH_SIZE = 12;
+/**
+ * Set selection by viewport width:
+ * <768px uses mobile portrait set (720x1280), >=768px uses desktop (1920x1080).
+ */
+const getFrameSrc = (index: number, isMobile = false) =>
+  `/images/hero-frames/${isMobile ? "mobile" : "desktop"}/frame_${String(index + 1).padStart(6, "0")}.webp`;
 
 /** rAF smoothing: exponential approach toward ScrollTrigger's raw progress. */
 const LERP_TAU = 8;
@@ -48,35 +48,6 @@ const TEXT_MOTION: Record<Bucket, { heroY: number; philosophyY: number }> = {
   mobile: { heroY: -12, philosophyY: 16 },
 };
 
-/**
- * Logo → header identity, every breakpoint. Geometry is measured, never
- * hard-coded: start = the Hero logo's badge, end = the real header logo
- * link's image (site-header.tsx), so the traveller lands exactly on it and
- * hands off to it (the link becomes visible, the traveller hides) at the
- * end of the move. Timing sits on the same master progress as everything
- * else, slightly ahead of the Hero copy fade.
- */
-const LOGO_MOVE_START = 0.08;
-const LOGO_MOVE_END: Record<Bucket, number> = { desktop: 0.32, tablet: 0.34, mobile: 0.34 };
-/** Scale starts late below 1024px — the Hero logo is already small there. */
-const LOGO_SHRINK_AT: Record<Bucket, number> = { desktop: 0.08, tablet: 0.22, mobile: 0.22 };
-/**
- * The header bar's white surface grows leftward over this span (ending at
- * the settle point) to meet the arriving logo, so its badge merges into the
- * bar instead of showing as a second shape.
- */
-const SURFACE_REVEAL = 0.1;
-/**
- * The logo's own frame: a solid white rounded badge so the thin mauve
- * script stays legible over the frames and the Philosophy headline. Shared
- * by the Hero logo and its traveller so the swap is pixel-identical; it
- * scales with the logo and, once settled, sits white-on-white in the bar.
- */
-const LOGO_MARK_CLASS = "w-fit rounded-lg bg-white px-3 py-2 lg:rounded-xl lg:px-4 lg:py-2.5";
-const LOGO_IMG_CLASS = "h-auto w-[96px] sm:w-[124px] lg:w-[152px]";
-/** Fallback only (header logo not measurable): lift, shrink, fade. */
-const LOGO_COMPACT_LIFT: Record<Exclude<Bucket, "desktop">, number> = { tablet: -16, mobile: -12 };
-const LOGO_COMPACT_SCALE = 0.9;
 /** "Scroll to discover" cue (below 1024px only) fades out early. */
 const SCROLL_CUE_FADE: readonly [number, number] = [0.05, 0.13];
 
@@ -88,35 +59,10 @@ function getBucket(): Bucket {
 }
 
 /**
- * Per-breakpoint rendering budget. `eagerFrames` are fetched in parallel
- * right after frame 1; `frameStep` > 1 paints (and fetches) every Nth
- * frame while progress stays continuous — the last frame is always kept.
- */
-const RENDER_CONFIG: Record<Bucket, { maxDpr: number; eagerFrames: number; frameStep: number }> = {
-  desktop: { maxDpr: 2, eagerFrames: 20, frameStep: 1 },
-  tablet: { maxDpr: 1.75, eagerFrames: 18, frameStep: 1 },
-  mobile: { maxDpr: 1.5, eagerFrames: 16, frameStep: 1 },
-};
-
-function stepFrame(index: number, step: number): number {
-  return step > 1 && index < FRAME_COUNT - 1 ? index - (index % step) : index;
-}
-
-/**
- * Tablet/mobile crop. On a portrait screen `cover` shows only a narrow
- * slice of the 16:9 frame, and the subject moves: the mother sits on the
- * right through the Hero frames (clouds and fabric build around her) and
- * dissolves across to the left for the Philosophy frames. So the crop
- * follows her — `fx` is the source x (0–1) held at screen anchor `ax`
- * (0–1) — and pans during that dissolve. Desktop keeps the centred crop.
+ * Focal panning parameters when drawing landscape desktop frames on tablet.
  */
 const FOCAL_HERO = { fx: 0.8, ax: 0.66 };
 const FOCAL_PHILOSOPHY = { fx: 0.22, ax: 0.5 };
-/**
- * Sequence position (0–1, frame / (FRAME_COUNT − 1)) bracketing the
- * right → left dissolve (frames ~57–72 of 99). Relative, so it survives a
- * re-export at a different frame count.
- */
 const FOCAL_PAN_FROM = 0.56;
 const FOCAL_PAN_TO = 0.72;
 
@@ -137,10 +83,6 @@ type TextTiming = Record<
   readonly [number, number]
 >;
 
-/*
- * Calibrated text timings: reduced blank scroll interval between hero exit
- * and philosophy entrance, ensuring statements remain readable and held.
- */
 const TIMING_DEFAULT: TextTiming = {
   heroBody: [0.12, 0.1],
   heroCta: [0.15, 0.1],
@@ -155,7 +97,6 @@ const TIMING_DEFAULT: TextTiming = {
   philClosing: [0.87, 0.09],
 };
 
-/** Phones: calibrated track timing for smooth reading. */
 const TIMING_MOBILE: TextTiming = {
   heroBody: [0.13, 0.1],
   heroCta: [0.16, 0.1],
@@ -171,41 +112,16 @@ const TIMING_MOBILE: TextTiming = {
 };
 
 const NARRATIVE_STATEMENT_CLASS =
-  "text-balance text-[clamp(2.1rem,1.6rem+2.2vw,3.25rem)] !leading-[1.12] font-semibold tracking-[var(--tracking-tight)]";
-
-const HERO_SCRIM_STYLE = {
-  backgroundImage:
-    "linear-gradient(90deg, var(--color-paper) 0%, color-mix(in srgb, var(--color-paper) 86%, transparent) 55%, color-mix(in srgb, var(--color-paper) 40%, transparent) 80%, transparent 100%)",
-};
+  "text-balance text-h2 !leading-[1.12] font-semibold tracking-[var(--tracking-tight)]";
 
 /**
- * HeroPhilosophyScrollScene — one pinned scene for Home Hero → Philosophy.
- *
- *   track (360vh desktop / 240vh tablet / 200vh mobile)
- *   └── sticky h-dvh stage
- *       ├── <canvas>  99-frame sequence (hero → cloud/silk → philosophy)
- *       ├── Hero layer
- *       └── Philosophy layer
- *
- * ScrollTrigger only reports raw progress. A single rAF loop eases toward
- * it (LERP_TAU / SNAP), picks the frame, redraws only when the frame
- * changes, and drives one paused GSAP timeline for the text so frames and
- * copy stay locked to the same smoothed value.
- *
- * Timeline (smoothed progress 0 → 1; desktop/tablet — phones in TIMING_MOBILE):
- *   0.00–0.14  Hero fully visible  0.08–0.32  logo travels to the header
- *   0.14–0.24  subhead fades       0.18–0.28  CTA fades
- *   0.24–0.34  eyebrow fades       0.30–0.42  headline fades last
- *   0.74–0.80  Philosophy eyebrow  0.77–0.84  statement 1
- *   0.81–0.88  statement 2         0.85–0.92  statement 3
- *   0.89–0.96  closing line        0.96–1.00  final frame holds, then release
+ * HeroPhilosophyScrollScene — pinned scene for Home Hero → Philosophy.
  */
 export function HeroPhilosophyScrollScene() {
   const reducedMotion = useReducedMotion();
   return (
     <>
       {reducedMotion ? <ReducedMotionScene /> : <AnimatedScene />}
-      {/* Visible only for an explicit `?debugScene=1` URL. */}
       <SceneDebugOverlay label={DEBUG_LABEL} />
     </>
   );
@@ -220,17 +136,15 @@ function AnimatedScene() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const sceneGroupRef = useRef<HTMLDivElement>(null);
-  const travelerRef = useRef<HTMLDivElement>(null);
 
-  preload(getFrameSrc(0), { as: "image", fetchPriority: "high" });
+  // Preload frame 1 immediately as high-priority images
+  preload(getFrameSrc(0, false), { as: "image", fetchPriority: "high" });
+  preload(getFrameSrc(0, true), { as: "image", fetchPriority: "high" });
 
   useEffect(() => {
     const track = trackRef.current;
     const canvas = canvasRef.current;
     if (!track || !canvas) return;
-    // useReducedMotion() reports false on the hydration render by design;
-    // if the OS setting is actually on, the parent swaps to <StaticScene />
-    // on the next render — don't start the scrub or fetch frames for it.
     if (window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
 
     const debug = createSceneDebug(DEBUG_LABEL);
@@ -239,8 +153,6 @@ function AnimatedScene() {
       reducedMotion: window.matchMedia(REDUCED_MOTION_QUERY).matches,
     });
 
-    // Without a 2D context the CSS poster (frame 1) stays visible and the
-    // text scrub still runs — degrade, don't abort.
     const ctx2d = canvas.getContext("2d");
     if (!ctx2d) {
       debug.warn("canvas.getContext('2d') returned null — showing CSS poster frame only.");
@@ -248,10 +160,7 @@ function AnimatedScene() {
 
     ensureScrollTriggerRegistered();
 
-    const q = (selector: string) =>
-      track.querySelector<HTMLElement>(selector);
-    const heroLogo = q("[data-hero-logo]");
-    const heroLogoImg = q("[data-hero-logo] [data-logo-mark]");
+    const q = (selector: string) => track.querySelector<HTMLElement>(selector);
     const heroEyebrow = q("[data-hero-eyebrow]");
     const heroHeading = q("[data-hero-heading]");
     const heroBody = q("[data-hero-body]");
@@ -266,33 +175,28 @@ function AnimatedScene() {
     const philClosing = q("[data-philosophy-closing]");
     const stage = stageRef.current;
     const sceneGroup = sceneGroupRef.current;
-    const traveler = travelerRef.current;
-    // The header's own logo link and bar (site-header.tsx) — the landing
-    // spot. Outside this component, so looked up in the document.
-    const header = document.querySelector<HTMLElement>("header#top");
-    const headerLogo = header?.querySelector<HTMLElement>("[data-header-wordmark]") ?? null;
-    const headerBar = header?.querySelector<HTMLElement>("[data-header-bar]") ?? null;
+
     if (
-      !heroLogo || !heroLogoImg || !heroEyebrow ||
-      !heroHeading || !heroBody || !heroCta || !heroScrim || !philScrim ||
-      !philEyebrow || !phil1 || !phil2 || !phil3 || !philClosing ||
-      !stage || !sceneGroup || !traveler
+      !heroEyebrow || !heroHeading || !heroBody || !heroCta || !heroScrim || !philScrim ||
+      !philEyebrow || !phil1 || !phil2 || !phil3 || !philClosing || !stage || !sceneGroup
     ) {
       debug.warn("Animation targets missing — scrub not initialised.");
       debug.destroy();
       return;
     }
+
     const philTargets = [philEyebrow, phil1, phil2, phil3, philClosing];
     const allTargets = [
-      heroLogo, heroEyebrow, heroHeading, heroBody, heroCta, heroScrim,
-      philScrim, ...philTargets, traveler,
+      heroEyebrow, heroHeading, heroBody, heroCta, heroScrim,
+      philScrim, ...philTargets,
       ...(scrollCue ? [scrollCue] : []),
-      ...(headerLogo ? [headerLogo] : []),
     ];
 
     let bucket = getBucket();
+    let isMobile = window.innerWidth < 768;
+    canvas.style.backgroundImage = `url(${getFrameSrc(0, isMobile)})`;
 
-    // ── Frame cache (one image per frame, never duplicated) ──────────────
+    // ── Frame cache ─────────────────────────────────────────────────────────
     const cache: Array<HTMLImageElement | null> = new Array(FRAME_COUNT).fill(null);
     const loaded = new Uint8Array(FRAME_COUNT);
     let disposed = false;
@@ -323,20 +227,24 @@ function AnimatedScene() {
       const ch = canvas.height;
       const iw = img.naturalWidth;
       const ih = img.naturalHeight;
+      if (cw === 0 || ch === 0 || iw === 0 || ih === 0) return;
+
       const scale = Math.max(cw / iw, ch / ih);
       const dw = iw * scale;
       const dh = ih * scale;
-      if (cw === 0 || ch === 0) return;
       let dx = (cw - dw) / 2;
-      if (bucket !== "desktop") {
+
+      // On tablet/desktop landscape viewports, follow focal point
+      if (!isMobile && bucket !== "desktop") {
         const { fx, ax } = focalFor(i);
         dx = Math.min(0, Math.max(cw - dw, ax * cw - fx * dw));
       }
+
       ctx2d.drawImage(img, dx, (ch - dh) / 2, dw, dh);
       drawnIndex = i;
       if (!firstPaintLogged) {
         firstPaintLogged = true;
-        debug.info(`first frame painted: ${getFrameSrc(i)}`, { canvas: `${cw}x${ch}` });
+        debug.info(`first frame painted: ${getFrameSrc(i, isMobile)}`, { canvas: `${cw}x${ch}` });
       }
     }
 
@@ -345,49 +253,47 @@ function AnimatedScene() {
       const img = new window.Image();
       img.decoding = "async";
       cache[index] = img;
-      const src = getFrameSrc(index);
+      const src = getFrameSrc(index, isMobile);
+
       const markLoaded = () => {
         if (disposed) return;
         loaded[index] = 1;
         loadedCount++;
         debug.update({ loaded: `${loadedCount}/${FRAME_COUNT}` });
-        // A closer frame just arrived — replace the stand-in.
         if (drawnIndex !== wantedIndex) draw(wantedIndex);
       };
-      // A failed frame is never marked loaded, so draw() keeps using the
-      // nearest loaded neighbour and the canvas never blanks.
+
       const markFailed = () => {
         if (disposed) return;
         failed.push(src);
         debug.warn(`frame failed to load: ${src}`);
         debug.update({ failed: failed.length, lastFailed: src });
       };
+
       img.src = src;
-      // decode() off the main thread before the frame is ever drawn, so a
-      // fast scroll never pays a synchronous JPEG decode inside drawImage.
       return img.decode().then(markLoaded, () => {
-        // Some browsers reject decode() for images that did load fine.
         if (img.complete && img.naturalWidth > 0) markLoaded();
         else markFailed();
       });
     }
 
+    /**
+     * Draw frame 1 immediately as a priority image, then load the rest in order
+     * in the background without blocking first paint on the sequence.
+     */
     async function preloadFrames() {
-      const { eagerFrames, frameStep } = RENDER_CONFIG[bucket];
-      // Only the frames this breakpoint will actually paint.
-      const order: number[] = [];
-      for (let i = 1; i < FRAME_COUNT; i++) if (stepFrame(i, frameStep) === i) order.push(i);
-      const eagerCount = Math.ceil(eagerFrames / frameStep);
-
+      // 1. Frame 1 loads immediately and paints priority
       await loadFrame(0);
       if (disposed) return;
-      // Eager set in parallel — doesn't block first paint.
-      await Promise.all(order.slice(0, eagerCount).map(loadFrame));
-      for (let start = eagerCount; start < order.length; start += BATCH_SIZE) {
+      draw(wantedIndex, true);
+
+      // 2. Stream the rest sequentially in order in the background
+      for (let i = 1; i < FRAME_COUNT; i++) {
         if (disposed) return;
-        await new Promise<void>((r) => timers.push(window.setTimeout(r, 16)));
-        if (disposed) return;
-        await Promise.all(order.slice(start, start + BATCH_SIZE).map(loadFrame));
+        await loadFrame(i);
+        if (i % 2 === 0) {
+          await new Promise<void>((r) => timers.push(window.setTimeout(r, 8)));
+        }
       }
       debug.info(
         `frame preload finished: ${loadedCount}/${FRAME_COUNT} loaded, ${failed.length} failed`,
@@ -395,16 +301,13 @@ function AnimatedScene() {
       );
     }
 
-    // ── Canvas sizing (high-DPI, fills viewport) ─────────────────────────
+    // ── Canvas sizing: backing store sized to devicePixelRatio, capped at 2 ──
     function sizeCanvas() {
       if (!canvas) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, RENDER_CONFIG[bucket].maxDpr);
-      // Guard against a zero-size layout box (e.g. a sticky parent whose
-      // height didn't resolve) — size to the viewport instead.
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       let cssW = canvas.clientWidth;
       let cssH = canvas.clientHeight;
       if (cssW === 0 || cssH === 0) {
-        debug.warn(`canvas layout box is ${cssW}x${cssH} — falling back to viewport size.`);
         cssW = window.innerWidth;
         cssH = window.innerHeight;
       }
@@ -418,68 +321,8 @@ function AnimatedScene() {
       draw(wantedIndex, true);
     }
 
-    // ── Text timeline (paused; progress set from the rAF loop) ───────────
+    // ── Text timeline ───────────────────────────────────────────────────────
     let tl: gsap.core.Timeline | null = null;
-
-    // ── Logo geometry: measured start → header slot ─────────────────────
-    // Must be called with the logo's own transforms cleared.
-
-    // Start: the Hero logo's resting position inside the sticky stage
-    // (stage-relative, so it's valid wherever the page is scrolled), minus
-    // any in-progress load-in translate on its column. Also places the
-    // traveller there.
-    function measureLogoStart() {
-      if (!stage || !heroLogo || !heroLogoImg || !traveler) return null;
-      const stageRect = stage.getBoundingClientRect();
-      const imgRect = heroLogoImg.getBoundingClientRect();
-      if (imgRect.width === 0) return null;
-      const riseEl = heroLogo.closest<HTMLElement>(".motion-rise-in");
-      const riseTransform = riseEl ? getComputedStyle(riseEl).transform : "none";
-      const riseY = riseTransform && riseTransform !== "none" ? new DOMMatrixReadOnly(riseTransform).m42 : 0;
-      const left = imgRect.left - stageRect.left;
-      const top = imgRect.top - stageRect.top - riseY;
-      traveler.style.left = `${left}px`;
-      traveler.style.top = `${top}px`;
-      return { left, top, width: imgRect.width, height: imgRect.height };
-    }
-
-    // End: the header logo link's image, wherever the header layout puts it
-    // (desktop bar or compact bar). The traveller's image sits inside its
-    // badge padding, so the badge origin is offset by that padding × scale.
-    // Also measures how far in from the bar's left edge its white surface
-    // starts before the logo arrives (just short of the nav / menu button).
-    function measureHeaderTravel(): { dx: number; dy: number; scale: number } | null {
-      if (!headerLogo || !headerBar || !heroLogoImg) return null;
-      const target = headerLogo.querySelector("img")?.getBoundingClientRect();
-      const heroImg = heroLogoImg.querySelector("img")?.getBoundingClientRect();
-      if (!target || !heroImg || target.width === 0 || heroImg.width === 0) return null;
-      const start = measureLogoStart();
-      if (!start) return null;
-
-      const markRect = heroLogoImg.getBoundingClientRect();
-      const padX = heroImg.left - markRect.left;
-      const padY = heroImg.top - markRect.top;
-      const scale = target.width / heroImg.width;
-      const endLeft = target.left - padX * scale;
-      const endTop = target.top - padY * scale;
-
-      const barRect = headerBar.getBoundingClientRect();
-      const rest = [...headerBar.children].find(
-        (el) =>
-          el !== headerLogo &&
-          !el.hasAttribute("data-header-surface") &&
-          (el as HTMLElement).offsetParent !== null,
-      );
-      const inset = rest ? Math.max(0, rest.getBoundingClientRect().left - barRect.left - 6) : 0;
-      header?.style.setProperty("--header-surface-inset", `${inset}px`);
-
-      debug.update({
-        logoStart: `${start.left.toFixed(1)},${start.top.toFixed(1)} ${start.width.toFixed(0)}w`,
-        logoEnd: `${target.left.toFixed(1)},${target.top.toFixed(1)} ${target.width.toFixed(0)}w ×${scale.toFixed(3)}`,
-        surfaceInset: `${inset.toFixed(0)}px`,
-      });
-      return { dx: endLeft - start.left, dy: endTop - start.top, scale };
-    }
 
     function buildTimeline() {
       tl?.kill();
@@ -490,37 +333,6 @@ function AnimatedScene() {
       gsap.set(philScrim, { opacity: 0 });
 
       const t = gsap.timeline({ paused: true, defaults: { ease: "power1.inOut" } });
-
-      // Logo — geometry is scrubbed linearly so scroll stays predictable.
-      header?.style.removeProperty("--header-surface-reveal");
-      const travel = measureHeaderTravel();
-      if (sceneGroup) sceneGroup.dataset.logoTraveler = travel ? "on" : "off";
-      const moveEnd = LOGO_MOVE_END[bucket];
-      if (travel && header && headerLogo) {
-        gsap.set(traveler, { transformOrigin: "0 0" });
-        t.fromTo(traveler, { x: 0, y: 0 }, { x: travel.dx, y: travel.dy, ease: "none", duration: moveEnd - LOGO_MOVE_START }, LOGO_MOVE_START);
-        const shrinkAt = LOGO_SHRINK_AT[bucket];
-        t.fromTo(traveler, { scale: 1 }, { scale: travel.scale, ease: "none", duration: moveEnd - shrinkAt }, shrinkAt);
-        // The bar's surface grows in to meet the logo…
-        t.fromTo(
-          header,
-          { "--header-surface-reveal": 0 },
-          { "--header-surface-reveal": 1, ease: "power1.out", duration: SURFACE_REVEAL },
-          moveEnd - SURFACE_REVEAL,
-        );
-        // …then, at the same geometry, the real Home link takes over.
-        t.set(traveler, { autoAlpha: 0 }, moveEnd);
-        t.set(headerLogo, { autoAlpha: 1 }, moveEnd);
-      } else {
-        const lift = LOGO_COMPACT_LIFT[bucket === "desktop" ? "tablet" : bucket];
-        gsap.set(heroLogo, { transformOrigin: "0 0" });
-        t.fromTo(heroLogo, { y: 0, scale: 1 }, { y: lift, scale: LOGO_COMPACT_SCALE, ease: "none", duration: moveEnd - LOGO_MOVE_START }, LOGO_MOVE_START);
-        // No measurable header logo — fade out alongside the eyebrow, and
-        // still bring the header link in so the page keeps a logo.
-        const [eyebrowAt, eyebrowFor] = timing.heroEyebrow;
-        t.to(heroLogo, { opacity: 0, duration: eyebrowFor }, eyebrowAt);
-        if (headerLogo) t.set(headerLogo, { autoAlpha: 1 }, eyebrowAt + eyebrowFor);
-      }
 
       const at = (key: keyof TextTiming) => timing[key][0];
       const dur = (key: keyof TextTiming) => timing[key][1];
@@ -543,7 +355,7 @@ function AnimatedScene() {
       tl = t;
     }
 
-    // ── Smoothed progress loop (single rAF) ──────────────────────────────
+    // ── Smoothed progress loop (single rAF) ──────────────────────────────────
     let targetProgress = 0;
     let currentProgress = 0;
     let heldProgress: number | null = null;
@@ -569,9 +381,9 @@ function AnimatedScene() {
 
     function render() {
       tl?.progress(currentProgress);
-      const frameIndex = stepFrame(
-        Math.round(currentProgress * (FRAME_COUNT - 1)),
-        RENDER_CONFIG[bucket].frameStep,
+      const frameIndex = Math.min(
+        FRAME_COUNT - 1,
+        Math.max(0, Math.round(currentProgress * (FRAME_COUNT - 1))),
       );
       if (frameIndex !== wantedIndex || drawnIndex !== frameIndex) {
         wantedIndex = frameIndex;
@@ -594,14 +406,12 @@ function AnimatedScene() {
       if (!rafId) rafId = requestAnimationFrame(tick);
     }
 
-    // ── Single ScrollTrigger: raw progress only ──────────────────────────
+    // ── ScrollTrigger ───────────────────────────────────────────────────────
     const st = ScrollTrigger.create({
       trigger: track,
       start: "top top",
       end: "bottom bottom",
       onUpdate: (self) => {
-        // While an orientation change is being restored, ignore the
-        // interim progress the re-layout produces.
         if (heldProgress !== null) return;
         targetProgress = self.progress;
         kick();
@@ -610,77 +420,68 @@ function AnimatedScene() {
       onRefresh: (self) =>
         debug.update({ stStart: Math.round(self.start), stEnd: Math.round(self.end) }),
     });
-    if (!(st.end > st.start)) {
-      debug.warn(
-        `ScrollTrigger has no scroll distance (start ${st.start}, end ${st.end}) — scrub cannot progress.`,
-      );
-    }
-    // Landing mid-scene (reload/back-nav) starts at the right place, not frame 0.
+
     targetProgress = currentProgress = st.progress;
-    wantedIndex = stepFrame(
-      Math.round(currentProgress * (FRAME_COUNT - 1)),
-      RENDER_CONFIG[bucket].frameStep,
+    wantedIndex = Math.min(
+      FRAME_COUNT - 1,
+      Math.max(0, Math.round(currentProgress * (FRAME_COUNT - 1))),
     );
 
     buildTimeline();
     sizeCanvas();
+
     debug.update({
       stActive: st.isActive,
       stStart: Math.round(st.start),
       stEnd: Math.round(st.end),
       progress: currentProgress.toFixed(3),
     });
-    debug.info("frame scrub initialised", {
-      reducedMotion: false,
-      trackHeight: track.offsetHeight,
-      scrollDistance: Math.round(st.end - st.start),
-      canvas: `${canvas.width}x${canvas.height}`,
-      context2d: Boolean(ctx2d),
-      startProgress: Number(currentProgress.toFixed(3)),
-    });
+
     void preloadFrames().then(() => {
       if (!disposed) draw(wantedIndex);
     });
-    // Make sure the landing frame is fetched early even if it's past the eager set.
     void loadFrame(wantedIndex);
 
-    // ── Resize / orientation ─────────────────────────────────────────────
+    // ── Resize / orientation ─────────────────────────────────────────────────
     let resizeTimer = 0;
     function onResize() {
+      if (!canvas) return;
       window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(() => {
-        const previousStep = RENDER_CONFIG[bucket].frameStep;
         bucket = getBucket();
+        const newIsMobile = window.innerWidth < 768;
+        if (newIsMobile !== isMobile) {
+          isMobile = newIsMobile;
+          cache.fill(null);
+          loaded.fill(0);
+          loadedCount = 0;
+          drawnIndex = -1;
+          canvas.style.backgroundImage = `url(${getFrameSrc(0, isMobile)})`;
+          void preloadFrames();
+        }
         sizeCanvas();
-        // Always rebuild: the logo's start/end geometry depends on layout.
-        // Rebuilding re-applies the current progress in the same frame.
         buildTimeline();
-        // Moving to a breakpoint that paints more frames: fetch the rest.
-        if (RENDER_CONFIG[bucket].frameStep < previousStep) void preloadFrames();
       }, 150);
     }
-    // Late layout shifts in the Hero column (web-font swap, image decode)
-    // move the logo's start position — re-measure when its box changes.
-    let layoutRaf = 0;
-    const heroColumn = heroLogo.parentElement;
-    const layoutObserver = new ResizeObserver(() => {
-      cancelAnimationFrame(layoutRaf);
-      layoutRaf = requestAnimationFrame(() => buildTimeline());
-    });
-    if (heroColumn) layoutObserver.observe(heroColumn);
-    if (headerLogo) layoutObserver.observe(headerLogo);
-    if (headerBar) layoutObserver.observe(headerBar);
-    // Portrait ↔ landscape changes the track height (vh-based), so the same
-    // scroll offset would land at a different progress. Hold the progress
-    // from before the rotation, re-measure, then scroll back to it.
+
     let orientationTimer = 0;
     function onOrientation() {
+      if (!canvas) return;
       if (heldProgress === null) heldProgress = currentProgress;
       window.clearTimeout(orientationTimer);
       orientationTimer = window.setTimeout(() => {
         const held = heldProgress ?? currentProgress;
-        const previousStep = RENDER_CONFIG[bucket].frameStep;
         bucket = getBucket();
+        const newIsMobile = window.innerWidth < 768;
+        if (newIsMobile !== isMobile) {
+          isMobile = newIsMobile;
+          cache.fill(null);
+          loaded.fill(0);
+          loadedCount = 0;
+          drawnIndex = -1;
+          canvas.style.backgroundImage = `url(${getFrameSrc(0, isMobile)})`;
+          void preloadFrames();
+        }
         sizeCanvas();
         ScrollTrigger.refresh();
         buildTimeline();
@@ -690,9 +491,9 @@ function AnimatedScene() {
         targetProgress = currentProgress = held;
         heldProgress = null;
         render();
-        if (RENDER_CONFIG[bucket].frameStep < previousStep) void preloadFrames();
       }, 300);
     }
+
     window.addEventListener("resize", onResize);
     window.addEventListener("orientationchange", onOrientation);
 
@@ -704,14 +505,9 @@ function AnimatedScene() {
       timers.forEach((t) => window.clearTimeout(t));
       window.removeEventListener("resize", onResize);
       window.removeEventListener("orientationchange", onOrientation);
-      cancelAnimationFrame(layoutRaf);
-      layoutObserver.disconnect();
       st.kill();
       tl?.kill();
       gsap.set(allTargets, { clearProps: "opacity,visibility,transform" });
-      header?.style.removeProperty("--header-surface-inset");
-      header?.style.removeProperty("--header-surface-reveal");
-      delete sceneGroup.dataset.logoTraveler;
       cache.forEach((img) => {
         if (img) {
           img.onload = null;
@@ -724,85 +520,47 @@ function AnimatedScene() {
   }, []);
 
   return (
-    // `contents`: no box — only scopes the logo hand-off state for CSS.
     <div ref={sceneGroupRef} className="group/scene contents">
-    <div
-      ref={trackRef}
-      data-home-scene="hero-philosophy"
-      className="relative isolate h-[170vh] bg-paper md:h-[210vh] lg:h-[270vh]"
-    >
       <div
-        ref={stageRef}
-        className="sticky top-0 h-screen w-full overflow-hidden bg-paper supports-[height:100dvh]:h-dvh"
+        ref={trackRef}
+        data-home-scene="hero-philosophy"
+        className="relative isolate h-[170vh] bg-paper md:h-[210vh] lg:h-[270vh]"
       >
-        {/* Frame layer. The CSS background is frame 1, so the stage is
-            never blank before the canvas paints. */}
-        <canvas
-          ref={canvasRef}
-          aria-hidden="true"
-          className="absolute inset-0 z-0 h-full w-full bg-cover bg-center"
-          style={{ backgroundImage: `url(${getFrameSrc(0)})` }}
-        />
-
-        <HeroContent />
-        <PhilosophyContent animated />
-
-        {/* Faint wave near the lower edge */}
-        <CareWaveBackground preset="hero-lower" />
-
-        {/* Below 1024px only; fades out by 0.18 progress. */}
-        <p
-          data-hero-scroll-cue
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-[calc(env(safe-area-inset-bottom)+1.5rem)] left-(--space-gutter) z-20 flex items-center gap-2 font-body text-[0.6875rem] font-semibold tracking-[var(--tracking-wider)] text-ink-soft uppercase lg:hidden"
+        <div
+          ref={stageRef}
+          className="sticky top-0 h-screen w-full overflow-hidden bg-paper supports-[height:100dvh]:h-dvh"
         >
-          <ArrowDown aria-hidden="true" className="size-3.5" />
-          {hero.scrollCue}
-        </p>
-      </div>
-    </div>
-
-    {/* Logo traveller (all widths). It has to live outside the scene's
-        isolated/transformed layers to be `fixed` and stay above later
-        sections once it settles in the header. Hidden until JS has
-        measured the Hero logo; then CSS swaps it in at the identical
-        position (the Hero copy goes invisible in the same frame), so only
-        one logo is ever visible. At the settle point it hands off to the
-        header's real Home link and hides, so it's purely visual:
-        aria-hidden, empty alt, never focusable. z-[55] puts it above the
-        header bar (z-50) so the bar's surface can grow in beneath it; it
-        hides while the mobile menu or Our Care panel is open so it can
-        never cover them. */}
-    <div
-      ref={travelerRef}
-      data-hero-logo-traveler
-      aria-hidden="true"
-      className="pointer-events-none invisible fixed top-0 left-0 z-[55] group-data-[logo-traveler=on]/scene:visible"
-    >
-      {/* Overlay hide lives on its own plain layer: GSAP writes inline
-          opacity on the outer one (the hand-off) and the rise-in animation
-          owns opacity on the next, either of which would beat a class. */}
-      <div className="[body:has(#top[data-overlay-open])_&]:opacity-0">
-      <div className="motion-rise-in relative">
-        <div data-logo-mark className={LOGO_MARK_CLASS}>
-          <Image
-            src={brand.logo.wordmarkMauve}
-            alt=""
-            width={320}
-            height={157}
-            loading="eager"
-            className={LOGO_IMG_CLASS}
+          {/* Frame layer: CSS background is frame 1 so the stage never blanks before canvas paints */}
+          <canvas
+            ref={canvasRef}
+            aria-hidden="true"
+            className="absolute inset-0 z-0 h-full w-full bg-cover bg-center"
+            style={{ backgroundImage: `url(${getFrameSrc(0, false)})` }}
           />
+
+          <HeroContent />
+          <PhilosophyContent animated />
+
+          {/* Faint wave near the lower edge */}
+          <CareWaveBackground preset="hero-lower" />
+
+          {/* Below 1024px only; fades out early */}
+          <p
+            data-hero-scroll-cue
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[calc(env(safe-area-inset-bottom)+1.5rem)] left-(--space-gutter) z-20 flex items-center gap-2 font-body text-[0.6875rem] font-semibold tracking-[var(--tracking-wider)] text-ink-soft uppercase lg:hidden"
+          >
+            <ArrowDown aria-hidden="true" className="size-3.5" />
+            {hero.scrollCue}
+          </p>
         </div>
       </div>
-      </div>
-    </div>
     </div>
   );
 }
 
 // ---------------------------------------------------------------------------
-// Real Hero / Philosophy content (shared by animated + static)
+// Real Hero / Philosophy content
 // ---------------------------------------------------------------------------
 
 function HeroContent({ className }: { className?: string }) {
@@ -812,40 +570,28 @@ function HeroContent({ className }: { className?: string }) {
       aria-label="Introduction"
       className={cx("absolute inset-0 z-10", className)}
     >
+      {/* On screens <640px, paper gradient is anchored at bottom behind copy, leaving faces clear */}
       <div
         data-hero-scrim
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-full max-w-2xl"
-        style={HERO_SCRIM_STYLE}
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-full max-w-2xl max-sm:inset-x-0 max-sm:top-auto max-sm:bottom-0 max-sm:h-[70%] max-sm:max-w-none max-sm:bg-[linear-gradient(0deg,var(--color-paper)_0%,rgba(250,246,242,0.92)_45%,rgba(250,246,242,0.6)_70%,transparent_100%)] sm:bg-[linear-gradient(90deg,var(--color-paper)_0%,color-mix(in_srgb,var(--color-paper)_86%,transparent)_55%,color-mix(in_srgb,var(--color-paper)_40%,transparent)_80%,transparent_100%)]"
       />
 
-      <div className="container-birthwave relative z-20 flex h-full items-center [padding-block:var(--header-height)]">
+      {/* On screens <640px, place hero copy in lower part of the screen */}
+      <div className="container-birthwave relative z-20 flex h-full items-center max-sm:items-end max-sm:pb-[max(2rem,calc(env(safe-area-inset-bottom)+2rem))] [padding-block:var(--header-height)]">
         <div className="motion-rise-in max-w-lg">
-          <div data-hero-logo className="group-data-[logo-traveler=on]/scene:invisible motion-reduce:hidden">
-            <div data-logo-mark className={LOGO_MARK_CLASS}>
-              <Image
-                src={brand.logo.wordmarkMauve}
-                alt={brand.logo.alt}
-                width={320}
-                height={157}
-                loading="eager"
-                className={LOGO_IMG_CLASS}
-              />
-            </div>
-          </div>
-
-          <p data-hero-eyebrow className="eyebrow mt-6">
+          <p data-hero-eyebrow className="eyebrow mt-6 max-sm:mt-0">
             {hero.eyebrow}
           </p>
 
           <h1
             data-hero-heading
-            className="mt-3 text-balance text-[clamp(2.05rem,1.75rem+2vw,2.75rem)] sm:text-3xl"
+            className="mt-3 text-balance text-display font-semibold"
           >
             <span className="block font-medium text-ink-soft">
               {hero.headlineLead}
             </span>
-            <span className="block font-bold text-ink">
+            <span className="block serif-emphasis text-ink">
               {hero.headlineEmphasis}
             </span>
           </h1>
@@ -878,32 +624,25 @@ function PhilosophyContent({
   animated?: boolean;
   className?: string;
 }) {
-  // Hidden before hydration so Philosophy never flashes over the Hero.
   const hidden = animated ? { opacity: 0 } : undefined;
   return (
     <section
       id="philosophy"
       aria-labelledby="philosophy-heading"
       className={cx(
-        // Portrait below desktop: copy anchors to the bottom so the mother
-        // and baby (framed in the upper part by the focal crop) stay clear.
-        "pointer-events-none absolute inset-0 z-20 flex items-center max-lg:portrait:items-end",
+        "pointer-events-none absolute inset-0 z-20 flex items-center max-sm:items-end max-lg:portrait:items-end",
         className,
       )}
     >
-      {/* Readability scrim. The final frame puts the mother and baby on
-          the left and leaves the right side open, so on desktop the copy
-          sits on the right with a light wash. In portrait below desktop
-          the wash is localised to the lower part, behind the copy only.
-          Landscape below desktop keeps the fuller wash. */}
+      {/* On screens <640px, paper gradient anchors at bottom so faces remain unobstructed */}
       <div
         data-philosophy-scrim
         aria-hidden="true"
         style={hidden}
-        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,246,242,0.80)_0%,rgba(250,246,242,0.70)_55%,rgba(250,246,242,0.45)_100%)] max-lg:portrait:bg-[linear-gradient(180deg,rgba(250,246,242,0)_0%,rgba(250,246,242,0)_30%,rgba(250,246,242,0.74)_50%,rgba(250,246,242,0.88)_100%)] lg:bg-[linear-gradient(90deg,rgba(250,246,242,0)_0%,rgba(250,246,242,0)_34%,rgba(250,246,242,0.64)_50%,rgba(250,246,242,0.72)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,246,242,0.80)_0%,rgba(250,246,242,0.70)_55%,rgba(250,246,242,0.45)_100%)] max-sm:bg-[linear-gradient(0deg,var(--color-paper)_0%,rgba(250,246,242,0.92)_45%,rgba(250,246,242,0.6)_70%,transparent_100%)] max-lg:portrait:bg-[linear-gradient(180deg,rgba(250,246,242,0)_0%,rgba(250,246,242,0)_30%,rgba(250,246,242,0.74)_50%,rgba(250,246,242,0.88)_100%)] lg:bg-[linear-gradient(90deg,rgba(250,246,242,0)_0%,rgba(250,246,242,0)_34%,rgba(250,246,242,0.64)_50%,rgba(250,246,242,0.72)_100%)]"
       />
 
-      <div className="container-birthwave relative w-full [padding-block:var(--header-height)] [@media(max-height:800px)]:pb-6 max-lg:portrait:pb-[max(1.75rem,env(safe-area-inset-bottom))]">
+      <div className="container-birthwave relative w-full [padding-block:var(--header-height)] max-sm:pb-[max(2rem,calc(env(safe-area-inset-bottom)+2rem))] [@media(max-height:800px)]:pb-6 max-lg:portrait:pb-[max(1.75rem,env(safe-area-inset-bottom))]">
         <div className="max-w-xl text-left lg:ml-auto lg:w-[58%] lg:max-w-none xl:w-[52%]">
           <p data-philosophy-eyebrow style={hidden} className="eyebrow">
             {philosophy.eyebrow}
@@ -919,7 +658,8 @@ function PhilosophyContent({
               "text-ink",
             )}
           >
-            {philosophy.messages[0].text}
+            Pregnancy is more than{" "}
+            <span className="serif-emphasis">a series of appointments.</span>
           </h2>
 
           <div className="mt-8 space-y-6 [@media(max-height:800px)]:mt-5 [@media(max-height:800px)]:space-y-4 max-md:portrait:mt-4 max-md:portrait:space-y-3">
@@ -953,30 +693,9 @@ function PhilosophyContent({
 }
 
 // ---------------------------------------------------------------------------
-// Reduced motion: no scrub, both scenes readable in normal flow
+// Reduced motion: short opacity-only crossfade
 // ---------------------------------------------------------------------------
 
-/**
- * prefers-reduced-motion: reduce — a short, opacity-only Hero → Philosophy
- * crossfade between two stills (frames 1 and 99). No canvas, no frame
- * sequence, no traveling logo, no transforms, no smoothing loop.
- *
- * ≥768px: a short sticky stage (desktop 190svh / tablet 170svh track, so
- * 90svh / 70svh of scroll), both scenes stacked, one ScrollTrigger mapped
- * directly to scroll (scrub: true):
- *   0.00–0.35  Hero fully visible
- *   0.35–0.55  Hero copy fades
- *   0.40–0.65  Hero image fades out
- *   0.45–0.70  Philosophy image (+ its scrim) fades in
- *   0.65–0.85  Philosophy copy fades in
- *   0.85–1.00  settled, then releases into Journey
- *
- * <768px: normal document flow — Hero, then Philosophy; the Philosophy
- * image and then its copy fade in as the section comes into view.
- *
- * The site's global reduced-motion CSS zeroes CSS transitions, so the
- * fades are GSAP-driven opacity.
- */
 function ReducedMotionScene() {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -1001,14 +720,12 @@ function ReducedMotionScene() {
     const philImage = q("[data-reduced-phil-image]");
     const philScrim = q("[data-philosophy-scrim]");
     const heroText = root.querySelectorAll<HTMLElement>(
-      "[data-hero-logo], [data-hero-eyebrow], [data-hero-heading], [data-hero-body], [data-hero-cta], [data-hero-scrim]",
+      "[data-hero-eyebrow], [data-hero-heading], [data-hero-body], [data-hero-cta], [data-hero-scrim]",
     );
     const philText = root.querySelectorAll<HTMLElement>(
       "[data-philosophy-eyebrow], [data-philosophy-statement-1], [data-philosophy-statement-2], [data-philosophy-statement-3], [data-philosophy-closing]",
     );
-    // The header logo is simply visible and static here (site-header.tsx
-    // shows it under reduced motion; the Hero's copy is hidden) — no
-    // crossfade and no travel.
+
     if (!heroImage || !philBlock || !philImage || !philScrim) {
       debug.destroy();
       return;
@@ -1019,7 +736,6 @@ function ReducedMotionScene() {
       const mm = gsap.matchMedia();
       const philIn = [philImage, philScrim];
 
-      // Tablet / desktop: stacked stills in a short sticky stage.
       mm.add("(min-width: 768px)", () => {
         gsap.set(philIn, { autoAlpha: 0 });
         gsap.set(philText, { autoAlpha: 0 });
@@ -1042,7 +758,6 @@ function ReducedMotionScene() {
         debug.update({ layout: "short sticky crossfade" });
       });
 
-      // Phones: normal flow — reveal Philosophy as it arrives.
       mm.add("(max-width: 767px)", () => {
         gsap.set(philIn, { autoAlpha: 0 });
         gsap.set(philText, { autoAlpha: 0 });
@@ -1077,7 +792,7 @@ function ReducedMotionScene() {
         <div className="relative min-h-svh overflow-hidden md:absolute md:inset-0 md:min-h-0">
           <div data-reduced-hero-image className="absolute inset-0">
             <Image
-              src={getFrameSrc(0)}
+              src={getFrameSrc(0, false)}
               alt=""
               fill
               loading="eager"
@@ -1092,13 +807,11 @@ function ReducedMotionScene() {
           data-reduced-phil-block
           className="relative min-h-svh overflow-hidden md:pointer-events-none md:absolute md:inset-0 md:min-h-0"
         >
-          {/* Hidden until the effect takes over, so it never flashes over the Hero. */}
           <div data-reduced-phil-image className="absolute inset-0" style={{ opacity: 0 }}>
             <Image
-              src={getFrameSrc(FRAME_COUNT - 1)}
+              src={getFrameSrc(FRAME_COUNT - 1, false)}
               alt=""
               fill
-              // ≥768px it sits in the first viewport under the Hero, ready to crossfade.
               loading="eager"
               sizes="100vw"
               className="object-cover object-[25%_50%] lg:object-center"

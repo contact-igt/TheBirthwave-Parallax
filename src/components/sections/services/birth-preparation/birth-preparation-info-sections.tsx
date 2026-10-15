@@ -1,66 +1,131 @@
-import { Plus, UserRound } from "lucide-react";
 import {
-  birthPrepWhoFor,
-  birthPrepHowToBegin,
-  birthPrepEducator,
-  birthPrepProgramme,
-  birthPrepFaq,
-} from "@/content/birth-preparation-landing-content";
-import { BirthPrepReveal } from "./birth-preparation-reveal";
+  BookOpen,
+  CalendarDays,
+  CreditCard,
+  HeartPulse,
+  MapPin,
+  UsersRound,
+} from "lucide-react";
+import { birthPrepFaq, birthPrepProgramme } from "@/content/birth-preparation-landing-content";
 import { Button } from "@/components/ui/button";
+import { BirthPrepReveal } from "./birth-preparation-reveal";
+import { DotFieldRegion } from "@/components/layout/dot-field-region";
+import { ServiceFaqSection } from "../shared/service-faq-section";
+import { servicesImagery } from "@/content/services-imagery";
 
-/** Section 5 — Who This Is For. Kept concise and easy to scan. */
-export function BirthPrepWhoFor() {
-  return (
-    <section id="birth-prep-who-for" aria-labelledby="birth-prep-who-for-heading" className="relative isolate bg-paper section-pad">
-      <BirthPrepReveal className="container-birthwave max-w-3xl">
-        <p className="eyebrow">{birthPrepWhoFor.eyebrow}</p>
-        <h2 id="birth-prep-who-for-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-          {birthPrepWhoFor.heading}
-        </h2>
-        <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{birthPrepWhoFor.intro}</p>
-        <p className="mt-4 font-body text-base font-medium text-ink">{birthPrepWhoFor.subheading}</p>
+const programmeItemMeta = [
+  {
+    icon: BookOpen,
+    surface: "bg-[#f8e8e1] text-[#ad7059]",
+    badge: "Curriculum",
+  },
+  {
+    icon: UsersRound,
+    surface: "bg-[#e9f0e5] text-[#668557]",
+    badge: "Participants",
+  },
+  {
+    icon: CalendarDays,
+    surface: "bg-[#fbefde] text-[#af7b3e]",
+    badge: "Schedule",
+  },
+  {
+    icon: MapPin,
+    surface: "bg-[#e5f0f4] text-[#527a8b]",
+    badge: "Venue",
+  },
+  {
+    icon: CreditCard,
+    surface: "bg-[#f5e7f0] text-[#94647e]",
+    badge: "Registration",
+  },
+  {
+    icon: HeartPulse,
+    surface: "bg-[#f8ece0] text-[#ae704f]",
+    badge: "Medical",
+  },
+] as const;
 
-        <ul className="mt-6 flex flex-col">
-          {birthPrepWhoFor.items.map((item) => (
-            <li key={item} className="border-t border-[var(--color-border)] py-4 text-base leading-[var(--leading-relaxed)] text-ink first:border-t-0">
-              {item}
-            </li>
-          ))}
-        </ul>
-      </BirthPrepReveal>
-    </section>
-  );
-}
+export function BirthPrepProgramme() {
+  const cleanCtaLabel = birthPrepProgramme.cta.label.replace(/\s*→\s*$/, "");
 
-/** Section 6 — How To Begin. Three steps kept in normal document flow. */
-export function BirthPrepHowToBegin() {
   return (
     <section
-      id="birth-prep-how-to-begin"
-      aria-labelledby="birth-prep-how-to-begin-heading"
-      className="relative isolate bg-[var(--birth-prep-sky-wash)] section-pad"
+      id="birth-prep-programme"
+      aria-labelledby="birth-prep-programme-heading"
+      className="relative isolate overflow-hidden bg-[var(--birth-prep-rose-wash)] py-16 sm:py-20 lg:py-24"
     >
-      <BirthPrepReveal className="container-birthwave">
-        <p className="eyebrow">{birthPrepHowToBegin.eyebrow}</p>
-        <h2 id="birth-prep-how-to-begin-heading" className="mt-4 max-w-xl text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-          {birthPrepHowToBegin.heading}
-        </h2>
+      {/* Decorative ambient glow orbs */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-24 right-1/4 -z-10 h-96 w-96 rounded-full bg-white/40 blur-3xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-24 left-1/6 -z-10 h-80 w-80 rounded-full bg-[color-mix(in_srgb,var(--color-terracotta)_20%,transparent)] blur-3xl opacity-60"
+      />
 
-        <div className="mt-10 grid gap-8 sm:grid-cols-3">
-          {birthPrepHowToBegin.steps.map((step) => (
-            <div key={step.number} className="border-t border-[var(--color-border)] pt-5">
-              <span className="font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
-                {step.number} — {step.title}
-              </span>
-              <p className="mt-3 text-sm leading-[var(--leading-relaxed)] text-ink-soft">{step.body}</p>
-            </div>
-          ))}
+      <BirthPrepReveal className="container-birthwave max-w-5xl">
+        <div className="max-w-2xl">
+          <p className="eyebrow">{birthPrepProgramme.eyebrow}</p>
+          <h2
+            id="birth-prep-programme-heading"
+            className="mt-4 text-[clamp(2.1rem,1.5rem+2.4vw,3.25rem)] leading-[1.12] font-semibold tracking-[var(--tracking-tight)] text-ink"
+          >
+            {birthPrepProgramme.heading}
+          </h2>
         </div>
 
-        <div className="mt-10">
-          <Button href={birthPrepHowToBegin.cta.href} variant="primary">
-            {birthPrepHowToBegin.cta.label}
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {birthPrepProgramme.items.map((item, index) => {
+            const meta = programmeItemMeta[index % programmeItemMeta.length];
+            const Icon = meta.icon;
+
+            return (
+              <div
+                key={item.label}
+                className="group relative flex flex-col justify-between rounded-2xl border border-[color-mix(in_srgb,var(--color-terracotta)_18%,var(--color-border))] bg-white/85 p-6 backdrop-blur-sm shadow-[0_10px_25px_-20px_rgba(75,47,38,0.3)] transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/40 hover:bg-white hover:shadow-[0_18px_36px_-16px_rgba(75,47,38,0.25)]"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-3">
+                    <span
+                      aria-hidden="true"
+                      className={`flex size-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105 ${meta.surface}`}
+                    >
+                      <Icon className="size-5" strokeWidth={1.8} />
+                    </span>
+                    <span className="inline-flex items-center rounded-full bg-[color-mix(in_srgb,var(--color-terracotta)_10%,var(--color-paper))] px-2.5 py-0.5 text-[0.72rem] font-medium tracking-wide text-ink-soft">
+                      {meta.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-4 font-body text-[1.05rem] font-semibold text-ink">
+                    {item.label}
+                  </h3>
+                  <p className="mt-2 text-sm leading-[1.65] text-ink-soft">
+                    {item.text}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 rounded-2xl border border-[color-mix(in_srgb,var(--color-terracotta)_18%,var(--color-border))] bg-white/70 p-6 backdrop-blur-sm sm:p-7">
+          <div>
+            <h3 className="font-body text-base font-semibold text-ink sm:text-lg">
+              Have questions about upcoming dates or batch sizes?
+            </h3>
+            <p className="mt-1 text-sm text-ink-soft">
+              Our care team is happy to share workshop details and help you find a suitable cohort.
+            </p>
+          </div>
+          <Button
+            href={birthPrepProgramme.cta.href}
+            variant="primary"
+            className="shrink-0"
+          >
+            {cleanCtaLabel}
           </Button>
         </div>
       </BirthPrepReveal>
@@ -68,116 +133,17 @@ export function BirthPrepHowToBegin() {
   );
 }
 
-/**
- * Section 7 — Meet Your Childbirth Educator.
- */
-export function BirthPrepEducator() {
-  return (
-    <section
-      id="birth-prep-educator"
-      aria-labelledby="birth-prep-educator-heading"
-      className="relative isolate border-t border-[var(--color-border)] bg-paper section-pad"
-    >
-      <BirthPrepReveal className="container-birthwave grid gap-10 lg:grid-cols-[0.7fr_1fr] lg:items-center lg:gap-16">
-        <div
-          role="img"
-          aria-label="Verified childbirth educator portrait"
-          className="flex aspect-[4/5] w-full max-w-sm flex-col items-center justify-center gap-5 rounded-tl-panel rounded-tr-xs rounded-br-xs rounded-bl-xs bg-[linear-gradient(135deg,var(--color-paper-dim),var(--color-terracotta))] px-8 text-center text-ink-soft"
-        >
-          <UserRound aria-hidden="true" className="size-12 stroke-[1]" />
-          <span className="max-w-[220px] text-sm leading-relaxed whitespace-pre-line">
-            Childbirth Educator
-          </span>
-        </div>
-
-        <div className="max-w-xl">
-          <p className="eyebrow">{birthPrepEducator.eyebrow}</p>
-          <h2 id="birth-prep-educator-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-            {birthPrepEducator.heading}
-          </h2>
-          <h3 className="mt-6 text-xl font-semibold text-ink">{birthPrepEducator.name}</h3>
-          <p className="mt-1 text-sm text-ink-soft">{birthPrepEducator.credentials}</p>
-          {birthPrepEducator.body.split("\n\n").map((para) => (
-            <p key={para} className="mt-4 text-base leading-[var(--leading-relaxed)] text-ink-soft">
-              {para}
-            </p>
-          ))}
-
-          <div className="mt-8">
-            <Button href={birthPrepEducator.cta.href} variant="primary">
-              {birthPrepEducator.cta.label}
-            </Button>
-          </div>
-        </div>
-      </BirthPrepReveal>
-    </section>
-  );
-}
-
-/**
- * Section 8 — Programme / Session Details.
- */
-export function BirthPrepProgramme() {
-  return (
-    <section
-      id="birth-prep-programme"
-      aria-labelledby="birth-prep-programme-heading"
-      className="relative isolate bg-[var(--birth-prep-rose-wash)] section-pad"
-    >
-      <BirthPrepReveal className="container-birthwave max-w-4xl">
-        <div>
-          <p className="eyebrow">{birthPrepProgramme.eyebrow}</p>
-          <h2 id="birth-prep-programme-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-            {birthPrepProgramme.heading}
-          </h2>
-
-          <div className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2">
-            {birthPrepProgramme.info.map((item) => (
-              <div key={item.label} className="border-t border-[var(--color-border)] pt-4">
-                <strong className="block font-body text-sm font-semibold text-ink">{item.label}</strong>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                  {item.lines.map((line) => (
-                    <span key={line} className="block">
-                      {line}
-                    </span>
-                  ))}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </BirthPrepReveal>
-    </section>
-  );
-}
-
-/**
- * Section 9 — FAQ.
- */
 export function BirthPrepFaq() {
   return (
-    <section id="birth-prep-faq" aria-labelledby="birth-prep-faq-heading" className="relative isolate bg-paper section-pad">
-      <BirthPrepReveal className="container-birthwave max-w-3xl">
-        <p className="eyebrow">{birthPrepFaq.eyebrow}</p>
-        <h2 id="birth-prep-faq-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-          {birthPrepFaq.heading}
-        </h2>
-
-        <div className="mt-10 border-t border-[var(--color-border)]">
-          {birthPrepFaq.items.map((item) => (
-            <details key={item.question} className="group border-b border-[var(--color-border)] py-6">
-              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6 font-body text-lg font-medium text-balance text-ink [&::-webkit-details-marker]:hidden">
-                {item.question}
-                <Plus
-                  aria-hidden="true"
-                  className="size-5 shrink-0 text-terracotta transition-transform duration-[var(--duration-fast)] ease-[var(--ease-signature)] group-open:rotate-45"
-                />
-              </summary>
-              <p className="mt-4 max-w-2xl text-base leading-[var(--leading-relaxed)] text-ink-soft">{item.answer}</p>
-            </details>
-          ))}
-        </div>
-      </BirthPrepReveal>
-    </section>
+    <DotFieldRegion>
+      <ServiceFaqSection
+        id="birth-prep-faq"
+        eyebrow={birthPrepFaq.eyebrow}
+        heading={birthPrepFaq.heading}
+        description={"You don't need to have every question or preference figured out before joining."}
+        items={birthPrepFaq.items}
+        media={servicesImagery["birth-prep-landing-consultation"]}
+      />
+    </DotFieldRegion>
   );
 }

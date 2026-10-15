@@ -29,7 +29,7 @@ export function PageShell({ children }: { children: ReactNode }) {
     <>
       <AmbientBackground />
       <SiteHeader />
-      <main id="main-content">{children}</main>
+      <main id="main-content" className="overflow-x-clip">{children}</main>
       <SiteFooter />
     </>
   );

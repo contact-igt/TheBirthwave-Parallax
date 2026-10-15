@@ -1,4 +1,4 @@
-import { gynaecologyWho } from "@/content/gynaecology-landing-content";
+﻿import { gynaecologyWho } from "@/content/pages/gynaecology";
 import { GynaecologyImage } from "./gynaecology-image";
 import { GynaecologyReveal } from "./gynaecology-reveal";
 

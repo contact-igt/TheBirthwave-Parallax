@@ -14,7 +14,7 @@ export const contactHero = {
   },
   secondaryCta: {
     label: "Message on WhatsApp",
-    href: "#contact-details",
+    href: "https://wa.me/917904251378",
   },
   media: {
     src: "/brand/about/about-belief-poster.jpg",
@@ -28,16 +28,24 @@ export const contactHero = {
  */
 export const contactPlaceholders = {
   phone: "+91 93630 31925",
-  whatsapp: "+91 98407 98472",
+  whatsapp: "+91 79042 51378",
   email: "drsantoshi@thebirthwave.com",
   clinicAddress:
     "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai \u2013 600034",
-  consultationTimings: "[Birthwave confirmation needed: consultation timings]",
+  consultationTimings: "[The Birthwave confirmation needed: consultation timings]",
 } as const;
 
 export const contactDirectDetails = {
   heading: "Contact Info",
   items: [
+    {
+      id: "whatsapp-chat",
+      label: "WhatsApp",
+      confirmed: true,
+      value: "+91 79042 51378",
+      actionHref: "https://wa.me/917904251378" as string | undefined,
+      note: "Message the team on WhatsApp.",
+    },
     {
       id: "call",
       label: "Phone",
@@ -68,7 +76,7 @@ export const contactDirectDetails = {
       confirmed: true,
       value:
         "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai \u2013 600034",
-      actionHref: "https://maps.google.com/?q=No.+8%2F15+Mahalingapuram+Main+Road+Nungambakkam+Chennai+600034" as string | undefined,
+      actionHref: "https://maps.app.goo.gl/7bLsmm87HDyki1DJA" as string | undefined,
       note: "Consultations are by appointment in a calm, private environment.",
     },
   ],

@@ -585,7 +585,7 @@ export const servicesHero = {
   supporting:
     "Explore care for women’s health, pregnancy preparation, pregnancy, recovery and your baby’s early years. Start with what matters to you, and find the support that fits your stage of life.",
   primaryCta: { label: "Find your care", href: "#find-care" },
-  secondaryCta: { label: "Request an appointment", href: "/#connect" },
+  secondaryCta: { label: "Request an appointment", href: "/contact" },
   note: "Consultations by appointment · Chennai",
   media: {
     alt: "A mother and newborn together in a calm, softly lit consultation setting.",
@@ -618,7 +618,7 @@ export const doorwaysCareFinder = {
       number: "01",
       heading: "Your health",
       imageKey: "care-finder-your-health" as const,
-      imageAlt: "AI-generated illustration: A woman discusses her health and wellbeing with a clinician in a calm consultation setting.",
+      imageAlt: "A woman discusses her health and wellbeing with a clinician in a calm consultation setting.",
       imageFocalPoint: "center 22%",
       links: [
         { label: "Women’s healthcare", href: "#womens-health", isAnchor: true },
@@ -632,7 +632,7 @@ export const doorwaysCareFinder = {
       number: "02",
       heading: "Pregnancy & birth",
       imageKey: "care-finder-pregnancy-birth" as const,
-      imageAlt: "AI-generated illustration: A couple in a consultation discussing pregnancy and birth options.",
+      imageAlt: "A couple in a consultation discussing pregnancy and birth options.",
       imageFocalPoint: "center 25%",
       links: [
         { label: "Planning a pregnancy", href: "#planning-a-pregnancy", isAnchor: true },
@@ -645,7 +645,7 @@ export const doorwaysCareFinder = {
       number: "03",
       heading: "After birth & baby",
       imageKey: "care-finder-after-birth-baby" as const,
-      imageAlt: "AI-generated illustration: A mother holds her newborn during a consultation.",
+      imageAlt: "A mother holds her newborn during a consultation.",
       imageFocalPoint: "center 20%",
       links: [
         { label: "Recovery after birth", href: "#after-birth", isAnchor: true },
@@ -754,7 +754,7 @@ export const findHelpCta = {
   primaryCta: { label: "Find Your Care", href: "#find-care" },
   secondaryCta: {
     label: "Chat on WhatsApp",
-    href: "https://wa.me/919840798472",
+    href: "https://wa.me/917904251378",
   },
 } as const;
 
@@ -781,10 +781,10 @@ export const servicesFinalCta = {
   headingLines: ["Ready to begin, or not sure", "where to start?"],
   supporting:
     "Whether you know exactly which service you need or simply want guidance on the right place to begin, our care team is here to listen and help you take the next step.",
-  primaryCta: { label: "Request an appointment", href: "/#connect" },
+  primaryCta: { label: "Request an appointment", href: "/contact" },
   secondaryCta: {
     label: "Chat on WhatsApp",
-    href: "https://wa.me/919840798472",
+    href: "https://wa.me/917904251378",
   },
   phoneLabel: "Call",
   phoneNumber: "+91 93630 31925",

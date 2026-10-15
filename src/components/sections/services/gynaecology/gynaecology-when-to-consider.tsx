@@ -1,4 +1,4 @@
-import { gynaecologyWhenToConsider } from "@/content/gynaecology-landing-content";
+﻿import { gynaecologyWhenToConsider } from "@/content/pages/gynaecology";
 import { GynaecologyImage } from "./gynaecology-image";
 import { GynaecologyReveal } from "./gynaecology-reveal";
 

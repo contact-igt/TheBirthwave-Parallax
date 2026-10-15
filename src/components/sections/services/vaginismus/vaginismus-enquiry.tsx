@@ -1,7 +1,10 @@
 "use client";
 
+import conversion from "../shared/service-conversion.module.css";
+
+
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { vaginismusEnquiry, vaginismusMobileCta } from "@/content/vaginismus-landing-content";
+import { vaginismusEnquiry, vaginismusMobileCta } from "@/content/pages/vaginismus";
 import { VaginismusReveal } from "./vaginismus-reveal";
 import { cx } from "@/lib/cx";
 
@@ -56,7 +59,7 @@ export function VaginismusEnquiry() {
   }
 
   return (
-    <section id="vaginismus-enquiry" aria-labelledby="vaginismus-enquiry-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad">
+    <section id="vaginismus-enquiry" aria-labelledby="vaginismus-enquiry-heading" data-service-enquiry className={`${conversion.enquiry} relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad`}>
       <VaginismusReveal className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
         <div className="max-w-md">
           <p className="eyebrow">{vaginismusEnquiry.eyebrow}</p>
@@ -67,7 +70,7 @@ export function VaginismusEnquiry() {
 
           <div className="mt-6 flex flex-wrap items-center gap-4 text-sm font-medium text-ink">
             {vaginismusEnquiry.whatsapp ? (
-              <a href="https://wa.me/919363031925" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-terracotta-deep underline hover:text-coral">
+              <a href="https://wa.me/917904251378" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-terracotta-deep underline hover:text-coral">
                 {vaginismusEnquiry.whatsapp} ↗
               </a>
             ) : null}
@@ -169,6 +172,10 @@ export function VaginismusEnquiry() {
                   Enter your name and phone number so we can reach you.
                 </p>
               ) : null}
+
+              <p className="text-xs leading-relaxed text-ink-soft">
+                {vaginismusEnquiry.disclaimer}
+              </p>
 
               <button type="submit" className={submitButtonClass}>
                 {vaginismusEnquiry.submitLabel}

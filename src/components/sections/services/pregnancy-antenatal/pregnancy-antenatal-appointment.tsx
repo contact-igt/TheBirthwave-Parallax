@@ -1,60 +1,70 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { CheckCircle2, HeartHandshake, Sparkles, Stethoscope } from "lucide-react";
-import { pregnancyLandingAppointment, pregnancyLandingMobileCta } from "@/content/pregnancy-antenatal-landing-content";
-import { servicesImagery } from "@/content/services-imagery";
-import { PregnancyReveal } from "./pregnancy-antenatal-reveal";
-import { cx } from "@/lib/cx";
+import conversion from "../shared/service-conversion.module.css";
 
-const labelClass = "font-body text-xs font-semibold tracking-wide text-ink uppercase";
-const inputClass =
-  "w-full rounded-xs border border-[var(--color-border-strong)] bg-white px-4 py-3 text-base text-ink placeholder:text-ink-soft/50 transition-colors duration-[var(--duration-fast)] focus:border-terracotta-deep focus-visible:outline-none";
-const submitButtonClass =
-  "group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3.5 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase shadow-xs transition-colors duration-[var(--duration-fast)] ease-[var(--ease-signature)] hover:bg-coral focus-ring-on-brand disabled:cursor-not-allowed disabled:opacity-60";
+
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  ChevronDown,
+  Clock,
+  Heart,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
+import {
+  pregnancyLandingAppointment,
+  pregnancyLandingMobileCta,
+} from "@/content/pregnancy-antenatal-landing-content";
+import { cx } from "@/lib/cx";
 
 const consultationBenefits = [
   {
-    icon: Sparkles,
+    icon: Clock,
     title: "Dedicated, unhurried time",
-    description: "Ample space for every question, symptom, and expectation without being rushed.",
+    description: "A calm space to discuss your concerns and plan without being rushed.",
   },
   {
-    icon: Stethoscope,
+    icon: Heart,
     title: "Attentive clinical guidance",
-    description: "Clear explanation of routine checks, tests, scans, and next steps.",
+    description: "Clear, evidence-informed information to help you make confident next steps.",
   },
   {
-    icon: HeartHandshake,
+    icon: Users,
     title: "Supportive care planning",
-    description: "Individualized guidance aligned with your preferences and family needs.",
+    description: "Personalised guidance that considers your medical needs and family goals.",
   },
 ];
 
 /**
- * Section 9 — Consultation / Appointment Request.
- *
- * Split layout:
- * - Left: Reassurance copy, consultation benefits with soft icons, and transfer care note.
- * - Right: Clean form card with warm ivory styling and honest design preview handling.
- * - Background: Sanctuary visual blended smoothly at the right edge with a warm ivory gradient.
+ * Section 9 — Final Conversion Section / Enquiry Form.
+ * Matches the reference design:
+ * - Fluid organic blush/terracotta wave backdrop
+ * - Arched clinic sanctuary decorative visual on the far left
+ * - Centered editorial copy with reassurance pillars and privacy badge
+ * - Polished white form card with custom radio pills and coral CTA button
  */
 export function PregnancyAntenatalAppointment() {
-  const bgImage = servicesImagery["pregnancy-antenatal-appointment-bg"];
   const nameId = useId();
-  const contactId = useId();
-  const consentId = useId();
+  const phoneId = useId();
+  const emailId = useId();
+  const helpId = useId();
+  const messageId = useId();
   const formRef = useRef<HTMLFormElement>(null);
 
   const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
-  const [method, setMethod] = useState<string>(pregnancyLandingAppointment.contactMethods[0]);
-  const [consent, setConsent] = useState(false);
-  const [status, setStatus] = useState<"idle" | "previewed">("idle");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [helpReason, setHelpReason] = useState<string>(
+    pregnancyLandingAppointment.helpOptions[0],
+  );
+  const [method, setMethod] = useState<string>("Phone Call");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<"idle" | "submitted">("idle");
   const [touched, setTouched] = useState(false);
 
-  const isValid = name.trim().length > 0 && contact.trim().length > 0 && consent;
+  const isValid = name.trim().length > 0 && phone.trim().length > 0;
 
   useEffect(() => {
     const form = formRef.current;
@@ -76,171 +86,386 @@ export function PregnancyAntenatalAppointment() {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    setStatus("previewed");
+    setStatus("submitted");
   }
 
   return (
     <section
       id="appointment"
       aria-labelledby="appointment-heading"
-      className="relative isolate overflow-hidden scroll-mt-[var(--header-height)] bg-[#FAF6F2] section-pad"
+      data-service-enquiry className={`${conversion.enquiry} ${conversion.pregnancy} relative isolate overflow-hidden scroll-mt-[calc(var(--header-height)+1rem)] pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-24 bg-[#FAF3EE]`}
     >
-      {/* Background visual blended at right edge */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 -z-20 hidden w-1/2 opacity-35 lg:block">
-        <Image
-          src={bgImage.src}
-          alt={bgImage.alt}
-          fill
-          sizes="50vw"
-          className="object-cover"
-          style={{ objectPosition: bgImage.objectPosition }}
+      {/* Decorative organic background curves matching reference screenshot */}
+      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+        {/* Soft radial blush ambient glow */}
+        <div
+          aria-hidden="true"
+          className="absolute -top-32 -left-24 h-[550px] w-[550px] rounded-full bg-[radial-gradient(circle,rgba(224,109,83,0.18)_0%,transparent_70%)] blur-3xl"
         />
+        <div
+          aria-hidden="true"
+          className="absolute -bottom-32 -right-24 h-[650px] w-[650px] rounded-full bg-[radial-gradient(circle,rgba(224,109,83,0.16)_0%,transparent_70%)] blur-3xl"
+        />
+
+        {/* Smooth organic wave vectors */}
+        <svg
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full opacity-65"
+          preserveAspectRatio="none"
+          viewBox="0 0 1440 900"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Top-left sweeping curve */}
+          <path
+            d="M-50 -50 C 180 70, 280 260, 220 520 C 170 720, 70 820, -50 950 Z"
+            fill="url(#blush-wave-1)"
+          />
+          {/* Bottom swooping curve beneath form */}
+          <path
+            d="M 340 950 C 600 900, 780 740, 890 590 C 1000 410, 1220 450, 1500 350 L 1500 960 L 300 960 Z"
+            fill="url(#blush-wave-2)"
+          />
+          <defs>
+            <linearGradient
+              id="blush-wave-1"
+              x1="0"
+              y1="0"
+              x2="240"
+              y2="600"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#F5DFD5" stopOpacity="0.85" />
+              <stop stopColor="#F9ECE5" stopOpacity="0.1" />
+            </linearGradient>
+            <linearGradient
+              id="blush-wave-2"
+              x1="450"
+              y1="850"
+              x2="1400"
+              y2="420"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#F3DDD2" stopOpacity="0.75" />
+              <stop stopColor="#F9ECE5" stopOpacity="0.15" />
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
 
-      {/* Warm Ivory gradient overlay into text area */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(180deg,#FAF6F2_0%,#FAF6F2_60%,rgba(250,246,242,0.88)_85%,transparent_100%)] lg:bg-[linear-gradient(90deg,#FAF6F2_0%,#FAF6F2_48%,color-mix(in_srgb,#FAF6F2_85%,transparent)_72%,transparent_100%)]"
-      />
+      <div className="container-birthwave max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
+        <div className={conversion.enquiryGrid}>
+          {/* Column 2: Editorial Text + 3 Pillars + Privacy Shield (middle) */}
+          <div className="flex flex-col justify-center min-w-0">
+            {/* Eyebrow Pill */}
+            <div>
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-[#E5A896]/60 bg-[#FFF3EE] px-3.5 py-1 text-[11px] font-semibold tracking-[0.16em] text-[#B85D45] uppercase mb-3 shadow-2xs">
+                <span>•</span>
+                <span>{pregnancyLandingAppointment.eyebrow}</span>
+                <span>•</span>
+              </div>
+            </div>
 
-      <PregnancyReveal className="container-birthwave grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
-        {/* Left Column: Reassurance & Benefits */}
-        <div className="max-w-xl">
-          <p className="eyebrow text-terracotta-deep font-semibold">{pregnancyLandingAppointment.eyebrow}</p>
-          <h2
-            id="appointment-heading"
-            className="mt-4 text-[clamp(2.2rem,1.6rem+2.8vw,3.6rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink"
-          >
-            {pregnancyLandingAppointment.heading}
-          </h2>
-          <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
-            {pregnancyLandingAppointment.body}
-          </p>
+            {/* Main Heading */}
+            <h2
+              id="appointment-heading"
+              className="font-display !text-2xl sm:!text-3xl lg:!text-[36px] font-bold tracking-tight text-[#241A17] !leading-[1.14] mb-3.5 text-balance"
+            >
+              Start your pregnancy care with a conversation.
+            </h2>
 
-          {/* Consultation Benefits List */}
-          <div className="mt-8 flex flex-col gap-5 border-t border-[color-mix(in_srgb,var(--color-ink)_12%,transparent)] pt-6">
-            {consultationBenefits.map((benefit) => {
-              const Icon = benefit.icon;
-              return (
-                <div key={benefit.title} className="flex items-start gap-4">
-                  <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-soft-rose/70 border border-terracotta/30 text-terracotta-deep">
-                    <Icon className="size-4.5" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <h3 className="font-body text-base font-semibold text-ink">{benefit.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-ink-soft">{benefit.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-8 rounded-sm border-l-2 border-terracotta bg-[#F3E8E2]/50 p-4 text-xs leading-relaxed text-ink-soft">
-            <span className="font-semibold text-ink">Transferring care? </span>
-            Bring existing prescriptions, ultrasound scans, and records. Your clinician will review your complete history with care.
-          </div>
-        </div>
-
-        {/* Right Column: Clean Warm Form Card */}
-        <div className="w-full max-w-lg rounded-tl-[40px] rounded-br-[40px] rounded-tr-md rounded-bl-md border border-[color-mix(in_srgb,var(--color-terracotta)_26%,transparent)] bg-[#FAF6F2]/95 backdrop-blur-sm p-8 sm:p-10 shadow-[0_24px_60px_-16px_rgba(53,43,41,0.12)]">
-          <p className="mb-5 font-body text-[0.6875rem] font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
-            {pregnancyLandingAppointment.previewNotice}
-          </p>
-
-          {status === "previewed" ? (
-            <div role="status" className="rounded-sm bg-white p-6 border border-terracotta/30">
-              <CheckCircle2 className="size-8 text-terracotta-deep mb-3" />
-              <p className="text-base leading-[var(--leading-relaxed)] text-ink">
-                {pregnancyLandingAppointment.previewResult}
+            {/* Paragraphs */}
+            <div className="space-y-2.5 text-xs sm:text-[13.5px] leading-relaxed text-[#5A4942] mb-5 max-w-xl">
+              <p>
+                Whether you&apos;re recently discovered you&apos;re pregnant,
+                have questions about your current pregnancy or are considering
+                continuing your antenatal care at The Birthwave, you can
+                contact the team for consultation information.
+              </p>
+              <p>
+                Share what you need help with, and the team can guide you on
+                appointment availability and the next steps.
               </p>
             </div>
-          ) : (
-            <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor={nameId} className={labelClass}>
-                  {pregnancyLandingAppointment.fields.name}
-                </label>
-                <input
-                  id={nameId}
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  aria-invalid={touched && name.trim().length === 0}
-                  className={inputClass}
-                />
-              </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor={contactId} className={labelClass}>
-                  {pregnancyLandingAppointment.fields.contact}
-                </label>
-                <input
-                  id={contactId}
-                  name="contact"
-                  type="tel"
-                  autoComplete="tel"
-                  value={contact}
-                  onChange={(event) => setContact(event.target.value)}
-                  aria-invalid={touched && contact.trim().length === 0}
-                  className={inputClass}
-                />
-              </div>
+            {/* 3 Reassurance Pillars */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 xl:gap-4 mb-5 pt-1 max-w-xl">
+              {consultationBenefits.map((benefit) => {
+                const Icon = benefit.icon;
+                return (
+                  <div key={benefit.title} className="flex flex-col">
+                    <div className="size-7.5 rounded-full bg-[#FFF0EB] border border-[#ECC7BC] text-[#C85D3F] flex items-center justify-center mb-2 shadow-2xs">
+                      <Icon className="size-3.5" aria-hidden="true" />
+                    </div>
+                    <p className="font-body text-xs sm:text-[12.5px] font-bold text-[#241A17] leading-snug mb-1">
+                      {benefit.title}
+                    </p>
+                    <p className="text-[11px] leading-relaxed text-[#75645D]">
+                      {benefit.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
 
-              <fieldset className="flex flex-col gap-2">
-                <legend className={cx(labelClass, "mb-1")}>{pregnancyLandingAppointment.fields.contactMethod}</legend>
-                <div className="flex flex-wrap gap-2">
-                  {pregnancyLandingAppointment.contactMethods.map((option) => (
-                    <label
-                      key={option}
-                      className={cx(
-                        "cursor-pointer rounded-xs border px-3.5 py-2 font-body text-xs font-medium transition-colors duration-[var(--duration-fast)]",
-                        method === option
-                          ? "border-terracotta-deep bg-[color-mix(in_srgb,var(--color-terracotta)_18%,transparent)] text-ink font-semibold"
-                          : "border-[var(--color-border-strong)] bg-white text-ink-soft hover:border-terracotta-deep",
-                      )}
-                    >
-                      <input
-                        type="radio"
-                        name="contactMethod"
-                        value={option}
-                        checked={method === option}
-                        onChange={() => setMethod(option)}
-                        className="sr-only"
-                      />
-                      {option}
-                    </label>
-                  ))}
+            {/* Privacy Reassurance Line */}
+            <div className="flex items-center gap-2.5 pt-2.5 border-t border-[#E8DDD5]/60 text-[11px] sm:text-xs text-[#75645D] max-w-xl">
+              <ShieldCheck
+                className="size-4 shrink-0 text-[#C85D3F]"
+                aria-hidden="true"
+              />
+              <p className="leading-snug">
+                Your information is kept private and used only to respond to
+                your enquiry and support your care at The Birthwave.
+              </p>
+            </div>
+          </div>
+
+          {/* Column 3: White Form Card (right) */}
+          <div className="w-full">
+            <div className="rounded-[28px] bg-white p-6 sm:p-7 md:p-8 shadow-[0_12px_44px_rgba(40,25,20,0.06)] border border-[#F2E8E1]">
+              {status === "submitted" ? (
+                <div
+                  role="status"
+                  className="rounded-2xl bg-[#FFF8F6] p-8 border border-[#EADBCE] text-center"
+                >
+                  <CheckCircle2 className="mx-auto size-12 text-[#E06D53] mb-3" />
+                  <h3 className="text-xl font-bold text-[#241A17]">
+                    Thank you for your enquiry
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[#5A4942]">
+                    Our team at The Birthwave has received your request and will
+                    be in touch shortly to assist with consultation availability
+                    and appointment arrangements.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStatus("idle");
+                      setName("");
+                      setPhone("");
+                      setEmail("");
+                      setMessage("");
+                    }}
+                    className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#E06D53] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#CF5D43] transition-colors"
+                  >
+                    Submit Another Enquiry
+                  </button>
                 </div>
-              </fieldset>
+              ) : (
+                <form
+                  ref={formRef}
+                  onSubmit={handleSubmit}
+                  noValidate
+                  className="space-y-3.5 sm:space-y-4"
+                >
+                  {/* Row 1: Full name & Phone number */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor={nameId}
+                        className="text-[10.5px] font-bold uppercase tracking-wider text-[#352B29]"
+                      >
+                        FULL NAME{" "}
+                        <span className="text-[#E06D53] font-bold">*</span>
+                      </label>
+                      <input
+                        id={nameId}
+                        name="name"
+                        type="text"
+                        autoComplete="name"
+                        placeholder="e.g. Radhika Sundaram"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        aria-invalid={touched && name.trim().length === 0}
+                        className={cx(
+                          "w-full rounded-xl border bg-[#FAF7F5] px-3.5 py-2.5 text-xs sm:text-sm text-[#241A17] placeholder:text-[#AFA6A0] transition-all focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#E06D53]",
+                          touched && name.trim().length === 0
+                            ? "border-red-400 ring-1 ring-red-400"
+                            : "border-[#E8DDD5] focus:border-[#E06D53]",
+                        )}
+                      />
+                    </div>
 
-              <div className="flex items-start gap-2.5">
-                <input
-                  id={consentId}
-                  type="checkbox"
-                  checked={consent}
-                  onChange={(event) => setConsent(event.target.checked)}
-                  className="mt-0.5 size-4 shrink-0 accent-terracotta"
-                />
-                <label htmlFor={consentId} className="text-xs leading-relaxed text-ink-soft">
-                  {pregnancyLandingAppointment.fields.consent}
-                </label>
-              </div>
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor={phoneId}
+                        className="text-[10.5px] font-bold uppercase tracking-wider text-[#352B29]"
+                      >
+                        PHONE NUMBER{" "}
+                        <span className="text-[#E06D53] font-bold">*</span>
+                      </label>
+                      <input
+                        id={phoneId}
+                        name="phone"
+                        type="tel"
+                        autoComplete="tel"
+                        placeholder="+91 98765 00000"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        aria-invalid={touched && phone.trim().length === 0}
+                        className={cx(
+                          "w-full rounded-xl border bg-[#FAF7F5] px-3.5 py-2.5 text-xs sm:text-sm text-[#241A17] placeholder:text-[#AFA6A0] transition-all focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#E06D53]",
+                          touched && phone.trim().length === 0
+                            ? "border-red-400 ring-1 ring-red-400"
+                            : "border-[#E8DDD5] focus:border-[#E06D53]",
+                        )}
+                      />
+                    </div>
+                  </div>
 
-              {touched && !isValid ? (
-                <p className="text-xs font-semibold text-terracotta-deep" role="alert">
-                  Enter your name, contact number, and confirm you&rsquo;re happy to be contacted.
-                </p>
-              ) : null}
+                  {/* Row 2: Email (Optional) & How can we help? */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor={emailId}
+                        className="text-[10.5px] font-bold uppercase tracking-wider text-[#352B29]"
+                      >
+                        EMAIL (OPTIONAL)
+                      </label>
+                      <input
+                        id={emailId}
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        placeholder="you@example.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full rounded-xl border border-[#E8DDD5] bg-[#FAF7F5] px-3.5 py-2.5 text-xs sm:text-sm text-[#241A17] placeholder:text-[#AFA6A0] transition-all focus:border-[#E06D53] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#E06D53]"
+                      />
+                    </div>
 
-              <button type="submit" className={submitButtonClass}>
-                {pregnancyLandingAppointment.submitLabel}
-              </button>
-            </form>
-          )}
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor={helpId}
+                        className="text-[10.5px] font-bold uppercase tracking-wider text-[#352B29]"
+                      >
+                        HOW CAN WE HELP?{" "}
+                        <span className="text-[#E06D53] font-bold">*</span>
+                      </label>
+                      <div className="relative">
+                        <select
+                          id={helpId}
+                          name="helpReason"
+                          value={helpReason}
+                          onChange={(e) => setHelpReason(e.target.value)}
+                          className="w-full appearance-none rounded-xl border border-[#E8DDD5] bg-[#FAF7F5] px-3.5 py-2.5 pr-9 text-xs sm:text-sm text-[#241A17] transition-all focus:border-[#E06D53] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#E06D53] cursor-pointer"
+                        >
+                          {pregnancyLandingAppointment.helpOptions.map(
+                            (opt) => (
+                              <option key={opt} value={opt}>
+                                {opt}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                        <ChevronDown
+                          className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-[#8C7E77]"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Row 3: Preferred Contact Method */}
+                  <fieldset className="flex flex-col gap-1.5 pt-0.5">
+                    <legend className="text-[10.5px] font-bold uppercase tracking-wider text-[#352B29]">
+                      PREFERRED CONTACT METHOD
+                    </legend>
+                    <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
+                      {(["Phone Call", "WhatsApp", "Email"] as const).map(
+                        (option) => {
+                          const isSelected = method === option;
+                          return (
+                            <label
+                              key={option}
+                              className={cx(
+                                "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 rounded-xl border text-xs font-medium cursor-pointer transition-all shadow-2xs select-none",
+                                isSelected
+                                  ? "border-[#E06D53] bg-[#FFF5F2] text-[#241A17] font-semibold ring-1 ring-[#E06D53]"
+                                  : "border-[#E8DDD5] bg-[#FAF7F5] text-[#6E5D53] hover:bg-[#FFF8F6] hover:border-[#E06D53]/60",
+                              )}
+                            >
+                              <input
+                                type="radio"
+                                name="contactMethod"
+                                value={option}
+                                checked={isSelected}
+                                onChange={() => setMethod(option)}
+                                className="sr-only"
+                              />
+                              {isSelected ? (
+                                <span
+                                  className="size-3.5 rounded-full border-2 border-[#E06D53] flex items-center justify-center shrink-0"
+                                  aria-hidden="true"
+                                >
+                                  <span className="size-1.5 rounded-full bg-[#E06D53]" />
+                                </span>
+                              ) : (
+                                <span
+                                  className="size-3.5 rounded-full border-2 border-[#D5C6BD] shrink-0"
+                                  aria-hidden="true"
+                                />
+                              )}
+                              <span>{option}</span>
+                            </label>
+                          );
+                        },
+                      )}
+                    </div>
+                  </fieldset>
+
+                  {/* Row 4: Message (Optional) */}
+                  <div className="flex flex-col gap-1">
+                    <label
+                      htmlFor={messageId}
+                      className="text-[10.5px] font-bold uppercase tracking-wider text-[#352B29]"
+                    >
+                      MESSAGE (OPTIONAL)
+                    </label>
+                    <textarea
+                      id={messageId}
+                      name="message"
+                      rows={3}
+                      placeholder="Any questions or specific notes for your appointment?"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="w-full resize-none rounded-xl border border-[#E8DDD5] bg-[#FAF7F5] px-3.5 py-2.5 text-xs sm:text-sm text-[#241A17] placeholder:text-[#AFA6A0] transition-all focus:border-[#E06D53] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#E06D53]"
+                    />
+                  </div>
+
+                  {touched && !isValid && (
+                    <p
+                      className="text-xs font-semibold text-[#E06D53]"
+                      role="alert"
+                    >
+                      Please enter your full name and phone number so we can
+                      reach you.
+                    </p>
+                  )}
+
+                  {/* Row 5: Submit Button */}
+                  <button
+                    type="submit"
+                    className="w-full rounded-xl bg-[#E06D53] hover:bg-[#CF5D43] text-white py-3.5 sm:py-4 px-6 font-bold text-xs sm:text-[13px] tracking-wider uppercase transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
+                  >
+                    <span>REQUEST A PREGNANCY CONSULTATION</span>
+                    <ArrowUpRight className="size-4 shrink-0" aria-hidden="true" />
+                  </button>
+
+                  {/* Row 6: Disclaimer */}
+                  <p className="text-center text-[10.5px] leading-relaxed text-[#8C7E77] pt-1 px-1">
+                    This form is for appointment enquiries and non-urgent
+                    requests. If you are experiencing urgent pregnancy-related
+                    symptoms, seek prompt medical attention at an appropriate
+                    healthcare facility or emergency service.
+                  </p>
+                </form>
+              )}
+            </div>
+          </div>
         </div>
-      </PregnancyReveal>
+      </div>
     </section>
   );
 }
@@ -258,16 +483,26 @@ export function PregnancyMobileAppointmentBar() {
     const form = document.getElementById("appointment");
     if (!hero || !form) return;
 
-    const heroObserver = new IntersectionObserver(([entry]) => setPastHero(!entry.isIntersecting), { threshold: 0 });
-    const formObserver = new IntersectionObserver(([entry]) => setFormVisible(entry.isIntersecting), { threshold: 0.05 });
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => setPastHero(!entry.isIntersecting),
+      { threshold: 0 },
+    );
+    const formObserver = new IntersectionObserver(
+      ([entry]) => setFormVisible(entry.isIntersecting),
+      { threshold: 0.05 },
+    );
     heroObserver.observe(hero);
     formObserver.observe(form);
 
     const formEl = form.querySelector("form");
-    const syncEditing = () => setFormEditing(formEl?.dataset.editing === "true");
+    const syncEditing = () =>
+      setFormEditing(formEl?.dataset.editing === "true");
     const editingObserver = formEl ? new MutationObserver(syncEditing) : null;
     if (formEl && editingObserver) {
-      editingObserver.observe(formEl, { attributes: true, attributeFilter: ["data-editing"] });
+      editingObserver.observe(formEl, {
+        attributes: true,
+        attributeFilter: ["data-editing"],
+      });
     }
 
     return () => {
@@ -282,14 +517,15 @@ export function PregnancyMobileAppointmentBar() {
   return (
     <div
       className={cx(
-        "fixed inset-x-0 bottom-0 z-30 border-t border-[var(--color-border)] bg-[#FAF6F2] px-4 py-3 transition-transform duration-[var(--duration-base)] ease-[var(--ease-signature)] sm:hidden",
+        "fixed inset-x-0 bottom-0 z-30 border-t border-[var(--color-border)] bg-paper px-4 py-3 transition-transform duration-[var(--duration-base)] ease-[var(--ease-signature)] sm:hidden",
         visible ? "translate-y-0" : "translate-y-full",
       )}
+      style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
       inert={!visible}
     >
       <a
         href={pregnancyLandingMobileCta.href}
-        className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase shadow-xs transition-colors duration-[var(--duration-fast)] hover:bg-coral"
+        className="group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] hover:bg-coral"
       >
         {pregnancyLandingMobileCta.label}
       </a>

@@ -5,10 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { doorwaysCareFinder, type CareFinderColumn } from "@/content/services-content";
-import { servicesImagery } from "@/content/services-imagery";
+import { servicesOverviewImagery } from "@/content/services-overview-imagery";
 import { useScrollReveal } from "@/motion/scroll-scenes";
 import { useParallax } from "@/motion/image-motion";
 import { cx } from "@/lib/cx";
+
+const careFinderImageKeys = {
+  "care-finder-your-health": "careFinderYourHealth",
+  "care-finder-pregnancy-birth": "careFinderPregnancyBirth",
+  "care-finder-after-birth-baby": "careFinderAfterBirthBaby",
+} as const;
 
 /**
  * Section 02 — Doorways into Care ("What can we help you with?").
@@ -49,10 +55,10 @@ export function CompactCareFinder() {
           </p>
           <h2
             id="care-finder-heading"
-            className="mt-3 text-[clamp(2rem,1.5rem+2vw,2.75rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink"
+            className="mt-3 text-h2 leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink"
           >
             A place for every part of{" "}
-            <span className="font-serif italic font-normal text-ink">you</span>.
+            <span className="font-serif italic font-medium text-ink">you</span>.
           </h2>
           <p className="mt-4 max-w-[54ch] text-base leading-[var(--leading-relaxed)] text-ink-soft sm:text-lg">
             {doorwaysCareFinder.description}
@@ -96,7 +102,7 @@ function DoorwayColumn({
     minViewportWidth: 1024,
   });
 
-  const image = servicesImagery[column.imageKey];
+  const image = servicesOverviewImagery[careFinderImageKeys[column.imageKey]];
 
   return (
     <article
@@ -134,20 +140,17 @@ function DoorwayColumn({
         </div>
 
         {/* Clinical illustration disclaimer badge */}
-        <p className="absolute bottom-2.5 right-2.5 left-2.5 z-10 w-fit max-w-[calc(100%-1.25rem)] rounded-xs bg-paper/95 px-2 py-0.5 font-body text-[0.625rem] leading-snug text-ink-soft backdrop-blur-xs select-none">
-          AI-generated illustration · Clinic photography pending
-        </p>
       </div>
 
       {/* Group Header: Chapter Number & Heading */}
       <div className="mt-6 sm:mt-7 flex items-baseline gap-2.5 sm:gap-3">
         <span
-          className="font-serif italic text-terracotta text-xl sm:text-2xl font-normal leading-none select-none"
+          className="font-serif italic text-terracotta-deep text-xl sm:text-2xl font-normal leading-none select-none"
           aria-hidden="true"
         >
           {column.number}
         </span>
-        <h3 className="text-xl sm:text-2xl font-semibold tracking-[var(--tracking-tight)] text-ink leading-tight">
+        <h3 className="text-card-title font-semibold tracking-[var(--tracking-tight)] text-ink leading-tight">
           {column.heading}
         </h3>
       </div>

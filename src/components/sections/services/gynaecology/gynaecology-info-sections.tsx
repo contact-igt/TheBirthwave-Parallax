@@ -1,5 +1,6 @@
-import { Plus, Phone } from "lucide-react";
-import { gynaecologyPractical, gynaecologyFaq } from "@/content/gynaecology-landing-content";
+import { ServiceFaqSection } from "../shared/service-faq-section";
+import { Phone } from "lucide-react";
+import { gynaecologyPractical, gynaecologyFaq } from "@/content/pages/gynaecology";
 import { GynaecologyImage } from "./gynaecology-image";
 import { GynaecologyReveal } from "./gynaecology-reveal";
 import { Button } from "@/components/ui/button";
@@ -48,7 +49,7 @@ export function GynaecologyPractical() {
                 <Phone className="size-4 text-terracotta-deep" aria-hidden="true" />
                 <span>{gynaecologyPractical.phone}</span>
               </a>
-              <Button href="#gynaecology-enquiry" variant="primary">
+              <Button href="/contact" variant="primary">
                 BOOK YOUR CONSULTATION
               </Button>
             </div>
@@ -62,29 +63,5 @@ export function GynaecologyPractical() {
 /** Section 8 — FAQ / Reassurance. Native `<details>/<summary>` — the same
  * accessible accordion every other landing page on this site uses. */
 export function GynaecologyFaq() {
-  return (
-    <section id="gynaecology-faq" aria-labelledby="gynaecology-faq-heading" className="relative isolate bg-paper section-pad">
-      <GynaecologyReveal className="container-birthwave max-w-3xl">
-        <p className="eyebrow">{gynaecologyFaq.eyebrow}</p>
-        <h2 id="gynaecology-faq-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-          {gynaecologyFaq.heading}
-        </h2>
-
-        <div className="mt-10 border-t border-[var(--color-border)]">
-          {gynaecologyFaq.items.map((item) => (
-            <details key={item.question} className="group border-b border-[var(--color-border)] py-6">
-              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6 font-body text-lg font-medium text-balance text-ink [&::-webkit-details-marker]:hidden">
-                {item.question}
-                <Plus
-                  aria-hidden="true"
-                  className="size-5 shrink-0 text-terracotta transition-transform duration-[var(--duration-fast)] ease-[var(--ease-signature)] group-open:rotate-45"
-                />
-              </summary>
-              <p className="mt-4 max-w-2xl text-base leading-[var(--leading-relaxed)] text-ink-soft">{item.answer}</p>
-            </details>
-          ))}
-        </div>
-      </GynaecologyReveal>
-    </section>
-  );
+  return <ServiceFaqSection id="gynaecology-faq" eyebrow={gynaecologyFaq.eyebrow} heading={gynaecologyFaq.heading} items={gynaecologyFaq.items} />;
 }

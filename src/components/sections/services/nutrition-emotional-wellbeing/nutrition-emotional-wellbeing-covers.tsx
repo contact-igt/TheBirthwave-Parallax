@@ -1,4 +1,4 @@
-import { nutritionCovers } from "@/content/nutrition-emotional-wellbeing-landing-content";
+﻿import { nutritionCovers } from "@/content/pages/nutrition-emotional-wellbeing";
 import { NutritionImage } from "./nutrition-emotional-wellbeing-image";
 import { NutritionReveal } from "./nutrition-emotional-wellbeing-reveal";
 

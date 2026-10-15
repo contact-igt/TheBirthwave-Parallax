@@ -1,7 +1,10 @@
 "use client";
 
+import conversion from "../shared/service-conversion.module.css";
+
+
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
-import { lactationEnquiry, lactationMobileCta } from "@/content/lactation-landing-content";
+import { lactationEnquiry, lactationMobileCta } from "@/content/pages/lactation";
 import { LactationReveal } from "./lactation-reveal";
 import { cx } from "@/lib/cx";
 
@@ -65,7 +68,7 @@ export function LactationEnquiry() {
   }
 
   return (
-    <section id="enquiry" aria-labelledby="lactation-enquiry-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad">
+    <section id="enquiry" aria-labelledby="lactation-enquiry-heading" data-service-enquiry className={`${conversion.enquiry} relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad`}>
       <LactationReveal className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
         <div className="max-w-md">
           <p className="eyebrow">{lactationEnquiry.eyebrow}</p>

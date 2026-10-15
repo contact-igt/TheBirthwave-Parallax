@@ -2,7 +2,7 @@
 
 import { useId, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
-import { contactEnquiryForm } from "@/content/contact-content";
+import { contactEnquiryForm, contactPlaceholders } from "@/content/contact-content";
 import { cx } from "@/lib/cx";
 
 const labelClass = "font-body text-sm font-medium text-ink";
@@ -227,7 +227,7 @@ export function ContactEnquiryForm() {
             </button>
 
             <a
-              href="#contact-details"
+              href={`https://wa.me/${contactPlaceholders.whatsapp.replace(/[^0-9]/g, "")}`}
               className={whatsappButtonClass}
             >
               <span>{contactEnquiryForm.whatsappLabel}</span>

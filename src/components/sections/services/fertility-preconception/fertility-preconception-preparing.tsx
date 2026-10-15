@@ -1,13 +1,12 @@
-import { fertilityPreparing } from "@/content/fertility-preconception-landing-content";
+﻿import { fertilityPreparing } from "@/content/pages/fertility-preconception";
 import { AnimatedContent } from "@/components/ui/animations/animated-content";
 import { cx } from "@/lib/cx";
 import styles from "./fertility-preconception.module.css";
 
 /**
- * 04 — Preconception care. Explains preparation BEFORE pregnancy (distinct
- * from 03, which lists what is discussed at the consultation). Text-only,
- * three compact columns from `md`, stacked on mobile; content-driven height,
- * no photograph. The three points enter together with a short row stagger.
+ * Section 4 — Before Pregnancy.
+ * Explains preparation BEFORE pregnancy: reviewing health, physical conditioning,
+ * conscious fertility, and Garbh Sanskar practices.
  */
 export function FertilityPreparing() {
   return (
@@ -18,21 +17,31 @@ export function FertilityPreparing() {
           <h2 id="fertility-preparing-heading" className={cx(styles.display, styles.h2, "mt-4")}>
             {fertilityPreparing.heading}
           </h2>
-          <p className="mt-5 max-w-[56ch] text-lg leading-[var(--leading-relaxed)] text-ink-soft">{fertilityPreparing.intro}</p>
+          <div className="mt-5 space-y-3 max-w-[58ch] text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+            {fertilityPreparing.intro.map((p, idx) => (
+              <p key={idx}>{p}</p>
+            ))}
+          </div>
         </div>
 
-        <ul className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-3">
+        <ul className="mt-12 grid gap-x-10 gap-y-10 md:grid-cols-3">
           {fertilityPreparing.points.map((point) => (
             <li key={point.title}>
               <AnimatedContent distance={16} duration={0.5} ease="power2.out" threshold={0.08} rowStagger={0.08} className="h-full border-t-2 border-terracotta pt-5">
                 <h3 className={cx(styles.display, styles.h3)}>{point.title}</h3>
-                <p className="mt-3 text-base leading-[var(--leading-relaxed)] text-ink-soft">{point.body}</p>
+                <div className="mt-4 space-y-3 text-base leading-[var(--leading-relaxed)] text-ink-soft">
+                  {point.paragraphs.map((para, pIdx) => (
+                    <p key={pIdx}>{para}</p>
+                  ))}
+                </div>
               </AnimatedContent>
             </li>
           ))}
         </ul>
 
-        <p className="mt-10 max-w-[64ch] border-l-2 border-terracotta pl-4 text-sm leading-relaxed text-ink-soft">{fertilityPreparing.note}</p>
+        <p className="mt-12 max-w-[64ch] border-l-2 border-terracotta pl-4 text-sm leading-relaxed text-ink-soft">
+          {fertilityPreparing.note}
+        </p>
       </div>
     </section>
   );

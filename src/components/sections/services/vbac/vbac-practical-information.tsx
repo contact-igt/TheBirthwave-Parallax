@@ -1,48 +1,53 @@
-import { vbacPractical } from "@/content/vbac-landing-content";
-import { MediaPlaceholder } from "@/components/ui/media-placeholder";
+import { vbacPractical } from "@/content/pages/vbac";
 import { VbacReveal } from "./vbac-reveal";
+import { Button } from "@/components/ui/button";
 
 /**
- * Section 8 — Practical Information. Every field is a confirmed-pending
- * placeholder (see the content file's own comment) — visible
- * "[To be confirmed by BirthWave]" wording rather than hiding missing
- * information behind a generic claim. No photograph implies a real
- * consultation space; the shared `MediaPlaceholder` stands in until real,
- * approved photography exists.
+ * Section 10 — PRACTICAL INFORMATION:
+ * Compact, balanced information grid for visit essentials with centered header and CTA.
  */
 export function VbacPracticalInformation() {
   return (
-    <section id="vbac-practical" aria-labelledby="vbac-practical-heading" className="relative isolate bg-[var(--vbac-coral-wash)] section-pad">
-      <VbacReveal className="container-birthwave grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
-        <MediaPlaceholder
-          alt="Actual consultation-space photograph — approved photography pending"
-          gradient="linear-gradient(135deg, var(--color-paper-dim) 0%, var(--color-sky) 100%)"
-          corner="tr"
-          aspect="aspect-[4/5]"
-          className="w-full"
-        />
-
-        <div>
+    <section id="vbac-practical" aria-labelledby="vbac-practical-heading" className="relative isolate bg-[var(--vbac-sky-wash)]/40 section-pad border-t border-[var(--color-border)]">
+      <VbacReveal className="container-birthwave">
+        <div className="max-w-2xl md:mx-auto md:text-center">
           <p className="eyebrow">{vbacPractical.eyebrow}</p>
           <h2 id="vbac-practical-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
             {vbacPractical.heading}
           </h2>
-          <p className="mt-4 max-w-[52ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">{vbacPractical.intro}</p>
+        </div>
 
-          <div className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2">
-            {vbacPractical.info.map((item) => (
-              <div key={item.label}>
-                <strong className="block font-body text-sm font-semibold text-ink">{item.label}</strong>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+        {/* Compact, balanced information grid */}
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
+          {vbacPractical.items.map((item, idx) => {
+            const isWide = idx === 2; // "What to bring" contains longer guidance
+            return (
+              <div
+                key={item.label}
+                className={`rounded-sm border border-[var(--color-border)] bg-paper p-5 sm:p-6 shadow-2xs hover:border-terracotta/40 transition-colors flex flex-col justify-start ${
+                  isWide ? "sm:col-span-2 lg:col-span-2" : ""
+                }`}
+              >
+                <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2.5">
+                  <strong className="block font-body text-xs font-semibold tracking-wider text-terracotta-deep uppercase">
+                    {item.label}
+                  </strong>
+                  <span className="size-1.5 rounded-full bg-terracotta/40" />
+                </div>
+                <div className="mt-3 text-sm leading-relaxed text-ink">
                   {item.lines.map((line) => (
-                    <span key={line} className="block">
-                      {line}
-                    </span>
+                    <p key={line}>{line}</p>
                   ))}
-                </p>
+                </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-10 flex justify-start md:justify-center">
+          <Button href={vbacPractical.cta.href} variant="primary">
+            {vbacPractical.cta.label.replace(/\s*↗$/, "")}
+          </Button>
         </div>
       </VbacReveal>
     </section>

@@ -64,7 +64,7 @@ export function ReviewsSection() {
           </p>
           <h2
             id="reviews-heading"
-            className="mt-4 text-balance font-display text-[clamp(2.3rem,1.9rem+2.4vw,3.75rem)] font-semibold leading-[1.08] tracking-[var(--tracking-tight)] text-ink"
+            className="mt-4 text-balance font-display text-h2 font-semibold leading-[1.08] tracking-[var(--tracking-tight)] text-ink"
           >
             Stories from families who walked this journey with us.
           </h2>

@@ -28,7 +28,7 @@ export default function ContactPage() {
           {/* Left Column: Heading & CTAs */}
           <div className="max-w-xl">
             <p className="eyebrow">{contactHero.eyebrow}</p>
-            <h1 className="mt-4 font-display text-[clamp(2.4rem,1.8rem+3vw,4.25rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
+            <h1 className="mt-4 font-display text-display leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
               {contactHero.h1}
             </h1>
             <p className="mt-5 text-base leading-[var(--leading-relaxed)] text-ink-soft sm:text-lg">
@@ -69,7 +69,7 @@ export default function ContactPage() {
         <div className="container-birthwave relative z-10 grid gap-12 lg:grid-cols-[0.4fr_0.6fr] lg:items-start lg:gap-16">
           {/* Left Column: Direct Contact Details List (~40%) */}
           <div className="flex flex-col">
-            <h2 className="font-display text-2xl font-semibold tracking-[var(--tracking-tight)] text-ink sm:text-3xl">
+            <h2 className="font-display text-h2 font-semibold tracking-[var(--tracking-tight)] text-ink">
               {contactDirectDetails.heading}
             </h2>
             <p className="mt-3 text-sm leading-[var(--leading-relaxed)] text-ink-soft">

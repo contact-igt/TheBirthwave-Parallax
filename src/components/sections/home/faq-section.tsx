@@ -28,7 +28,29 @@ import { cx } from "@/lib/cx";
  */
 const noopSubscribe = () => () => {};
 
-export function FaqSection() {
+type FaqItem = {
+  question: string;
+  answer: string;
+  ctaLink?: { label: string; href: string };
+};
+
+type FaqMedia = { src: string; alt: string; objectPosition?: string };
+
+export function FaqSection({
+  id = "faq",
+  eyebrow = faq.eyebrow,
+  heading = faq.heading,
+  description = "Clear guidance and answers to the questions families ask most often when planning their care with The Birthwave.",
+  items = faq.items,
+  media = faq.media,
+}: {
+  id?: string;
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  items?: readonly FaqItem[];
+  media?: FaqMedia;
+} = {}) {
   // false in the server HTML (and so without JavaScript), true once
   // hydrated — closed panels only become inert when the toggles can work.
   const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
@@ -49,8 +71,8 @@ export function FaqSection() {
 
   return (
     <section
-      id="faq"
-      aria-labelledby="faq-heading"
+      id={id}
+      aria-labelledby={`${id}-heading`}
       className="relative isolate py-(--space-section)"
     >
       <div className="container-birthwave relative z-10 grid grid-cols-1 gap-y-10 lg:grid-cols-12 lg:gap-x-14 lg:items-start">
@@ -62,32 +84,31 @@ export function FaqSection() {
               className="h-1.5 w-1.5 rounded-full bg-terracotta"
             />
             <p className="eyebrow !tracking-[0.16em] uppercase text-terracotta-deep">
-              {faq.eyebrow}
+              {eyebrow}
             </p>
           </div>
           <h2
-            id="faq-heading"
-            className="mt-3.5 text-balance text-[clamp(2.4rem,2.8vw,3.75rem)] font-semibold leading-[1.06] tracking-[var(--tracking-tight)] text-ink"
+            id={`${id}-heading`}
+            className="mt-3.5 text-balance text-h2 font-semibold leading-[1.06] tracking-[var(--tracking-tight)] text-ink"
           >
-            {faq.heading}
+            {heading}
           </h2>
           <p className="mt-4 text-base leading-[1.7] text-ink-soft sm:text-lg">
-            Clear guidance and answers to the questions families ask most often
-            when planning their care with BirthWave.
+            {description}
           </p>
         </div>
 
         {/* IMAGE PANEL (Desktop: cols 1-5, row 2) / MOBILE (order 2, between heading & accordion) */}
         <div className="lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-8">
-          <FaqVisual />
+          <FaqVisual media={media} />
         </div>
 
         {/* RIGHT COLUMN: ACCORDION LIST (Desktop: cols 6-12, rows 1-2) / MOBILE (order 3) */}
         <div className="border-t border-[var(--color-border)] lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
-          {faq.items.map((item, index) => {
+          {items.map((item, index) => {
             const isOpen = openIndices.has(index);
-            const questionId = `faq-q-${index}`;
-            const answerId = `faq-a-${index}`;
+            const questionId = `${id}-q-${index}`;
+            const answerId = `${id}-a-${index}`;
 
             return (
               <div
@@ -119,14 +140,12 @@ export function FaqSection() {
                   </span>
                   <span
                     aria-hidden="true"
-                    className="flex size-7 shrink-0 items-center justify-center rounded-full bg-paper/80 text-terracotta transition-all duration-300 ease-[var(--ease-signature)]"
+                    className="flex size-7 shrink-0 items-center justify-center rounded-full bg-paper/80 text-terracotta-deep transition-all duration-300 ease-[var(--ease-signature)]"
                   >
                     <Plus
                       className={cx(
-                        "size-4.5 transition-transform duration-350 ease-[var(--ease-signature)] motion-reduce:transform-none",
-                        isOpen
-                          ? "rotate-45 text-terracotta-deep"
-                          : "text-terracotta",
+                        "size-4.5 transition-transform duration-350 ease-[var(--ease-signature)] motion-reduce:transform-none text-terracotta-deep",
+                        isOpen && "rotate-45",
                       )}
                     />
                   </span>
@@ -150,9 +169,14 @@ export function FaqSection() {
                   }}
                 >
                   <div className="overflow-hidden">
-                    <p className="pb-6 pt-1 font-body text-base leading-[1.7] text-ink-soft">
+                    <p className="pb-6 pt-1 font-body text-base leading-[1.7] text-ink-soft whitespace-pre-line">
                       {item.answer}
                     </p>
+                    {item.ctaLink ? (
+                      <a href={item.ctaLink.href} className="mb-6 inline-block font-body text-sm font-semibold text-terracotta-deep underline underline-offset-4 hover:text-ink">
+                        {item.ctaLink.label}
+                      </a>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -168,7 +192,7 @@ export function FaqSection() {
  * Editorial visual panel anchoring the left column under the heading on desktop,
  * and sitting smoothly between heading and accordion on mobile.
  */
-function FaqVisual() {
+function FaqVisual({ media }: { media: FaqMedia }) {
   const parallaxRef = useParallax<HTMLDivElement>({
     factor: 0.05,
     maxOffsetPx: 12,
@@ -182,10 +206,11 @@ function FaqVisual() {
       className="relative aspect-[3/2] w-full overflow-hidden rounded-sm border border-ink/8 bg-paper shadow-xs"
     >
       <Image
-        src={faq.media.src}
-        alt={faq.media.alt}
+        src={media.src}
+        alt={media.alt}
         fill
         sizes="(min-width: 1024px) 38vw, 100vw"
+        style={media.objectPosition ? { objectPosition: media.objectPosition } : undefined}
         className="object-cover transition-transform duration-700 ease-[var(--ease-signature)] hover:scale-102 motion-reduce:hover:scale-100"
       />
       {/* Subtle warm maternal gradient glaze */}

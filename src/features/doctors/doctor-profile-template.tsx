@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { DoctorContent } from "@/content/doctors-content";
 import { getServiceBySlug } from "@/content/services-content";
+import { HIDDEN_SERVICE_SLUGS } from "@/content/nav-care-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";
 
@@ -18,7 +19,7 @@ import { Button } from "@/components/ui/button";
 export function DoctorProfileTemplate({ doctor }: { doctor: DoctorContent }) {
   const relatedServices = (doctor.relatedCareSlugs ?? [])
     .map((slug) => getServiceBySlug(slug))
-    .filter((service) => service !== undefined);
+    .filter((service): service is NonNullable<typeof service> => service !== undefined && !HIDDEN_SERVICE_SLUGS.has(service.slug));
 
   return (
     <article className="relative [padding-block-start:calc(var(--header-height)+var(--space-section))] [padding-block-end:var(--space-section)]">
@@ -28,7 +29,7 @@ export function DoctorProfileTemplate({ doctor }: { doctor: DoctorContent }) {
 
           <div className="max-w-xl">
             <p className="eyebrow">{doctor.role}</p>
-            <h1 className="mt-4 text-3xl font-semibold text-ink sm:text-4xl">{doctor.name}</h1>
+            <h1 className="mt-4 text-display font-semibold text-ink">{doctor.name}</h1>
             {doctor.credentials ? <p className="mt-3 text-lg font-medium text-terracotta-deep">{doctor.credentials}</p> : null}
             {doctor.specialFocus ? <p className="mt-2 text-base text-ink-soft">{doctor.specialFocus}</p> : null}
 
@@ -52,7 +53,7 @@ export function DoctorProfileTemplate({ doctor }: { doctor: DoctorContent }) {
             {doctor.bio ? <p className="mt-8 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{doctor.bio}</p> : null}
 
             <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <Button href="/#connect" variant="primary">
+              <Button href="/contact" variant="primary">
                 Book an Appointment
               </Button>
             </div>

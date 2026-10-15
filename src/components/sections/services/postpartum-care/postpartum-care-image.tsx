@@ -1,4 +1,4 @@
-import { postpartumImagery, type PostpartumImageKey } from "@/content/postpartum-care-landing-imagery";
+﻿import { postpartumImagery, type PostpartumImageKey } from "@/content/pages/postpartum-care";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 
 /**

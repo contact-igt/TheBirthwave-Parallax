@@ -4,14 +4,35 @@
    outside any @layer, which would otherwise beat a utility class. */
 
 .root {
-  --fertility-heading-font: var(--font-fertility-serif), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --fertility-tint: color-mix(in srgb, var(--color-terracotta) 9%, var(--color-paper));
+  --fertility-background-botanical: url('/images/about/backgrounds/birth-prep-starting-point-background-v1.png');
+  --fertility-background-watercolor: url('/images/about/backgrounds/birth-prep-topics-background-v1.png');
+  --fertility-background-learning: url('/images/about/backgrounds/birth-prep-learning-background-v2.png');
+}
+
+/* Direct sections only: preserve the existing orientation panel and keep
+   form fields, cards and the fixed mobile enquiry bar on solid surfaces. */
+.root > section:not([id="fertility-who"]) {
+  --fertility-section-background: var(--fertility-background-botanical);
+  background-image: linear-gradient(color-mix(in srgb, var(--color-paper) 20%, transparent), color-mix(in srgb, var(--color-paper) 20%, transparent)), var(--fertility-section-background);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.root > section:nth-of-type(3n):not([id="fertility-who"]) {
+  --fertility-section-background: var(--fertility-background-watercolor);
+}
+.root > section:nth-of-type(3n + 1):not([id="fertility-who"]) {
+  --fertility-section-background: var(--fertility-background-learning);
+}
+.root > section[id="fertility-preparing"]:not([id="fertility-who"]) {
+  --fertility-section-background: url('/images/about/backgrounds/birth-prep-preferences-illustration-bg-v1.png');
 }
 
 .display {
-  font-family: var(--fertility-heading-font);
-  font-weight: 500;
-  letter-spacing: -0.012em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
   line-height: 1.12;
   text-wrap: balance;
   color: var(--color-ink);

@@ -1,5 +1,5 @@
-import { Plus } from "lucide-react";
-import { newbornPractical, newbornFaq } from "@/content/newborn-pediatric-care-landing-content";
+import { ServiceFaqSection } from "../shared/service-faq-section";
+import { newbornPractical, newbornFaq } from "@/content/pages/newborn-pediatric-care";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 import { NewbornReveal } from "./newborn-pediatric-care-reveal";
 
@@ -56,29 +56,5 @@ export function NewbornPractical() {
  * vaccination/teleconsultation claim — every unconfirmed operational
  * question is left as an explicit placeholder. */
 export function NewbornFaq() {
-  return (
-    <section id="newborn-faq" aria-labelledby="newborn-faq-heading" className="relative isolate bg-paper section-pad">
-      <NewbornReveal className="container-birthwave max-w-3xl">
-        <p className="eyebrow">{newbornFaq.eyebrow}</p>
-        <h2 id="newborn-faq-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-          {newbornFaq.heading}
-        </h2>
-
-        <div className="mt-10 border-t border-[var(--color-border)]">
-          {newbornFaq.items.map((item) => (
-            <details key={item.question} className="group border-b border-[var(--color-border)] py-6">
-              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6 font-body text-lg font-medium text-balance text-ink [&::-webkit-details-marker]:hidden">
-                {item.question}
-                <Plus
-                  aria-hidden="true"
-                  className="size-5 shrink-0 text-terracotta transition-transform duration-[var(--duration-fast)] ease-[var(--ease-signature)] group-open:rotate-45"
-                />
-              </summary>
-              <p className="mt-4 max-w-2xl text-base leading-[var(--leading-relaxed)] text-ink-soft">{item.answer}</p>
-            </details>
-          ))}
-        </div>
-      </NewbornReveal>
-    </section>
-  );
+  return <ServiceFaqSection id="newborn-faq" eyebrow={newbornFaq.eyebrow} heading={newbornFaq.heading} items={newbornFaq.items} />;
 }

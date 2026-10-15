@@ -1,5 +1,8 @@
 "use client";
 
+import conversion from "../shared/service-conversion.module.css";
+
+
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { normalBirthEnquiry, normalBirthMobileCta } from "@/content/normal-birth-delivery-landing-content";
 import { NormalBirthReveal } from "./normal-birth-delivery-reveal";
@@ -71,7 +74,7 @@ export function NormalBirthEnquiry() {
     <section
       id="nbd-enquiry"
       aria-labelledby="nbd-enquiry-heading"
-      className="relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad"
+      data-service-enquiry className={`${conversion.enquiry} relative isolate scroll-mt-[var(--header-height)] bg-[#e8cec2] section-pad`}
     >
       <NormalBirthReveal className="container-birthwave grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-20">
         <div className="max-w-md">

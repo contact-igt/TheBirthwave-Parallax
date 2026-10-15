@@ -15,10 +15,8 @@
 
 export const brand = {
   name: "The Birthwave",
-  shortName: "Birthwave",
-  // TODO(brand): confirm whether "The Birth Wave" or "Birthwave" is the
-  // preferred written form outside the logo lockup — the guide's business
-  // card footer prints "thebirthwave.com" as one word.
+  shortName: "The Birthwave",
+  // Approved written brand name: The Birthwave.
   logo: {
     wordmarkMauve: "/brand/wordmark-mauve.png",
     wordmarkCream: "/brand/wordmark-cream.png",
@@ -33,7 +31,7 @@ export const hero = {
   headlineLead: "Care that moves",
   headlineEmphasis: "with you.",
   subhead:
-    "From women's health and pregnancy to birth, recovery and newborn care, BirthWave brings your care together through every stage.",
+    "From women's health and fertility to pregnancy, birth preparation, childbirth, postpartum recovery and newborn care, The Birthwave brings together medical care and holistic support for the different stages of your journey.",
   // Mobile/tablet only: small cue at the bottom of the full-screen Hero,
   // faded out as soon as scrolling starts (hero-philosophy-scroll-scene.tsx).
   scrollCue: "Scroll to discover",
@@ -91,7 +89,7 @@ export const philosophy = {
   resolution: "One connected journey of care.",
   // Closing paragraph shown after the resolution line.
   closing:
-    "From preparing for pregnancy to caring for you and your baby after birth, BirthWave is here through the stages that matter.",
+    "From preparing for pregnancy to caring for you and your baby after birth, The Birthwave is here through the stages that matter.",
   // Approved (docs/implementation-brief.md §28): the generated editorial
   // daylight photograph used as this scene's atmospheric background
   // layer — see philosophy-section.tsx. Replaces the earlier reuse of
@@ -145,9 +143,9 @@ export const journey = {
       title: "Before Pregnancy",
       headline: ["Planning for pregnancy?"],
       supporting:
-        "Understand your health, fertility and preconception needs with guidance that helps you prepare for what comes next.",
+        "Understand your reproductive health, fertility and preconception needs through individual consultations, medical assessment and guidance to help you make informed decisions about family planning.",
       cta: { label: "Explore Preconception Care", href: "/services/fertility-preconception" },
-      image: "/images/journey/journey-preconception.jpg",
+      image: "/images/web-ready/planning2.jpg",
       objectPosition: "50% 38%",
       alt: "A couple discussing preconception care with their doctor during a consultation.",
     },
@@ -156,9 +154,9 @@ export const journey = {
       title: "Pregnancy",
       headline: ["Care through", "every trimester."],
       supporting:
-        "Regular antenatal care, pregnancy guidance and ongoing conversations about your health, your baby's development and the months ahead.",
+        "Pregnancy involves physical, emotional and lifestyle changes. From regular antenatal check-ups and monitoring your newborn's development before birth to nutrition, emotional well-being and pregnancy-related guidance, your care is planned around your individual needs.\nExplore conscious pregnancy and Garbh Sanskar as complementary approaches to mindfulness, relaxation and well-being during pregnancy.",
       cta: { label: "Explore Pregnancy Care", href: "/services/pregnancy-antenatal-care" },
-      image: "/images/journey/journey-pregnancy.jpg",
+      image: "/images/web-ready/care.jpg",
       objectPosition: "45% 28%",
       alt: "A pregnant woman resting a hand on her belly by a sunlit window.",
     },
@@ -167,7 +165,7 @@ export const journey = {
       title: "Birth Preparation",
       headline: ["Prepare with understanding", "and confidence."],
       supporting:
-        "Learn about labour, birth choices, movement, comfort measures and what to expect — so you can approach childbirth feeling better informed and supported.",
+        "Understand labour, birth options, breathing techniques, comfort measures and what to expect during childbirth.\nChildbirth education also includes conversations about your birth plan, partner involvement, support during labour and making informed decisions as your pregnancy progresses",
       cta: { label: "Explore Birth Preparation", href: "/services/birth-preparation" },
       image: "/images/journey/birthpreparation.JPG",
       objectPosition: "50% 50%",
@@ -178,9 +176,9 @@ export const journey = {
       title: "Birth",
       headline: ["Your birth.", "Your care.", "Your individual needs."],
       supporting:
-        "Every labour is different. Your care team supports you through childbirth while keeping you informed and responding to the needs of you and your baby.",
-      cta: { label: "Explore Birth Care", href: "/services/normal-birth-delivery" },
-      image: "/images/journey/journey-birth.jpg",
+        "Every birth experience is different. Discuss your preferences for natural birth, vaginal delivery, water birth and Vaginal Birth After Caesarean (VBAC), along with the medical considerations involved.\nYour obstetrician can explain which approaches may be appropriate for your pregnancy and what delivery arrangements are available.",
+      cta: { label: "Explore Birth Care", href: "/services/natural-birth" },
+      image: "/images/web-ready/birth.jpg",
       objectPosition: "50% 55%",
       alt: "Two hands held together, a quiet moment of human connection during labour.",
     },
@@ -189,9 +187,9 @@ export const journey = {
       title: "After Birth",
       headline: ["Your care continues", "after delivery."],
       supporting:
-        "Recovery takes time. BirthWave supports your physical recovery, emotional wellbeing, breastfeeding and transition into life after birth.",
-      cta: { label: "Explore Postpartum Care", href: "/services/postpartum-care" },
-      image: "/images/journey/journey-recovery.jpg",
+        "The postpartum period involves physical recovery, hormonal changes and adjustments to everyday life.\nExplore support for postpartum recovery, breastfeeding, pelvic health and mental health concerns, including emotional changes, anxiety and postpartum depression.",
+      cta: { label: "Explore Postpartum Care", href: "/services#postpartum-care" },
+      image: "/images/web-ready/afterbirth.jpg",
       objectPosition: "40% 22%",
       alt: "A mother resting in bed, her newborn asleep against her chest.",
     },
@@ -200,9 +198,9 @@ export const journey = {
       title: "Your Baby",
       headline: ["And care continues", "with your baby."],
       supporting:
-        "From newborn check-ups and feeding concerns to vaccinations and paediatric care, support continues as your baby grows.",
-      cta: { label: "Explore Newborn Care", href: "/services/newborn-pediatric-care" },
-      image: "/images/journey/journey-baby.jpg",
+        "From newborn health assessments and vaccinations to feeding, growth, development and childhood health concerns, paediatric consultations support your child's changing needs.\nExplore guidance on early parenting, conscious parenting and understanding your child's physical and emotional development.",
+      cta: { label: "Explore Newborn Care", href: "/services#newborn-care" },
+      image: "/images/journey/care.jpg",
       objectPosition: "50% 35%",
       alt: "A mother holding her swaddled newborn while a doctor checks in with a stethoscope.",
     },
@@ -226,7 +224,7 @@ export const immersive = {
   eyebrow: "A Moment",
   messages: [
     "Care isn't only about what happens today.",
-    "It's about understanding where you are now — and being there for what comes next.",
+    "It's about understanding where you are now,recognising your changing needs and helping you explore the care that may be appropriate next.",
   ] as const,
   // Approved (docs/implementation-brief.md §28): the generated fabric
   // photograph now used as this scene's background plane — see
@@ -278,22 +276,22 @@ export const care = {
     {
       index: "01",
       title: "Listen First",
-      text: "Your health, your experiences and your questions matter. Care begins by understanding you.",
+      text: "Your experiences, concerns and questions deserve time and attention.\n\nAt The Birthwave, we aim to create space for meaningful conversations, understanding your individual needs rather than rushing through appointments.",
     },
     {
       index: "02",
       title: "Explain Clearly",
-      text: "You deserve to understand your options and why something may or may not be recommended for you.",
+      text: "You deserve to understand your health, available options and the reasons behind medical recommendations.\n\nOur approach encourages open discussions so that you can ask questions and make informed decisions.",
     },
     {
       index: "03",
       title: "Decide Together",
-      text: "Your preferences are part of the conversation, alongside the clinical needs of you and your baby.",
+      text: "Your preferences are an important part of care.\n\nWhether you are discussing fertility, pregnancy, birth planning or recovery, decisions should consider your personal choices alongside your clinical needs.",
     },
     {
       index: "04",
-      title: "Stay Connected",
-      text: "From one Stage to the next, our aim is to make your care feel connected rather than fragmented.",
+      title: "Care for the Whole Person",
+      text: "Women's healthcare involves more than addressing physical symptoms.\n\nThe Birthwave takes a holistic approach by considering medical needs alongside nutrition, emotional well-being, lifestyle, mental health and supportive care where appropriate.",
     },
   ],
   image: {
@@ -320,7 +318,7 @@ export const finalCta = {
     "we can begin there.",
   ] as const,
   supporting:
-    "Planning a pregnancy, expecting a baby, preparing for birth or adjusting to life after delivery? Start with a conversation with the BirthWave team.",
+    "Planning a pregnancy, expecting a baby, preparing for birth or adjusting to life after delivery? Start with a conversation with The Birthwave team.",
   note: "Not sure which service you need? Tell us what you're looking for and our team can help you find the right place to start.",
   primaryCta: {
     label: "Book a Consultation",
@@ -354,7 +352,7 @@ export const finalCta = {
  * to the corresponding service landing page.
  */
 export const careDiscovery = {
-  eyebrow: "Find the Care You Need",
+  eyebrow: "FIND THE CARE YOU NEED",
   heading: "Wherever you are, start from where you are.",
   viewAllCta: {
     label: "View All Services",
@@ -362,36 +360,46 @@ export const careDiscovery = {
   },
   services: [
     {
+      category: "WOMEN'S HEALTH",
       title: "Women's Health",
       description:
-        "Care for gynaecological concerns, intimate wellness, fertility and preconception.",
+        "Care for gynaecological concerns, menstrual health, intimate wellness, fertility and preconception.",
       cta: { label: "Explore Women's Health", href: "/services" },
     },
     {
+      category: "PREGNANCY",
       title: "Pregnancy",
-      description: "Antenatal care, nutrition, Garbh Sanskar and conscious pregnancy support through each stage of pregnancy.",
+      description:
+        "Antenatal care, conscious pregnancy, Garbh Sanskar, nutrition and guidance through every stage of pregnancy.",
       cta: { label: "Explore Pregnancy Care", href: "/services/pregnancy-antenatal-care" },
     },
     {
+      category: "PREPARING FOR BIRTH",
       title: "Preparing for Birth",
-      description: "Childbirth education, partner involvement, birth planning and practical preparation for labour and birth",
+      description:
+        "Childbirth education, birth planning, partner involvement and practical preparation for labour and childbirth.",
       cta: { label: "Explore Birth Preparation", href: "/services/birth-preparation" },
     },
     {
+      category: "BIRTH",
       title: "Birth",
       description:
-        "Understand your birth options, including natural birth, water birth, vaginal birth and VBAC, where individually appropriate.",
-      cta: { label: "Explore Birth Care", href: "/services/normal-birth-delivery" },
+        "Understand natural birth, vaginal delivery, water birth and VBAC, with guidance on clinical suitability, individual preferences and available birth options.",
+      cta: { label: "Explore Birth Care", href: "/services/natural-birth" },
     },
     {
+      category: "AFTER BIRTH",
       title: "After Birth",
-      description: "Postpartum recovery, breastfeeding, emotional well-being and mental health support as you adjust after delivery.",
-      cta: { label: "Explore Postpartum Care", href: "/services/postpartum-care" },
+      description:
+        "Postpartum recovery, breastfeeding, pelvic health and support for mental health concerns, including emotional changes and postpartum depression.",
+      cta: { label: "Explore Postpartum Care", href: "/services#postpartum-care" },
     },
     {
-      title: "Baby",
-      description: "Newborn and paediatric care, early parenting guidance and support as your baby’s journey begins.",
-      cta: { label: "Explore Newborn Care", href: "/services/newborn-pediatric-care" },
+      category: "NEWBORN & PAEDIATRIC CARE",
+      title: "Newborn & Paediatric Care",
+      description:
+        "Newborn health, vaccinations, feeding, growth, child development and guidance on conscious parenting as your child grows.",
+      cta: { label: "Explore Newborn & Paediatric Care", href: "/services#newborn-care" },
     },
   ],
 } as const;
@@ -399,6 +407,23 @@ export const careDiscovery = {
 export const footer = {
   // TODO(content): a short tagline — approved copy pending.
   tagline: "Care that meets you where you are.",
+  /**
+   * Verified social media channels.
+   * Only approved, active destinations are configured here.
+   * Future platforms (Facebook, YouTube) can be added once URLs are provided.
+   */
+  socialLinks: [
+    {
+      id: "instagram",
+      label: "Instagram",
+      href: "https://www.instagram.com/thebirthwave",
+    },
+    {
+      id: "whatsapp",
+      label: "Chat on WhatsApp",
+      href: "https://wa.me/917904251378",
+    },
+  ] as const,
   // TODO(legal): privacy policy / terms are not yet available — no links
   // are rendered for them rather than pointing somewhere fake.
   //

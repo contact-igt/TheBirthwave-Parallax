@@ -1,90 +1,86 @@
 import { pregnancyLandingIntro } from "@/content/pregnancy-antenatal-landing-content";
-import { PregnancyAntenatalImage } from "./pregnancy-antenatal-image";
 import { PregnancyReveal } from "./pregnancy-antenatal-reveal";
 
 /**
- * Section 2 — Pregnancy Journey Introduction.
+ * Section 2 — More Than a Check-In.
  *
- * Warm ivory to soft rose surface with an alternating composition:
- * - Left: Calm consultation photograph with soft curved panel frame and gentle drift.
- * - Right: Thoughtful introductory copy and a delicate, connected vertical journey
- *   pathway showing the three progressive stages of care (early confirmation,
- *   trimester check-ins, birth preparation).
+ * Warm editorial healthcare composition:
+ * - Generous whitespace and serene warm ivory/white surface
+ * - Header with display typography and side editorial accent quote
+ * - Two-column narrative lead paragraphs
+ * - 3 refined editorial principles with distinct accent markers (cerulean, coral, terracotta)
  */
 export function PregnancyAntenatalIntro() {
+  const accentTags = ["01 — PERSPECTIVE", "02 — DIALOGUE", "03 — READINESS"];
+  const accentDots = ["bg-sky", "bg-coral", "bg-terracotta"];
+
   return (
     <section
       id="pregnancy-understand"
       aria-labelledby="pregnancy-understand-heading"
-      className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#FAF6F2_0%,#F3E8E2_100%)] section-pad"
+      className="relative isolate overflow-hidden bg-white border-y border-[color-mix(in_srgb,var(--color-terracotta)_18%,transparent)] section-pad"
     >
-      {/* Delicate botanical/soft light ambience */}
+      {/* Ambient subtle glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-12 left-1/4 -z-10 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(202,149,133,0.1)_0%,transparent_70%)] blur-2xl"
+        className="pointer-events-none absolute top-12 left-1/3 -z-10 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(202,149,133,0.12)_0%,transparent_70%)] blur-3xl"
       />
 
       <PregnancyReveal className="container-birthwave">
-        {/* Section Top Header */}
-        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-          <p className="eyebrow text-terracotta-deep font-semibold">{pregnancyLandingIntro.eyebrow}</p>
-          <div className="text-left font-body text-sm leading-relaxed text-ink-soft sm:text-right">
-            {pregnancyLandingIntro.note.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Editorial Journey Grid: Image Left / Text Right */}
-        <div className="mt-12 grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-16">
-          {/* Visual Moment: Consultation in calm clinic room */}
-          <div className="order-2 lg:order-1">
-            <PregnancyAntenatalImage
-              imageKey="pregnancy-antenatal-checkins-scans"
-              corner="tl"
-              aspect="aspect-[4/5] sm:aspect-[4/4.8]"
-              objectPosition="50% 18%"
-              className="shadow-[0_20px_48px_-14px_rgba(53,43,41,0.1)] border border-[color-mix(in_srgb,var(--color-terracotta)_20%,transparent)]"
-              drift
-            />
-          </div>
-
-          {/* Journey Narrative & Trimester Flow */}
-          <div className="order-1 max-w-xl lg:order-2">
+        {/* Section Header: Heading + Editorial Side Quote */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[color-mix(in_srgb,var(--color-terracotta)_14%,transparent)]">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--color-terracotta)_28%,transparent)] bg-[color-mix(in_srgb,var(--color-terracotta)_10%,var(--color-paper))] px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-terracotta-deep mb-3.5">
+              <span className="size-1.5 rounded-full bg-coral" aria-hidden="true" />
+              {pregnancyLandingIntro.eyebrow}
+            </div>
             <h2
               id="pregnancy-understand-heading"
-              className="text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink"
+              className="text-[clamp(2.1rem,1.5rem+2.6vw,3.4rem)] leading-[1.12] font-semibold tracking-[var(--tracking-tight)] text-ink"
             >
-              {pregnancyLandingIntro.heading.map((line) => (
-                <span key={line} className="block">
+              {pregnancyLandingIntro.heading.map((line, idx) => (
+                <span key={line} className={idx === 1 ? "block text-terracotta-deep font-normal mt-0.5" : "block"}>
                   {line}
                 </span>
               ))}
             </h2>
-
-            {pregnancyLandingIntro.paragraphs.map((paragraph) => (
-              <p key={paragraph} className="mt-5 max-w-[52ch] text-base leading-[var(--leading-relaxed)] text-ink-soft">
-                {paragraph}
-              </p>
-            ))}
-
-            {/* Subtle Connected Journey Pathway */}
-            <div className="relative mt-8 space-y-4 pl-6 before:absolute before:top-2 before:bottom-2 before:left-2 before:w-[1.5px] before:bg-[color-mix(in_srgb,var(--color-terracotta)_35%,transparent)]">
-              {pregnancyLandingIntro.points.map((point) => (
-                <div key={point.number} className="relative flex items-baseline gap-3.5">
-                  {/* Subtle marker node */}
-                  <span
-                    aria-hidden="true"
-                    className="absolute -left-6 top-1.5 size-2 rounded-full border border-terracotta bg-paper"
-                  />
-                  <span className="font-body text-xs font-semibold text-terracotta-deep">{point.number}</span>
-                  <p className="font-body text-sm font-medium text-ink">{point.label}</p>
-                </div>
-              ))}
-            </div>
           </div>
+          <p className="font-serif italic text-ink-soft max-w-xs border-l-2 border-coral/60 pl-4 py-1.5 text-sm sm:text-base leading-snug">
+            Your pregnancy. Your questions. Your next step.
+          </p>
+        </div>
+
+        {/* Narrative Lead Text: 2-Column Editorial Grid */}
+        <div className="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-12 sm:mb-16">
+          {pregnancyLandingIntro.paragraphs.map((paragraph) => (
+            <p key={paragraph} className="text-base sm:text-lg leading-[var(--leading-relaxed)] text-ink-soft font-normal">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+
+        {/* 3 Refined Editorial Focus Principles */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          {pregnancyLandingIntro.points.map((point, idx) => (
+            <div
+              key={point.number}
+              className="group p-7 sm:p-8 rounded-3xl bg-[#FAF6F2] border border-[color-mix(in_srgb,var(--color-terracotta)_22%,transparent)] shadow-[0_4px_16px_rgba(53,43,41,0.03)] hover:shadow-[0_12px_28px_-6px_rgba(53,43,41,0.08)] transition-all duration-300 hover:-translate-y-1"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-body text-xs font-semibold tracking-widest text-terracotta-deep uppercase">
+                  {accentTags[idx] ?? point.number}
+                </span>
+                <span
+                  className={`size-2 rounded-full ${accentDots[idx] ?? "bg-terracotta"} opacity-85 group-hover:scale-125 transition-transform`}
+                  aria-hidden="true"
+                />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-semibold text-ink mb-2.5">{point.title}</h3>
+              <p className="text-sm sm:text-[0.9375rem] leading-[var(--leading-relaxed)] text-ink-soft font-normal">
+                {point.body}
+              </p>
+            </div>
+          ))}
         </div>
       </PregnancyReveal>
     </section>

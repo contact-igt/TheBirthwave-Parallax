@@ -1,18 +1,15 @@
-import { naturalBirthApproach } from "@/content/natural-birth-landing-content";
+import { naturalBirthApproach } from "@/content/pages/natural-birth";
 import { NaturalBirthImage } from "./natural-birth-image";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
 
-/**
- * Section 02 — What Natural Birth Means at BirthWave.
- */
 export function NaturalBirthApproach() {
   return (
     <section
       id="natural-birth-approach"
       aria-labelledby="natural-birth-approach-heading"
-      className="relative isolate scroll-mt-[var(--header-height)] bg-paper section-pad"
+      className="relative isolate overflow-hidden scroll-mt-[var(--header-height)] bg-paper bg-[url('/images/natural-birth/natural-birth-approach-background-v1.png')] bg-cover bg-center section-pad"
     >
-      <NaturalBirthReveal className="container-birthwave">
+      <NaturalBirthReveal className="container-birthwave relative z-10">
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start lg:gap-16">
           <div className="order-2 lg:order-1 lg:sticky lg:top-[calc(var(--header-height)+2rem)]">
             <NaturalBirthImage imageKey="consultation" corner="tl" aspect="aspect-[4/5] sm:aspect-[4/4.9]" />

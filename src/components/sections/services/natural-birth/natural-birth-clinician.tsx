@@ -1,30 +1,36 @@
-import { naturalBirthClinician } from "@/content/natural-birth-landing-content";
-import { doctors } from "@/content/doctors-content";
-import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { naturalBirthClinician } from "@/content/pages/natural-birth";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
+import { Button } from "@/components/ui/button";
 
 /**
- * Section 07 — Care Team. Unlike `vbac-clinician.tsx`'s deliberately
- * neutral no-name placeholder (no confirmed VBAC-specific assignment
- * exists), this page has one directly confirmed, on-topic identity: the
- * Founder's own `doctors-content.ts` record already carries "Natural
- * Birth & VBAC Specialist" as part of her confirmed `specialFocus`. Every
- * field below (name, role, credentials, specialFocus, photo) is read
- * live from that single source of truth, never re-typed here — nothing
- * invented (no experience years, birth counts, success rates or hospital
- * affiliation).
+ * Section 08 — YOUR OBSTETRICIAN:
+ * Dr. Santoshini Nandigam — Natural Birth & VBAC Care specialist.
  */
 export function NaturalBirthClinician() {
-  const founder = doctors.find((doctor) => doctor.team === "founder");
-  if (!founder) return null;
+  const { doctor } = naturalBirthClinician;
 
   return (
-    <section id="natural-birth-clinician" aria-labelledby="natural-birth-clinician-heading" className="relative isolate border-t border-[var(--color-border)] bg-paper section-pad">
-      <NaturalBirthReveal className="container-birthwave grid gap-10 lg:grid-cols-[0.7fr_1fr] lg:items-center lg:gap-16">
-        <PortraitPlaceholder photo={founder.photo} className="max-w-sm" />
+    <section
+      id="natural-birth-clinician"
+      aria-labelledby="natural-birth-clinician-heading"
+      className="relative isolate overflow-hidden bg-paper bg-[url('/images/natural-birth/natural-birth-clinician-background-v1.png')] bg-cover bg-center section-pad"
+    >
+      <NaturalBirthReveal className="container-birthwave max-w-5xl mx-auto px-6 sm:px-10 lg:px-12 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-14 relative z-10">
+        {/* Doctor Photo */}
+        <div className="relative aspect-[4/5] w-full max-w-[340px] mx-auto lg:mx-0 overflow-hidden rounded-tl-panel rounded-tr-xs rounded-br-panel rounded-bl-xs border border-[var(--color-border)] bg-paper-warm shadow-md">
+          <Image
+            src={doctor.photo}
+            alt={doctor.name}
+            fill
+            sizes="(max-width: 1023px) 90vw, 340px"
+            className="object-cover"
+            style={{ objectPosition: "50% 12%" }}
+          />
+        </div>
 
-        <div className="max-w-xl">
+        {/* Doctor Details */}
+        <div className="max-w-xl mx-auto lg:mx-0">
           <p className="eyebrow">{naturalBirthClinician.eyebrow}</p>
           <h2
             id="natural-birth-clinician-heading"
@@ -33,20 +39,26 @@ export function NaturalBirthClinician() {
             {naturalBirthClinician.heading}
           </h2>
 
-          {naturalBirthClinician.body.map((para) => (
-            <p key={para} className="mt-4 text-base leading-[var(--leading-relaxed)] text-ink-soft">
-              {para}
+          <div className="mt-6">
+            <h3 className="text-2xl font-semibold text-ink">{doctor.name}</h3>
+            <p className="mt-1 font-body text-xs font-semibold tracking-wider text-terracotta-deep uppercase">
+              {doctor.credentials}
             </p>
-          ))}
+            <p className="mt-1 text-sm font-medium text-ink-soft">{doctor.role}</p>
+            <span className="mt-2.5 inline-block rounded-xs bg-[var(--natural-birth-coral-wash)] px-2.5 py-1 text-xs font-semibold tracking-wide text-terracotta-deep">
+              {doctor.specialtyBadge}
+            </span>
+          </div>
 
-          <h3 className="mt-6 text-xl font-semibold text-ink">{founder.name}</h3>
-          <p className="mt-1 text-base text-ink-soft">{founder.role}</p>
-          {founder.credentials ? <p className="mt-2 font-medium text-terracotta-deep">{founder.credentials}</p> : null}
-          {founder.specialFocus ? <p className="mt-2 text-base text-ink-soft">{founder.specialFocus}</p> : null}
+          <div className="mt-5 space-y-3.5 text-base leading-[var(--leading-relaxed)] text-ink-soft">
+            {doctor.paragraphs.map((para) => (
+              <p key={para}>{para}</p>
+            ))}
+          </div>
 
-          <div className="mt-8">
-            <Button href={naturalBirthClinician.cta.href} variant="primary">
-              {naturalBirthClinician.cta.label}
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4 border-t border-[var(--color-border)]/70 pt-6">
+            <Button href={doctor.primaryCta.href} variant="primary">
+              {doctor.primaryCta.label.replace(/\s*↗$/, "")}
             </Button>
           </div>
         </div>

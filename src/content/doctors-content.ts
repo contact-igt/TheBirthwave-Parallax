@@ -3,13 +3,13 @@
  *
  * Doctor data + image placeholder grid pass: the confirmed team roster
  * (10 people — one founder, four Medical & Clinical Team, five Allied
- * Care Team). Real photography does not exist yet for any of them — every
- * `photo.src` below is `null`; `PortraitPlaceholder`
- * (components/ui/portrait-placeholder.tsx) renders the same built visual
- * placeholder everywhere a person's portrait belongs. Replacing a single
- * entry's `src: null` with a real path is the only change needed once
- * approved photography exists — nothing else in this file or its
- * consumers changes shape.
+ * Care Team). Photography exists for six of them (see `photoFor` calls
+ * below); the other four still have `photo.src` of `null`, where
+ * `PortraitPlaceholder` (components/ui/portrait-placeholder.tsx) renders
+ * the same built visual placeholder everywhere a person's portrait
+ * belongs. Passing a filename to `photoFor` for one of those entries is
+ * the only change needed once their photography exists — nothing else in
+ * this file or its consumers changes shape.
  *
  * Names, qualifications, roles and related-care mappings below are given,
  * confirmed team content — not invented. Fields the brief did not confirm
@@ -113,10 +113,13 @@ export interface DoctorContent {
   team: TeamCategory;
 }
 
-function photoFor(name: string): DoctorContent["photo"] {
+/** Portraits live in `public/images/doctors/<slug>.jpg` — 4:5 crops
+ * optimized from the originals in `public/images/clinic/`. Pass the
+ * filename to use a real photo; omit it to keep the built placeholder. */
+function photoFor(name: string, file?: string): DoctorContent["photo"] {
   return {
-    src: null,
-    alt: `${name} — approved photography pending`,
+    src: file ? `/images/doctors/${file}` : null,
+    alt: file ? `Portrait of ${name}` : `${name} — approved photography pending`,
     placeholderLabel: "Doctor portrait",
   };
 }
@@ -140,7 +143,7 @@ export const doctors: DoctorContent[] = [
     description:
       "The Birthwave is designed as one continuous care journey, with space for questions, preferences, preparation and follow-up — across pregnancy, birth and recovery.",
     photo: {
-      src: "/images/clinic/dr-santoshi.JPG",
+      src: "/images/web-ready/founder.JPG",
       alt: "Dr. Santoshi Nandigam",
       placeholderLabel: "Dr. Santoshi Nandigam",
     },
@@ -310,7 +313,7 @@ export const doctorsHero = {
     "The Birthwave brings together specialists across women's health, pregnancy, birth, recovery and newborn care so that support continues across the full journey.",
   primaryCta: {
     label: "Book a Consultation",
-    href: "/#connect",
+    href: "/contact",
     todo: "Placeholder destination — no booking flow exists yet (see site-content.ts's own finalCta/hero TODOs).",
   },
   secondaryCta: {
@@ -318,7 +321,7 @@ export const doctorsHero = {
     href: "#team-directory",
   },
   media: {
-    src: "/images/clinic/doctor-hero.png",
+    src: "/images/web-ready/birth.JPG",
     alt: "Doctor consultation with patient at The Birthwave",
   },
 } as const;
@@ -478,13 +481,13 @@ export const doctorsAppointmentCta = {
     "Tell us where you are in your journey and we'll help you find the right place to begin.",
   primaryCta: {
     label: "Book an Appointment",
-    href: "/#connect",
+    href: "/contact",
     todo: "Placeholder destination — no booking flow exists yet (see site-content.ts's own finalCta TODO).",
   },
   secondaryCta: {
     label: "WhatsApp Us",
-    href: "/#connect",
-    todo: "No verified WhatsApp number exists for this project — mirrors site-content.ts's own finalCta.secondaryCta, which resolves to the same closing anchor rather than a fabricated wa.me link.",
+    href: "https://wa.me/917904251378",
+
   },
 } as const;
 
@@ -526,7 +529,7 @@ export const doctorsEnquiryForm = {
 
 export const founderSectionContent = {
   eyebrow: "Founder",
-  cta: { label: "Book an Appointment", href: "/#connect" },
+  cta: { label: "Book an Appointment", href: "/contact" },
 } as const;
 
 export const medicalTeamGridContent = {

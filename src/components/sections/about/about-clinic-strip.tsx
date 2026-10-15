@@ -1,105 +1,51 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import { contactPlaceholders } from "@/content/contact-content";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { aboutClinicStrip } from "@/content/about-clinic-content";
 import { Button } from "@/components/ui/button";
-import { useReducedMotion } from "@/motion/reduced-motion";
-import { ensureScrollTriggerRegistered, gsap, SIGNATURE_EASE } from "@/motion/gsap-scroll";
+import styles from "./about-clinic-strip.module.css";
 
-/**
- * Section: "Visit The BirthWave" — compact clinic location strip
- *
- * Displays verified clinic address, phone, email, Google Maps link, and
- * appointment booking button in a refined horizontal strip.
- */
 export function AboutClinicStrip() {
-  const stripRef = useRef<HTMLElement>(null);
-  const reducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (reducedMotion) return;
-    const strip = stripRef.current;
-    if (!strip) return;
-
-    ensureScrollTriggerRegistered();
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        strip,
-        { opacity: 0, y: 16 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: SIGNATURE_EASE,
-          scrollTrigger: {
-            trigger: strip,
-            start: "top 88%",
-            toggleActions: "play none none none",
-          },
-        },
-      );
-    }, strip);
-
-    return () => ctx.revert();
-  }, [reducedMotion]);
-
-  const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(contactPlaceholders.clinicAddress)}`;
-
   return (
-    <section
-      ref={stripRef}
-      id="clinic-location"
-      aria-labelledby="clinic-strip-heading"
-      className="py-12 sm:py-16 bg-[#F5EFEB] border-y border-[#E8DFC8]/40"
-    >
+    <section id="clinic-location" aria-labelledby="clinic-strip-heading" className={styles.section}>
       <div className="container-birthwave">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-12">
-          {/* Clinic Details */}
-          <div className="space-y-3 max-w-xl">
-            <p className="eyebrow text-terracotta">Visit Us</p>
-            <h2
-              id="clinic-strip-heading"
-              className="text-2xl sm:text-3xl font-light text-espresso tracking-tight"
-            >
-              {aboutClinicStrip.heading}
-            </h2>
-            <p className="text-sm sm:text-base text-muted leading-relaxed">
-              {contactPlaceholders.clinicAddress}
-            </p>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm pt-1">
-              <a
-                href={`tel:${contactPlaceholders.phone.replace(/[^+\d]/g, "")}`}
-                className="text-espresso hover:text-terracotta font-medium transition-colors"
-              >
-                {contactPlaceholders.phone}
+        <div className={styles.card}>
+          <div className={styles.details}>
+          <header className={styles.header}>
+            <p className="eyebrow">{aboutClinicStrip.eyebrow}</p>
+            <h2 id="clinic-strip-heading">{aboutClinicStrip.heading}</h2>
+          </header>
+          <div className={styles.grid}>
+            <div className={styles.location}>
+
+              <h3>{aboutClinicStrip.clinicName}</h3>
+              <address>{aboutClinicStrip.address}</address>
+
+            </div>
+            <div className={styles.contact}>
+              <a className={styles.contactLink} href={`tel:${aboutClinicStrip.phone.replace(/[^+\d]/g, "")}`}>
+
+                <span><span className={styles.label}>Phone</span>{aboutClinicStrip.phone}</span>
+
               </a>
-              <span className="text-muted/40" aria-hidden="true">·</span>
-              <a
-                href={`mailto:${contactPlaceholders.email}`}
-                className="text-espresso hover:text-terracotta font-medium transition-colors"
-              >
-                {contactPlaceholders.email}
-              </a>
-              <span className="text-muted/40" aria-hidden="true">·</span>
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-terracotta hover:underline font-medium inline-flex items-center gap-1"
-              >
-                <span>{aboutClinicStrip.directionsLabel}</span>
-                <span aria-hidden="true">↗</span>
+              <a className={styles.contactLink} href={`mailto:${aboutClinicStrip.email}`}>
+
+                <span><span className={styles.label}>Email</span>{aboutClinicStrip.email}</span>
+
               </a>
             </div>
+            <div className={styles.actions}>
+              <a className={styles.directions} href={aboutClinicStrip.directionsHref} target="_blank" rel="noopener noreferrer">
+                {aboutClinicStrip.directionsLabel}<ArrowUpRight size={20} aria-hidden="true" />
+              </a>
+              <div className={styles.appointment}>
+                <Button href={aboutClinicStrip.appointmentHref}>{aboutClinicStrip.appointmentLabel}</Button>
+              </div>
+            </div>
           </div>
-
-          {/* Action Button */}
-          <div className="flex items-center gap-4 shrink-0">
-            <Button href={aboutClinicStrip.appointmentHref} variant="primary">
-              {aboutClinicStrip.appointmentLabel}
-            </Button>
           </div>
+        <div className={styles.photo}>
+          <Image src="/images/about/section1/frame_0071_7.00s.jpg" alt="The Birthwave clinic exterior and entrance" fill sizes="(min-width: 1024px) 38vw, 90vw" className={styles.image} />
+        </div>
         </div>
       </div>
     </section>

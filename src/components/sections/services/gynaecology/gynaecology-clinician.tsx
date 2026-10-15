@@ -1,4 +1,4 @@
-import { gynaecologyClinicians } from "@/content/gynaecology-landing-content";
+﻿import { gynaecologyClinicians } from "@/content/pages/gynaecology";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";

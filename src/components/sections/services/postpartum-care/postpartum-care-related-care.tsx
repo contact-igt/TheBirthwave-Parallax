@@ -1,4 +1,4 @@
-import { postpartumRelatedCare } from "@/content/postpartum-care-landing-content";
+﻿import { postpartumRelatedCare } from "@/content/pages/postpartum-care";
 import { getServiceBySlug } from "@/content/services-content";
 import { PostpartumReveal } from "./postpartum-care-reveal";
 import { CtaLink } from "@/components/ui/cta-link";

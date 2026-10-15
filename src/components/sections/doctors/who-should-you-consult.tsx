@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { whoShouldYouConsult } from "@/content/doctors-content";
 import { useScrollReveal } from "@/motion/scroll-scenes";
 import { cx } from "@/lib/cx";
-import { DOCTORS_SURFACE_TONED } from "@/components/sections/doctors/doctors-surfaces";
+import styles from "./doctors-refinements.module.css";
 
 /**
  * Section 02 (lower-page refinement) — Not Sure Who To See First? A SHORT
@@ -29,9 +29,9 @@ export function WhoShouldYouConsult() {
     <section
       id="who-should-you-consult"
       aria-labelledby="who-should-you-consult-heading"
-      className={`relative isolate section-pad ${DOCTORS_SURFACE_TONED}`}
+      className={`relative isolate section-pad ${styles.guidance}`}
     >
-      <div className="container-birthwave">
+      <div className="container-birthwave relative">
         <div className="max-w-2xl">
           <p className="eyebrow">{whoShouldYouConsult.eyebrow}</p>
           <h2
@@ -43,40 +43,44 @@ export function WhoShouldYouConsult() {
           <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{whoShouldYouConsult.intro}</p>
         </div>
 
-        <div className="mt-14 flex flex-col border-t border-[var(--color-border)]">
-          {whoShouldYouConsult.concerns.map((concern) => (
-            <ConcernRow key={concern.question} question={concern.question} answers={concern.answers} />
+        <ol className={styles.concerns}>
+          {whoShouldYouConsult.concerns.map((concern, index) => (
+            <ConcernRow index={index} key={concern.question} question={concern.question} answers={concern.answers} />
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
 }
 
 function ConcernRow({
+  index,
   question,
   answers,
 }: {
+  index: number;
   question: string;
   answers: ReadonlyArray<{ label: string; slug: string }>;
 }) {
-  const { ref, revealed } = useScrollReveal<HTMLDivElement>();
+  const { ref, revealed } = useScrollReveal<HTMLLIElement>();
 
   return (
-    <div
+    <li
       ref={ref}
       className={cx(
-        "grid gap-3 border-b border-[var(--color-border)] py-8 transition-[transform,opacity] duration-[var(--duration-slow)] ease-[var(--ease-signature)] motion-reduce:translate-y-0 motion-reduce:opacity-100 sm:grid-cols-[1.1fr_1fr] sm:items-baseline sm:gap-10",
+        styles.concern,
+        "transition-[transform,opacity] duration-[var(--duration-slow)] ease-[var(--ease-signature)] motion-reduce:translate-y-0 motion-reduce:opacity-100",
         revealed ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
       )}
     >
+      <span className={styles.number} aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
       <p className="text-[clamp(1.35rem,1.15rem+0.9vw,1.75rem)] leading-[1.2] font-semibold text-ink">{question}</p>
       <div className="flex flex-col items-start gap-2">
         {answers.map((answer) => (
           <Link
             key={answer.slug}
             href={`/services/${answer.slug}`}
-            className="group inline-flex items-center gap-1.5 text-lg font-medium text-terracotta-deep transition-colors duration-[var(--duration-fast)] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-focus-ring)]"
+            className="group inline-flex min-h-11 items-center gap-1.5 text-lg font-medium text-terracotta-deep transition-colors duration-[var(--duration-fast)] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-focus-ring)]"
           >
             {answer.label}
             <ArrowUpRight
@@ -86,6 +90,6 @@ function ConcernRow({
           </Link>
         ))}
       </div>
-    </div>
+    </li>
   );
 }

@@ -1,14 +1,12 @@
-import { fertilityFirstConsultation } from "@/content/fertility-preconception-landing-content";
+﻿import { fertilityFirstConsultation } from "@/content/pages/fertility-preconception";
 import { AnimatedContent } from "@/components/ui/animations/animated-content";
 import { Button } from "@/components/ui/button";
 import { cx } from "@/lib/cx";
 import styles from "./fertility-preconception.module.css";
 
 /**
- * 06 — Your first consultation. The SEQUENCE of the appointment (numbered
- * because the order is real), kept visibly separate from 03's topic cards:
- * heading, introduction and the booking action on the left; three numbered
- * steps in a hairline-divided list on the right. No photograph or cards.
+ * Section 7 — Your First Consultation.
+ * The sequence of the appointment: starting point, questions, and options.
  */
 export function FertilityFirstConsultation() {
   return (
@@ -19,7 +17,11 @@ export function FertilityFirstConsultation() {
           <h2 id="fertility-first-consultation-heading" className={cx(styles.display, styles.h2, "mt-4")}>
             {fertilityFirstConsultation.heading}
           </h2>
-          <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{fertilityFirstConsultation.intro}</p>
+          <div className="mt-5 space-y-3 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+            {fertilityFirstConsultation.intro.map((p, idx) => (
+              <p key={idx}>{p}</p>
+            ))}
+          </div>
           <div className="mt-8">
             <Button href={fertilityFirstConsultation.cta.href} variant="primary">
               {fertilityFirstConsultation.cta.label}
@@ -31,7 +33,7 @@ export function FertilityFirstConsultation() {
           {fertilityFirstConsultation.steps.map((step) => (
             <li key={step.number} className="border-t border-[var(--color-border)]">
               <AnimatedContent distance={14} duration={0.5} ease="power2.out" threshold={0.08} className="grid grid-cols-[3.25rem_1fr] gap-x-4 py-6">
-                <span aria-hidden="true" className={cx(styles.display, "text-[2rem] leading-none text-terracotta-deep")}>
+                <span aria-hidden="true" className="font-body text-[2rem] leading-[1.12] font-medium tracking-[-0.012em] text-ink">
                   {step.number}
                 </span>
                 <div>

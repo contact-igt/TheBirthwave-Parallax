@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import { doctors } from "@/content/doctors-content";
 import { DoctorProfileContent } from "@/components/sections/doctors/doctor-profile-content";
 import { useReducedMotion } from "@/motion/reduced-motion";
@@ -62,31 +61,17 @@ export function FounderSection() {
   return (
     <section ref={sectionRef} aria-labelledby="founder-heading" className={`relative isolate overflow-hidden section-pad ${DOCTORS_SURFACE}`}>
       <div className="container-birthwave">
-        <div className="relative overflow-hidden rounded-3xl border border-[#EAE1D7] bg-[#FAF5EE] shadow-[0_12px_40px_rgba(42,32,28,0.06)] p-6 sm:p-10 lg:p-12">
-          {/* Botanical watercolor background */}
-          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-3xl">
-            <Image
-              src="/images/doctors/doctor-card-background.webp"
-              alt=""
-              fill
-              sizes="(max-width: 1024px) 100vw, 1152px"
-              className="object-cover object-center opacity-90"
-              priority
-            />
-          </div>
-
-          <div className="relative z-10 grid gap-8 sm:grid-cols-[1.15fr_0.85fr] lg:grid-cols-[1.2fr_0.8fr] sm:items-center sm:gap-12 lg:gap-16">
-            <DoctorProfileContent
-              doctor={founder}
-              index={0}
-              drift
-              featured
-              headingId="founder-heading"
-              headingLevel="h2"
-              portraitWrapperClassName="relative block w-full max-w-[340px] mx-auto order-1 sm:order-2"
-              contentClassName="max-w-[38rem] order-2 sm:order-1"
-            />
-          </div>
+        <div className="grid gap-8 sm:grid-cols-[1.15fr_0.85fr] lg:grid-cols-[1.2fr_0.8fr] sm:items-center sm:gap-12 lg:gap-16">
+          <DoctorProfileContent
+            doctor={founder}
+            index={0}
+            drift
+            featured
+            headingId="founder-heading"
+            headingLevel="h2"
+            portraitWrapperClassName="relative block w-full max-w-[340px] mx-auto order-1 sm:order-2"
+            contentClassName="max-w-[38rem] order-2 sm:order-1"
+          />
         </div>
       </div>
     </section>

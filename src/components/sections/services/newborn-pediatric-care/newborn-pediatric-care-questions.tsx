@@ -1,4 +1,4 @@
-import { newbornQuestions } from "@/content/newborn-pediatric-care-landing-content";
+﻿import { newbornQuestions } from "@/content/pages/newborn-pediatric-care";
 import { NewbornImage } from "./newborn-pediatric-care-image";
 import { NewbornReveal } from "./newborn-pediatric-care-reveal";
 import { Button } from "@/components/ui/button";

@@ -1,20 +1,18 @@
 "use client";
 
-import { servicesHero } from "@/content/services-content";
+import { ourServicesHero } from "@/content/our-services-content";
 import { Button } from "@/components/ui/button";
-import { CtaLink } from "@/components/ui/cta-link";
 import { ServicesEditorialImage } from "./services-editorial-image";
 import { useParallax } from "@/motion/image-motion";
+import styles from "./services-overview.module.css";
 
 /**
  * Section 01 — Our Services Hero.
  *
  * Balanced editorial split layout:
- * - Left: Eyebrow, refined display heading, comfortably readable description,
- *   primary "Find your care" CTA, secondary "Request an appointment" CTA, and honest note.
- * - Right: Strong visual presence with a large editorial photograph in an aspect-[4/5] frame
- *   with subtle multi-plane scroll parallax and single signature rounded corner.
- * - Mobile: Heading, description, and actions strictly precede the image.
+ * - Left: Eyebrow, display heading, body copy, primary "Find your care" CTA, secondary "Book a consultation" CTA.
+ * - Right: Large editorial photograph in an aspect-[4/5] frame with subtle multi-plane scroll parallax and signature corner.
+ * - Mobile: Content strictly precedes image in natural reading order.
  */
 export function ServicesHero() {
   const wordParallaxRef = useParallax<HTMLDivElement>({ factor: 0.04, maxOffsetPx: 16 });
@@ -25,7 +23,7 @@ export function ServicesHero() {
     <section
       id="our-services-hero"
       aria-labelledby="services-hero-heading"
-      className="relative isolate overflow-hidden bg-paper [padding-block-start:calc(var(--header-height)+var(--space-section-sm))] [padding-block-end:var(--space-section)]"
+      className={`relative isolate overflow-hidden bg-paper ${styles.hero}`}
     >
       {/* Background typographic atmosphere layer */}
       <div
@@ -39,38 +37,31 @@ export function ServicesHero() {
         </span>
       </div>
 
-      <div className="container-birthwave relative z-10 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+      <div className={`container-birthwave relative z-10 ${styles.heroGrid}`}>
         {/* Editorial Text Column */}
-        <div className="order-1 max-w-xl">
-          <p className="eyebrow text-terracotta-deep">{servicesHero.eyebrow}</p>
+        <div className="order-1 min-w-0">
+          <p className="eyebrow text-terracotta-deep">{ourServicesHero.eyebrow}</p>
           <h1
             id="services-hero-heading"
-            className="mt-4 text-[clamp(2.5rem,1.9rem+3.2vw,4.25rem)] leading-[1.05] font-semibold tracking-[var(--tracking-tight)] text-ink"
+            className={`mt-4 leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink ${styles.heroTitle}`}
           >
-            {servicesHero.headlineLines.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
+            {ourServicesHero.heading}
           </h1>
-          <p className="mt-6 max-w-[54ch] text-lg leading-[var(--leading-relaxed)] text-ink-soft">
-            {servicesHero.description}
-          </p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-            <Button href={servicesHero.primaryCta.href} variant="primary">
-              {servicesHero.primaryCta.label}
-            </Button>
-            <CtaLink href={servicesHero.secondaryCta.href}>
-              {servicesHero.secondaryCta.label}
-            </CtaLink>
+          <div className="mt-6 space-y-4 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+            {ourServicesHero.paragraphs.map((para) => (
+              <p key={para}>{para}</p>
+            ))}
           </div>
 
-          {servicesHero.note && (
-            <p className="mt-4 text-xs tracking-wide text-ink-soft/75">
-              {servicesHero.note}
-            </p>
-          )}
+          <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <Button href={ourServicesHero.primaryCta.href} variant="primary">
+              {ourServicesHero.primaryCta.label.replace(/\s*→$/, "")}
+            </Button>
+            <Button href={ourServicesHero.secondaryCta.href} variant="ghost" withArrow>
+              {ourServicesHero.secondaryCta.label.replace(/\s*→$/, "")}
+            </Button>
+          </div>
         </div>
 
         {/* Editorial Image Column */}
@@ -81,12 +72,12 @@ export function ServicesHero() {
             className="relative"
           >
             <ServicesEditorialImage
-              imageKey="services-hero"
+              imageKey="hero"
               eager
               sizes="(max-width: 639px) 92vw, (max-width: 1023px) 85vw, 540px"
               corner="tr"
               aspect="aspect-[4/5]"
-              className="shadow-[0_20px_50px_rgba(42,36,33,0.06)]"
+              className={styles.heroPhoto}
             />
           </div>
 

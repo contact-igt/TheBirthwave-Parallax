@@ -1,4 +1,4 @@
-import { lactationClinician } from "@/content/lactation-landing-content";
+﻿import { lactationClinician } from "@/content/pages/lactation";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";

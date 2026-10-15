@@ -10,7 +10,16 @@ export interface NavCareGroup {
   services: ServiceContent[];
 }
 
-export const navCareGroups: NavCareGroup[] = [
+export const HIDDEN_SERVICE_SLUGS = new Set([
+  "gynaecology",
+  "nutrition-emotional-wellbeing",
+  "normal-birth-delivery",
+  "postpartum-care",
+  "lactation",
+  "newborn-pediatric-care",
+]);
+
+const rawNavCareGroups: NavCareGroup[] = [
   {
     id: "womens-health",
     title: "WOMEN'S HEALTH",
@@ -54,3 +63,10 @@ export const navCareGroups: NavCareGroup[] = [
     ],
   },
 ];
+
+export const navCareGroups: NavCareGroup[] = rawNavCareGroups
+  .map((group) => ({
+    ...group,
+    services: group.services.filter((s) => s && !HIDDEN_SERVICE_SLUGS.has(s.slug)),
+  }))
+  .filter((group) => group.services.length > 0);

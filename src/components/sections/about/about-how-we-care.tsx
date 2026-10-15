@@ -19,9 +19,11 @@ export function AboutHowWeCare() {
             className="mt-4 max-w-xl text-[clamp(2.1rem,1.6rem+2.2vw,3rem)] leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
             {aboutHowWeCare.heading}
           </h2>
-          <p className="mt-5 max-w-xl text-lg leading-[var(--leading-relaxed)] text-ink-soft">
-            {aboutHowWeCare.intro}
-          </p>
+          <div className="mt-5 max-w-xl space-y-4 text-lg leading-[var(--leading-relaxed)] text-ink-soft">
+            {aboutHowWeCare.intro.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
           <AboutPreviewImage kind="consultation" className="mt-8 w-full sm:mt-10" />
         </div>
 
@@ -36,9 +38,11 @@ export function AboutHowWeCare() {
                 <h3 className="text-[clamp(1.45rem,1.1rem+1vw,2rem)] leading-[1.15] font-semibold tracking-[var(--tracking-tight)] text-ink">
                   {principle.label}
                 </h3>
-                <p className="mt-3 max-w-md text-base leading-[var(--leading-relaxed)] text-ink-soft">
-                  {principle.statement}
-                </p>
+                <div className="mt-3 max-w-md space-y-3 text-base leading-[var(--leading-relaxed)] text-ink-soft">
+                  {principle.statement.map((s, i) => (
+                    <p key={i}>{s}</p>
+                  ))}
+                </div>
               </div>
             </li>
           ))}

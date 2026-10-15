@@ -1,7 +1,9 @@
 import Link from "next/link";
+import styles from "./doctors-refinements.module.css";
 import { ArrowUpRight } from "lucide-react";
 import type { DoctorContent, TeamCategory } from "@/content/doctors-content";
 import { getServiceBySlug } from "@/content/services-content";
+import { HIDDEN_SERVICE_SLUGS } from "@/content/nav-care-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";
 import { cx } from "@/lib/cx";
@@ -17,10 +19,8 @@ const CATEGORY_LABELS: Record<TeamCategory, string> = {
  * portrait visual redesign. One consistent editorial composition for
  * EVERY profile (Founder included — "keep it part of the same profile
  * system," per the brief, not a separate component): category eyebrow,
- * name, role, qualifications, specialty focus, a description block that
- * ALWAYS renders something (real confirmed copy or an honest, quietly-
- * styled placeholder — never omitted, unlike every other optional field
- * here, which still follows this file's usual "if missing, omit" rule),
+ * name, role, qualifications, specialty focus, an optional confirmed
+ * description (missing descriptions are omitted),
  * an optional quote, then a CTA row (`Book a Consultation` + `View Full
  * Profile`), then Related Care.
  *
@@ -80,7 +80,7 @@ export function DoctorProfileContent({
   void legacyProps;
   const relatedServices = (doctor.relatedCareSlugs ?? [])
     .map((slug) => getServiceBySlug(slug))
-    .filter((service) => service !== undefined);
+    .filter((service): service is NonNullable<typeof service> => service !== undefined && !HIDDEN_SERVICE_SLUGS.has(service.slug));
 
   const showSpecialFocus = doctor.specialFocus && doctor.specialFocus !== doctor.role;
 
@@ -137,18 +137,9 @@ export function DoctorProfileContent({
         {doctor.credentials ? <p className="mt-2 font-medium text-terracotta-deep">{doctor.credentials}</p> : null}
         {showSpecialFocus ? <p className="mt-2 text-base text-ink-soft">{doctor.specialFocus}</p> : null}
 
-        {/* Description — the one field on this page that always renders
-            something, per the brief's own explicit exception to "if
-            missing, omit": a real confirmed sentence when one exists,
-            otherwise a clearly-a-placeholder line, muted and italic so it
-            never reads as finished copy. */}
         {doctor.description ? (
           <p className="mt-5 text-lg leading-[var(--leading-relaxed)] text-ink-soft">{doctor.description}</p>
-        ) : (
-          <p className="mt-5 text-base leading-[var(--leading-relaxed)] text-ink-soft/50 italic">
-            Profile description coming soon.
-          </p>
-        )}
+        ) : null}
 
         {doctor.quote ? (
           <blockquote className="mt-6 border-l-2 border-[var(--color-border-strong)] py-1 pl-5 text-lg leading-[var(--leading-relaxed)] text-ink italic">
@@ -156,14 +147,26 @@ export function DoctorProfileContent({
           </blockquote>
         ) : null}
 
+        {doctor.team === "founder" ? (
+          <ul className={styles.pills} aria-label="Care journey">
+            {["Pregnancy", "Birth", "Recovery"].map((area) => <li key={area} className={styles.pill}>{area}</li>)}
+          </ul>
+        ) : null}
+
+        {doctor.team !== "founder" && relatedServices.length === 0 && doctor.careAreas?.length ? (
+          <ul className={styles.pills} aria-label="Care areas">
+            {doctor.careAreas.map((area) => <li key={area} className={styles.pill}>{area}</li>)}
+          </ul>
+        ) : null}
+
         {relatedServices.length > 0 ? (
           <div className="mt-6">
-            <ul className="flex flex-wrap gap-2">
+            <ul className={styles.pills}>
               {relatedServices.map((service) => (
                 <li key={service.slug}>
                   <Link
                     href={`/services/${service.slug}`}
-                    className="inline-flex items-center rounded-full border border-terracotta/30 bg-white/70 px-3.5 py-1 text-xs font-medium text-espresso transition-all duration-200 hover:border-terracotta hover:bg-white hover:text-terracotta-deep hover:shadow-xs"
+                    className={styles.pill}
                   >
                     {service.name}
                   </Link>
@@ -174,7 +177,7 @@ export function DoctorProfileContent({
         ) : null}
 
         <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
-          <Button href="/#connect" variant="primary">
+          <Button href="/contact" variant="primary" className={styles.bookButton}>
             Book a Consultation
           </Button>
           <Link

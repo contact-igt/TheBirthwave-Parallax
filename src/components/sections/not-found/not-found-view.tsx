@@ -34,10 +34,10 @@ const SEARCHABLE_ITEMS: SearchResultItem[] = [
     hint: "Comprehensive clinical monitoring through every trimester",
   },
   {
-    title: "Normal Birth & Delivery Options",
+    title: "Natural Birth Care",
     category: "Pathway",
-    href: "/services/normal-birth-delivery",
-    hint: "Physiological birthing suites, water birth & gentle birth",
+    href: "/services/natural-birth",
+    hint: "Physiological birthing suites, comfort measures & gentle birth",
   },
   {
     title: "Birth Preparation & Partner Education",
@@ -52,22 +52,16 @@ const SEARCHABLE_ITEMS: SearchResultItem[] = [
     hint: "Preconception counseling, endocrine care & reproductive guidance",
   },
   {
-    title: "Gynaecological Surgery & Wellness",
+    title: "VBAC (Vaginal Birth After Caesarean)",
     category: "Pathway",
-    href: "/services/gynaecology",
-    hint: "Minimally invasive care, pelvic floor health & wellness",
+    href: "/services/vbac",
+    hint: "Clinical assessment and birth planning after a prior caesarean",
   },
   {
-    title: "Postpartum Care & Lactation",
+    title: "Vaginismus & Intimate Wellness",
     category: "Pathway",
-    href: "/services/postpartum-care",
-    hint: "Fourth trimester healing, infant feeding & nurse visits",
-  },
-  {
-    title: "Perinatal Mental Health",
-    category: "Pathway",
-    href: "/services/nutrition-emotional-wellbeing",
-    hint: "Compassionate maternal psychological counseling",
+    href: "/services/vaginismus",
+    hint: "Private, supportive guidance for pelvic health and intimate wellness",
   },
   {
     title: "Specialist Directory & Midwives",

@@ -20,7 +20,6 @@ export function NaturalBirthLandingPage() {
     <div
       style={
         {
-          "--natural-birth-sky-wash": "color-mix(in srgb, var(--color-sky) 14%, var(--color-paper))",
           "--natural-birth-coral-wash": "color-mix(in srgb, var(--color-coral) 14%, var(--color-paper))",
         } as CSSProperties
       }

@@ -1,4 +1,4 @@
-import { lactationImagery, type LactationImageKey } from "@/content/lactation-landing-imagery";
+﻿import { lactationImagery, type LactationImageKey } from "@/content/pages/lactation";
 import { MediaPlaceholder } from "@/components/ui/media-placeholder";
 
 /**
