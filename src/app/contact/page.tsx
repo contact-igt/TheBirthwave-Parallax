@@ -8,12 +8,13 @@ import {
   contactHero,
   contactDirectDetails,
 } from "@/content/contact-content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact The Birthwave | Appointments & Enquiries",
-  description:
-    "Contact The Birthwave for appointments, WhatsApp enquiries, phone enquiries and general patient support.",
-};
+export const metadata: Metadata = pageMetadata(
+  "Contact The Birthwave | Appointments & Enquiries",
+  "Contact The Birthwave for appointments, WhatsApp enquiries, phone enquiries and general patient support.",
+  "/contact",
+);
 
 export default function ContactPage() {
   return (

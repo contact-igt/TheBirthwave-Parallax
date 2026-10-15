@@ -8,6 +8,8 @@ import { CareDiscoverySection } from "@/components/sections/home/care-discovery-
 import { FaqSection } from "@/components/sections/home/faq-section";
 import { FinalCtaSection } from "@/components/sections/home/final-cta-section";
 
+export const metadata: Metadata = pageMetadata("The Birthwave", homeDescription, "/");
+
 export default function Home() {
   return (
     <PageShell>
@@ -40,3 +42,5 @@ export default function Home() {
     </PageShell>
   );
 }
+import type { Metadata } from "next";
+import { homeDescription, pageMetadata } from "@/lib/seo";

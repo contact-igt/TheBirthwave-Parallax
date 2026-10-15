@@ -332,13 +332,6 @@ function ExteriorScrollScene() {
           style={{ display: "block" }}
         />
 
-        {/* Wayfinding chapter numerals */}
-        <div className="pointer-events-none absolute top-1/2 right-3 z-20 flex -translate-y-1/2 flex-col items-end gap-6 sm:right-6">
-          <span className="font-display text-[11px] sm:text-xs font-semibold tracking-wider text-ink/80 tabular-nums">
-            01 / 02
-          </span>
-        </div>
-
         {/* ── Section 1 (Hero) — Left-aligned over soft left-to-right editorial gradient wash ── */}
         <div
           ref={heroBeatRef}
@@ -664,13 +657,6 @@ function InteriorScrollScene() {
           className="pointer-events-none absolute inset-0 z-5 bg-paper"
         />
 
-        {/* Wayfinding chapter numerals */}
-        <div className="pointer-events-none absolute top-1/2 right-3 z-20 flex -translate-y-1/2 flex-col items-end gap-6 sm:right-6">
-          <span className="font-display text-[11px] sm:text-xs font-semibold tracking-wider text-ink/80 tabular-nums">
-            03
-          </span>
-        </div>
-
         {/* ── Section 3 (Belief / Our Approach) — Left-side text over soft left-to-right editorial gradient wash ── */}
         <div
           ref={beliefBeatRef}
@@ -742,14 +728,9 @@ function FounderVisualScene() {
       <div className="container-birthwave relative z-10">
         {/* Mobile-only header stack (eyebrow, heading, name/designation) */}
         <div className="lg:hidden mb-6 sm:mb-8">
-          <div className="flex items-center justify-between gap-4">
-            <p className="eyebrow text-ink tracking-[var(--tracking-wider)]">
-              {aboutFounderIntro.eyebrow}
-            </p>
-            <span className="font-display text-[11px] sm:text-xs font-semibold tracking-wider text-ink/70 tabular-nums">
-              04
-            </span>
-          </div>
+          <p className="eyebrow text-ink tracking-[var(--tracking-wider)]">
+            {aboutFounderIntro.eyebrow}
+          </p>
           <h2
             id="about-founder-heading-mobile"
             className="mt-3 text-[clamp(2rem,1.5rem+2.2vw,2.75rem)] leading-[1.12] font-semibold tracking-[var(--tracking-tight)] text-ink"
@@ -796,14 +777,9 @@ function FounderVisualScene() {
           <div className="lg:col-span-7 xl:col-span-6 mt-8 sm:mt-10 lg:mt-0 text-left">
             {/* Desktop-only header */}
             <div className="hidden lg:block">
-              <div className="flex items-center justify-between gap-4">
-                <p className="eyebrow text-ink tracking-[var(--tracking-wider)]">
-                  {aboutFounderIntro.eyebrow}
-                </p>
-                <span className="font-display text-[11px] sm:text-xs font-semibold tracking-wider text-ink/70 tabular-nums">
-                  04
-                </span>
-              </div>
+              <p className="eyebrow text-ink tracking-[var(--tracking-wider)]">
+                {aboutFounderIntro.eyebrow}
+              </p>
               <h2
                 id="about-founder-heading"
                 className="mt-3.5 text-[clamp(2.1rem,1.6rem+1.8vw,3.25rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink"

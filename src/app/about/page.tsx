@@ -10,12 +10,13 @@ import { AboutClinicStrip } from "@/components/sections/about/about-clinic-strip
 import { AboutAppointmentCta } from "@/components/sections/about/about-appointment-cta";
 
 import styles from "./about-backgrounds.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About: The Birthwave",
-  description:
-    "Why The Birthwave exists: one continuous journey of care across fertility, pregnancy, birth, recovery and newborn care.",
-};
+export const metadata: Metadata = pageMetadata(
+  "About Us: The Birthwave",
+  "Why The Birthwave exists: one continuous journey of care across fertility, pregnancy, birth, recovery and newborn care.",
+  "/about",
+);
 
 /**
  * About — Complete Page Flow

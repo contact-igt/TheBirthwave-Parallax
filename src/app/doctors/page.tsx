@@ -6,12 +6,13 @@ import { WhoCanSupportYourCare } from "@/components/sections/doctors/who-can-sup
 import { WhoShouldYouConsult } from "@/components/sections/doctors/who-should-you-consult";
 import { DoctorsEnquiryFormSection } from "@/components/sections/doctors/doctors-enquiry-form-section";
 import { DoctorsAmbientBackdrop } from "@/components/sections/doctors/doctors-ambient-backdrop";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Our Care Team: The Birthwave",
-  description:
-    "Meet the specialists behind The Birthwave's continuous journey of care, across women's health, pregnancy, birth, recovery and newborn care.",
-};
+export const metadata: Metadata = pageMetadata(
+  "Our Care Team: The Birthwave",
+  "Meet the specialists behind The Birthwave's continuous journey of care, across women's health, pregnancy, birth, recovery and newborn care.",
+  "/doctors",
+);
 
 /**
  * /doctors — team-journey rework. The three previously separate sections
