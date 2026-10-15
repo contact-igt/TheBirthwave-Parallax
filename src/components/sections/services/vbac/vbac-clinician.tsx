@@ -12,7 +12,8 @@ export function VbacClinician() {
   const { doctor } = vbacClinician;
 
   return (
-    <section id="vbac-clinician" aria-labelledby="vbac-clinician-heading" className="relative isolate border-t border-[var(--color-border)] bg-paper-dim/60 section-pad">
+    <section id="vbac-clinician" aria-labelledby="vbac-clinician-heading" className="relative isolate overflow-hidden border-t border-[var(--color-border)] bg-paper-dim/60 section-pad">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/natural-birth/natural-birth-approach-background-v1.png')] bg-cover bg-center" />
       <VbacReveal className="container-birthwave">
         <div className="grid gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-16">
           {/* Doctor Portrait with Arched Frame */}

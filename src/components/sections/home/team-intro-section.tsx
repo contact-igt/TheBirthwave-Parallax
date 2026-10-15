@@ -18,12 +18,12 @@ import { AnimatedContent } from "@/components/ui/animations/animated-content";
  * - No invented qualifications, biographies or clinical claims.
  */
 export function TeamIntroSection() {
-  const pick = (slug: string, photoPos: string) => {
+  const pick = (slug: string, photoPos: string, photoOverride?: string) => {
     const doctor = doctors.find((d) => d.slug === slug);
     if (!doctor || !doctor.photo.src) return null;
     return {
       doctor,
-      photoSrc: doctor.photo.src,
+      photoSrc: photoOverride ?? doctor.photo.src,
       photoAlt: doctor.photo.alt,
       role: doctor.role,
       focus: doctor.specialFocus ?? doctor.careAreas?.join(" · ") ?? null,
@@ -31,7 +31,7 @@ export function TeamIntroSection() {
     };
   };
 
-  const drSantoshi = pick("dr-santoshi-nandigam", "50% 22%");
+  const drSantoshi = pick("dr-santoshi-nandigam", "46% 30%", "/images/doctors/dr-santoshi-web.jpg");
   const drDeepika = pick("dr-deepika-sivathanu", "50% 14%");
 
   if (!drSantoshi || !drDeepika) return null;

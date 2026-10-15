@@ -157,7 +157,7 @@ export const pregnancyLandingClinician = {
       "Dr. Santoshi Nandigam's approach to pregnancy care centres on understanding each woman's health, explaining available options and making space for questions throughout the pregnancy.",
       "From antenatal consultations to discussions about labour and birth preferences, the focus is on individualised medical guidance, informed decisions and continuity of care.",
     ],
-    photo: "/images/doctors/dr-santoshi.JPG",
+    photo: "/images/doctors/dr-santoshi-web.jpg",
     cta: {
       label: "VIEW DOCTOR PROFILE ↗",
       href: "/doctors/dr-santoshi-nandigam",

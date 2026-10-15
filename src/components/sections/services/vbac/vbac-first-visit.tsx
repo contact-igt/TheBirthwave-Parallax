@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
  */
 export function VbacFirstVisit() {
   return (
-    <section id="vbac-first-visit" aria-labelledby="vbac-first-visit-heading" className="relative isolate bg-paper section-pad border-t border-[var(--color-border)]">
+    <section id="vbac-first-visit" aria-labelledby="vbac-first-visit-heading" className="relative isolate overflow-hidden bg-paper section-pad border-t border-[var(--color-border)]">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/services/birth-prep-learning-experience-background-v1.png')] bg-cover bg-center" />
       <VbacReveal className="container-birthwave">
         <div className="max-w-2xl md:mx-auto md:text-center">
           <p className="eyebrow">{vbacFirstVisit.eyebrow}</p>

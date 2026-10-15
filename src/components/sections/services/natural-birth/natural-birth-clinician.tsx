@@ -14,7 +14,7 @@ export function NaturalBirthClinician() {
     <section
       id="natural-birth-clinician"
       aria-labelledby="natural-birth-clinician-heading"
-      className="relative isolate overflow-hidden bg-paper bg-[url('/images/natural-birth/natural-birth-clinician-background-v1.png')] bg-cover bg-center section-pad"
+      className="relative isolate overflow-hidden bg-paper bg-[url('/images/services/birth-prep-learning-experience-background-v1.png')] bg-cover bg-center section-pad"
     >
       <NaturalBirthReveal className="container-birthwave max-w-5xl mx-auto px-6 sm:px-10 lg:px-12 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-14 relative z-10">
         {/* Doctor Photo */}

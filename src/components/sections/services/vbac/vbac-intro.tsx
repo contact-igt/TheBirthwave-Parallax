@@ -8,7 +8,8 @@ import { VbacReveal } from "./vbac-reveal";
  */
 export function VbacIntro() {
   return (
-    <section id="vbac-story" aria-labelledby="vbac-story-heading" className="relative isolate scroll-mt-[var(--header-height)] bg-paper section-pad">
+    <section id="vbac-story" aria-labelledby="vbac-story-heading" className="relative isolate overflow-hidden scroll-mt-[var(--header-height)] bg-paper section-pad">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/services/birth-prep-starting-point-background-v1.png')] bg-cover bg-center" />
       <VbacReveal className="container-birthwave">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           {/* Left Column: Visual */}
