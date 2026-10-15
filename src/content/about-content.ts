@@ -113,7 +113,7 @@ export const aboutFounderStory = {
     "The Birthwave brings these aspects of care together through an approach that considers both clinical needs and the person receiving care.",
   ],
   media: {
-    src: "/images/web-ready/pregnancy.JPG",
+    src: "/images/web-ready/pregnancy.jpg",
     alt: "Dr. Santoshi Nandigam, founder of The Birthwave",
   },
   cta: {

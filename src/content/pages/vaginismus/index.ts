@@ -19,27 +19,27 @@ export const vaginismusImagery = {
     } satisfies HeroFocalPoint,
   },
   "who-this-is-for": {
-    src: "/images/services/v2.JPG",
+    src: "/images/services/v2.jpg",
     alt: "Woman discussing an intimate wellness concern with a clinician",
     objectPosition: "50% 38%",
   },
   consultation: {
-    src: "/images/services/v3.JPG",
+    src: "/images/services/v3.jpg",
     alt: "Patient and clinician discussing health questions together",
     objectPosition: "50% 40%",
   },
   "care-at-your-pace": {
-    src: "/images/services/service3.JPG",
+    src: "/images/services/service3.jpg",
     alt: "Woman having a calm supportive consultation",
     objectPosition: "50% 38%",
   },
   "first-consultation": {
-    src: "/images/services/service6.JPG",
+    src: "/images/services/service6.jpg",
     alt: "Woman preparing questions before an intimate wellness appointment",
     objectPosition: "50% 40%",
   },
   practical: {
-    src: "/images/services/faq.JPG",
+    src: "/images/services/faq.jpg",
     alt: "Woman preparing for an upcoming clinic visit",
     objectPosition: "50% 35%",
   },

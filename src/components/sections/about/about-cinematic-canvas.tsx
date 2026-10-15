@@ -781,7 +781,7 @@ function FounderVisualScene() {
                 className="relative aspect-[3/4] sm:aspect-[4/5] lg:aspect-[3/4] xl:aspect-[4/5] w-full overflow-hidden rounded-2xl sm:rounded-3xl lg:rounded-tl-[1.75rem] lg:rounded-bl-[2rem] lg:rounded-tr-[4rem] lg:rounded-br-[6.5rem] bg-paper-dim shadow-xs"
               >
                 <Image
-                  src="/images/web-ready/founder.JPG"
+                  src="/images/web-ready/founder.jpg"
                   alt={aboutFounderIntro.media.alt}
                   fill
                   sizes="(min-width: 1280px) 560px, (min-width: 1024px) 46vw, (min-width: 640px) 440px, 100vw"
@@ -979,7 +979,7 @@ function AboutCinematicStatic() {
 
       {/* ── Beat 04: Founder Intro ── */}
       <StaticBeat
-        posterSrc="/images/web-ready/founder.JPG"
+        posterSrc="/images/web-ready/founder.jpg"
         alt={aboutFounderIntro.media.alt}
         last
       >
