@@ -61,11 +61,11 @@ export const aboutFirstVisit = {
 export const aboutClinicStrip = {
   eyebrow: "Visit Us",
   heading: "Find us in Nungambakkam, Chennai.",
-  clinicName: "The BirthWave",
+  clinicName: "The BirthWave Sanctuary",
   address: "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai \u2013 600034",
   phone: "+91 93630 31925",
-  email: "drsantoshi@thebirthwave.com",
-  directionsLabel: "Get Directions",
+  email: "dreams@thebirthwave.com",
+  directionsLabel: "GET DIRECTIONS",
   directionsHref:
     "https://maps.google.com/?q=No.+8%2F15%2C+Mahalingapuram+Main+Road%2C+Nungambakkam%2C+Chennai+%E2%80%93+600034",
   appointmentLabel: "Book an Appointment",

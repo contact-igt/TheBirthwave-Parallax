@@ -318,7 +318,7 @@ export const doctorsHero = {
     href: "#team-directory",
   },
   media: {
-    src: "/images/clinic/doctor-hero.png",
+    src: "/images/web-ready/birth.JPG",
     alt: "Doctor consultation with patient at The Birthwave",
   },
 } as const;

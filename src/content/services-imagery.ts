@@ -26,22 +26,22 @@ export const servicesImagery = {
     objectPosition: "50% 18%",
   },
   "pregnancy-antenatal-wellbeing-birth-prep": {
-    src: "/images/services/birth-preparation-ai-preview-v1.webp",
+    src: "/images/services/service4.JPG",
     alt: "AI-generated illustration: An expectant couple practises calm breathing with a childbirth educator.",
     objectPosition: "50% 16%",
   },
   "pregnancy-antenatal-first-consultation": {
-    src: "/images/services/gynaecology-ai-preview-v1.webp",
+    src: "/images/services/service5.JPG",
     alt: "AI-generated illustration: A woman discusses her health with a clinician in a calm consultation room.",
     objectPosition: "50% 20%",
   },
   "pregnancy-antenatal-care-team": {
-    src: "/images/services/connected-care-ai-preview-v1.webp",
+    src: "/images/services/service6.JPG",
     alt: "AI-generated illustration: Three care professionals discuss care together around a table.",
     objectPosition: "50% 20%",
   },
   "pregnancy-antenatal-faq-visual": {
-    src: "/images/generated/maternal-editorial-daylight-16x9.png",
+    src: "/images/services/service6.JPG",
     alt: "An expectant mother peacefully looking out a sunlit window beside soft linen curtains.",
     objectPosition: "35% 25%",
   },
