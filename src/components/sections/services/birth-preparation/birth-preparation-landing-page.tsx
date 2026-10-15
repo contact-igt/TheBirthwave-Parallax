@@ -30,6 +30,7 @@ import { BirthPrepEnquiry, BirthPrepMobileEnquiryBar } from "./birth-preparation
 export function BirthPreparationLandingPage() {
   return (
     <div
+      className="overflow-x-clip"
       style={
         {
           "--birth-prep-rose-wash": "color-mix(in srgb, var(--color-terracotta) 16%, var(--color-paper))",
@@ -51,7 +52,7 @@ export function BirthPreparationLandingPage() {
       <BirthPrepWho />
 
       {/* SECTION 04 — WHAT WILL YOU LEARN? */}
-      <BirthPrepTopics />
+      {/* <BirthPrepTopics /> */}
 
       {/* SECTION 05 — THE WORKSHOP EXPERIENCE */}
       <BirthPrepExperience />

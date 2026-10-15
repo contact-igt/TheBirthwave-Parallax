@@ -272,10 +272,10 @@ export function SiteHeader() {
                       aria-controls={desktopCarePanelId}
                       onClick={handleDesktopCareClick}
                       className={cx(
-                        "group inline-flex items-center gap-1 rounded-full px-4 py-2 font-body text-sm font-medium tracking-[0.02em] transition-colors duration-[var(--duration-fast)]",
+                        "group inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 font-body text-sm font-medium tracking-[0.02em] transition-colors duration-[var(--duration-fast)]",
                         desktopCareOpen || isServicesActive
-                          ? "bg-paper text-ink font-semibold"
-                          : "text-ink-soft hover:bg-paper hover:text-ink",
+                          ? "bg-[#F3E8E2] text-ink font-semibold border border-[#E3D1C7]"
+                          : "bg-[#F6ECE7] text-ink hover:bg-[#EFE2DB] border border-[#ECD9CE]",
                       )}
                     >
                       <span>Our Care</span>

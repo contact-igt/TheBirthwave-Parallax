@@ -1,4 +1,5 @@
 import type { ServiceContent } from "@/content/services-content";
+import { CareServiceHero } from "@/components/sections/services/care-service-hero";
 
 /**
  * Renders one service's page. Editorial layout — an oversized statement,
@@ -9,19 +10,16 @@ import type { ServiceContent } from "@/content/services-content";
  */
 export function ServicePageTemplate({ service }: { service: ServiceContent }) {
   return (
-    <article className="relative [padding-block-start:calc(var(--header-height)+var(--space-section))] [padding-block-end:var(--space-section)]">
-      <div className="container-birthwave">
-        <div className="max-w-3xl">
-          <p className="eyebrow">{service.eyebrow}</p>
-          <h1 className="mt-4 text-display leading-[1.02] font-semibold tracking-[var(--tracking-tight)] text-ink">
-            {service.name}
-          </h1>
-          <p className="mt-6 text-xl leading-[var(--leading-relaxed)] text-ink-soft">
-            {service.heroStatement}
-          </p>
-        </div>
-
-        <div className="mt-16 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+    <>
+      <CareServiceHero
+        eyebrow={service.eyebrow}
+        heading={service.name}
+        supporting={service.heroStatement}
+        fallbackLabel={service.media.alt}
+      />
+      <article className="relative [padding-block:var(--space-section)]">
+        <div className="container-birthwave">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
           <div>
             <p className="max-w-xl text-lg leading-[var(--leading-relaxed)] text-ink-soft">
               {service.overview}
@@ -49,8 +47,9 @@ export function ServicePageTemplate({ service }: { service: ServiceContent }) {
               {service.media.alt}
             </p>
           </div>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </>
   );
 }

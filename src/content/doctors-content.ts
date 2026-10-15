@@ -3,13 +3,13 @@
  *
  * Doctor data + image placeholder grid pass: the confirmed team roster
  * (10 people — one founder, four Medical & Clinical Team, five Allied
- * Care Team). Real photography does not exist yet for any of them — every
- * `photo.src` below is `null`; `PortraitPlaceholder`
- * (components/ui/portrait-placeholder.tsx) renders the same built visual
- * placeholder everywhere a person's portrait belongs. Replacing a single
- * entry's `src: null` with a real path is the only change needed once
- * approved photography exists — nothing else in this file or its
- * consumers changes shape.
+ * Care Team). Photography exists for six of them (see `photoFor` calls
+ * below); the other four still have `photo.src` of `null`, where
+ * `PortraitPlaceholder` (components/ui/portrait-placeholder.tsx) renders
+ * the same built visual placeholder everywhere a person's portrait
+ * belongs. Passing a filename to `photoFor` for one of those entries is
+ * the only change needed once their photography exists — nothing else in
+ * this file or its consumers changes shape.
  *
  * Names, qualifications, roles and related-care mappings below are given,
  * confirmed team content — not invented. Fields the brief did not confirm
@@ -113,10 +113,13 @@ export interface DoctorContent {
   team: TeamCategory;
 }
 
-function photoFor(name: string): DoctorContent["photo"] {
+/** Portraits live in `public/images/doctors/<slug>.jpg` — 4:5 crops
+ * optimized from the originals in `public/images/clinic/`. Pass the
+ * filename to use a real photo; omit it to keep the built placeholder. */
+function photoFor(name: string, file?: string): DoctorContent["photo"] {
   return {
-    src: null,
-    alt: `${name} — approved photography pending`,
+    src: file ? `/images/doctors/${file}` : null,
+    alt: file ? `Portrait of ${name}` : `${name} — approved photography pending`,
     placeholderLabel: "Doctor portrait",
   };
 }

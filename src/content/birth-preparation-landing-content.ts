@@ -13,8 +13,8 @@ export const birthPrepHero = {
     "At The BirthWave, our prenatal workshop brings these important conversations together through guided education, practical preparation and opportunities to ask questions.",
     "Whether this is your first pregnancy or you have given birth before, the workshop is designed to help you and your birth partner understand the journey ahead and participate more confidently in conversations about your care.",
   ],
-  primaryCta: { label: "ENQUIRE ABOUT THE NEXT WORKSHOP →", href: "#birth-prep-enquiry" },
-  secondaryCta: { label: "EXPLORE WHAT YOU'LL LEARN ↓", href: "#birth-prep-topics" },
+  primaryCta: { label: "ENQUIRE ABOUT THE NEXT WORKSHOP", href: "#birth-prep-enquiry" },
+  secondaryCta: { label: "EXPLORE WHAT YOU'LL LEARN", href: "#birth-prep-topics" },
 } as const;
 
 export const birthPrepIntro = {
@@ -326,7 +326,7 @@ export const birthPrepProgramme = {
       text: "If you have a high-risk pregnancy, activity restrictions or other medical concerns, ask your obstetrician which workshop activities are appropriate for you.",
     },
   ],
-  cta: { label: "ENQUIRE ABOUT THE NEXT WORKSHOP →", href: "#birth-prep-enquiry" },
+  cta: { label: "ENQUIRE ABOUT THE NEXT WORKSHOP", href: "#birth-prep-enquiry" },
 } as const;
 
 export const birthPrepFaq = {
@@ -443,8 +443,8 @@ export const birthPrepEnquiry = {
     "Whether you are in the early stages of pregnancy or getting closer to your due date, you can enquire about The BirthWave's upcoming prenatal workshop.",
     "Tell us where you are in your pregnancy and what you would like to learn. Our team can help you understand the workshop details and registration process.",
   ],
-  primaryCta: "ENQUIRE ABOUT THE NEXT WORKSHOP →",
-  whatsapp: "CHAT ON WHATSAPP →",
+  primaryCta: "ENQUIRE ABOUT THE NEXT WORKSHOP",
+  whatsapp: "CHAT ON WHATSAPP",
   whatsappUrl: "https://wa.me/919363031925",
   phone: "+91 93630 31925",
   fields: {

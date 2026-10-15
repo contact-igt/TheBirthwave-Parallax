@@ -55,41 +55,31 @@ export const servicesImagery = {
     alt: "Hands resting gently on a pregnant belly surrounded by flowing soft terracotta fabric.",
     objectPosition: "left center",
   },
-  // Birth Preparation & Childbirth Education landing page — its own
-  // dedicated section keys, reusing existing approved illustration FILES
-  // (no image-generation tool was available for this pass) but each with
-  // its own alt text accurate to where it actually appears on THIS page,
-  // exactly like the pregnancy-antenatal landing page's own reuse pattern
-  // above. No two of these five keys share the same underlying file, so
-  // the page itself never repeats one photograph across its own sections.
+  // Real workshop and clinic photography for the Birth Preparation page.
   "birth-prep-landing-hero": {
-    src: "/images/services/birth-preparation-ai-preview-v1.webp",
-    alt: "AI-generated illustration: An expectant couple practises calm breathing with a childbirth educator.",
-    // Source photo is 1122x1402 (portrait), three people spread across
-    // nearly its full width with all three faces sitting high, around
-    // 22-25% down — inside this wide/short hero container the crop is
-    // always width-bound (the full image width shows regardless of the
-    // `x` value), so only `y` actually changes what's visible. The
-    // previous desktop value ("60% center", y=50%) cropped a band well
-    // below every face; fixed to keep the same high band mobile already
-    // used. Confirmed by screenshot at 1440x650/1024x768.
-    focalPoint: { mobile: "70% 25%", desktop: "60% 18%" },
+    src: "/images/web-ready/exp04711.jpg",
+    alt: "Childbirth educator speaking with families during a prenatal workshop.",
+    focalPoint: { mobile: "50% 35%", desktop: "50% 35%" },
   },
   "birth-prep-landing-consultation": {
-    src: "/images/services/gynaecology-ai-preview-v1.webp",
-    alt: "AI-generated illustration: An expectant parent in an attentive preparation conversation with a member of the care team.",
+    src: "/images/web-ready/exp04511.jpg",
+    alt: "Families asking questions during a birth preparation workshop.",
   },
   "birth-prep-landing-learning-labour": {
-    src: "/images/services/pregnancy-antenatal-care-ai-preview-v1.webp",
-    alt: "AI-generated illustration: An expectant parent talks through labour and birth questions with a member of the care team.",
+    src: "/images/web-ready/exp04509.jpg",
+    alt: "Expectant parents listening during a childbirth education session.",
+  },
+  "birth-prep-landing-learning-movement": {
+    src: "/images/web-ready/exp04688.jpg",
+    alt: "Workshop participants practising movement and comfortable positions.",
   },
   "birth-prep-landing-learning-support": {
-    src: "/images/services/fertility-preconception-ai-preview-v1.webp",
-    alt: "AI-generated illustration: An expectant couple talks with a member of the care team about preparation and support.",
+    src: "/images/web-ready/exp04557.jpg",
+    alt: "Birth partners practising supportive hand contact during a workshop.",
   },
   "birth-prep-landing-preferences": {
-    src: "/images/services/vbac-ai-preview-v1.webp",
-    alt: "AI-generated illustration: An expectant couple discusses birth preferences and options with a clinician.",
+    src: "/images/web-ready/exp04665.jpg",
+    alt: "Educator demonstrating newborn care with a training doll.",
   },
   "fertility-preconception": { src: "/images/services/fertility-preconception-ai-preview-v1.webp", alt: "AI-generated illustration: A couple talks with a clinician about planning a pregnancy." },
   "vaginismus": { src: "/images/services/vaginismus-ai-preview-v1.webp", alt: "AI-generated illustration: A woman has a private, supportive conversation with a clinician." },

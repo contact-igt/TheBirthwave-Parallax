@@ -1,10 +1,10 @@
+import Image from "next/image";
 import { birthPrepTeam } from "@/content/birth-preparation-landing-content";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/cta-link";
 import { BirthPrepReveal } from "./birth-preparation-reveal";
-import { Flower2 } from "lucide-react";
 
 /**
  * Section 07 — Meet the People Behind the Workshop.
@@ -16,23 +16,25 @@ export function BirthPrepTeam() {
     <section
       id="birth-prep-team"
       aria-labelledby="birth-prep-team-heading"
-      className="relative isolate border-t border-[var(--color-border)] bg-paper section-pad"
+      className="relative isolate overflow-hidden bg-paper section-pad"
     >
-      <BirthPrepReveal className="container-birthwave">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_90%_12%,#f4e8e1_0%,transparent_42%),radial-gradient(circle_at_5%_85%,#eef1ed_0%,transparent_36%)]" />
+
+      <BirthPrepReveal className="container-birthwave relative z-10">
         <div className="max-w-3xl">
           <p className="eyebrow">{birthPrepTeam.eyebrow}</p>
           <h2
             id="birth-prep-team-heading"
-            className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink"
+            className="mt-4 text-[clamp(2.1rem,1.5rem+2.5vw,3.35rem)] leading-[1.12] font-semibold tracking-[var(--tracking-tight)] text-ink"
           >
             {birthPrepTeam.heading}
           </h2>
-          <p className="mt-4 text-base leading-[var(--leading-relaxed)] text-ink-soft">
+          <p className="mt-4 text-base leading-[var(--leading-relaxed)] text-ink-soft sm:text-lg">
             {birthPrepTeam.intro}
           </p>
         </div>
 
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
           {birthPrepTeam.members.map((member) => {
             const doctor = getDoctorBySlug(member.slug);
             const doctorIndex = doctor ? doctors.findIndex((d) => d.slug === doctor.slug) : -1;
@@ -41,37 +43,61 @@ export function BirthPrepTeam() {
             return (
               <div
                 key={member.slug}
-                className="flex flex-col justify-between rounded-xs border border-[var(--color-border)] bg-[var(--birth-prep-rose-wash)]/30 p-6"
+                className="group flex flex-col justify-between rounded-2xl border border-[color-mix(in_srgb,var(--color-terracotta)_20%,var(--color-border))] bg-white/90 p-5 sm:p-6 backdrop-blur-sm shadow-[0_8px_25px_-12px_rgba(75,47,38,0.18)] transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/40 hover:bg-white hover:shadow-[0_18px_36px_-12px_rgba(75,47,38,0.22)]"
               >
                 <div>
                   {photo ? (
-                    <div className="overflow-hidden rounded-tl-panel rounded-tr-xs rounded-br-xs rounded-bl-xs">
-                      <PortraitPlaceholder photo={photo} index={doctorIndex} className="w-full aspect-[4/5]" />
+                    <div className="overflow-hidden rounded-tl-panel rounded-tr-sm rounded-br-sm rounded-bl-sm bg-paper-dim shadow-xs">
+                      <PortraitPlaceholder
+                        photo={photo}
+                        index={doctorIndex}
+                        className="w-full aspect-[4/5] object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                      />
                     </div>
                   ) : (
-                    <div className="flex aspect-[4/5] w-full flex-col items-center justify-center rounded-tl-panel rounded-tr-xs rounded-br-xs rounded-bl-xs bg-paper-warm text-ink-soft">
-                      <Flower2 className="size-12 text-terracotta" aria-hidden="true" />
-                      <span className="mt-3 font-body text-xs font-semibold tracking-wider uppercase text-terracotta-deep">
-                        Yoga & Movement
-                      </span>
+                    <div className="relative aspect-[4/5] w-full overflow-hidden rounded-tl-panel rounded-tr-sm rounded-br-sm rounded-bl-sm bg-paper-dim shadow-xs">
+                      <Image
+                        src="/images/web-ready/exp04693.jpg"
+                        alt="Facilitator speaking with participants during a prenatal workshop"
+                        fill
+                        sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                      />
                     </div>
                   )}
 
-                  <h3 className="mt-5 text-lg font-semibold text-ink">{member.name}</h3>
+                  {/* Name with fixed vertical baseline */}
+                  <div className="mt-5 min-h-[3rem] flex items-center">
+                    <h3 className="font-body text-[1.125rem] font-semibold leading-snug tracking-tight text-ink">
+                      {member.name}
+                    </h3>
+                  </div>
 
-                  {member.credentials ? (
-                    <p className="mt-1 text-xs font-semibold uppercase tracking-[var(--tracking-wider)] text-terracotta-deep">
-                      {member.credentials}
+                  {/* Credentials with unified min-height */}
+                  <div className="mt-2 min-h-[2.25rem] flex items-center">
+                    {member.credentials ? (
+                      <p className="text-[0.72rem] font-semibold uppercase tracking-wider text-terracotta-deep leading-tight">
+                        {member.credentials}
+                      </p>
+                    ) : null}
+                  </div>
+
+                  {/* Role with unified min-height */}
+                  <div className="mt-1.5 min-h-[2rem] flex items-center">
+                    <p className="font-body text-xs font-medium text-ink-soft leading-tight">
+                      {member.role}
                     </p>
-                  ) : null}
+                  </div>
 
-                  <p className="mt-1 font-body text-xs font-medium text-ink-soft">{member.role}</p>
-
-                  <p className="mt-4 text-sm leading-[var(--leading-relaxed)] text-ink-soft">
-                    {member.bio}
-                  </p>
+                  {/* Biography with refined divider and breathing room */}
+                  <div className="mt-4 pt-3.5 border-t border-[color-mix(in_srgb,var(--color-terracotta)_14%,var(--color-border))]">
+                    <p className="text-sm leading-[1.65] text-ink-soft">
+                      {member.bio}
+                    </p>
+                  </div>
                 </div>
 
+                {/* Bottom CTA Link */}
                 <div className="mt-6 border-t border-[var(--color-border)] pt-4">
                   <CtaLink href={member.cta.href}>{member.cta.label}</CtaLink>
                 </div>
