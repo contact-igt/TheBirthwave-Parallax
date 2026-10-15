@@ -424,8 +424,7 @@ export const footer = {
       href: "https://wa.me/917904251378",
     },
   ] as const,
-  // TODO(legal): privacy policy / terms are not yet available — no links
-  // are rendered for them rather than pointing somewhere fake.
+  // Legal pages are visible drafts pending clinic review.
   //
   // Site-architecture audit: `/faq` exists, renders real content (the
   // same confirmed `faq-content.ts` the homepage's own FAQ section
@@ -446,9 +445,9 @@ export const footer = {
     { label: "FAQ", href: "/faq" },
     { label: "Contact Us", href: "/contact" },
   ],
-  // Only routes that exist. `/privacy` is live (a reviewed policy is still
-  // pending — see that route). TODO(legal): Terms & Conditions and a
-  // Medical Disclaimer have no pages or approved copy yet — add them here
-  // once they exist rather than linking somewhere fake.
-  legalLinks: [{ label: "Privacy Policy", href: "/privacy" }],
+  // Only routes that exist. A Medical Disclaimer has no approved page yet.
+  legalLinks: [
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms & Conditions", href: "/terms" },
+  ],
 } as const;

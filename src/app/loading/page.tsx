@@ -4,6 +4,7 @@ import { RestorativeLoadingView } from "@/components/sections/loading/restorativ
 export const metadata: Metadata = {
   title: "Loading | The Birthwave",
   description: "Loading The Birthwave perinatal care portal.",
+  robots: { index: false, follow: true },
 };
 
 export default function LoadingPage() {

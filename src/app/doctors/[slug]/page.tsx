@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/page-shell";
 import { DoctorProfileTemplate } from "@/features/doctors/doctor-profile-template";
 import { doctors, getDoctorBySlug } from "@/content/doctors-content";
+import { pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return doctors.map((doctor) => ({ slug: doctor.slug }));
@@ -15,9 +16,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const doctor = getDoctorBySlug(slug);
-  return {
-    title: doctor ? `${doctor.name}: The Birthwave` : "Our Team: The Birthwave",
-  };
+  if (!doctor) return { title: "Our Team: The Birthwave" };
+  return pageMetadata(
+    `${doctor.name}: The Birthwave`,
+    `Meet ${doctor.name}, ${doctor.role}, at The Birthwave.`,
+    `/doctors/${slug}`,
+  );
 }
 
 // TODO(content): every profile here is a structural placeholder — see

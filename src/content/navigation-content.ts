@@ -16,7 +16,7 @@ export const navigation = {
   // the real page with the confirmed phone, email, address and enquiry form.
   links: [
     { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
+    { label: "About Us", href: "/about" },
     { label: "Our Care", href: "/services" },
     { label: "Doctors", href: "/doctors" },
     { label: "Contact", href: "/contact" },

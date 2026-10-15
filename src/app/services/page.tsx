@@ -12,12 +12,13 @@ import { ServicesApproachSection } from "@/components/sections/services/services
 import { ServicesFinalCta } from "@/components/sections/services/services-final-cta";
 import { ServicesChapterNavigation } from "@/components/sections/services/services-chapter-navigation";
 import styles from "@/components/sections/services/services-overview.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Our Services: The Birthwave",
-  description:
-    "Women's healthcare for every stage of life. From gynaecology and fertility to maternity care, birth, recovery and paediatric support at The Birthwave, Chennai.",
-};
+export const metadata: Metadata = pageMetadata(
+  "Our Services: The Birthwave",
+  "Women's healthcare for every stage of life. From gynaecology and fertility to maternity care, birth, recovery and paediatric support at The Birthwave, Chennai.",
+  "/services",
+);
 
 /**
  * /services — THE BIRTHWAVE — OUR SERVICES

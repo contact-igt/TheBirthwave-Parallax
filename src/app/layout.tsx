@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Plus_Jakarta_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
+import { homeDescription, siteOrigin } from "@/lib/seo";
 
 // Both families are confirmed brand typography (Reference/Birthwave Brand
 // Guideline PDF, "Typography" pages). See docs/implementation-brief.md §1
@@ -30,13 +31,10 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-// TODO(content): title/description are placeholders — no approved SEO copy
-// exists yet. Full metadata (OG image, canonical, structured data) is
-// explicitly out of scope for this phase per the implementation brief.
 export const metadata: Metadata = {
+  metadataBase: new URL(siteOrigin),
   title: "The Birthwave",
-  description:
-    "The Birthwave: site in development. Placeholder description pending approved copy.",
+  description: homeDescription,
 };
 
 export default function RootLayout({
@@ -49,6 +47,18 @@ export default function RootLayout({
       className={`${poppins.variable} ${plusJakartaSans.variable} ${cormorant.variable}`}
     >
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "The Birthwave",
+              url: siteOrigin,
+              logo: `${siteOrigin}/brand/wordmark-mauve.png`,
+            }).replace(/</g, "\\u003c"),
+          }}
+        />
         <a
           href="#main-content"
           className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-[100] focus-visible:rounded-xs focus-visible:bg-ink focus-visible:px-4 focus-visible:py-2.5 focus-visible:font-body focus-visible:text-sm focus-visible:font-semibold focus-visible:text-paper"

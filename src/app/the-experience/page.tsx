@@ -5,6 +5,7 @@ import { RoutePlaceholder } from "@/components/layout/route-placeholder";
 export const metadata: Metadata = {
   title: "The Experience: The Birthwave",
   description: "The Birthwave Experience, in full. Page in development.",
+  robots: { index: false, follow: true },
 };
 
 // TODO(content): a fuller, dedicated telling of the journey the homepage's

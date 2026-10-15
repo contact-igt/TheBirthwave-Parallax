@@ -1,8 +1,5 @@
 import type { MetadataRoute } from "next";
-
-/** See `sitemap.ts`'s own comment on why this is a deliberately obvious
- * placeholder, not a guessed real domain. */
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+import { siteOrigin } from "@/lib/seo";
 
 /**
  * Next.js's native robots convention (`src/app/robots.ts`) — served at
@@ -17,6 +14,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    sitemap: `${siteOrigin}/sitemap.xml`,
   };
 }
