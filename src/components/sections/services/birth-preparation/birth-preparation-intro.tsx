@@ -13,7 +13,7 @@ const LEARNING_IMAGES = [
 export function BirthPrepIntro() {
   return (
     <section id="birth-prep-understand" aria-labelledby="birth-prep-understand-heading" className="relative isolate overflow-hidden bg-paper section-pad">
-      <div aria-hidden="true" className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_8%_8%,#f9eae4_0%,transparent_35%),radial-gradient(circle_at_92%_86%,#eef2ed_0%,transparent_34%)]" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/natural-birth/natural-birth-journey-background-v1.png')] bg-cover bg-right" />
 
       <BirthPrepReveal className="relative z-10 container-birthwave">
         <header className="mx-auto max-w-[96rem] text-center">

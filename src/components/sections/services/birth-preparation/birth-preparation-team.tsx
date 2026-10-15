@@ -18,7 +18,7 @@ export function BirthPrepTeam() {
       aria-labelledby="birth-prep-team-heading"
       className="relative isolate overflow-hidden bg-paper section-pad"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_90%_12%,#f4e8e1_0%,transparent_42%),radial-gradient(circle_at_5%_85%,#eef1ed_0%,transparent_36%)]" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/services/birth-prep-team-background-v1.jpg')] bg-cover bg-center" />
 
       <BirthPrepReveal className="container-birthwave relative z-10">
         <div className="max-w-3xl">

@@ -1,15 +1,17 @@
-﻿import { naturalBirthJourney } from "@/content/pages/natural-birth";
+import { naturalBirthJourney } from "@/content/pages/natural-birth";
 import { NaturalBirthReveal } from "./natural-birth-reveal";
 import { Button } from "@/components/ui/button";
 
-/** Section 06 — Your Consultation Journey. Four steps kept in normal
- * document flow, matching `vbac-first-visit.tsx`'s own step-grid layout.
- * No invented records, review processes, fees, session duration or
- * appointment format. */
+/** Section 7 — Start With A Conversation. Three steps side by side in a row,
+ * with the CTA below. */
 export function NaturalBirthJourney() {
   return (
-    <section id="natural-birth-journey" aria-labelledby="natural-birth-journey-heading" className="relative isolate bg-paper section-pad">
-      <NaturalBirthReveal className="container-birthwave">
+    <section
+      id="natural-birth-journey"
+      aria-labelledby="natural-birth-journey-heading"
+      className="relative isolate overflow-hidden bg-paper bg-[url('/images/natural-birth/natural-birth-approach-background-v1.png')] bg-cover bg-[position:80%_center] lg:bg-center section-pad"
+    >
+      <NaturalBirthReveal className="container-birthwave relative z-10">
         <p className="eyebrow">{naturalBirthJourney.eyebrow}</p>
         <h2
           id="natural-birth-journey-heading"

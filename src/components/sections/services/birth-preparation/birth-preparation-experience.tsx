@@ -7,7 +7,8 @@ import { BirthPrepReveal } from "./birth-preparation-reveal";
  */
 export function BirthPrepExperience() {
   return (
-    <section id="birth-prep-experience" aria-labelledby="birth-prep-experience-heading" className="relative isolate bg-paper section-pad border-t border-[var(--color-border)]">
+    <section id="birth-prep-experience" aria-labelledby="birth-prep-experience-heading" className="relative isolate overflow-hidden bg-paper section-pad border-t border-[var(--color-border)]">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/services/birth-prep-learning-experience-background-v1.png')] bg-cover bg-center" />
       <BirthPrepReveal className="container-birthwave max-w-4xl">
         <p className="eyebrow">{birthPrepExperience.eyebrow}</p>
         <h2 id="birth-prep-experience-heading" className="mt-4 text-[clamp(2rem,1.5rem+2.6vw,3.4rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">

@@ -11,42 +11,42 @@ import type { HeroFocalPoint } from "@/lib/hero-focal-point";
 
 export const naturalBirthImagery = {
   hero: {
-    src: "/images/natural-birth/natural-birth-hero.png",
-    alt: "Pregnant woman seated calmly, reflecting on natural birth preferences in a sunlit room",
+    src: "/images/web-ready/planning2.jpg",
+    alt: "Clinician speaking with patients during a birth-planning consultation",
     focalPoint: {
       mobile: "65% 30%",
       desktop: "70% 35%",
     } satisfies HeroFocalPoint,
   },
   "preference-not-promise": {
-    src: "/images/natural-birth/natural-birth-preference-not-promise.png",
-    alt: "Pregnant woman discussing birth preferences with her care team",
-    objectPosition: "50% 35%",
+    src: "/images/web-ready/planning.jpg",
+    alt: "Clinician speaking with patients during a consultation",
+    objectPosition: "50% 50%",
   },
   consultation: {
-    src: "/images/natural-birth/natural-birth-preference-not-promise.png",
-    alt: "Pregnant woman discussing birth preferences with her care team",
-    objectPosition: "50% 35%",
+    src: "/images/web-ready/planning.jpg",
+    alt: "Clinician speaking with patients during a consultation",
+    objectPosition: "50% 50%",
   },
   preferences: {
-    src: "/images/natural-birth/natural-birth-birth-plan-conversation.png",
-    alt: "Birth plan open during a conversation about labour support options",
-    objectPosition: "50% 40%",
+    src: "/images/web-ready/exp04557.jpg",
+    alt: "Hands demonstrating supportive touch during a birth preparation session",
+    objectPosition: "50% 50%",
   },
   preparation: {
-    src: "/images/natural-birth/natural-birth-understanding-options.png",
-    alt: "Expectant mother gently stretching on a floor cushion in preparation for labour",
-    objectPosition: "50% 35%",
+    src: "/images/web-ready/exp04661.jpg",
+    alt: "Clinician explaining newborn care during a preparation session",
+    objectPosition: "50% 50%",
   },
   flexibility: {
-    src: "/images/natural-birth/natural-birth-flexible-pathways.png",
-    alt: "Clinician and expectant mother in an open, reassuring conversation about flexible birth pathways",
-    objectPosition: "50% 35%",
+    src: "/images/web-ready/exp04558.jpg",
+    alt: "Hands demonstrating reassuring support during a workshop",
+    objectPosition: "50% 50%",
   },
   practical: {
-    src: "/images/natural-birth/natural-birth-practical-questions.png",
-    alt: "Expectant parents preparing practical questions for natural birth planning",
-    objectPosition: "50% 40%",
+    src: "/images/web-ready/exp01320.jpg",
+    alt: "The BirthWave consultation space",
+    objectPosition: "50% 50%",
   },
 } as const;
 

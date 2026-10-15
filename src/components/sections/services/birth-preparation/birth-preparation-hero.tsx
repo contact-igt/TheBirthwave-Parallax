@@ -14,7 +14,6 @@ export function BirthPrepHero() {
       primaryCta={birthPrepHero.primaryCta}
       secondaryCta={birthPrepHero.secondaryCta}
       image={{ src: image.src, alt: image.alt, focalPoint: image.focalPoint }}
-      backgroundImage="/images/web-ready/exp01320.jpg"
     />
   );
 }

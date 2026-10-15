@@ -62,16 +62,16 @@ export const servicesImagery = {
     focalPoint: { mobile: "50% 35%", desktop: "50% 35%" },
   },
   "birth-prep-landing-consultation": {
-    src: "/images/web-ready/exp04511.jpg",
-    alt: "Families asking questions during a birth preparation workshop.",
+    src: "/images/web-ready/exp04664.jpg",
+    alt: "Doctor speaking with families during a birth preparation workshop.",
   },
   "birth-prep-landing-learning-labour": {
-    src: "/images/web-ready/exp04509.jpg",
-    alt: "Expectant parents listening during a childbirth education session.",
+    src: "/images/web-ready/exp04495.jpg",
+    alt: "Childbirth educator explaining labour to expectant parents during a session.",
   },
   "birth-prep-landing-learning-movement": {
-    src: "/images/web-ready/exp04688.jpg",
-    alt: "Workshop participants practising movement and comfortable positions.",
+    src: "/images/web-ready/exp04657.jpg",
+    alt: "Doctor guiding participants through movement and comfortable positions.",
   },
   "birth-prep-landing-learning-support": {
     src: "/images/web-ready/exp04557.jpg",

@@ -4,11 +4,11 @@ import { BirthPrepReveal } from "./birth-preparation-reveal";
 import { Sparkles } from "lucide-react";
 
 const workshopPhotos = [
-  { src: "/images/web-ready/exp04508.jpg", alt: "Childbirth educator addressing expectant parents" },
-  { src: "/images/web-ready/exp04695.jpg", alt: "Participants exploring movement in a prenatal workshop" },
-  { src: "/images/web-ready/exp04558.jpg", alt: "Birth partners practising supportive techniques" },
-  { src: "/images/web-ready/exp04661.jpg", alt: "Educator demonstrating newborn care with a training doll" },
-  { src: "/images/web-ready/exp04511.jpg", alt: "Families in conversation at a prenatal workshop" },
+  { src: "/images/web-ready/exp04524.jpg", alt: "Childbirth educator presenting to expectant parents", position: "50% 50%" },
+  { src: "/images/web-ready/exp04695.jpg", alt: "Doctor answering questions during a prenatal workshop", position: "50% 38%" },
+  { src: "/images/web-ready/exp04671.jpg", alt: "Doctor explaining birth preparation to participants", position: "50% 45%" },
+  { src: "/images/web-ready/exp04661.jpg", alt: "Educator demonstrating newborn care with a training doll", position: "50% 40%" },
+  { src: "/images/web-ready/exp04630.jpg", alt: "Doctor listening to families at a prenatal workshop", position: "50% 30%" },
 ] as const;
 
 /**
@@ -22,7 +22,7 @@ export function BirthPrepGallery() {
       aria-labelledby="birth-prep-gallery-heading"
       className="relative isolate overflow-hidden bg-[#f8f9f8] section-pad"
     >
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_8%_18%,#f8ebe5_0%,transparent_38%),radial-gradient(circle_at_94%_80%,#eef2ee_0%,transparent_34%)]" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[url('/images/services/birth-prep-topics-background-v1.png')] bg-cover bg-center" />
       <BirthPrepReveal className="container-birthwave relative">
         <div className="max-w-3xl">
           <p className="eyebrow">{birthPrepGallery.eyebrow}</p>
@@ -47,7 +47,7 @@ export function BirthPrepGallery() {
               className="group overflow-hidden rounded-[1.5rem] border border-white/80 bg-white/90 shadow-[0_12px_32px_-22px_rgba(76,55,47,0.24)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_20px_38px_-22px_rgba(76,55,47,0.32)]"
             >
               <div className="relative aspect-[3/2] overflow-hidden bg-paper-dim">
-                <Image src={workshopPhotos[idx].src} alt={workshopPhotos[idx].alt} fill sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                <Image src={workshopPhotos[idx].src} alt={workshopPhotos[idx].alt} fill sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ objectPosition: workshopPhotos[idx].position }} />
               </div>
               <div className="flex items-center justify-between px-6 pt-5">
                 <span className="font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">

@@ -75,7 +75,7 @@ export const birthPrepWhoFor = {
       body: "You don't need to have every question or preference figured out before joining.",
     },
   ],
-  cta: { label: "ASK ABOUT THE WORKSHOP →", href: "#birth-prep-enquiry" },
+  cta: { label: "ASK ABOUT THE WORKSHOP", href: "#birth-prep-enquiry" },
 } as const;
 
 export const birthPrepTopics = {
@@ -235,7 +235,7 @@ export const birthPrepPreferences = {
     },
   ],
   closing: "Your preferences matter, and so do the health and safety of you and your newborn.",
-  cta: { label: "LEARN ABOUT BIRTH PREPARATION →", href: "#birth-prep-enquiry" },
+  cta: { label: "LEARN ABOUT BIRTH PREPARATION", href: "#birth-prep-enquiry" },
   imageKey: "birth-prep-landing-preferences" as const,
 } as const;
 
