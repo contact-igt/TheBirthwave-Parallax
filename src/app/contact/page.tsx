@@ -9,6 +9,7 @@ import {
   contactDirectDetails,
 } from "@/content/contact-content";
 import { pageMetadata } from "@/lib/seo";
+import styles from "./contact-hero.module.css";
 
 export const metadata: Metadata = pageMetadata(
   "Contact The Birthwave | Appointments & Enquiries",
@@ -23,39 +24,34 @@ export default function ContactPage() {
       <section
         id="contact-hero"
         aria-label="Contact hero"
-        className="relative isolate overflow-hidden bg-paper [padding-block-start:calc(var(--header-height)+var(--space-section-sm))] [padding-block-end:var(--space-section-sm)]"
+        className="relative isolate flex min-h-[min(760px,100svh)] items-center overflow-hidden bg-ink text-paper [--color-focus-ring:var(--color-paper)] [--color-text:var(--color-paper)] [padding-block-start:calc(var(--header-height)+var(--space-section-sm))] [padding-block-end:var(--space-section-sm)]"
       >
-        <div className="container-birthwave relative z-10 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
-          {/* Left Column: Heading & CTAs */}
-          <div className="max-w-xl">
-            <p className="eyebrow">{contactHero.eyebrow}</p>
-            <h1 className="mt-4 font-display text-display leading-[1.08] font-semibold tracking-[var(--tracking-tight)] text-ink">
+        <Image
+          src={contactHero.media.src}
+          alt=""
+          fill
+          preload
+          sizes="100vw"
+          className="object-cover object-[60%_50%]"
+        />
+        <div className={styles.shade} aria-hidden="true" />
+
+        <div className="container-birthwave relative z-10 w-full">
+          <div className="max-w-2xl">
+            <p className="eyebrow !text-paper">{contactHero.eyebrow}</p>
+            <h1 className="mt-4 font-display text-display leading-[1.08] font-semibold tracking-[var(--tracking-tight)]">
               {contactHero.h1}
             </h1>
-            <p className="mt-5 text-base leading-[var(--leading-relaxed)] text-ink-soft sm:text-lg">
+            <p className="mt-5 max-w-xl text-base leading-[var(--leading-relaxed)] text-paper/90 sm:text-lg">
               {contactHero.body}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-              <Button href={contactHero.primaryCta.href} variant="primary">
+              <Button href={contactHero.primaryCta.href} variant="primary" className="!text-ink">
                 {contactHero.primaryCta.label}
               </Button>
-              <CtaLink href={contactHero.secondaryCta.href}>
+              <CtaLink href={contactHero.secondaryCta.href} tone="inverted">
                 {contactHero.secondaryCta.label}
               </CtaLink>
-            </div>
-          </div>
-
-          {/* Right Column: Premium Visual */}
-          <div className="relative">
-            <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] w-full overflow-hidden rounded-sm border border-[var(--color-border)] bg-paper-dim shadow-[0_4px_20px_rgba(36,26,23,0.04)]">
-              <Image
-                src={contactHero.media.src}
-                alt={contactHero.media.alt}
-                fill
-                priority
-                sizes="(max-width: 1023px) 100vw, 45vw"
-                className="object-cover object-[50%_40%]"
-              />
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { AmbientBackground } from "@/components/layout/ambient-background";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { SiteActionRail } from "@/components/layout/site-action-rail";
 
 /**
  * The chrome every route shares: the ambient background, the fixed
@@ -31,6 +32,7 @@ export function PageShell({ children }: { children: ReactNode }) {
       <SiteHeader />
       <main id="main-content" className="overflow-x-clip">{children}</main>
       <SiteFooter />
+      <SiteActionRail />
     </>
   );
 }

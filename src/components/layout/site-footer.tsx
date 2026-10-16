@@ -32,7 +32,7 @@ const CONTACT_ICONS: Record<string, LucideIcon> = {
   visit: MapPin,
 };
 
-function InstagramIcon({ className }: { className?: string }) {
+export function InstagramIcon({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -78,7 +78,7 @@ function FacebookIcon({ className }: { className?: string }) {
   );
 }
 
-function YouTubeIcon({ className }: { className?: string }) {
+export function YouTubeIcon({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -132,7 +132,7 @@ export function SiteFooter() {
     // an unlayered `var(--color-text)` that utilities can't override.
     <footer className="relative bg-ink text-paper [--color-focus-ring:var(--color-paper)] [--color-text:var(--color-paper)]">
       <SiteFooterReveal>
-        <div className="mx-auto w-full max-w-[1240px] px-6 pt-16 pb-8 sm:px-10 sm:pt-20 lg:px-14 lg:pt-24 lg:pb-9">
+        <div className="mx-auto w-full max-w-[1240px] px-6 pt-16 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:px-10 sm:pt-20 md:pb-8 lg:px-14 lg:pt-24 lg:pb-9">
           <div className="grid gap-y-10 md:grid-cols-2 md:grid-rows-[auto_auto_1fr] md:gap-x-14 md:gap-y-12 lg:grid-rows-none lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.35fr)_minmax(0,0.85fr)_minmax(0,1.1fr)] lg:gap-x-12 xl:gap-x-16">
             {/* Brand */}
             <div className="md:col-span-2 lg:col-span-1">
