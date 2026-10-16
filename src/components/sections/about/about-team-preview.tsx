@@ -33,7 +33,7 @@ export function AboutTeamPreview() {
           ...doctor,
           photo: {
             ...doctor.photo,
-            src: "/images/web-ready/heroservice.JPG",
+            src: "/images/web-ready/heroservice.jpg",
           },
         }
         : doctor,
