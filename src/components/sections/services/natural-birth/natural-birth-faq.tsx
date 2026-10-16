@@ -11,7 +11,7 @@ export function NaturalBirthFaq() {
         heading={naturalBirthFaq.heading}
         description={naturalBirthHero.supportingHeadline}
         items={naturalBirthFaq.items}
-        media={naturalBirthImagery.practical}
+        media={naturalBirthImagery.faq}
       />
     </DotFieldRegion>
   );

@@ -39,13 +39,18 @@ export const naturalBirthImagery = {
     objectPosition: "50% 50%",
   },
   flexibility: {
-    src: "/images/web-ready/exp04558.jpg",
+    src: "/images/web-ready/service3.jpg",
     alt: "Hands demonstrating reassuring support during a workshop",
     objectPosition: "50% 50%",
   },
   practical: {
-    src: "/images/web-ready/exp01320.jpg",
+    src: "/images/web-ready/space.jpg",
     alt: "The BirthWave consultation space",
+    objectPosition: "50% 50%",
+  },
+  faq: {
+    src: "/images/web-ready/faq.jpg",
+    alt: "Questions and answers about Natural Birth",
     objectPosition: "50% 50%",
   },
 } as const;

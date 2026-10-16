@@ -8,16 +8,36 @@ import { cx } from "@/lib/cx";
 
 /**
  * Section 08 — Our Care Team (People Behind the Care).
- * Editorial portrait composition cycling over the roster in doctors-content.ts.
+ * Editorial portrait composition for the first two clinicians in the roster.
  */
 const SLOTS = [
-  { width: "w-full sm:w-[42%]", aspect: "aspect-[4/5]", corner: "tr" as const, offset: "" },
-  { width: "w-full sm:w-[30%]", aspect: "aspect-[4/5]", corner: "bl" as const, offset: "sm:mt-20" },
-  { width: "w-full sm:w-[22%]", aspect: "aspect-[3/4]", corner: "br" as const, offset: "sm:mt-8 sm:-mr-6 lg:-mr-12" },
+  {
+    card: "w-full max-w-[20rem] justify-self-center",
+    corner: "tr" as const,
+    offset: "",
+  },
+  {
+    card: "w-full max-w-[17rem] justify-self-center",
+    corner: "bl" as const,
+    offset: "sm:mt-14",
+  },
 ];
 
 export function AboutTeamPreview() {
-  const preview = doctors.slice(0, SLOTS.length);
+  const preview = doctors
+    .filter((doctor) => doctor.slug !== "dr-bharathy-kandasamy")
+    .slice(0, SLOTS.length)
+    .map((doctor) =>
+      doctor.slug === "dr-santoshi-nandigam"
+        ? {
+          ...doctor,
+          photo: {
+            ...doctor.photo,
+            src: "/images/web-ready/heroservice.jpg",
+          },
+        }
+        : doctor,
+    );
   const isSingleEntry = preview.length === 1;
 
   return (
@@ -49,7 +69,7 @@ export function AboutTeamPreview() {
 
             <Link
               href={`/doctors/${preview[0].slug}`}
-              className="group block w-full sm:w-[70%] lg:w-[38%] lg:shrink-0"
+              className="group block w-full max-w-[20rem] self-center lg:shrink-0"
             >
               {preview[0].slug === "doctor-name-placeholder" ? (
                 <AboutPreviewImage kind="portrait" />
@@ -58,7 +78,8 @@ export function AboutTeamPreview() {
                   photo={preview[0].photo}
                   index={0}
                   corner={SLOTS[0].corner}
-                  className="transition-[transform] duration-[var(--duration-base)] ease-[var(--ease-signature)] group-hover:scale-[1.015]"
+                  sizes="(max-width: 639px) calc(100vw - 40px), 320px"
+                  className="transition-[transform] duration-[var(--duration-base)] ease-[var(--ease-signature)] group-hover:scale-[1.015] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />
               )}
               <p className="mt-4 font-body text-base font-medium text-ink transition-colors duration-[var(--duration-fast)] group-hover:text-terracotta-deep">
@@ -68,8 +89,8 @@ export function AboutTeamPreview() {
             </Link>
           </div>
         ) : (
-          <>
-            <div className="max-w-2xl">
+          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-16">
+            <div className="max-w-xl">
               <p className="eyebrow">{aboutTeamPreview.eyebrow}</p>
               <h2 id="about-team-preview-heading" className="mt-4 text-3xl font-semibold text-ink sm:text-4xl">
                 {aboutTeamPreview.heading}
@@ -86,14 +107,14 @@ export function AboutTeamPreview() {
               </div>
             </div>
 
-            <div className="mt-16 flex flex-col items-start gap-12 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-8 sm:gap-y-0 lg:flex-nowrap">
+            <div className="mx-auto grid w-full max-w-[39rem] gap-10 sm:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] sm:items-start sm:gap-6 lg:mx-0">
               {preview.map((doctor, index) => {
                 const slot = SLOTS[index] ?? SLOTS[SLOTS.length - 1];
                 return (
                   <Link
                     key={doctor.slug}
                     href={`/doctors/${doctor.slug}`}
-                    className={cx("group block", slot.width, slot.offset)}
+                    className={cx("group block", slot.card, slot.offset)}
                   >
                     {doctor.slug === "doctor-name-placeholder" ? (
                       <AboutPreviewImage kind="portrait" />
@@ -102,7 +123,8 @@ export function AboutTeamPreview() {
                         photo={doctor.photo}
                         index={index}
                         corner={slot.corner}
-                        className="transition-[transform] duration-[var(--duration-base)] ease-[var(--ease-signature)] group-hover:scale-[1.015]"
+                        sizes={index === 0 ? "(max-width: 639px) calc(100vw - 40px), 320px" : "(max-width: 639px) calc(100vw - 40px), 272px"}
+                        className="transition-[transform] duration-[var(--duration-base)] ease-[var(--ease-signature)] group-hover:scale-[1.015] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                       />
                     )}
                     <p className="mt-4 font-body text-base font-medium text-ink transition-colors duration-[var(--duration-fast)] group-hover:text-terracotta-deep">
@@ -113,7 +135,7 @@ export function AboutTeamPreview() {
                 );
               })}
             </div>
-          </>
+          </div>
         )}
       </div>
     </section>
