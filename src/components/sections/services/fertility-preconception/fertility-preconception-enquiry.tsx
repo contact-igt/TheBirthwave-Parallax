@@ -1,5 +1,13 @@
 "use client";
 
+import {
+  EnquirySubmissionNotice,
+  EnquirySubmitError,
+  useEnquirySubmission,
+  ENQUIRY_FORM_LABEL,
+  ENQUIRY_SUCCESS_MESSAGE,
+} from "@/lib/use-enquiry-submission";
+
 import conversion from "../shared/service-conversion.module.css";
 
 import { contactPlaceholders } from "@/content/contact-content";
@@ -35,7 +43,7 @@ export function FertilityEnquiry() {
   const [contact, setContact] = useState("");
   const [topic, setTopic] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "previewed">("idle");
+  const { error, status, submit } = useEnquirySubmission("fertility-preconception");
   const [touched, setTouched] = useState(false);
 
   const isValid = name.trim().length > 0 && contact.trim().length > 0;
@@ -56,11 +64,11 @@ export function FertilityEnquiry() {
     };
   }, []);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    setStatus("previewed");
+    await submit(event.currentTarget);
   }
 
   return (
@@ -98,15 +106,17 @@ export function FertilityEnquiry() {
 
         <div className="w-full max-w-md rounded-sm bg-paper p-7 sm:p-8">
           <p className="mb-5 font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
-            {fertilityEnquiry.previewNotice}
+            {ENQUIRY_FORM_LABEL}
           </p>
 
-          {status === "previewed" ? (
+          {status === "submitted" ? (
             <p role="status" className="text-base leading-[var(--leading-relaxed)] text-ink-soft">
-              {fertilityEnquiry.previewResult}
+              {ENQUIRY_SUCCESS_MESSAGE}
             </p>
           ) : (
             <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+              {error ? <EnquirySubmitError message={error} /> : null}
+              <EnquirySubmissionNotice />
               <div className="flex flex-col gap-1.5">
                 <label htmlFor={nameId} className={labelClass}>
                   {fertilityEnquiry.fields.name}
@@ -179,7 +189,7 @@ export function FertilityEnquiry() {
                 </p>
               ) : null}
 
-              <button type="submit" className={submitButtonClass}>
+              <button type="submit" disabled={status === "submitting"} aria-busy={status === "submitting"} className={submitButtonClass}>
                 {fertilityEnquiry.submitLabel}
               </button>
             </form>

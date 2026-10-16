@@ -4,6 +4,12 @@ import { useId, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import { contactEnquiryForm, contactPlaceholders } from "@/content/contact-content";
 import { cx } from "@/lib/cx";
+import {
+  ENQUIRY_FORM_LABEL,
+  ENQUIRY_SUCCESS_MESSAGE,
+  EnquirySubmitError,
+  useEnquirySubmission,
+} from "@/lib/use-enquiry-submission";
 
 const labelClass = "font-body text-sm font-medium text-ink";
 const inputClass =
@@ -29,19 +35,17 @@ export function ContactEnquiryForm() {
   const [serviceHelp, setServiceHelp] = useState<string>("");
   const [message, setMessage] = useState("");
   const [consent, setConsent] = useState(false);
-  const [status, setStatus] = useState<"idle" | "previewed">("idle");
   const [touched, setTouched] = useState(false);
+  const { error, reset, status, submit } = useEnquirySubmission("general-contact");
 
   // Validation: Name is required, Phone is required, Consent checkbox must be checked
   const isValid = name.trim().length > 0 && phone.trim().length > 0 && consent;
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-
-    // Honest Preview mode - no backend integration exists yet
-    setStatus("previewed");
+    await submit(event.currentTarget);
   }
 
   return (
@@ -59,7 +63,7 @@ export function ContactEnquiryForm() {
             {contactEnquiryForm.heading}
           </h2>
           <span className="text-[11px] font-medium tracking-[0.06em] text-terracotta-deep/80 uppercase">
-            {contactEnquiryForm.previewNotice}
+            {ENQUIRY_FORM_LABEL}
           </span>
         </div>
         <p className="text-sm leading-[var(--leading-relaxed)] text-ink-soft">
@@ -67,29 +71,30 @@ export function ContactEnquiryForm() {
         </p>
       </div>
 
-      {status === "previewed" ? (
+      {status === "submitted" ? (
         <div role="status" className="mt-8 rounded-sm border border-terracotta/30 bg-paper-dim/40 p-8 text-center sm:p-10">
           <h3 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
-            Enquiry Received (Preview Mode)
+            Enquiry received
           </h3>
           <p className="mx-auto mt-4 max-w-lg text-base leading-[var(--leading-relaxed)] text-ink-soft">
-            {contactEnquiryForm.previewResult}
+            {ENQUIRY_SUCCESS_MESSAGE}
           </p>
           <div className="mt-8">
             <button
               type="button"
               onClick={() => {
-                setStatus("idle");
+                reset();
                 setTouched(false);
               }}
               className="font-body text-sm font-semibold text-terracotta-deep underline underline-offset-4 hover:text-ink"
             >
-              Reset Form Preview
+              Send another enquiry
             </button>
           </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit} noValidate className="mt-8 flex flex-col gap-6">
+          {error ? <EnquirySubmitError message={error} /> : null}
           <div className="flex flex-col gap-6">
             {/* Name (Required) - Full width */}
             <div className="flex flex-col gap-2">
@@ -221,8 +226,13 @@ export function ContactEnquiryForm() {
 
           {/* CTAs section: Primary SEND ENQUIRY + Secondary WhatsApp action */}
           <div className="mt-4 flex flex-col gap-3 pt-2">
-            <button type="submit" className={submitButtonClass}>
-              <span>{contactEnquiryForm.submitLabel}</span>
+            <button
+              type="submit"
+              disabled={status === "submitting"}
+              aria-busy={status === "submitting"}
+              className={submitButtonClass}
+            >
+              <span>{status === "submitting" ? "Sending…" : contactEnquiryForm.submitLabel}</span>
               <ArrowRight aria-hidden="true" className="size-4 transition-transform duration-[var(--duration-fast)] group-hover:translate-x-1" />
             </button>
 

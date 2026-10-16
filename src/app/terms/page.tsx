@@ -122,8 +122,8 @@ export default function TermsPage() {
             </TermRow>
 
             <TermRow id="enquiries" title="Enquiries and appointments" icon={CalendarDays}>
-              <p>“Book” buttons on this website lead to the contact page; they do not complete a booking. The current website enquiry forms are design previews and do not send requests to the clinic. An appointment is arranged only when the clinic confirms it through a working direct contact channel.</p>
-              <p>For an actual enquiry, use the phone, email or WhatsApp options on the <Link href="/contact">contact page</Link>. Please avoid entering detailed medical records into a preview form.</p>
+              <p>“Book” buttons on this website lead to the contact page; they do not complete a booking. Submitting a website form sends an enquiry to the clinic for follow-up. An appointment is arranged only when the clinic confirms it through a direct contact channel.</p>
+              <p>You can also use the phone, email or WhatsApp options on the <Link href="/contact">contact page</Link>. Please do not enter urgent concerns, detailed medical histories or medical records into a website enquiry.</p>
             </TermRow>
 
             <TermRow id="services" title="Service and practitioner information" icon={UsersRound}>

@@ -1,5 +1,13 @@
 "use client";
 
+import {
+  EnquirySubmissionNotice,
+  EnquirySubmitError,
+  useEnquirySubmission,
+  ENQUIRY_FORM_LABEL,
+  ENQUIRY_SUCCESS_MESSAGE,
+} from "@/lib/use-enquiry-submission";
+
 import conversion from "../shared/service-conversion.module.css";
 
 
@@ -15,15 +23,7 @@ const submitButtonClass =
   "group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xs bg-terracotta px-6 py-3.5 font-body text-sm font-semibold tracking-[0.08em] text-[var(--color-on-brand)] uppercase transition-colors duration-[var(--duration-fast)] ease-[var(--ease-signature)] hover:bg-coral focus-ring-on-brand disabled:cursor-not-allowed disabled:opacity-60";
 
 /**
- * Section 10 — Final Enquiry. Carries the bare `enquiry` id every CTA on
- * this page targets. TODO(infra): exactly like the other seven landing
- * pages' own forms, no backend endpoint or verified enquiry inbox exists
- * anywhere in this project — a persistent "Preview" notice stays visible
- * above the form at all times, and submitting shows an honest "this is a
- * design preview, no enquiry has been sent" message, never a fake
- * success/confirmation. Deliberately short: full name, a single
- * phone-or-email contact field, and an optional message. Nothing here is
- * written to browser storage.
+ * Final enquiry form connected to the shared server-side submission endpoint.
  */
 export function LactationEnquiry() {
   const nameId = useId();
@@ -34,7 +34,7 @@ export function LactationEnquiry() {
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "previewed">("idle");
+  const { error, status, submit } = useEnquirySubmission("lactation");
   const [touched, setTouched] = useState(false);
 
   const isValid = name.trim().length > 0 && contact.trim().length > 0;
@@ -58,13 +58,11 @@ export function LactationEnquiry() {
     };
   }, []);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    // No backend endpoint exists yet — this never calls `fetch`/an API
-    // route and never claims an enquiry was actually sent.
-    setStatus("previewed");
+    await submit(event.currentTarget);
   }
 
   return (
@@ -81,14 +79,16 @@ export function LactationEnquiry() {
         </div>
 
         <div className="w-full max-w-md rounded-sm bg-paper p-7 sm:p-8">
-          <p className="mb-5 font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">{lactationEnquiry.previewNotice}</p>
+          <p className="mb-5 font-body text-xs font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">{ENQUIRY_FORM_LABEL}</p>
 
-          {status === "previewed" ? (
+          {status === "submitted" ? (
             <p role="status" className="text-base leading-[var(--leading-relaxed)] text-ink-soft">
-              {lactationEnquiry.previewResult}
+              {ENQUIRY_SUCCESS_MESSAGE}
             </p>
           ) : (
             <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+              {error ? <EnquirySubmitError message={error} /> : null}
+              <EnquirySubmissionNotice />
               <div className="flex flex-col gap-1.5">
                 <label htmlFor={nameId} className={labelClass}>
                   {lactationEnquiry.fields.name}
@@ -136,7 +136,7 @@ export function LactationEnquiry() {
                 </p>
               ) : null}
 
-              <button type="submit" className={submitButtonClass}>
+              <button type="submit" disabled={status === "submitting"} aria-busy={status === "submitting"} className={submitButtonClass}>
                 {lactationEnquiry.submitLabel}
               </button>
             </form>

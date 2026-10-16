@@ -3,6 +3,11 @@
 import { useId, useState, type FormEvent } from "react";
 import { doctorsEnquiryForm, whoShouldYouConsult } from "@/content/doctors-content";
 import { cx } from "@/lib/cx";
+import {
+  EnquirySubmissionNotice,
+  EnquirySubmitError,
+  useEnquirySubmission,
+} from "@/lib/use-enquiry-submission";
 
 // `Button` (components/ui/button.tsx) renders a `next/link` `<a>` — right
 // for every other CTA on this page, wrong for a real form's own submit
@@ -24,12 +29,9 @@ const submitButtonClass =
  * built from `whoShouldYouConsult.concerns` — the same real concern list
  * used elsewhere on this page, not a second invented category set.
  *
- * No backend exists yet (see `doctorsEnquiryForm`'s own TODO in
- * doctors-content.ts) — submitting never calls `fetch`/an API route and
- * never claims data was sent anywhere; it only moves this component into
- * a local "received" state. `className`/`compact` let the desktop Form
- * scene ask for a slightly denser layout to fit one viewport height,
- * without a second copy of the form.
+ * Submissions use the shared server-side enquiry endpoint. `className` and
+ * `compact` let the desktop Form scene ask for a slightly denser layout to
+ * fit one viewport height without a second copy of the form.
  */
 export function DoctorsEnquiryForm({ compact = false, className }: { compact?: boolean; className?: string }) {
   const nameId = useId();
@@ -41,18 +43,16 @@ export function DoctorsEnquiryForm({ compact = false, className }: { compact?: b
   const [contact, setContact] = useState("");
   const [concern, setConcern] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitted">("idle");
   const [touched, setTouched] = useState(false);
+  const { error, status, submit } = useEnquirySubmission("doctor-enquiry");
 
   const isValid = name.trim().length > 0 && contact.trim().length > 0;
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    // No backend endpoint exists yet — this only updates local state. See
-    // this component's own top comment and doctorsEnquiryForm's TODO.
-    setStatus("submitted");
+    await submit(event.currentTarget);
   }
 
   if (status === "submitted") {
@@ -77,6 +77,7 @@ export function DoctorsEnquiryForm({ compact = false, className }: { compact?: b
 
   return (
     <form onSubmit={handleSubmit} noValidate className={cx("flex w-full max-w-md flex-col", fieldGap, className)}>
+      {error ? <EnquirySubmitError message={error} /> : null}
       <div className="flex flex-col gap-1.5">
         <label htmlFor={nameId} className={labelClass}>
           {doctorsEnquiryForm.fields.name}
@@ -151,8 +152,15 @@ export function DoctorsEnquiryForm({ compact = false, className }: { compact?: b
         </p>
       ) : null}
 
-      <button type="submit" className={cx(submitButtonClass, "mt-1 w-full sm:w-auto")}>
-        {doctorsEnquiryForm.submitLabel}
+      <EnquirySubmissionNotice />
+
+      <button
+        type="submit"
+        disabled={status === "submitting"}
+        aria-busy={status === "submitting"}
+        className={cx(submitButtonClass, "mt-1 w-full sm:w-auto")}
+      >
+        {status === "submitting" ? "Sending…" : doctorsEnquiryForm.submitLabel}
       </button>
     </form>
   );
