@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  EnquirySubmissionNotice,
+  EnquirySubmitError,
+  useEnquirySubmission,
+} from "@/lib/use-enquiry-submission";
+
 import conversion from "../shared/service-conversion.module.css";
 
 
@@ -61,7 +67,7 @@ export function PregnancyAntenatalAppointment() {
   );
   const [method, setMethod] = useState<string>("Phone Call");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitted">("idle");
+  const { error, reset, status, submit } = useEnquirySubmission("pregnancy-antenatal-care");
   const [touched, setTouched] = useState(false);
 
   const isValid = name.trim().length > 0 && phone.trim().length > 0;
@@ -82,11 +88,11 @@ export function PregnancyAntenatalAppointment() {
     };
   }, []);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    setStatus("submitted");
+    await submit(event.currentTarget);
   }
 
   return (
@@ -241,7 +247,7 @@ export function PregnancyAntenatalAppointment() {
                   <button
                     type="button"
                     onClick={() => {
-                      setStatus("idle");
+                      reset();
                       setName("");
                       setPhone("");
                       setEmail("");
@@ -259,6 +265,8 @@ export function PregnancyAntenatalAppointment() {
                   noValidate
                   className="space-y-3.5 sm:space-y-4"
                 >
+                  {error ? <EnquirySubmitError message={error} /> : null}
+                  <EnquirySubmissionNotice />
                   {/* Row 1: Full name & Phone number */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     <div className="flex flex-col gap-1">
@@ -446,7 +454,7 @@ export function PregnancyAntenatalAppointment() {
 
                   {/* Row 5: Submit Button */}
                   <button
-                    type="submit"
+                    type="submit" disabled={status === "submitting"} aria-busy={status === "submitting"}
                     className="w-full rounded-xl bg-[#E06D53] hover:bg-[#CF5D43] text-white py-3.5 sm:py-4 px-6 font-bold text-xs sm:text-[13px] tracking-wider uppercase transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
                   >
                     <span>REQUEST A PREGNANCY CONSULTATION</span>

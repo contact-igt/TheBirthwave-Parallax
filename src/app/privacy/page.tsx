@@ -20,7 +20,7 @@ import privacyStyles from "./privacy-page.module.css";
 export const metadata: Metadata = {
   title: "Website Privacy Notice (Draft): The Birthwave",
   description:
-    "Draft website privacy notice explaining how The Birthwave's current website enquiry preview and external contact links work.",
+    "Draft website privacy notice explaining how The Birthwave's website enquiries and external contact links work.",
   robots: { index: false, follow: true },
 };
 
@@ -110,8 +110,8 @@ export default function PrivacyPage() {
             </PrivacyRow>
 
             <PrivacyRow id="information" title="Information you choose to provide" icon={UserRound}>
-              <p>The website enquiry form asks for your name and phone number, with optional email, care area and message fields. <strong className="font-semibold text-ink">The form is currently a design preview:</strong> submitting it does not send an enquiry to The Birthwave. The details you type are held in the page while it is open and are not sent to a clinic enquiry endpoint by this form.</p>
-              <p>Please do not put sensitive medical information into the preview form. To reach the team, use the phone, email or WhatsApp options on the <Link href="/contact">contact page</Link>.</p>
+              <p>The website enquiry forms ask for your name and a way to contact you, with optional email, care area, contact preference and message fields depending on the page. When you submit a form, the website sends those details through a protected server endpoint and Google Apps Script to a clinic-controlled Google Sheet so the team can respond to your enquiry.</p>
+              <p>Please do not put urgent concerns, detailed medical histories or medical records into a website enquiry. You can also reach the team using the phone, email or WhatsApp options on the <Link href="/contact">contact page</Link>.</p>
             </PrivacyRow>
 
             <PrivacyRow id="technical-data" title="Technical information when you visit" icon={Laptop}>
@@ -119,7 +119,7 @@ export default function PrivacyPage() {
             </PrivacyRow>
 
             <PrivacyRow id="external-services" title="Contact links and external services" icon={ExternalLink}>
-              <p>If you choose to call, email, use WhatsApp, open a map or visit a social-media link, you leave this website or use another provider’s service. The information you share through those channels is handled separately from the preview form and may be subject to that provider’s privacy terms. The Birthwave’s handling of messages received through those channels requires a separate clinic-approved notice.</p>
+              <p>Website enquiry submissions use Google Apps Script and Google Sheets as service providers. If you choose to call, email, use WhatsApp, open a map or visit a social-media link, you leave this website or use another provider’s service. Information shared through those channels is handled separately and may be subject to that provider’s privacy terms.</p>
             </PrivacyRow>
 
             <PrivacyRow id="confidentiality" title="Healthcare confidentiality" icon={ShieldCheck}>
@@ -127,7 +127,7 @@ export default function PrivacyPage() {
             </PrivacyRow>
 
             <PrivacyRow id="choices" title="Your choices and questions" icon={MessageCircle}>
-              <p>You can browse without using the preview form. You can choose which direct contact channel to use and what information to share. To ask about information you have sent through phone, email or WhatsApp, or to request access, correction or deletion where applicable, contact the clinic using the details below. Any request involving clinical records should be handled under the clinic’s own procedures and applicable law.</p>
+              <p>You can browse without submitting an enquiry form. You can choose which direct contact channel to use and what information to share. To ask about information you have submitted, or to request access, correction or deletion where applicable, contact the clinic using the details below. Any request involving clinical records should be handled under the clinic’s own procedures and applicable law.</p>
             </PrivacyRow>
           </div>
 

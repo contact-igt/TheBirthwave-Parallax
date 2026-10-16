@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  EnquirySubmissionNotice,
+  EnquirySubmitError,
+  useEnquirySubmission,
+} from "@/lib/use-enquiry-submission";
+
 import conversion from "../shared/service-conversion.module.css";
 
 
@@ -31,7 +37,7 @@ export function BirthPrepEnquiry() {
   const [email, setEmail] = useState("");
   const [stage, setStage] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitted">("idle");
+  const { error, status, submit } = useEnquirySubmission("birth-preparation");
   const [touched, setTouched] = useState(false);
 
   const isValid = name.trim().length > 0 && phone.trim().length > 0;
@@ -52,11 +58,11 @@ export function BirthPrepEnquiry() {
     };
   }, []);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    setStatus("submitted");
+    await submit(event.currentTarget);
   }
 
   return (
@@ -114,6 +120,8 @@ export function BirthPrepEnquiry() {
             </div>
           ) : (
             <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+              {error ? <EnquirySubmitError message={error} /> : null}
+              <EnquirySubmissionNotice />
               <div className="flex flex-col gap-1.5">
                 <label htmlFor={nameId} className={labelClass}>
                   {birthPrepEnquiry.fields.name} <span className="text-terracotta">*</span>
@@ -200,7 +208,7 @@ export function BirthPrepEnquiry() {
                 </p>
               ) : null}
 
-              <button type="submit" className={submitButtonClass}>
+              <button type="submit" disabled={status === "submitting"} aria-busy={status === "submitting"} className={submitButtonClass}>
                 {birthPrepEnquiry.submitLabel}
               </button>
             </form>

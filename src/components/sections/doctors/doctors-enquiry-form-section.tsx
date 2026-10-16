@@ -14,7 +14,7 @@ import { DOCTORS_SURFACE_TONED } from "@/components/sections/doctors/doctors-sur
  * identically.
  *
  * Form behaviour/destination unchanged — see `DoctorsEnquiryForm`'s own
- * comment: no backend exists yet, submitting only moves the form into a
+ * comment: submissions use the shared server-side enquiry endpoint and move the form into a
  * local "received" state, never a fabricated "sent" claim.
  *
  * Lower-page refinement: this is now the page's own final section before

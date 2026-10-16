@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  EnquirySubmissionNotice,
+  EnquirySubmitError,
+  useEnquirySubmission,
+} from "@/lib/use-enquiry-submission";
+
 import conversion from "../shared/service-conversion.module.css";
 
 
@@ -28,7 +34,7 @@ export function NaturalBirthEnquiry() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitted">("idle");
+  const { error, status, submit } = useEnquirySubmission("natural-birth");
   const [touched, setTouched] = useState(false);
 
   const isValid = name.trim().length > 0 && phone.trim().length > 0;
@@ -49,11 +55,11 @@ export function NaturalBirthEnquiry() {
     };
   }, []);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTouched(true);
     if (!isValid) return;
-    setStatus("submitted");
+    await submit(event.currentTarget);
   }
 
   return (
@@ -84,6 +90,8 @@ export function NaturalBirthEnquiry() {
             </div>
           ) : (
             <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+              {error ? <EnquirySubmitError message={error} /> : null}
+              <EnquirySubmissionNotice />
               <div className="flex flex-col gap-1.5">
                 <label htmlFor={nameId} className={labelClass}>
                   {naturalBirthEnquiry.fields.name}
@@ -152,7 +160,7 @@ export function NaturalBirthEnquiry() {
                 </p>
               ) : null}
 
-              <button type="submit" className={submitButtonClass}>
+              <button type="submit" disabled={status === "submitting"} aria-busy={status === "submitting"} className={submitButtonClass}>
                 {naturalBirthEnquiry.submitLabel}
               </button>
             </form>
