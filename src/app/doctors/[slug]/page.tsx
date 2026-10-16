@@ -4,6 +4,11 @@ import { PageShell } from "@/components/layout/page-shell";
 import { DoctorProfileTemplate } from "@/features/doctors/doctor-profile-template";
 import { doctors, getDoctorBySlug } from "@/content/doctors-content";
 import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  breadcrumbStructuredData,
+  personStructuredData,
+} from "@/lib/structured-data";
 
 export function generateStaticParams() {
   return doctors.map((doctor) => ({ slug: doctor.slug }));
@@ -18,7 +23,7 @@ export async function generateMetadata({
   const doctor = getDoctorBySlug(slug);
   if (!doctor) return { title: "Our Team: The Birthwave" };
   return pageMetadata(
-    `${doctor.name}: The Birthwave`,
+    `${doctor.name} | The Birthwave Chennai`,
     `Meet ${doctor.name}, ${doctor.role}, at The Birthwave.`,
     `/doctors/${slug}`,
   );
@@ -38,6 +43,14 @@ export default async function DoctorDetailPage({
 
   return (
     <PageShell>
+      <JsonLd data={personStructuredData(doctor)} />
+      <JsonLd
+        data={breadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "Our Care Team", path: "/doctors" },
+          { name: doctor.name, path: `/doctors/${slug}` },
+        ])}
+      />
       <DoctorProfileTemplate doctor={doctor} />
     </PageShell>
   );

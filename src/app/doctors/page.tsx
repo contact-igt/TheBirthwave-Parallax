@@ -7,9 +7,16 @@ import { WhoShouldYouConsult } from "@/components/sections/doctors/who-should-yo
 import { DoctorsEnquiryFormSection } from "@/components/sections/doctors/doctors-enquiry-form-section";
 import { DoctorsAmbientBackdrop } from "@/components/sections/doctors/doctors-ambient-backdrop";
 import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { doctors } from "@/content/doctors-content";
+import {
+  breadcrumbStructuredData,
+  itemListStructuredData,
+  webPageStructuredData,
+} from "@/lib/structured-data";
 
 export const metadata: Metadata = pageMetadata(
-  "Our Care Team: The Birthwave",
+  "Doctors & Care Team | The Birthwave Chennai",
   "Meet the specialists behind The Birthwave's continuous journey of care, across women's health, pregnancy, birth, recovery and newborn care.",
   "/doctors",
 );
@@ -56,6 +63,30 @@ export const metadata: Metadata = pageMetadata(
 export default function DoctorsPage() {
   return (
     <PageShell>
+      <JsonLd
+        data={webPageStructuredData({
+          type: "CollectionPage",
+          name: "Doctors & Care Team: The Birthwave",
+          description:
+            "Meet the specialists behind The Birthwave's continuous journey of care, across women's health, pregnancy, birth, recovery and newborn care.",
+          path: "/doctors",
+        })}
+      />
+      <JsonLd
+        data={itemListStructuredData(
+          "The Birthwave care team",
+          doctors.map((doctor) => ({
+            name: doctor.name,
+            path: `/doctors/${doctor.slug}`,
+          })),
+        )}
+      />
+      <JsonLd
+        data={breadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "Our Care Team", path: "/doctors" },
+        ])}
+      />
       <DoctorsHero />
       {/* Everything after the Hero shares one ambient Galaxy layer. */}
       <DoctorsAmbientBackdrop>

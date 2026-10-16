@@ -9,6 +9,11 @@ import {
   contactDirectDetails,
 } from "@/content/contact-content";
 import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  breadcrumbStructuredData,
+  webPageStructuredData,
+} from "@/lib/structured-data";
 import styles from "./contact-hero.module.css";
 
 export const metadata: Metadata = pageMetadata(
@@ -20,6 +25,21 @@ export const metadata: Metadata = pageMetadata(
 export default function ContactPage() {
   return (
     <PageShell>
+      <JsonLd
+        data={webPageStructuredData({
+          type: "ContactPage",
+          name: "Contact The Birthwave",
+          description:
+            "Contact The Birthwave for appointments, WhatsApp enquiries, phone enquiries and general patient support.",
+          path: "/contact",
+        })}
+      />
+      <JsonLd
+        data={breadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "Contact", path: "/contact" },
+        ])}
+      />
       {/* 02 — Contact Hero */}
       <section
         id="contact-hero"

@@ -11,9 +11,14 @@ import { AboutAppointmentCta } from "@/components/sections/about/about-appointme
 
 import styles from "./about-backgrounds.module.css";
 import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  breadcrumbStructuredData,
+  webPageStructuredData,
+} from "@/lib/structured-data";
 
 export const metadata: Metadata = pageMetadata(
-  "About Us: The Birthwave",
+  "About The Birthwave | Women's Health Clinic Chennai",
   "Why The Birthwave exists: one continuous journey of care across fertility, pregnancy, birth, recovery and newborn care.",
   "/about",
 );
@@ -33,6 +38,21 @@ export const metadata: Metadata = pageMetadata(
 export default function AboutPage() {
   return (
     <PageShell>
+      <JsonLd
+        data={webPageStructuredData({
+          type: "AboutPage",
+          name: "About The Birthwave",
+          description:
+            "Why The Birthwave exists: one continuous journey of care across fertility, pregnancy, birth, recovery and newborn care.",
+          path: "/about",
+        })}
+      />
+      <JsonLd
+        data={breadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "About Us", path: "/about" },
+        ])}
+      />
       <div className={styles.page}>
       <AboutCinematicCanvas />
       <AboutFounderStory />

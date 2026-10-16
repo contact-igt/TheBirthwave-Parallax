@@ -29,7 +29,7 @@ export const contactHero = {
 export const contactPlaceholders = {
   phone: "+91 93630 31925",
   whatsapp: "+91 79042 51378",
-  email: "drsantoshi@thebirthwave.com",
+  email: "thebirthwave@gmail.com",
   clinicAddress:
     "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai \u2013 600034",
   consultationTimings: "[The Birthwave confirmation needed: consultation timings]",
@@ -66,8 +66,8 @@ export const contactDirectDetails = {
       id: "email",
       label: "Email",
       confirmed: true,
-      value: "drsantoshi@thebirthwave.com",
-      actionHref: "mailto:drsantoshi@thebirthwave.com" as string | undefined,
+      value: "thebirthwave@gmail.com",
+      actionHref: "mailto:thebirthwave@gmail.com" as string | undefined,
       note: "Send appointment enquiries or general clinical questions.",
     },
     {

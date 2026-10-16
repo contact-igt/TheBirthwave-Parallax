@@ -17,6 +17,11 @@ import { PostpartumLandingPage } from "@/components/sections/services/postpartum
 import { NutritionLandingPage } from "@/components/sections/services/nutrition-emotional-wellbeing/nutrition-emotional-wellbeing-landing-page";
 import { NewbornLandingPage } from "@/components/sections/services/newborn-pediatric-care/newborn-pediatric-care-landing-page";
 import { NaturalBirthLandingPage } from "@/components/sections/services/natural-birth/natural-birth-landing-page";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  breadcrumbStructuredData,
+  serviceStructuredData,
+} from "@/lib/structured-data";
 
 /** The slugs with their own dedicated landing page — every other slug
  * keeps rendering through the unmodified, shared `ServicePageTemplate`.
@@ -65,6 +70,12 @@ const DEDICATED_LANDING_DESCRIPTIONS: Record<string, string> = {
     "Explore The Birthwave's Natural Birth support. Discuss birth preferences, preparation and care options while planning for flexibility if circumstances change.",
 };
 
+function getServiceDescription(service: (typeof services)[number]): string {
+  return DEDICATED_LANDING_SLUGS.has(service.slug)
+    ? (DEDICATED_LANDING_DESCRIPTIONS[service.slug] ?? service.shortDescription)
+    : service.shortDescription;
+}
+
 export function generateStaticParams() {
   return services
     .filter((service) => !HIDDEN_SERVICE_SLUGS.has(service.slug))
@@ -84,10 +95,8 @@ export async function generateMetadata({
   if (!service) return { title: "Service: The Birthwave" };
 
   return pageMetadata(
-    `${service.name}: The Birthwave`,
-    DEDICATED_LANDING_SLUGS.has(slug)
-      ? (DEDICATED_LANDING_DESCRIPTIONS[slug] ?? service.shortDescription)
-      : service.shortDescription,
+    `${service.name} | The Birthwave Chennai`,
+    getServiceDescription(service),
     `/services/${slug}`,
   );
 }
@@ -108,6 +117,14 @@ export default async function ServiceDetailPage({
 
   return (
     <PageShell>
+      <JsonLd data={serviceStructuredData(service, getServiceDescription(service))} />
+      <JsonLd
+        data={breadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "Our Care", path: "/services" },
+          { name: service.name, path: `/services/${slug}` },
+        ])}
+      />
       {slug === "pregnancy-antenatal-care" ? (
         <PregnancyAntenatalLandingPage />
       ) : slug === "birth-preparation" ? (

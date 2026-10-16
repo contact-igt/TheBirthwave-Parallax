@@ -13,9 +13,17 @@ import { ServicesFinalCta } from "@/components/sections/services/services-final-
 import { ServicesChapterNavigation } from "@/components/sections/services/services-chapter-navigation";
 import styles from "@/components/sections/services/services-overview.module.css";
 import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { services } from "@/content/services-content";
+import { HIDDEN_SERVICE_SLUGS } from "@/content/nav-care-content";
+import {
+  breadcrumbStructuredData,
+  itemListStructuredData,
+  webPageStructuredData,
+} from "@/lib/structured-data";
 
 export const metadata: Metadata = pageMetadata(
-  "Our Services: The Birthwave",
+  "Women's Health & Maternity Services | The Birthwave Chennai",
   "Women's healthcare for every stage of life. From gynaecology and fertility to maternity care, birth, recovery and paediatric support at The Birthwave, Chennai.",
   "/services",
 );
@@ -41,8 +49,36 @@ export const metadata: Metadata = pageMetadata(
  *  13 ServicesFinalCta            — Section 13: Final CTA ("Whatever your concern, start with a conversation.")
  */
 export default function ServicesPage() {
+  const visibleServices = services.filter(
+    (service) => !HIDDEN_SERVICE_SLUGS.has(service.slug),
+  );
+
   return (
     <PageShell>
+      <JsonLd
+        data={webPageStructuredData({
+          type: "CollectionPage",
+          name: "Women's Health & Maternity Services: The Birthwave",
+          description:
+            "Women's healthcare for every stage of life. From gynaecology and fertility to maternity care, birth, recovery and paediatric support at The Birthwave, Chennai.",
+          path: "/services",
+        })}
+      />
+      <JsonLd
+        data={itemListStructuredData(
+          "The Birthwave care services",
+          visibleServices.map((service) => ({
+            name: service.name,
+            path: `/services/${service.slug}`,
+          })),
+        )}
+      />
+      <JsonLd
+        data={breadcrumbStructuredData([
+          { name: "Home", path: "/" },
+          { name: "Our Care", path: "/services" },
+        ])}
+      />
       <div className={styles.root} data-services-overview>
         <ServicesHero />
         <ServicesChapterNavigation />

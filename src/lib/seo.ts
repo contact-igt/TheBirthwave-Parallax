@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
 
-const fallbackOrigin = "https://the-birthwave-parallax-rho.vercel.app";
-const configuredOrigin = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-
-// The deployed Vercel URL is the current canonical host. Set this variable
-// to the approved custom domain when that domain becomes the public site.
-export const siteOrigin =
-  configuredOrigin && new URL(configuredOrigin).hostname !== "example.com"
-    ? configuredOrigin.replace(/\/$/, "")
-    : fallbackOrigin;
+/**
+ * The public, indexable origin. Preview deployments should point their
+ * canonicals back to this domain so search engines consolidate every URL on
+ * the live site instead of treating a Vercel preview as a second website.
+ */
+export const siteOrigin = "https://www.thebirthwave.in";
 
 export const homeDescription =
   "Explore women's health, fertility, pregnancy, birth preparation, recovery and newborn care at The Birthwave in Chennai.";
+
+export function absoluteUrl(path: string): string {
+  if (/^https?:\/\//i.test(path)) return path;
+  return new URL(path, `${siteOrigin}/`).toString();
+}
 
 export function pageMetadata(
   title: string,
@@ -22,13 +24,22 @@ export function pageMetadata(
     title,
     description,
     alternates: { canonical: path },
+    robots: { index: true, follow: true },
     openGraph: {
       type: "website",
       siteName: "The Birthwave",
+      locale: "en_IN",
       title,
       description,
       url: path,
-      images: [{ url: "/brand/wordmark-mauve.png", alt: "The Birthwave" }],
+      images: [
+        {
+          url: "/brand/wordmark-mauve.png",
+          width: 2327,
+          height: 1139,
+          alt: "The Birthwave",
+        },
+      ],
     },
     twitter: {
       card: "summary",
