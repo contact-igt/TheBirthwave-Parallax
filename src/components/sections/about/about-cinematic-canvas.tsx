@@ -14,10 +14,9 @@ import {
   ensureScrollTriggerRegistered,
   gsap,
   ScrollTrigger,
-  SIGNATURE_EASE,
 } from "@/motion/gsap-scroll";
+import { ScrollSequence } from "@/components/ui/scroll-sequence";
 import {
-  SECTION1_FRAMES,
   SECTION3_FRAMES,
 } from "@/motion/about-cinematic";
 
@@ -70,334 +69,254 @@ function AboutCinematicFlow() {
 }
 
 // ---------------------------------------------------------------------------
-// 1. Exterior Scroll Scene (Sections 1 + 2)
+// 1. Exterior Scroll Scene (Sections 1 + 2) — ScrollSequence (400vh desktop / 300vh mobile)
 // ---------------------------------------------------------------------------
 
 function ExteriorScrollScene() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const heroBeatRef = useRef<HTMLDivElement>(null);
   const problemBeatRef = useRef<HTMLDivElement>(null);
 
-  const frameCount = SECTION1_FRAMES.length; // 82 frames
-  const frameCache = useRef<Array<HTMLImageElement | null>>(Array(frameCount).fill(null));
-  const currentFrameRef = useRef(0);
-  const imgW = useRef(1920);
-  const imgH = useRef(1080);
-
-  // Cover-crop paint with nearest loaded frame fallback and mobile-responsive focal alignment
-  const drawFrame = useCallback((index: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const paint = (src: HTMLImageElement) => {
-      const cw = canvas.width;
-      const ch = canvas.height;
-      const iw = src.naturalWidth || imgW.current;
-      const ih = src.naturalHeight || imgH.current;
-      const scale = Math.max(cw / iw, ch / ih);
-      const sw = iw * scale;
-      const sh = ih * scale;
-      // In portrait orientation (mobile), focus slightly to the right to keep the entrance & sign centered
-      const focalX = cw < ch ? 0.54 : 0.5;
-      const dx = (cw - sw) * focalX;
-      const dy = (ch - sh) / 2;
-      ctx.drawImage(src, dx, dy, sw, sh);
-    };
-
-    const target = frameCache.current[index];
-    if (target?.complete && target.naturalWidth > 0) {
-      paint(target);
-      return;
-    }
-
-    // Nearest loaded fallback: never draw a blank canvas
-    for (let delta = 1; delta < frameCount; delta++) {
-      for (const dir of [-1, 1]) {
-        const alt = index + dir * delta;
-        if (alt >= 0 && alt < frameCount) {
-          const altImg = frameCache.current[alt];
-          if (altImg?.complete && altImg.naturalWidth > 0) {
-            paint(altImg);
-            return;
-          }
-        }
-      }
-    }
-  }, [frameCount]);
-
-  const resizeCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const w = canvas.offsetWidth;
-    const h = canvas.offsetHeight;
-    if (w === 0 || h === 0) return;
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
-    drawFrame(currentFrameRef.current);
-  }, [drawFrame]);
-
-  // Progressive preloader: eager first batch, idle chunking for remainder, prioritize near scroll
-  const loadFrames = useCallback((onFirstReady: () => void) => {
-    const cache = frameCache.current;
-    let firstNotified = false;
-
-    const loadOne = (i: number) => {
-      if (cache[i]) return;
-      const img = new window.Image();
-      img.decoding = "async";
-      img.onload = () => {
-        if (i === 0) {
-          imgW.current = img.naturalWidth || 1920;
-          imgH.current = img.naturalHeight || 1080;
-        }
-        if (img.decode) {
-          img.decode().catch(() => {}).finally(() => {
-            if (!firstNotified && cache[0]?.complete && cache[0].naturalWidth > 0) {
-              firstNotified = true;
-              onFirstReady();
-            }
-          });
-        } else if (!firstNotified && cache[0]?.complete && cache[0].naturalWidth > 0) {
-          firstNotified = true;
-          onFirstReady();
-        }
-      };
-      img.src = SECTION1_FRAMES[i];
-      cache[i] = img;
-    };
-
-    // Load frame 0 immediately
-    loadOne(0);
-
-    // Eager nearby batch (frames 1–10)
-    const eagerCount = Math.min(10, frameCount);
-    for (let i = 1; i < eagerCount; i++) {
-      loadOne(i);
-    }
-
-    if (cache[0]?.complete && cache[0].naturalWidth > 0) {
-      firstNotified = true;
-      onFirstReady();
-    }
-
-    // Lazy load remaining frames in small chunks
-    let nextIdx = eagerCount;
-    const CHUNK_SIZE = 8;
-    const loadRemaining = () => {
-      const end = Math.min(nextIdx + CHUNK_SIZE, frameCount);
-      for (let i = nextIdx; i < end; i++) {
-        loadOne(i);
-      }
-      nextIdx = end;
-      if (nextIdx < frameCount) {
-        if ("requestIdleCallback" in window) {
-          (window as Window & typeof globalThis).requestIdleCallback(loadRemaining, { timeout: 1500 });
-        } else {
-          setTimeout(loadRemaining, 80);
-        }
-      }
-    };
-
-    if ("requestIdleCallback" in window) {
-      (window as Window & typeof globalThis).requestIdleCallback(loadRemaining, { timeout: 1500 });
-    } else {
-      setTimeout(loadRemaining, 100);
-    }
-  }, [frameCount]);
-
-  // Prioritize nearby frames during scroll
-  const prioritizeNear = useCallback((targetIndex: number) => {
-    const cache = frameCache.current;
-    const start = Math.max(0, targetIndex - 5);
-    const end = Math.min(frameCount - 1, targetIndex + 5);
-    for (let i = start; i <= end; i++) {
-      if (!cache[i]) {
-        const img = new window.Image();
-        img.decoding = "async";
-        img.src = SECTION1_FRAMES[i];
-        cache[i] = img;
-      }
-    }
-  }, [frameCount]);
-
   useEffect(() => {
-    const track = trackRef.current;
-    const canvas = canvasRef.current;
-    if (!track || !canvas) return;
-
-    resizeCanvas();
-
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-    const ro = new ResizeObserver(() => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        resizeCanvas();
-        ScrollTrigger.refresh();
-      }, 100);
-    });
-    ro.observe(canvas);
-
-    loadFrames(() => {
-      drawFrame(0);
-    });
-
     ensureScrollTriggerRegistered();
+    // Refresh downstream GSAP ScrollTriggers (Section 3) after layout settles
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 120);
+    return () => clearTimeout(timer);
+  }, []);
 
-    const ctx = gsap.context(() => {
-      const heroBeat = heroBeatRef.current;
-      const problemBeat = problemBeatRef.current;
-      if (!heroBeat || !problemBeat) return;
+  // Section 1 is visible over first ~0–45% of scroll, then fades out smoothly.
+  // Section 2 fades in for ~50–100%.
+  // On mobile: "Video first" — first ~20% of each section shows only video, then text panel fades and slides up.
+  // Section 1 fades out completely before Section 2 appears, ensuring zero overlap.
+  const handleProgress = useCallback((progress: number) => {
+    const hero = heroBeatRef.current;
+    const problem = problemBeatRef.current;
+    if (!hero || !problem) return;
 
-      // Section 1 begins visible; Section 2 starts hidden
-      gsap.set(heroBeat, { autoAlpha: 1, y: 0 });
-      gsap.set(problemBeat, { autoAlpha: 0, y: 24 });
+    const isMobile = window.innerWidth <= 767;
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: track,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.8,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            // Continuous normalized progress 0 -> 1 across the full 82-frame exterior sequence
-            const target = Math.min(
-              frameCount - 1,
-              Math.max(0, Math.round(self.progress * (frameCount - 1))),
-            );
-            if (target !== currentFrameRef.current) {
-              currentFrameRef.current = target;
-              prioritizeNear(target);
-              drawFrame(target);
-            }
-          },
-        },
-      });
+    if (isMobile) {
+      // ── Mobile Timeline ────────────────────────────────────────────────
+      // Section 1 (0 to ~0.44):
+      // 0.00 to 0.08: Video first (hero opacity = 0)
+      // 0.08 to 0.18: Fade and slide up (hero opacity 0 -> 1)
+      // 0.18 to 0.36: Fully visible
+      // 0.36 to 0.44: Fade out before Section 2 (hero opacity 1 -> 0)
+      // 0.44 to 0.56: Inter-section gap (both sections at 0 opacity, only video plays)
+      //
+      // Section 2 (~0.56 to 1.00):
+      // 0.56 to 0.66: Fade and slide up (problem opacity 0 -> 1)
+      // 0.66 to 1.00: Fully visible
 
-      // Hero exit: fades out smoothly between progress 0.38 and 0.48
-      tl.to(
-        heroBeat,
-        {
-          autoAlpha: 0,
-          y: -24,
-          ease: SIGNATURE_EASE,
-          duration: 0.10,
-        },
-        0.38,
-      );
+      if (progress < 0.08) {
+        hero.style.opacity = "0";
+        hero.style.transform = "translate3d(0, 24px, 0)";
+        hero.style.pointerEvents = "none";
+      } else if (progress < 0.18) {
+        const t = (progress - 0.08) / 0.10;
+        hero.style.opacity = String(t);
+        hero.style.transform = `translate3d(0, ${24 * (1 - t)}px, 0)`;
+        hero.style.pointerEvents = t > 0.5 ? "auto" : "none";
+      } else if (progress <= 0.36) {
+        hero.style.opacity = "1";
+        hero.style.transform = "translate3d(0, 0px, 0)";
+        hero.style.pointerEvents = "auto";
+      } else if (progress < 0.44) {
+        const t = (progress - 0.36) / 0.08;
+        hero.style.opacity = String(Math.max(0, 1 - t));
+        hero.style.transform = `translate3d(0, ${-20 * t}px, 0)`;
+        hero.style.pointerEvents = t > 0.5 ? "none" : "auto";
+      } else {
+        hero.style.opacity = "0";
+        hero.style.transform = "translate3d(0, -20px, 0)";
+        hero.style.pointerEvents = "none";
+      }
 
-      // Problem enter: fades in smoothly between progress 0.48 and 0.58, stays through 1.0
-      tl.to(
-        problemBeat,
-        {
-          autoAlpha: 1,
-          y: 0,
-          ease: SIGNATURE_EASE,
-          duration: 0.10,
-        },
-        0.48,
-      );
+      if (progress < 0.56) {
+        problem.style.opacity = "0";
+        problem.style.transform = "translate3d(0, 24px, 0)";
+        problem.style.pointerEvents = "none";
+      } else if (progress < 0.66) {
+        const t = (progress - 0.56) / 0.10;
+        problem.style.opacity = String(Math.min(1, t));
+        problem.style.transform = `translate3d(0, ${24 * (1 - t)}px, 0)`;
+        problem.style.pointerEvents = t > 0.5 ? "auto" : "none";
+      } else {
+        problem.style.opacity = "1";
+        problem.style.transform = "translate3d(0, 0px, 0)";
+        problem.style.pointerEvents = "auto";
+      }
+    } else {
+      // ── Desktop Timeline (Unchanged) ───────────────────────────────────
+      // Section 1 (Hero): visible over ~0–45%
+      if (progress <= 0.35) {
+        hero.style.opacity = "1";
+        hero.style.transform = "translate3d(0, 0px, 0)";
+        hero.style.pointerEvents = "auto";
+      } else if (progress < 0.45) {
+        const t = (progress - 0.35) / 0.10; // 0 -> 1
+        hero.style.opacity = String(Math.max(0, 1 - t));
+        hero.style.transform = `translate3d(0, ${-24 * t}px, 0)`;
+        hero.style.pointerEvents = t > 0.5 ? "none" : "auto";
+      } else {
+        hero.style.opacity = "0";
+        hero.style.transform = "translate3d(0, -24px, 0)";
+        hero.style.pointerEvents = "none";
+      }
 
-      // Timeline duration anchor to pin 0 -> 1 progress
-      tl.set(problemBeat, { autoAlpha: 1, y: 0 }, 1.0);
-
-      return () => {
-        tl.scrollTrigger?.kill();
-        tl.kill();
-      };
-    }, track);
-
-    return () => {
-      ctx.revert();
-      ro.disconnect();
-      if (resizeTimer) clearTimeout(resizeTimer);
-    };
-  }, [drawFrame, loadFrames, prioritizeNear, resizeCanvas, frameCount]);
+      // Section 2 (Why The Birthwave): fades in for ~50–100%
+      if (progress < 0.48) {
+        problem.style.opacity = "0";
+        problem.style.transform = "translate3d(0, 24px, 0)";
+        problem.style.pointerEvents = "none";
+      } else if (progress < 0.58) {
+        const t = (progress - 0.48) / 0.10; // 0 -> 1
+        problem.style.opacity = String(Math.min(1, t));
+        problem.style.transform = `translate3d(0, ${24 * (1 - t)}px, 0)`;
+        problem.style.pointerEvents = t > 0.5 ? "auto" : "none";
+      } else {
+        problem.style.opacity = "1";
+        problem.style.transform = "translate3d(0, 0px, 0)";
+        problem.style.pointerEvents = "auto";
+      }
+    }
+  }, []);
 
   return (
-    <div
-      ref={trackRef}
-      className="relative h-[200svh] lg:h-[220svh]"
+    <ScrollSequence
+      frameCount={{ desktop: 158, mobile: 79 }}
+      folder={{ desktop: "/frames/desktop", mobile: "/frames/mobile" }}
+      height="h-[300vh] md:h-[400vh]"
+      onProgress={handleProgress}
+      ariaLabel="The Birthwave clinic walk-up exterior sequence"
     >
-      <div className="sticky top-0 z-0 h-svh w-full overflow-hidden bg-paper-dim">
-        {/* Canvas background for exterior clinical frames */}
-        <canvas
-          ref={canvasRef}
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full"
-          style={{ display: "block" }}
-        />
+      {/* ── Section 1 (Hero) — Bottom panel on mobile, left-aligned on desktop ── */}
+      <div
+        ref={heroBeatRef}
+        id={BEATS[0].cinematicId}
+        data-cinematic-beat={BEATS[0].cinematicId}
+        data-about-copy={BEATS[0].key}
+        className="pointer-events-none absolute inset-0 z-10 flex items-end justify-start pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))] md:pb-20 lg:pb-20 xl:pb-24 transition-none"
+        style={{ opacity: 1, transform: "translate3d(0, 0px, 0)" }}
+      >
+        <EditorialDarkGradientWash alignment="left" />
 
-        {/* ── Section 1 (Hero) — Left-aligned over soft left-to-right editorial gradient wash ── */}
-        <div
-          ref={heroBeatRef}
-          id={BEATS[0].cinematicId}
-          data-cinematic-beat={BEATS[0].cinematicId}
-          data-about-copy={BEATS[0].key}
-          className="pointer-events-none absolute inset-0 z-10 flex items-end justify-start pb-14 sm:pb-16 lg:pb-20 xl:pb-24"
-        >
-          {/* Directional soft warm ivory gradient wash */}
-          <EditorialGradientWash alignment="left" />
-
-          <div className="w-full px-5 sm:px-8 md:px-12 lg:pl-[8vw] xl:pl-[10vw]">
-            <div className="pointer-events-auto relative max-w-[560px] xl:max-w-[600px]">
-              <p className="eyebrow text-ink tracking-[var(--tracking-wider)]">{aboutHero.eyebrow}</p>
-              <h1 className="mt-4 sm:mt-5 text-[clamp(1.75rem,1.25rem+1.6vw,2.85rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-                {aboutHero.headlineLines.map((line) => (
-                  <span key={line} className="block">{line}</span>
-                ))}
-              </h1>
-              <p className="mt-5 sm:mt-6 max-w-[520px] text-sm sm:text-base xl:text-[1.0625rem] leading-[1.7] text-ink-soft whitespace-pre-line">
-                {aboutHero.supporting}
-              </p>
-            </div>
+        <div className="w-full px-5 sm:px-8 md:px-12 lg:pl-[8vw] xl:pl-[10vw]">
+          <div className="pointer-events-auto relative max-w-[560px] xl:max-w-[600px]">
+            <p
+              className="eyebrow !text-coral tracking-[var(--tracking-wider)] font-body text-xs sm:text-sm font-semibold uppercase"
+              style={{
+                color: "var(--color-coral)",
+                textShadow: "0 1px 8px rgba(0, 0, 0, 0.6)",
+              }}
+            >
+              {aboutHero.eyebrow}
+            </p>
+            <h1
+              className="mt-3 sm:mt-5 text-[clamp(1.65rem,1.25rem+1.6vw,2.85rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] !text-[#FBF5F0]"
+              style={{
+                color: "#FBF5F0",
+                textShadow: "0 2px 24px rgba(0,0,0,.45)",
+              }}
+            >
+              {aboutHero.headlineLines.map((line) => (
+                <span key={line} className="block">{line}</span>
+              ))}
+            </h1>
+            <p
+              className="mt-3.5 sm:mt-6 max-w-[520px] text-sm sm:text-base xl:text-[1.0625rem] leading-[1.65] sm:leading-[1.7]"
+              style={{
+                color: "rgba(251, 245, 240, 0.92)",
+                textShadow: "0 1px 8px rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              <span>
+                Fertility. Pregnancy. Birth. Recovery.{" "}
+                <span className="whitespace-nowrap" style={{ whiteSpace: "nowrap" }}>
+                  Newborn care.
+                </span>
+              </span>
+              <span className="block mt-2 sm:mt-3">
+                At The Birthwave, we believe women&apos;s healthcare should go beyond individual appointments. Our approach brings medical care, guidance and supportive services together, with attention to your changing needs at every stage.
+              </span>
+            </p>
           </div>
         </div>
-
-        {/* ── Section 2 (Why The Birthwave) — Right-aligned over mirrored right-to-left editorial gradient wash ── */}
-        <div
-          ref={problemBeatRef}
-          id={BEATS[1].cinematicId}
-          data-cinematic-beat={BEATS[1].cinematicId}
-          data-about-copy={BEATS[1].key}
-          className="pointer-events-none absolute inset-0 z-10 flex items-center justify-end"
-        >
-          {/* Mirrored directional soft warm ivory gradient wash */}
-          <EditorialGradientWash alignment="right" />
-
-          <div className="w-full px-5 sm:px-8 md:px-12 lg:pr-[8vw] xl:pr-[10vw]">
-            <div className="pointer-events-auto relative ml-auto max-w-[540px] xl:max-w-[580px] text-right">
-              <p className="eyebrow text-ink tracking-[var(--tracking-wider)]">{aboutProblem.eyebrow}</p>
-              <h2 className="mt-4 sm:mt-5 text-[clamp(1.75rem,1.25rem+1.6vw,2.65rem)] leading-[1.14] font-semibold tracking-[var(--tracking-tight)] text-ink">
-                {aboutProblem.heading}
-              </h2>
-              <div className="mt-5 sm:mt-6 space-y-3.5 text-sm sm:text-base xl:text-[1.0625rem] leading-[1.7] text-ink-soft">
-                {aboutProblem.paragraphs.map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
-              <ul className="mt-6 sm:mt-7 flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
-                {aboutProblem.stages.map((stage, index) => (
-                  <li key={stage} className="flex items-center gap-2 sm:gap-3">
-                    {index > 0 ? (
-                      <span aria-hidden="true" className="text-ink-soft/40">/</span>
-                    ) : null}
-                    <span className="font-body text-xs sm:text-sm font-semibold tracking-[var(--tracking-wider)] text-terracotta-deep uppercase">
-                      {stage}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
       </div>
-    </div>
+
+      {/* ── Section 2 (Why The Birthwave) — Bottom panel on mobile, right-aligned on desktop ── */}
+      <div
+        ref={problemBeatRef}
+        id={BEATS[1].cinematicId}
+        data-cinematic-beat={BEATS[1].cinematicId}
+        data-about-copy={BEATS[1].key}
+        className="pointer-events-none absolute inset-0 z-10 flex items-end justify-start pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))] md:items-center md:justify-end md:pb-0 transition-none"
+        style={{ opacity: 0, transform: "translate3d(0, 24px, 0)", pointerEvents: "none" }}
+      >
+        <EditorialDarkGradientWash alignment="right" />
+
+        <div className="w-full px-5 sm:px-8 md:px-12 lg:pr-[8vw] xl:pr-[10vw]">
+          <div className="pointer-events-auto relative max-w-[560px] md:max-w-[540px] xl:max-w-[580px] md:ml-auto text-left md:text-right">
+            <p
+              className="eyebrow !text-coral tracking-[var(--tracking-wider)] font-body text-xs sm:text-sm font-semibold uppercase"
+              style={{
+                color: "var(--color-coral)",
+                textShadow: "0 1px 8px rgba(0, 0, 0, 0.6)",
+              }}
+            >
+              {aboutProblem.eyebrow}
+            </p>
+            <h2
+              className="mt-3 sm:mt-5 text-[clamp(1.5rem,1.2rem+1.4vw,2.65rem)] md:text-[clamp(1.75rem,1.25rem+1.6vw,2.65rem)] leading-[1.15] md:leading-[1.14] font-semibold tracking-[var(--tracking-tight)] !text-[#FBF5F0]"
+              style={{
+                color: "#FBF5F0",
+                textShadow: "0 2px 24px rgba(0,0,0,.45)",
+              }}
+            >
+              {aboutProblem.heading}
+            </h2>
+            <div
+              className="mt-3.5 sm:mt-6 space-y-3.5 text-sm sm:text-base xl:text-[1.0625rem] leading-[1.65] sm:leading-[1.7]"
+              style={{
+                color: "rgba(251, 245, 240, 0.92)",
+                textShadow: "0 1px 8px rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              {aboutProblem.paragraphs.map((paragraph, index) => (
+                <p key={index} className={index > 0 ? "hidden md:block" : undefined}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <ul className="mt-4 sm:mt-7 flex flex-wrap items-center justify-start md:justify-end gap-x-2.5 sm:gap-x-3 gap-y-1.5 sm:gap-y-2">
+              {aboutProblem.stages.map((stage, index) => (
+                <li key={stage} className="flex items-center gap-2 sm:gap-3">
+                  {index > 0 ? (
+                    <span
+                      aria-hidden="true"
+                      className="text-white/40"
+                      style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}
+                    >
+                      /
+                    </span>
+                  ) : null}
+                  <span
+                    className="font-body text-xs sm:text-sm font-semibold tracking-[var(--tracking-wider)] uppercase"
+                    style={{
+                      color: "var(--color-coral)",
+                      textShadow: "0 1px 8px rgba(0, 0, 0, 0.6)",
+                    }}
+                  >
+                    {stage}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </ScrollSequence>
   );
 }
 
@@ -866,6 +785,41 @@ function EditorialGradientWash({
 }
 
 // ---------------------------------------------------------------------------
+// Editorial Dark Gradient Wash — subtle dark gradient for readability on bright footage
+// ---------------------------------------------------------------------------
+
+function EditorialDarkGradientWash({
+  alignment = "left",
+}: {
+  alignment?: "left" | "right";
+}) {
+  const isLeft = alignment === "left";
+  return (
+    <>
+      {/* Desktop & tablet directional gradient: Section 1 from left, Section 2 mirrored from right */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 hidden md:block -z-10"
+        style={{
+          background: isLeft
+            ? "linear-gradient(90deg, rgba(20,12,10,.75) 0%, rgba(20,12,10,.45) 45%, transparent 70%)"
+            : "linear-gradient(270deg, rgba(20,12,10,.75) 0%, rgba(20,12,10,.45) 45%, transparent 70%)",
+        }}
+      />
+      {/* Mobile viewport: one smooth bottom-up gradient so the top ~40% shows the clinic sign/door with no hard line */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 md:hidden -z-10"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(20,12,10,.92) 0%, rgba(20,12,10,.75) 45%, rgba(20,12,10,0) 75%)",
+        }}
+      />
+    </>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Static Fallback — prefers-reduced-motion only
 // ---------------------------------------------------------------------------
 
@@ -874,7 +828,7 @@ function AboutCinematicStatic() {
     <div className="flex flex-col bg-paper">
       {/* ── Beat 01: Exterior Hero ── */}
       <StaticBeat
-        posterSrc={SECTION1_FRAMES[0]}
+        posterSrc="/frames/desktop/f_0001.webp"
         alt="The Birthwave clinic exterior — entrance and warm greeting"
       >
         <div
@@ -897,7 +851,7 @@ function AboutCinematicStatic() {
 
       {/* ── Beat 02: Exterior Entrance / Why The Birthwave ── */}
       <StaticBeat
-        posterSrc={SECTION1_FRAMES[70]}
+        posterSrc="/frames/desktop/f_0080.webp"
         alt="The Birthwave clinic exterior entrance walkway"
       >
         <div

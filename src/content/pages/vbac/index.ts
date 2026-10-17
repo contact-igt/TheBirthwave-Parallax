@@ -24,7 +24,7 @@ import { portraitGradient } from "@/components/ui/portrait-gradient";
  */
 export const vbacImagery = {
   hero: {
-    src: "/images/services/service8.jpg",
+    src: "/images/clinic/observation.webp",
     alt: "A thoughtful expectant mother and her partner near a sunlit window.",
     gradient: portraitGradient(0),
   },

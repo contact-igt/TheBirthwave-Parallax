@@ -21,7 +21,7 @@ export const fertilityImagery = {
     objectPosition: "50% 45%",
   },
   covers: {
-    src: "/images/web-ready/fertility2.jpg",
+    src: "/images/clinic/explaining.webp",
     alt: "A woman and a clinician in pink scrubs sit close together at a wooden table, writing in an open notebook.",
     objectPosition: "50% 40%",
   },

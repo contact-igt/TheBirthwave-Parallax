@@ -19,7 +19,7 @@ export const vaginismusImagery = {
     } satisfies HeroFocalPoint,
   },
   "who-this-is-for": {
-    src: "/images/services/v2.jpg",
+    src: "/images/clinic/consultation.webp",
     alt: "Woman discussing an intimate wellness concern with a clinician",
     objectPosition: "50% 38%",
   },
@@ -29,7 +29,7 @@ export const vaginismusImagery = {
     objectPosition: "50% 40%",
   },
   "care-at-your-pace": {
-    src: "/images/services/service3.jpg",
+    src: "/images/clinic/education.webp",
     alt: "Woman having a calm supportive consultation",
     objectPosition: "50% 38%",
   },
