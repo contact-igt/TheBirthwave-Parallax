@@ -682,7 +682,7 @@ export const vaginismusEnquiry = {
     email: "Email (optional)",
     message: "What would you like to discuss? (optional)",
   },
-  submitLabel: "CONTINUE ON WHATSAPP",
+  submitLabel: "SEND ENQUIRY",
   disclaimer:
     "Please avoid sharing detailed medical records or sensitive health information through this initial enquiry form.",
   urgentNote:

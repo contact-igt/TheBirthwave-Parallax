@@ -5,6 +5,7 @@ import { ServicePageTemplate } from "@/features/services/service-page-template";
 import { services, getServiceBySlug } from "@/content/services-content";
 import { HIDDEN_SERVICE_SLUGS } from "@/content/nav-care-content";
 import { pageMetadata } from "@/lib/seo";
+import { isIndexableServiceSlug } from "@/lib/service-indexing-policy";
 import { PregnancyAntenatalLandingPage } from "@/components/sections/services/pregnancy-antenatal/pregnancy-antenatal-landing-page";
 import { BirthPreparationLandingPage } from "@/components/sections/services/birth-preparation/birth-preparation-landing-page";
 import { NormalBirthDeliveryLandingPage } from "@/components/sections/services/normal-birth-delivery/normal-birth-delivery-landing-page";
@@ -94,11 +95,20 @@ export async function generateMetadata({
   const service = getServiceBySlug(slug);
   if (!service) return { title: "Service: The Birthwave" };
 
-  return pageMetadata(
+  const metadata = pageMetadata(
     `${service.name} | The Birthwave Chennai`,
     getServiceDescription(service),
     `/services/${slug}`,
   );
+
+  if (!isIndexableServiceSlug(slug)) {
+    return {
+      ...metadata,
+      robots: { index: false, follow: true },
+    };
+  }
+
+  return metadata;
 }
 
 // TODO(content): every service here is a structural placeholder — see
