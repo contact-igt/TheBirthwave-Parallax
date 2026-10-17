@@ -1,19 +1,17 @@
 import type { MetadataRoute } from "next";
 import { services } from "@/content/services-content";
 import { doctors } from "@/content/doctors-content";
-import { HIDDEN_SERVICE_SLUGS } from "@/content/nav-care-content";
 import { siteOrigin } from "@/lib/seo";
+import { INDEXABLE_SERVICE_SLUGS } from "@/lib/service-indexing-policy";
 
 /**
  * Next.js's native sitemap convention (`src/app/sitemap.ts`) — served at
- * `/sitemap.xml`. Every entry is derived from the same confirmed data
- * this project already treats as the single source of truth
- * (`services-content.ts`'s `services`, `doctors-content.ts`'s `doctors`),
- * never a hand-typed parallel URL list that could drift out of sync with
- * the real routes `generateStaticParams` produces.
+ * `/sitemap.xml`. Service entries are limited to the approved landing-page
+ * allowlist above, while their URLs and doctor URLs remain derived from the
+ * project's content registries.
  *
- * Hidden service routes return 404 and must not be submitted. Privacy and
- * Experience remain placeholders, so they are omitted until approved.
+ * Privacy, Terms and Experience remain noindex, so they are omitted until
+ * approved for search indexing.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const corePages: MetadataRoute.Sitemap = [
@@ -25,11 +23,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteOrigin}/contact`, changeFrequency: "monthly", priority: 0.5 },
   ];
 
-  const servicePages: MetadataRoute.Sitemap = services.filter((service) => !HIDDEN_SERVICE_SLUGS.has(service.slug)).map((service) => ({
-    url: `${siteOrigin}/services/${service.slug}`,
-    changeFrequency: "monthly",
-    priority: 0.85,
-  }));
+  const servicePages: MetadataRoute.Sitemap = services
+    .filter((service) => INDEXABLE_SERVICE_SLUGS.has(service.slug))
+    .map((service) => ({
+      url: `${siteOrigin}/services/${service.slug}`,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    }));
 
   const doctorPages: MetadataRoute.Sitemap = doctors.map((doctor) => ({
     url: `${siteOrigin}/doctors/${doctor.slug}`,

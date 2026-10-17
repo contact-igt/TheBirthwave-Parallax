@@ -12,14 +12,14 @@ export const navigation = {
   // homepage sections. "Our Care" resolves to /services — the site's real
   // services listing route (content is still placeholder copy, but the
   // route itself is the confirmed master care page; no new route was
-  // invented for this). "Contact" and the booking CTA both go to /contact,
+  // invented for this). "Contact Us" and the booking CTA both go to /contact,
   // the real page with the confirmed phone, email, address and enquiry form.
   links: [
     { label: "Home", href: "/" },
     { label: "About Us", href: "/about" },
     { label: "Our Care", href: "/services" },
     { label: "Doctors", href: "/doctors" },
-    { label: "Contact", href: "/contact" },
+    { label: "Contact Us", href: "/contact" },
   ],
   cta: {
     label: "Book a Consult",
