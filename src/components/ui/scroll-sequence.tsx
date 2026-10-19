@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useId } from "react";
 import { cx } from "@/lib/cx";
 import { useReducedMotion } from "@/motion/reduced-motion";
 
@@ -28,6 +28,12 @@ export interface ScrollSequenceProps {
   stickyClassName?: string;
   /** Additional class names for the canvas element */
   canvasClassName?: string;
+  /** Easing factor for slow-motion gliding (e.g. 0.08). If omitted or <= 0, frame updates immediately on scroll */
+  ease?: number;
+  /** Whether to cross-fade between adjacent frames */
+  crossfade?: boolean;
+  /** Which frame to display for prefers-reduced-motion ("first" | "middle" | "last" | number) */
+  reducedMotionFrame?: "first" | "middle" | "last" | number;
   /** Callback fired on scroll with normalized progress 0 to 1 */
   onProgress?: (progress: number) => void;
   /** Content to overlay on top of the sticky canvas */
@@ -51,13 +57,13 @@ const DEFAULT_FOLDERS: FolderConfig = {
 /**
  * Reusable scroll-driven image sequence component.
  *
- * - Mobile (<= 767px) loads mobile frames (default 79 frames, 900px wide)
- * - Desktop loads desktop frames (default 158 frames, 1600px wide)
+ * - Mobile (<= 767px) loads mobile frames
+ * - Desktop loads desktop frames
  * - Canvas draws with "cover" fit and respects devicePixelRatio (capped at 2)
- * - Updates on scroll via requestAnimationFrame
+ * - Optional slow-motion easing (`ease`) and frame interpolation (`crossfade`)
+ * - Responsive CSS poster preview before images finish loading
  * - Fallback to nearest loaded earlier frame prevents flickering/blank canvas
- * - Immediate poster preview before images finish loading
- * - Respects prefers-reduced-motion (shows one still frame, no pinned scroll)
+ * - Respects prefers-reduced-motion (shows still frame, exposes --p, no pinned scroll)
  * - Cleans up all listeners, observers and rAF loops on unmount
  */
 export function ScrollSequence({
@@ -67,6 +73,9 @@ export function ScrollSequence({
   className,
   stickyClassName,
   canvasClassName,
+  ease,
+  crossfade = false,
+  reducedMotionFrame = "middle",
   onProgress,
   children,
   ariaLabel = "Scroll-driven video sequence",
@@ -76,6 +85,8 @@ export function ScrollSequence({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const reducedMotion = useReducedMotion();
+  const reactId = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const seqId = id || `seq-${reactId}`;
 
   // Normalize frame counts
   const resolvedFrameCount: FrameConfig =
@@ -101,8 +112,13 @@ export function ScrollSequence({
   const activeCountRef = useRef(resolvedFrameCount.desktop);
   const activeFolderRef = useRef(resolvedFolders.desktop);
   const framesRef = useRef<HTMLImageElement[]>([]);
-  const currentFrameRef = useRef(-1);
   const startedRef = useRef(false);
+
+  const shownRef = useRef(0);
+  const targetRef = useRef(0);
+  const runningRef = useRef(false);
+  const rafIdRef = useRef<number | null>(null);
+  const tickingRef = useRef(false);
 
   const getSrc = useCallback((i: number, folderPath: string) => {
     return `${folderPath}/f_${String(i + 1).padStart(4, "0")}.webp`;
@@ -116,7 +132,7 @@ export function ScrollSequence({
     return total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0;
   }, []);
 
-  const paint = useCallback((img: HTMLImageElement) => {
+  const paint = useCallback((img: HTMLImageElement, alpha = 1) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -128,33 +144,132 @@ export function ScrollSequence({
     const ih = img.naturalHeight;
     if (!iw || !ih || cw === 0 || ch === 0) return;
 
-    // "object-fit: cover" fit
+    // "object-fit: cover"
     const s = Math.max(cw / iw, ch / ih);
     const w = iw * s;
     const h = ih * s;
-    ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    const dx = (cw - w) / 2;
+    const dy = (ch - h) / 2;
+
+    ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+    ctx.drawImage(img, dx, dy, w, h);
+    ctx.globalAlpha = 1;
   }, []);
 
-  const draw = useCallback(() => {
-    const p = getProgress();
-    onProgressRef.current?.(p);
+  const ok = useCallback((img: HTMLImageElement | undefined): img is HTMLImageElement => {
+    return Boolean(img && img.complete && img.naturalWidth > 0);
+  }, []);
 
+  const drawFrame = useCallback(
+    (val: number) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const count = activeCountRef.current;
+      const frames = framesRef.current;
+      if (count <= 0 || !frames || frames.length === 0) return;
+
+      let a = Math.floor(val);
+      const t = val - a;
+
+      while (a > 0 && !ok(frames[a])) {
+        a--;
+      }
+      const imgA = frames[a];
+      if (!ok(imgA)) return;
+
+      paint(imgA, 1);
+
+      if (crossfade) {
+        const b = a + 1;
+        const imgB = frames[b];
+        if (t > 0.01 && b < count && ok(imgB)) {
+          paint(imgB, t);
+        }
+      }
+    },
+    [crossfade, ok, paint]
+  );
+
+  const tickRef = useRef<() => void>(() => {});
+
+  const tick = useCallback(() => {
+    const wrap = wrapRef.current;
+    const count = activeCountRef.current;
+    if (count <= 0) {
+      runningRef.current = false;
+      return;
+    }
+
+    const currentP = getProgress();
+    const target = currentP * (count - 1);
+    targetRef.current = target;
+
+    const currentShown = shownRef.current;
+    const easeFactor = ease && ease > 0 ? ease : 0.08;
+    const nextShown = currentShown + (target - currentShown) * easeFactor;
+
+    if (Math.abs(target - nextShown) < 0.005) {
+      shownRef.current = target;
+    } else {
+      shownRef.current = nextShown;
+    }
+
+    drawFrame(shownRef.current);
+
+    const easedP = count > 1 ? shownRef.current / (count - 1) : 0;
+    if (wrap) {
+      wrap.style.setProperty("--p", easedP.toFixed(4));
+    }
+    onProgressRef.current?.(easedP);
+
+    if (shownRef.current !== target) {
+      rafIdRef.current = requestAnimationFrame(() => {
+        tickRef.current();
+      });
+    } else {
+      runningRef.current = false;
+    }
+  }, [ease, getProgress, drawFrame]);
+
+  useEffect(() => {
+    tickRef.current = tick;
+  }, [tick]);
+
+  const drawDirect = useCallback(() => {
+    const wrap = wrapRef.current;
     const count = activeCountRef.current;
     if (count <= 0) return;
 
-    let i = Math.round(p * (count - 1));
-    const frames = framesRef.current;
+    const p = getProgress();
+    const target = p * (count - 1);
+    shownRef.current = target;
+    targetRef.current = target;
 
-    // If target frame hasn't loaded yet, show nearest earlier loaded frame
-    while (i > 0 && !(frames[i] && frames[i].complete && frames[i].naturalWidth)) {
-      i--;
+    drawFrame(target);
+
+    if (wrap) {
+      wrap.style.setProperty("--p", p.toFixed(4));
     }
+    onProgressRef.current?.(p);
+  }, [getProgress, drawFrame]);
 
-    const img = frames[i];
-    if (i === currentFrameRef.current || !img || !img.complete || !img.naturalWidth) return;
-    currentFrameRef.current = i;
-    paint(img);
-  }, [getProgress, paint]);
+  const kick = useCallback(() => {
+    if (ease && ease > 0) {
+      if (!runningRef.current) {
+        runningRef.current = true;
+        rafIdRef.current = requestAnimationFrame(() => {
+          tickRef.current();
+        });
+      }
+    } else {
+      if (tickingRef.current) return;
+      tickingRef.current = true;
+      rafIdRef.current = requestAnimationFrame(() => {
+        drawDirect();
+        tickingRef.current = false;
+      });
+    }
+  }, [ease, drawDirect]);
 
   const resize = useCallback(() => {
     const canvas = canvasRef.current;
@@ -167,9 +282,13 @@ export function ScrollSequence({
 
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
-    currentFrameRef.current = -1; // Force redraw on resize
-    draw();
-  }, [draw]);
+
+    if (ease && ease > 0) {
+      drawFrame(shownRef.current);
+    } else {
+      drawDirect();
+    }
+  }, [ease, drawDirect, drawFrame]);
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -186,23 +305,36 @@ export function ScrollSequence({
     const folderPath = activeFolderRef.current;
     const count = activeCountRef.current;
 
-    let rafId: number | null = null;
-    let ticking = false;
-
-    // Reduced motion: show one still frame, no scroll pinning
+    // Reduced motion: show still frame, no scroll pinning
     if (reducedMotion) {
+      let stillIndex = Math.floor(count / 2);
+      if (reducedMotionFrame === "first") {
+        stillIndex = 0;
+      } else if (reducedMotionFrame === "last") {
+        stillIndex = count - 1;
+      } else if (typeof reducedMotionFrame === "number") {
+        stillIndex = Math.max(0, Math.min(count - 1, Math.round(reducedMotionFrame)));
+      }
+
       const stillImg = new Image();
       stillImg.onload = () => {
         framesRef.current = [stillImg];
         resize();
-        paint(stillImg);
+        paint(stillImg, 1);
       };
-      stillImg.src = getSrc(Math.floor(count / 2), folderPath);
-      onProgressRef.current?.(0);
+      stillImg.src = getSrc(stillIndex, folderPath);
+
+      const pVal = reducedMotionFrame === "last" ? 1 : 0;
+      wrap.style.setProperty("--p", String(pVal));
+      onProgressRef.current?.(pVal);
       return;
     }
 
-    // Set initial canvas sizing
+    // Initialize progress & canvas sizing
+    const initP = getProgress();
+    shownRef.current = initP * (count - 1);
+    targetRef.current = shownRef.current;
+    wrap.style.setProperty("--p", initP.toFixed(4));
     resize();
 
     // Loader function
@@ -213,7 +345,6 @@ export function ScrollSequence({
       const frames = new Array<HTMLImageElement>(count);
       framesRef.current = frames;
 
-      // Load first frame first so something displays immediately, then the rest
       for (let i = 0; i < count; i++) {
         const img = new Image();
         img.decoding = "async";
@@ -221,11 +352,11 @@ export function ScrollSequence({
         if (i === 0) {
           img.onload = () => {
             resize();
-            draw();
+            kick();
           };
           if (img.complete && img.naturalWidth > 0) {
             resize();
-            draw();
+            kick();
           }
         }
         frames[i] = img;
@@ -244,18 +375,6 @@ export function ScrollSequence({
     );
     io.observe(wrap);
 
-    // Initial draw & progress trigger
-    draw();
-
-    const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      rafId = requestAnimationFrame(() => {
-        draw();
-        ticking = false;
-      });
-    };
-
     const handleResize = () => {
       const currentMob = mediaQueryMobile.matches;
       if (currentMob !== isMobileRef.current) {
@@ -267,26 +386,26 @@ export function ScrollSequence({
           ? resolvedFolders.mobile
           : resolvedFolders.desktop;
         startedRef.current = false;
-        currentFrameRef.current = -1;
         load();
       }
       resize();
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", kick, { passive: true });
     window.addEventListener("resize", handleResize);
 
     return () => {
       io.disconnect();
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", kick);
       window.removeEventListener("resize", handleResize);
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId);
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
       }
     };
   }, [
     getSrc,
-    draw,
+    getProgress,
+    kick,
     paint,
     resize,
     resolvedFrameCount.desktop,
@@ -294,6 +413,7 @@ export function ScrollSequence({
     resolvedFolders.desktop,
     resolvedFolders.mobile,
     reducedMotion,
+    reducedMotionFrame,
   ]);
 
   const desktopPoster = `${resolvedFolders.desktop}/f_0001.webp`;
@@ -306,7 +426,7 @@ export function ScrollSequence({
       aria-label={ariaLabel}
       className={cx(
         "scroll-seq-wrap relative w-full",
-        reducedMotion ? "seq-static h-auto" : height,
+        reducedMotion ? "seq-static !h-auto min-h-screen" : height,
         className
       )}
     >
@@ -314,7 +434,7 @@ export function ScrollSequence({
         className={cx(
           "pointer-events-none w-full overflow-hidden bg-black",
           reducedMotion
-            ? "relative min-h-[100svh] h-screen"
+            ? "relative min-h-[100svh] !h-auto"
             : "sticky top-0 h-screen h-[100svh]",
           stickyClassName
         )}
@@ -322,9 +442,12 @@ export function ScrollSequence({
         {/* Responsive CSS poster background before canvas paints */}
         <canvas
           ref={canvasRef}
-          data-scroll-seq-canvas=""
+          data-scroll-seq-canvas={seqId}
           aria-hidden="true"
-          className={cx("pointer-events-none absolute inset-0 h-full w-full block bg-black", canvasClassName)}
+          className={cx(
+            "pointer-events-none absolute inset-0 block h-full w-full bg-black",
+            canvasClassName
+          )}
           style={{
             backgroundPosition: "center",
             backgroundSize: "cover",
@@ -333,30 +456,22 @@ export function ScrollSequence({
         />
 
         <style>{`
-          .scroll-seq-wrap {
-            height: 400vh;
-          }
-          @media (max-width: 767px) {
-            .scroll-seq-wrap {
-              height: 300vh;
-            }
-          }
           .scroll-seq-wrap.seq-static {
             height: auto !important;
             min-height: 100svh;
           }
-          [data-scroll-seq-canvas] {
+          [data-scroll-seq-canvas="${seqId}"] {
             background-image: url('${desktopPoster}');
           }
           @media (max-width: 767px) {
-            [data-scroll-seq-canvas] {
+            [data-scroll-seq-canvas="${seqId}"] {
               background-image: url('${mobilePoster}');
             }
           }
         `}</style>
 
         {/* Overlay Content */}
-        <div className="absolute inset-0 z-10 pointer-events-none">
+        <div className="pointer-events-none absolute inset-0 z-10">
           {children}
         </div>
       </div>

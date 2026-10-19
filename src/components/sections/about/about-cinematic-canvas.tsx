@@ -12,13 +12,10 @@ import {
 import { useReducedMotion } from "@/motion/reduced-motion";
 import {
   ensureScrollTriggerRegistered,
-  gsap,
   ScrollTrigger,
 } from "@/motion/gsap-scroll";
 import { ScrollSequence } from "@/components/ui/scroll-sequence";
-import {
-  SECTION3_FRAMES,
-} from "@/motion/about-cinematic";
+import styles from "./about-approach-sequence.module.css";
 
 // ---------------------------------------------------------------------------
 // Beat metadata
@@ -325,285 +322,51 @@ function ExteriorScrollScene() {
 // ---------------------------------------------------------------------------
 
 function InteriorScrollScene() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const beliefBeatRef = useRef<HTMLDivElement>(null);
-  const transitionOverlayRef = useRef<HTMLDivElement>(null);
-
-  const frameCount = SECTION3_FRAMES.length; // 42 frames
-  const frameCache = useRef<Array<HTMLImageElement | null>>(Array(frameCount).fill(null));
-  const currentFrameRef = useRef(0);
-  const imgW = useRef(1920);
-  const imgH = useRef(1080);
-
-  const drawFrame = useCallback((index: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const paint = (src: HTMLImageElement) => {
-      const cw = canvas.width;
-      const ch = canvas.height;
-      const iw = src.naturalWidth || imgW.current;
-      const ih = src.naturalHeight || imgH.current;
-      const scale = Math.max(cw / iw, ch / ih);
-      const sw = iw * scale;
-      const sh = ih * scale;
-      // In portrait mobile, keep the central clinic space and illuminated circular emblem in view
-      const focalX = cw < ch ? 0.68 : 0.5;
-      const dx = (cw - sw) * focalX;
-      const dy = (ch - sh) / 2;
-      ctx.drawImage(src, dx, dy, sw, sh);
-    };
-
-    const target = frameCache.current[index];
-    if (target?.complete && target.naturalWidth > 0) {
-      paint(target);
-      return;
-    }
-
-    for (let delta = 1; delta < frameCount; delta++) {
-      for (const dir of [-1, 1]) {
-        const alt = index + dir * delta;
-        if (alt >= 0 && alt < frameCount) {
-          const altImg = frameCache.current[alt];
-          if (altImg?.complete && altImg.naturalWidth > 0) {
-            paint(altImg);
-            return;
-          }
-        }
-      }
-    }
-  }, [frameCount]);
-
-  const resizeCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const w = canvas.offsetWidth;
-    const h = canvas.offsetHeight;
-    if (w === 0 || h === 0) return;
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
-    drawFrame(currentFrameRef.current);
-  }, [drawFrame]);
-
-  const loadFrames = useCallback((onFirstReady: () => void) => {
-    const cache = frameCache.current;
-    let firstNotified = false;
-
-    const loadOne = (i: number) => {
-      if (cache[i]) return;
-      const img = new window.Image();
-      img.decoding = "async";
-      img.onload = () => {
-        if (i === 0) {
-          imgW.current = img.naturalWidth || 1920;
-          imgH.current = img.naturalHeight || 1080;
-        }
-        if (img.decode) {
-          img.decode().catch(() => {}).finally(() => {
-            if (!firstNotified && cache[0]?.complete && cache[0].naturalWidth > 0) {
-              firstNotified = true;
-              onFirstReady();
-            }
-          });
-        } else if (!firstNotified && cache[0]?.complete && cache[0].naturalWidth > 0) {
-          firstNotified = true;
-          onFirstReady();
-        }
-      };
-      img.src = SECTION3_FRAMES[i];
-      cache[i] = img;
-    };
-
-    loadOne(0);
-
-    const eagerCount = Math.min(8, frameCount);
-    for (let i = 1; i < eagerCount; i++) {
-      loadOne(i);
-    }
-
-    if (cache[0]?.complete && cache[0].naturalWidth > 0) {
-      firstNotified = true;
-      onFirstReady();
-    }
-
-    let nextIdx = eagerCount;
-    const CHUNK_SIZE = 8;
-    const loadRemaining = () => {
-      const end = Math.min(nextIdx + CHUNK_SIZE, frameCount);
-      for (let i = nextIdx; i < end; i++) {
-        loadOne(i);
-      }
-      nextIdx = end;
-      if (nextIdx < frameCount) {
-        if ("requestIdleCallback" in window) {
-          (window as Window & typeof globalThis).requestIdleCallback(loadRemaining, { timeout: 1500 });
-        } else {
-          setTimeout(loadRemaining, 80);
-        }
-      }
-    };
-
-    if ("requestIdleCallback" in window) {
-      (window as Window & typeof globalThis).requestIdleCallback(loadRemaining, { timeout: 1500 });
-    } else {
-      setTimeout(loadRemaining, 100);
-    }
-  }, [frameCount]);
-
-  const prioritizeNear = useCallback((targetIndex: number) => {
-    const cache = frameCache.current;
-    const start = Math.max(0, targetIndex - 4);
-    const end = Math.min(frameCount - 1, targetIndex + 4);
-    for (let i = start; i <= end; i++) {
-      if (!cache[i]) {
-        const img = new window.Image();
-        img.decoding = "async";
-        img.src = SECTION3_FRAMES[i];
-        cache[i] = img;
-      }
-    }
-  }, [frameCount]);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    const canvas = canvasRef.current;
-    if (!track || !canvas) return;
-
-    resizeCanvas();
-
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-    const ro = new ResizeObserver(() => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        resizeCanvas();
-        ScrollTrigger.refresh();
-      }, 100);
-    });
-    ro.observe(canvas);
-
-    loadFrames(() => {
-      drawFrame(0);
-    });
-
-    ensureScrollTriggerRegistered();
-
-    const ctx = gsap.context(() => {
-      const beliefBeat = beliefBeatRef.current;
-      const transitionOverlay = transitionOverlayRef.current;
-      if (!beliefBeat) return;
-
-      // Belief text starts visible on entry into Section 3
-      gsap.set(beliefBeat, { autoAlpha: 1, y: 0 });
-
-      // Restrained warm ivory transition overlay softly clears as Section 3 engages
-      if (transitionOverlay) {
-        gsap.set(transitionOverlay, { autoAlpha: 1 });
-      }
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: track,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.8,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            // Normalized progress 0 -> 1 maps across all 42 interior frames
-            const target = Math.min(
-              frameCount - 1,
-              Math.max(0, Math.round(self.progress * (frameCount - 1))),
-            );
-            if (target !== currentFrameRef.current) {
-              currentFrameRef.current = target;
-              prioritizeNear(target);
-              drawFrame(target);
-            }
-          },
-        },
-      });
-
-      // Restrained transition: subtle warm ivory veil fades out in the first 8% of scroll
-      if (transitionOverlay) {
-        tl.to(
-          transitionOverlay,
-          {
-            autoAlpha: 0,
-            ease: "power1.out",
-            duration: 0.08,
-          },
-          0,
-        );
-      }
-
-      // Section 3 text stays prominent and readable through the end of the scene
-      tl.to(beliefBeat, { autoAlpha: 1, y: 0, duration: 0.9 }, 0.1);
-
-      return () => {
-        tl.scrollTrigger?.kill();
-        tl.kill();
-      };
-    }, track);
-
-    return () => {
-      ctx.revert();
-      ro.disconnect();
-      if (resizeTimer) clearTimeout(resizeTimer);
-    };
-  }, [drawFrame, loadFrames, prioritizeNear, resizeCanvas, frameCount]);
-
   return (
-    <div
-      ref={trackRef}
-      className="relative h-[130svh] lg:h-[140svh]"
+    <ScrollSequence
+      id={BEATS[2].cinematicId}
+      frameCount={{ desktop: 233, mobile: 118 }}
+      folder={{ desktop: "/frames/approach/desktop", mobile: "/frames/approach/mobile" }}
+      height="h-[450vh] md:h-[600vh]"
+      ease={0.08}
+      crossfade={true}
+      reducedMotionFrame="last"
+      ariaLabel="Our Approach — inside The Birthwave slow-motion scroll video"
+      className={styles.wrap}
+      canvasClassName={styles.canvas}
     >
-      <div className="sticky top-0 z-0 h-svh w-full overflow-hidden bg-paper-dim">
-        {/* Canvas background for clinic interior frames */}
-        <canvas
-          ref={canvasRef}
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full"
-          style={{ display: "block" }}
-        />
+      <div
+        data-cinematic-beat={BEATS[2].cinematicId}
+        data-about-copy={BEATS[2].key}
+        className={styles.scene}
+      >
+        {/* Soft dark gradient behind text */}
+        <div aria-hidden="true" className={styles.shade} />
 
-        {/* Restrained warm ivory transition veil between Section 2 and Section 3 */}
-        <div
-          ref={transitionOverlayRef}
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-5 bg-paper"
-        />
-
-        {/* ── Section 3 (Belief / Our Approach) — Left-side text over soft left-to-right editorial gradient wash ── */}
-        <div
-          ref={beliefBeatRef}
-          id={BEATS[2].cinematicId}
-          data-cinematic-beat={BEATS[2].cinematicId}
-          data-about-copy={BEATS[2].key}
-          className="pointer-events-none absolute inset-0 z-10 flex items-center justify-start"
-        >
-          {/* Directional soft warm ivory gradient wash */}
-          <EditorialGradientWash alignment="left" blush />
-
-          <div className="w-full px-5 sm:px-8 md:px-12 lg:pl-[10vw] lg:pr-8 xl:pl-[11vw]">
-            <div className="pointer-events-auto relative max-w-[520px] xl:max-w-[560px]">
-              <p className="eyebrow text-ink tracking-[var(--tracking-wider)]">{aboutBelief.eyebrow}</p>
-              <h2 className="mt-4 sm:mt-5 text-[clamp(1.85rem,1.35rem+2vw,3rem)] leading-[1.1] font-semibold tracking-[var(--tracking-tight)] text-ink">
-                {aboutBelief.heading}
-              </h2>
-              <div className="mt-5 sm:mt-6 space-y-3.5 text-sm sm:text-base xl:text-[1.0625rem] leading-[1.7] text-ink-soft">
-                {aboutBelief.paragraphs.map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
-            </div>
+        {/* Content container */}
+        <div className="w-full px-5 sm:px-8 md:px-12 lg:pl-[8vw] xl:pl-[10vw]">
+          <div className={styles.content}>
+            <p className={styles.eyebrow}>
+              {aboutBelief.eyebrow}
+            </p>
+            <h2 className={styles.title}>
+              {aboutBelief.heading}
+            </h2>
+            <ul className={styles.points} aria-label="Our Approach principles">
+              {aboutBelief.paragraphs.map((paragraph, index) => (
+                <li
+                  key={index}
+                  style={{ "--i": index } as React.CSSProperties}
+                  className={styles.pointItem}
+                >
+                  {paragraph}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-
       </div>
-    </div>
+    </ScrollSequence>
   );
 }
 
@@ -740,49 +503,6 @@ function FounderVisualScene() {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Editorial Gradient Wash — directional soft warm ivory gradient (no card boundaries/blur)
-// ---------------------------------------------------------------------------
-
-function EditorialGradientWash({
-  alignment = "left",
-  blush = false,
-}: {
-  alignment?: "left" | "right";
-  blush?: boolean;
-}) {
-  const baseRgb = blush ? "252, 246, 243" : "250, 246, 242";
-
-  // Directional editorial warm ivory gradient fading smoothly into image transparency
-  const gradient =
-    alignment === "left"
-      ? `linear-gradient(90deg,
-          rgba(${baseRgb}, 0.98) 0%,
-          rgba(${baseRgb}, 0.94) 38%,
-          rgba(${baseRgb}, 0.76) 58%,
-          rgba(${baseRgb}, 0.35) 76%,
-          rgba(${baseRgb}, 0.10) 88%,
-          rgba(${baseRgb}, 0) 100%)`
-      : `linear-gradient(270deg,
-          rgba(${baseRgb}, 0.98) 0%,
-          rgba(${baseRgb}, 0.94) 38%,
-          rgba(${baseRgb}, 0.76) 58%,
-          rgba(${baseRgb}, 0.35) 76%,
-          rgba(${baseRgb}, 0.10) 88%,
-          rgba(${baseRgb}, 0) 100%)`;
-
-  return (
-    <div
-      aria-hidden="true"
-      className={`pointer-events-none absolute inset-y-0 ${
-        alignment === "left" ? "left-0" : "right-0"
-      } -z-10 w-[90%] sm:w-[84%] md:w-[74vw] lg:w-[62vw] xl:w-[56vw]`}
-      style={{
-        background: gradient,
-      }}
-    />
-  );
-}
 
 // ---------------------------------------------------------------------------
 // Editorial Dark Gradient Wash — subtle dark gradient for readability on bright footage
@@ -886,8 +606,8 @@ function AboutCinematicStatic() {
 
       {/* ── Beat 03: Interior Clinic / Our Approach ── */}
       <StaticBeat
-        posterSrc={SECTION3_FRAMES[35]}
-        alt="The Birthwave clinic interior — welcoming warm space and illuminated circular emblem"
+        posterSrc="/frames/approach/desktop/f_0233.webp"
+        alt="The Birthwave clinic interior — Our Approach"
       >
         <div
           id={`${BEATS[2].cinematicId}-static`}
