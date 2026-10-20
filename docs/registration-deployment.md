@@ -1,5 +1,8 @@
 # Clinic registration: deployment gates and open decisions
 
+> The standalone check-in app (subdomain, daily numbering, waiting page, staff console) is covered by
+> `docs/checkin-deployment.md` and `docs/checkin-backend-contract.md`. The gates below still apply.
+
 `/registration` is fully built, but **live submission is OFF** until the clinic
 approves a storage destination. With nothing configured, `POST /api/registrations`
 answers `503 registration_unavailable`, the page tells the patient to see

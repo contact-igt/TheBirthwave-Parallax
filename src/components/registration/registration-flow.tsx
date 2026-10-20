@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type FormEvent, type KeyboardEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import {
   EMPTY_ANSWERS,
   STEP_ORDER,
@@ -16,20 +17,22 @@ import {
   type FieldErrors,
   type StepId,
 } from "@/lib/registration/rules";
+import { thankYouHref } from "@/lib/registration/device-mode";
+import { rememberReceipt } from "@/lib/registration/receipt-memory";
+import { ClinicHeader } from "./clinic-header";
 import { STEP_COPY } from "./registration-content";
 import { AddressStep, BirthStep, ConcernsStep, ContactStep, NameStep, ReviewStep, SourcesStep } from "./steps";
 import type { Stroke } from "./signature-pad";
 import s from "./registration.module.css";
 
-type Stage = "welcome" | StepId | "receipt";
+type Stage = "welcome" | StepId;
 
-/** Kiosk privacy: wipe an abandoned form, and wipe the receipt for the next patient. */
+/** Shared-tablet privacy: wipe an abandoned form. Personal phones are never wiped on a timer. */
 const IDLE_WARN_AFTER_MS = 3 * 60 * 1000;
 const IDLE_RESET_AFTER_WARN_MS = 60 * 1000;
-const RECEIPT_RESET_SECONDS = 30;
 const SUBMIT_TIMEOUT_MS = 20_000;
 
-const STAGE_ORDER: Stage[] = ["welcome", ...STEP_ORDER, "receipt"];
+const STAGE_ORDER: Stage[] = ["welcome", ...STEP_ORDER];
 
 const SUBMIT_MESSAGES = {
   offline: "You seem to be offline. Your answers are safe on this screen. Please reconnect and try again.",
@@ -42,7 +45,6 @@ const SUBMIT_MESSAGES = {
 
 export function progressPercent(stage: Stage): number {
   if (stage === "welcome") return 0;
-  if (stage === "receipt") return 100;
   return ((STEP_ORDER.indexOf(stage) + 1) / (STEP_ORDER.length + 1)) * 100;
 }
 
@@ -57,7 +59,8 @@ function focusField(key: string) {
 
 const FIRST_FIELD: Record<string, string> = { gender: "gender-first", concerns: "concern-first", sources: "source-first" };
 
-export function RegistrationFlow() {
+export function RegistrationFlow({ kiosk = false }: { kiosk?: boolean; checkin?: boolean }) {
+  const router = useRouter();
   const [view, setView] = useState<{ stage: Stage; direction: "forward" | "back" }>({ stage: "welcome", direction: "forward" });
   const { stage, direction } = view;
   const setStage = useCallback((next: Stage) => {
@@ -72,8 +75,6 @@ export function RegistrationFlow() {
   const [editing, setEditing] = useState(false);
   const [sending, setSending] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const [receipt, setReceipt] = useState<{ id: string; date: string } | null>(null);
-  const [secondsLeft, setSecondsLeft] = useState(RECEIPT_RESET_SECONDS);
   const [idleWarning, setIdleWarning] = useState(false);
 
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -89,14 +90,13 @@ export function RegistrationFlow() {
     setEditing(false);
     setSending(false);
     setSubmitError("");
-    setReceipt(null);
     setIdleWarning(false);
     attempt.current = null;
     sendingRef.current = false;
   }, []);
 
   // ---- derived ------------------------------------------------------------
-  const stepIndex = stage === "welcome" || stage === "receipt" ? -1 : STEP_ORDER.indexOf(stage);
+  const stepIndex = stage === "welcome" ? -1 : STEP_ORDER.indexOf(stage);
   const errors: FieldErrors = useMemo(
     () => (stepIndex >= 0 && attempted[stage as StepId] ? validateStep(stage as StepId, answers) : {}),
     [stage, stepIndex, attempted, answers],
@@ -124,17 +124,17 @@ export function RegistrationFlow() {
   }, [stage]);
 
   useEffect(() => {
-    if (!dirty || stage === "receipt") return;
+    if (!dirty) return;
     const warn = (event: BeforeUnloadEvent) => {
       event.preventDefault();
       event.returnValue = "";
     };
     window.addEventListener("beforeunload", warn);
     return () => window.removeEventListener("beforeunload", warn);
-  }, [dirty, stage]);
+  }, [dirty]);
 
   useEffect(() => {
-    if (stage === "welcome" || stage === "receipt") return;
+    if (!kiosk || stage === "welcome") return;
     let warnTimer: number;
     let resetTimer: number;
     const arm = () => {
@@ -154,22 +154,7 @@ export function RegistrationFlow() {
       window.clearTimeout(resetTimer);
       for (const name of events) window.removeEventListener(name, arm);
     };
-  }, [stage, reset]);
-
-  useEffect(() => {
-    if (stage !== "receipt") return;
-    const endsAt = Date.now() + RECEIPT_RESET_SECONDS * 1000;
-    const timer = window.setInterval(() => {
-      const left = Math.ceil((endsAt - Date.now()) / 1000);
-      if (left <= 0) {
-        window.clearInterval(timer);
-        reset();
-      } else {
-        setSecondsLeft(left);
-      }
-    }, 1000);
-    return () => window.clearInterval(timer);
-  }, [stage, reset]);
+  }, [kiosk, stage, reset]);
 
   // ---- actions ------------------------------------------------------------
   const update = useCallback((patch: Partial<Answers>) => {
@@ -224,22 +209,33 @@ export function RegistrationFlow() {
         body: JSON.stringify({ ...answers, idempotencyKey: attempt.current.key, website: "" }),
       });
 
-      let result: { ok?: boolean; id?: string } = {};
+      let result: {
+        ok?: boolean;
+        id?: string;
+        token?: string;
+        sequence?: number;
+        dayTotal?: number;
+        checkedInAt?: string;
+        clinicDate?: string;
+      } = {};
       try {
-        result = (await response.json()) as { ok?: boolean; id?: string };
+        result = (await response.json()) as typeof result;
       } catch {
         // Treated as a failure below.
       }
 
       if (response.status === 201 && result.ok === true && typeof result.id === "string") {
-        setReceipt({ id: result.id, date: formatDateIN(registrationDateIST()) });
+        // Only a confirmed save reaches this branch. Hand the receipt over in memory,
+        // drop every answer, and replace this history entry with the thank-you page.
+        const { ok: _ok, id, ...rest } = result;
+        void _ok;
+        rememberReceipt({ reference: id, ...rest });
         setAnswers(EMPTY_ANSWERS);
         setStrokes([]);
         setAttempted({});
         setEditing(false);
         attempt.current = null;
-        setSecondsLeft(RECEIPT_RESET_SECONDS);
-        setStage("receipt");
+        router.replace(thankYouHref(rest.token, kiosk));
       } else if (response.status === 503) {
         setSubmitError(SUBMIT_MESSAGES.unavailable);
       } else if (response.status === 429) {
@@ -260,7 +256,6 @@ export function RegistrationFlow() {
 
   const next = () => {
     if (stage === "welcome") return setStage("name");
-    if (stage === "receipt") return;
     if (stage === "review") return void submit();
 
     const found = validateStep(stage, answers);
@@ -311,15 +306,7 @@ export function RegistrationFlow() {
 
   return (
     <div className={s.shell}>
-      <header className={s.brand}>
-        <Image
-          className={s.logoMauve}
-          src="/brand/wordmark-mauve.png"
-          alt="The Birthwave"
-          width={2327}
-          height={1139}
-          priority
-        />
+      <aside className={s.brand} aria-label="The Birthwave">
         <Image className={s.logoCream} src="/brand/wordmark-cream.png" alt="" width={2327} height={1139} />
         <Image
           className={s.brandPhoto}
@@ -337,10 +324,14 @@ export function RegistrationFlow() {
         <p className={s.brandLine}>
           A little about you, so we can <em>care for you better.</em>
         </p>
-      </header>
+      </aside>
 
       <main id="main-content" className={s.panel}>
         <div className={s.panelInner}>
+          <ClinicHeader
+            logoInPanel
+            progress={stepIndex >= 0 ? { step: stepIndex + 1, total: STEP_ORDER.length, percent } : undefined}
+          />
           {stepIndex >= 0 ? (
             <div className={s.progress}>
               <div className={s.progressMeta}>
@@ -437,32 +428,6 @@ export function RegistrationFlow() {
               </form>
             ) : null}
 
-            {stage === "receipt" && receipt ? (
-              <section className={s.receipt} aria-labelledby="stage-title">
-                <CheckCircle2 className={s.receiptIcon} size={44} strokeWidth={1.6} aria-hidden="true" />
-                <h1 id="stage-title" ref={headingRef} tabIndex={-1} className={s.title}>
-                  You’re <em className={s.accent}>checked in</em>
-                </h1>
-                <p className={s.lead}>Thank you. Please take a seat — our team will be with you shortly.</p>
-                <dl className={s.receiptCard}>
-                  <div>
-                    <dt>Reference</dt>
-                    <dd>{receipt.id}</dd>
-                  </div>
-                  <div>
-                    <dt>Registered on</dt>
-                    <dd>{receipt.date}</dd>
-                  </div>
-                </dl>
-                <p className={s.finePrint}>
-                  Your details have been cleared from this screen. It will reset for the next patient in {secondsLeft}{" "}
-                  seconds.
-                </p>
-                <button type="button" className={s.secondary} onClick={reset}>
-                  Start a new registration
-                </button>
-              </section>
-            ) : null}
           </div>
         </div>
       </main>

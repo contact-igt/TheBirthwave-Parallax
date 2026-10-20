@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { services } from "@/content/services-content";
 import { doctors } from "@/content/doctors-content";
 import { siteOrigin } from "@/lib/seo";
+import { isCheckinApp } from "@/lib/app-mode";
 import { INDEXABLE_SERVICE_SLUGS } from "@/lib/service-indexing-policy";
 
 /**
@@ -14,6 +15,8 @@ import { INDEXABLE_SERVICE_SLUGS } from "@/lib/service-indexing-policy";
  * approved for search indexing.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
+  if (isCheckinApp()) return [];
+
   const corePages: MetadataRoute.Sitemap = [
     { url: `${siteOrigin}/`, changeFrequency: "weekly", priority: 1.0 },
     { url: `${siteOrigin}/services`, changeFrequency: "monthly", priority: 0.9 },

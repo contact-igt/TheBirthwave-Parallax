@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { isCheckinApp } from "./src/lib/app-mode";
 
 // Confidential routes: never cached, indexed, framed or leaked via Referer.
 const privateHeaders = [
@@ -10,12 +11,29 @@ const privateHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Lets the marketing build and the check-in build live side by side locally.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
+
   async headers() {
-    return [
+    const rules = [
       { source: "/registration", headers: privateHeaders },
       { source: "/registration/:path*", headers: privateHeaders },
+      { source: "/thank-you", headers: privateHeaders },
+      { source: "/staff", headers: privateHeaders },
+      { source: "/staff/:path*", headers: privateHeaders },
       { source: "/api/registrations", headers: privateHeaders },
+      { source: "/api/queue/:path*", headers: privateHeaders },
+      { source: "/api/staff/:path*", headers: privateHeaders },
     ];
+
+    // The whole check-in deployment is private, apart from static assets.
+    if (isCheckinApp()) {
+      rules.push({
+        source: "/((?!_next/static|_next/image|brand/|images/|icon.png|favicon.ico).*)",
+        headers: privateHeaders,
+      });
+    }
+    return rules;
   },
 };
 

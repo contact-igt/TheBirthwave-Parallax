@@ -224,7 +224,7 @@ for (const viewport of VIEWPORTS) {
 
     // Split layout only from 1024px
     const split = await page.evaluate(() => {
-      const brand = document.querySelector("header").getBoundingClientRect();
+      const brand = document.querySelector("aside").getBoundingClientRect();
       const main = document.querySelector("main").getBoundingClientRect();
       return { brandWidth: brand.width, mainLeft: main.left, vw: window.innerWidth };
     });
@@ -233,9 +233,9 @@ for (const viewport of VIEWPORTS) {
       assert.ok(ratio > 0.4 && ratio < 0.44, `brand panel ~42% (got ${ratio.toFixed(3)})`);
       assert.ok(split.mainLeft >= split.brandWidth - 1);
     } else {
-      assert.ok(split.brandWidth >= split.vw - 1, "stacked header spans full width");
+      assert.equal(split.brandWidth, 0, "brand panel is hidden when stacked");
       assert.equal(await page.locator('img[src*="consultation2"]').isVisible(), false, "photo hidden when stacked");
-      assert.equal(await page.locator('img[alt="The Birthwave"]').isVisible(), true, "compact official logo shown");
+      assert.equal(await page.locator('img[alt="The Birthwave"]').isVisible(), true, "compact official logo shown in the clinic header");
     }
 
     await page.getByRole("button", { name: /Start registration/ }).click();
@@ -271,6 +271,7 @@ test("keyboard-only path completes every step to the review screen", async () =>
   const { page, context } = await newPage();
   await page.goto(URL_REG);
   await page.keyboard.press("Tab"); // skip link
+  await page.keyboard.press("Tab"); // Need assistance?
   await page.keyboard.press("Tab"); // Start registration
   const focused = await page.evaluate(() => document.activeElement?.textContent);
   assert.match(focused, /Start registration/);
@@ -604,11 +605,61 @@ test("successful submission (network-mocked): payload, receipt, data cleared, ki
   assert.equal(requests.some((r) => /google-analytics|googletagmanager|collect\?/.test(r.url)), false);
   assert.equal(consoleErrors.filter((m) => /registration|Priya|9876/.test(m)).length, 0);
 
-  // kiosk reset countdown returns to a blank welcome screen
-  await page.clock.fastForward(31_000);
+  // a personal phone is never wiped on a timer; "Done" closes the receipt
+  assert.match(new URL(page.url()).pathname, /^\/thank-you$/);
+  await page.clock.fastForward(10 * 60 * 1000);
+  await page.getByRole("heading", { name: /checked in/ }).waitFor();
+  await page.getByRole("button", { name: "Done" }).click();
+  await page.getByRole("heading", { name: /Thank you for visiting/ }).waitFor();
+  await context.close();
+});
+
+test("shared clinic tablet (?kiosk=1) clears itself for the next patient", async () => {
+  const { page, context } = await newPage(VIEWPORTS[4]);
+  await page.clock.install();
+  const captured = [];
+  await mockSuccess(page, captured);
+  await page.goto(`${URL_REG}?kiosk=1`);
+  await page.getByRole("button", { name: /Start registration/ }).click();
+  for (const name of STEP_NAMES) {
+    await steps[name](page);
+    await next(page);
+  }
+  await typeSignature(page);
+  await page.locator("#field-consent").check();
+  await page.getByRole("button", { name: "Submit registration" }).click();
+  await page.getByRole("heading", { name: /checked in/ }).waitFor();
+  assert.match(page.url(), /\/thank-you\?kiosk=1/);
+  await page.getByText(/clears for the next patient in \d+ seconds/).waitFor();
+  await page.clock.fastForward(46_000);
   await page.getByRole("heading", { name: /Welcome to The Birthwave/ }).waitFor();
+  assert.match(page.url(), /\/registration\?kiosk=1$/);
   await page.getByRole("button", { name: /Start registration/ }).click();
   assert.equal(await page.locator("#field-fullName").inputValue(), "");
+  await context.close();
+});
+
+test("clinic header: label, welcome line, IST date, assistance and live step percentage", async () => {
+  const { page, context } = await newPage(VIEWPORTS[1]);
+  await page.goto(URL_REG);
+  await page.getByText("Clinic Check-in", { exact: true }).waitFor();
+  await page.getByText("Your care begins here.").waitFor();
+  assert.match(await page.locator("header").first().innerText(), /\b\d{2}\/\d{2}\/\d{4}\b/, "Indian date format");
+  assert.equal(await page.locator("header nav, header a[href]").count(), 0, "no marketing navigation");
+  const help = page.getByRole("button", { name: "Need assistance?" });
+  assert.equal(await help.getAttribute("aria-expanded"), "false");
+  await help.click();
+  assert.equal(await help.getAttribute("aria-expanded"), "true");
+  const tel = page.getByRole("link", { name: /\+91 93630 31925/ });
+  assert.equal(await tel.getAttribute("href"), "tel:+919363031925");
+  await page.keyboard.press("Escape");
+  assert.equal(await help.getAttribute("aria-expanded"), "false");
+  assert.equal(await page.evaluate(() => document.activeElement?.textContent), "Need assistance?");
+  await page.getByRole("button", { name: /Start registration/ }).click();
+  await page.getByText("Step 1 of 7 · 13%").waitFor();
+  await steps.name(page);
+  await next(page);
+  await page.getByText("Step 2 of 7 · 25%").waitFor();
   await context.close();
 });
 
@@ -681,10 +732,22 @@ test("duplicate submit protection and retry after failure/offline keep answers",
   await third.context.close();
 });
 
-test("idle timeout warns then clears an abandoned form", async () => {
-  const { page, context } = await newPage();
+test("a personal phone is not wiped while the form sits idle", async () => {
+  const { page, context } = await newPage(VIEWPORTS[1]);
   await page.clock.install();
   await start(page);
+  await steps.name(page);
+  await page.clock.fastForward(10 * 60 * 1000);
+  assert.equal(await page.getByText(/Are you still there/).count(), 0);
+  assert.equal(await page.locator("#field-fullName").inputValue(), DATA.name);
+  await context.close();
+});
+
+test("shared-tablet idle timeout warns then clears an abandoned form", async () => {
+  const { page, context } = await newPage();
+  await page.clock.install();
+  await page.goto(`${URL_REG}?kiosk=1`);
+  await page.getByRole("button", { name: /Start registration/ }).click();
   await steps.name(page);
   await page.clock.fastForward(3 * 60 * 1000 + 500);
   await page.getByText(/Are you still there/).waitFor();

@@ -231,7 +231,7 @@ test("store posts with bearer token + idempotency key and requires an id back", 
   };
   const store = createStoreFromEnv(goodEnv, fetchImpl);
   const result = await store.save({ fullName: "x" }, { idempotencyKey: "k".repeat(20) });
-  assert.deepEqual(result, { id: "EHR-42" });
+  assert.deepEqual(result, { ok: true, id: "EHR-42" });
   assert.equal(calls[0].init.headers.Authorization, "Bearer t0ken");
   assert.equal(calls[0].init.headers["Idempotency-Key"], "k".repeat(20));
   assert.equal(calls[0].init.redirect, "error");

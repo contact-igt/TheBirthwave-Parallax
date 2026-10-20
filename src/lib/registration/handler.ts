@@ -1,5 +1,7 @@
 import { MAX_BODY_BYTES, validateRegistration } from "./rules.ts";
 import { createRateLimiter, type RateLimiter } from "./rate-limit.ts";
+import { clientKey, fail, isJson, readBounded, respond, sameOrigin } from "./http.ts";
+import { parseSaveResponse, type Receipt } from "./receipt.ts";
 import type { RegistrationStore } from "./store.ts";
 
 export interface HandlerDeps {
@@ -7,66 +9,18 @@ export interface HandlerDeps {
   store: RegistrationStore | null;
   limiter?: RateLimiter;
   now?: () => Date;
+  /** Clinic location whose daily numbering the backend keeps. */
+  clinicId?: string;
 }
-
-const PRIVATE_HEADERS = {
-  "Cache-Control": "no-store",
-  "X-Robots-Tag": "noindex, nofollow, noarchive",
-  "X-Content-Type-Options": "nosniff",
-  "Referrer-Policy": "no-referrer",
-};
 
 const KEY_PATTERN = /^[A-Za-z0-9-]{16,64}$/;
 const DONE_TTL_MS = 60 * 60 * 1000;
 const DONE_MAX = 5_000;
 
-function respond(status: number, payload: Record<string, unknown>, extra: Record<string, string> = {}) {
-  return Response.json(payload, { status, headers: { ...PRIVATE_HEADERS, ...extra } });
-}
-
-function fail(status: number, code: string, message: string, extra: Record<string, unknown> = {}, headers = {}) {
-  return respond(status, { ok: false, code, error: message, ...extra }, headers);
-}
-
-function clientKey(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return forwarded || request.headers.get("x-real-ip") || "unknown";
-}
-
-function sameOrigin(request: Request): boolean {
-  const origin = request.headers.get("origin");
-  if (!origin) return false;
-  const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host") ?? new URL(request.url).host;
-  try {
-    return new URL(origin).host === host;
-  } catch {
-    return false;
-  }
-}
-
-/** Reads at most `max` bytes; returns null when the body is larger. */
-async function readBounded(request: Request, max: number): Promise<string | null> {
-  if (!request.body) return "";
-  const reader = request.body.getReader();
-  const chunks: Uint8Array[] = [];
-  let total = 0;
-  for (;;) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    total += value.byteLength;
-    if (total > max) {
-      await reader.cancel();
-      return null;
-    }
-    chunks.push(value);
-  }
-  const bytes = new Uint8Array(total);
-  let offset = 0;
-  for (const chunk of chunks) {
-    bytes.set(chunk, offset);
-    offset += chunk.byteLength;
-  }
-  return new TextDecoder().decode(bytes);
+/** What the browser may see: the confirmed receipt, never any submitted answer. */
+function publicReceipt(receipt: Receipt) {
+  const { reference, ...rest } = receipt;
+  return { ok: true, id: reference, ...rest };
 }
 
 async function fingerprint(value: unknown): Promise<string> {
@@ -79,18 +33,15 @@ async function fingerprint(value: unknown): Promise<string> {
  * acknowledged the record with an id. Nothing from the request body is ever
  * logged; only fixed event codes are.
  */
-export function createRegistrationHandler({ store, limiter, now = () => new Date() }: HandlerDeps) {
+export function createRegistrationHandler({ store, limiter, now = () => new Date(), clinicId = "main" }: HandlerDeps) {
   const rateLimiter = limiter ?? createRateLimiter({ limit: 30, windowMs: 10 * 60 * 1000 });
-  const completed = new Map<string, { id: string; hash: string; at: number }>();
-  const inFlight = new Map<string, { hash: string; promise: Promise<{ id: string }> }>();
+  const completed = new Map<string, { receipt: Receipt; hash: string; at: number }>();
+  const inFlight = new Map<string, { hash: string; promise: Promise<Receipt> }>();
 
   return async function handle(request: Request): Promise<Response> {
     if (!sameOrigin(request)) return fail(403, "forbidden_origin", "This request was not accepted.");
 
-    const contentType = request.headers.get("content-type") ?? "";
-    if (!contentType.toLowerCase().startsWith("application/json")) {
-      return fail(415, "unsupported_media_type", "This request was not accepted.");
-    }
+    if (!isJson(request)) return fail(415, "unsupported_media_type", "This request was not accepted.");
 
     const limit = rateLimiter.check(clientKey(request));
     if (!limit.allowed) {
@@ -108,9 +59,6 @@ export function createRegistrationHandler({ store, limiter, now = () => new Date
       );
     }
 
-    if (Number(request.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) {
-      return fail(413, "payload_too_large", "That submission is too large.");
-    }
     const text = await readBounded(request, MAX_BODY_BYTES);
     if (text === null) return fail(413, "payload_too_large", "That submission is too large.");
 
@@ -147,7 +95,7 @@ export function createRegistrationHandler({ store, limiter, now = () => new Date
     const previous = completed.get(idempotencyKey);
     if (previous) {
       return previous.hash === hash
-        ? respond(201, { ok: true, id: previous.id })
+        ? respond(201, publicReceipt(previous.receipt))
         : fail(409, "idempotency_conflict", "This submission was already received.");
     }
 
@@ -156,12 +104,16 @@ export function createRegistrationHandler({ store, limiter, now = () => new Date
       return fail(409, "idempotency_conflict", "This submission is already being processed.");
     }
     if (!pending) {
-      const promise = store.save(record, { idempotencyKey });
+      const promise = store.save(record, { idempotencyKey, clinicId }).then((saved) => {
+        const receipt = parseSaveResponse({ ok: true, ...saved }, { clinicId, now: now() });
+        if (!receipt) throw new Error("store_unconfirmed");
+        return receipt;
+      });
       pending = { hash, promise };
       inFlight.set(idempotencyKey, pending);
       promise
         .then((saved) => {
-          completed.set(idempotencyKey, { id: saved.id, hash, at: t });
+          completed.set(idempotencyKey, { receipt: saved, hash, at: t });
           if (completed.size > DONE_MAX) {
             const oldest = completed.keys().next().value;
             if (oldest !== undefined) completed.delete(oldest);
@@ -173,7 +125,7 @@ export function createRegistrationHandler({ store, limiter, now = () => new Date
 
     try {
       const saved = await pending.promise;
-      return respond(201, { ok: true, id: saved.id });
+      return respond(201, publicReceipt(saved));
     } catch {
       console.error("registration: storage failed");
       return fail(502, "storage_failed", "We couldn’t save your registration. Your answers are still here, so please try again.");

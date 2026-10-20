@@ -42,6 +42,12 @@ test("registration code never touches analytics, browser storage or the enquiry 
     ...walk(join(root, "src/lib/registration")),
     ...walk(join(root, "src/app/registration")),
     ...walk(join(root, "src/app/api/registrations")),
+    ...walk(join(root, "src/app/api/queue")),
+    ...walk(join(root, "src/app/api/staff")),
+    ...walk(join(root, "src/app/thank-you")),
+    ...walk(join(root, "src/app/staff")),
+    ...walk(join(root, "src/components/staff")),
+    ...walk(join(root, "src/lib/staff")),
   ].filter((f) => /\.(ts|tsx)$/.test(f));
   assert.ok(files.length > 5);
   for (const file of files) {
