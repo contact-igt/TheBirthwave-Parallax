@@ -1,6 +1,7 @@
-import { approvedEndpoint } from "../registration/store.ts";
+﻿import { approvedEndpoint } from "../registration/store.ts";
 import { QUEUE_STATES, type QueueState } from "../registration/receipt.ts";
 import { collapse } from "../registration/rules.ts";
+import { createPostgresAdminClient } from "../registration/postgres-store.ts";
 
 type Env = Record<string, string | undefined>;
 type FetchLike = (input: string | URL, init?: RequestInit) => Promise<Response>;
@@ -43,8 +44,12 @@ function parseEntry(raw: unknown): QueueEntry | null {
   return entry;
 }
 
-/** Talks to the approved queue-admin endpoint; null until it is configured. */
+/** Talks to Postgres if DATABASE_URL is set, or the approved queue-admin endpoint. */
 export function createAdminClient(env: Env = process.env, fetchImpl: FetchLike = fetch): AdminClient | null {
+  if (env.DATABASE_URL?.trim()) {
+    return createPostgresAdminClient();
+  }
+
   const approved = approvedEndpoint(env, "QUEUE_ADMIN_URL", "QUEUE_ADMIN_TOKEN");
   if (!approved) return null;
   const { endpoint, token } = approved;

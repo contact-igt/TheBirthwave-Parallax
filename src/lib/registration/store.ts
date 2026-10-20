@@ -1,4 +1,5 @@
-import type { RegistrationRecord } from "./rules.ts";
+﻿import type { RegistrationRecord } from "./rules.ts";
+import { createPostgresStore, createPostgresStatusClient } from "./postgres-store.ts";
 
 /**
  * The only way a registration leaves this server. A store must be an
@@ -21,18 +22,8 @@ type FetchLike = (input: string | URL, init?: RequestInit) => Promise<Response>;
 const FORBIDDEN_HOST = /(^|\.)(google\.com|googleusercontent\.com|googleapis\.com)$/i;
 
 /**
- * Builds the HTTPS store from environment configuration, or returns `null`
- * (registrations then answer 503). Every gate must pass:
- *
- *   REGISTRATION_ENABLED=true            — set only after clinic go-live approval
- *   REGISTRATION_STORE_URL=https://…     — the approved intake endpoint
- *   REGISTRATION_STORE_ALLOWED_HOSTS=…   — comma list; URL host must be listed
- *   REGISTRATION_STORE_TOKEN=…           — bearer credential for that endpoint
- *
- * Contract: POST JSON `{ record, idempotencyKey, clinicId }` with `Authorization` and
- * `Idempotency-Key` headers; reply 200/201 `{ "ok": true, "id": "<record id>" }`.
+ * Applies every activation gate to one backend URL variable.
  */
-/** Applies every activation gate to one backend URL variable. */
 export function approvedEndpoint(
   env: Env,
   urlVar: string,
@@ -62,6 +53,10 @@ export function approvedEndpoint(
 }
 
 export function createStoreFromEnv(env: Env = process.env, fetchImpl: FetchLike = fetch): RegistrationStore | null {
+  if (env.REGISTRATION_ENABLED === "true" && env.DATABASE_URL?.trim()) {
+    return createPostgresStore();
+  }
+
   const approved = approvedEndpoint(env, "REGISTRATION_STORE_URL");
   if (!approved) return null;
   const { endpoint, token } = approved;
@@ -98,10 +93,14 @@ export function createStoreFromEnv(env: Env = process.env, fetchImpl: FetchLike 
 }
 
 /**
- * Status lookup for the waiting page. Optional: without `REGISTRATION_STATUS_URL`
+ * Status lookup for the waiting page. Optional: without `REGISTRATION_STATUS_URL` or `DATABASE_URL`
  * the waiting page simply shows the safe fallback wording.
  */
 export function createStatusClientFromEnv(env: Env = process.env, fetchImpl: FetchLike = fetch): StatusClient | null {
+  if (env.REGISTRATION_ENABLED === "true" && env.DATABASE_URL?.trim()) {
+    return createPostgresStatusClient();
+  }
+
   const approved = approvedEndpoint(env, "REGISTRATION_STATUS_URL");
   if (!approved) return null;
   const { endpoint, token } = approved;

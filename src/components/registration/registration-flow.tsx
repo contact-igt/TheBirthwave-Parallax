@@ -235,7 +235,12 @@ export function RegistrationFlow({ kiosk = false }: { kiosk?: boolean; checkin?:
         setAttempted({});
         setEditing(false);
         attempt.current = null;
-        router.replace(thankYouHref(rest.token, kiosk));
+        const target = thankYouHref(rest.token, kiosk);
+        if (typeof window !== "undefined") {
+          window.location.replace(target);
+        } else {
+          router.replace(target);
+        }
       } else if (response.status === 503) {
         setSubmitError(SUBMIT_MESSAGES.unavailable);
       } else if (response.status === 429) {
