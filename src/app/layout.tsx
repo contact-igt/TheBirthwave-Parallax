@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Poppins, Plus_Jakarta_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { homeDescription, siteOrigin } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteStructuredData } from "@/lib/structured-data";
+import { SiteAnalytics } from "@/components/analytics/site-analytics";
 
 // Both families are confirmed brand typography (Reference/Birthwave Brand
 // Guideline PDF, "Typography" pages). See docs/implementation-brief.md §1
@@ -65,18 +65,7 @@ export default function RootLayout({
       className={`${poppins.variable} ${plusJakartaSans.variable} ${cormorant.variable}`}
     >
       <body>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-429WQGFYYX"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){window.dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-429WQGFYYX');
-          `}
-        </Script>
+        <SiteAnalytics />
         <JsonLd data={siteStructuredData} />
         <a
           href="#main-content"
