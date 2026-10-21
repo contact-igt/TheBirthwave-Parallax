@@ -9,6 +9,7 @@ const ALLOWED_SERVICE_CODES = new Set([
 
 const MAX_BODY_BYTES = 20_000;
 const SOURCE_KEY = "birthwave_website";
+const GENERAL_CONTACT_SERVICE = "General Contact";
 const unquote = (value?: string) => (value || "").trim().replace(/^["']|["']$/g, "");
 
 function clean(value: unknown, maximumLength: number) {
@@ -63,6 +64,8 @@ export async function POST(request: Request) {
   const serviceCode = clean(input.serviceCode, 100);
   const name = clean(input.name, 120);
   const phone = clean(input.phone || input.contact, 120);
+  const service = clean(input.serviceHelp || input.careArea || input.concern, 500)
+    || (serviceCode === "general-contact" ? GENERAL_CONTACT_SERVICE : serviceCode);
   if (!ALLOWED_SERVICE_CODES.has(serviceCode) || !name || phone.replace(/\D/g, "").length < 7 || input.consent !== true) {
     return Response.json(
       { ok: false, error: "Please enter your name, a valid phone number, and consent before sending." },
@@ -84,7 +87,7 @@ export async function POST(request: Request) {
         name,
         phone,
         email: clean(input.email, 254) || null,
-        service: clean(input.serviceHelp || input.careArea || input.concern, 500) || serviceCode,
+        service,
         service_slug: serviceCode,
         message: buildMessage(input) || null,
         consent: true,
