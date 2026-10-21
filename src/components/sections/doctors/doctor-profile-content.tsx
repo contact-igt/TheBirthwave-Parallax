@@ -135,6 +135,7 @@ export function DoctorProfileContent({
         </Heading>
         <p className="mt-2 text-base text-ink-soft">{doctor.role}</p>
         {doctor.credentials ? <p className="mt-2 font-medium text-terracotta-deep">{doctor.credentials}</p> : null}
+        {doctor.experience ? <p className="mt-1.5 font-body text-sm font-medium text-ink-soft">Experience: {doctor.experience}</p> : null}
         {showSpecialFocus ? <p className="mt-2 text-base text-ink-soft">{doctor.specialFocus}</p> : null}
 
         {doctor.description ? (

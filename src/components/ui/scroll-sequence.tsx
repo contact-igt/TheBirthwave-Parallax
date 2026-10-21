@@ -120,6 +120,16 @@ export function ScrollSequence({
   const rafIdRef = useRef<number | null>(null);
   const tickingRef = useRef(false);
 
+  // Performance: only frames that have finished decoding are drawn (drawing an
+  // undecoded image forces a synchronous decode on the main thread = scroll jank).
+  const decodedRef = useRef<WeakSet<HTMLImageElement>>(new WeakSet());
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  // Skip redundant canvas paints / progress callbacks when nothing changed.
+  const lastKeyRef = useRef(-1);
+  const lastProgressRef = useRef(-1);
+  // Skip all scroll work while the sequence is off-screen.
+  const visibleRef = useRef(true);
+
   const getSrc = useCallback((i: number, folderPath: string) => {
     return `${folderPath}/f_${String(i + 1).padStart(4, "0")}.webp`;
   }, []);
@@ -135,7 +145,8 @@ export function ScrollSequence({
   const paint = useCallback((img: HTMLImageElement, alpha = 1) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    if (!ctxRef.current) ctxRef.current = canvas.getContext("2d");
+    const ctx = ctxRef.current;
     if (!ctx) return;
 
     const cw = canvas.width;
@@ -157,7 +168,7 @@ export function ScrollSequence({
   }, []);
 
   const ok = useCallback((img: HTMLImageElement | undefined): img is HTMLImageElement => {
-    return Boolean(img && img.complete && img.naturalWidth > 0);
+    return Boolean(img && decodedRef.current.has(img) && img.naturalWidth > 0);
   }, []);
 
   const drawFrame = useCallback(
@@ -177,15 +188,16 @@ export function ScrollSequence({
       const imgA = frames[a];
       if (!ok(imgA)) return;
 
-      paint(imgA, 1);
+      const b = a + 1;
+      const imgB = frames[b];
+      const blend = crossfade && t > 0.01 && b < count && ok(imgB);
+      // Same frame (and same blend step) as last paint: nothing to redraw.
+      const key = a * 1000 + (blend ? Math.round(t * 32) + 1 : 0);
+      if (key === lastKeyRef.current) return;
+      lastKeyRef.current = key;
 
-      if (crossfade) {
-        const b = a + 1;
-        const imgB = frames[b];
-        if (t > 0.01 && b < count && ok(imgB)) {
-          paint(imgB, t);
-        }
-      }
+      paint(imgA, 1);
+      if (blend) paint(imgB, t);
     },
     [crossfade, ok, paint]
   );
@@ -217,10 +229,13 @@ export function ScrollSequence({
     drawFrame(shownRef.current);
 
     const easedP = count > 1 ? shownRef.current / (count - 1) : 0;
-    if (wrap) {
-      wrap.style.setProperty("--p", easedP.toFixed(4));
+    if (Math.abs(easedP - lastProgressRef.current) > 0.0002) {
+      lastProgressRef.current = easedP;
+      if (wrap) {
+        wrap.style.setProperty("--p", easedP.toFixed(4));
+      }
+      onProgressRef.current?.(easedP);
     }
-    onProgressRef.current?.(easedP);
 
     if (shownRef.current !== target) {
       rafIdRef.current = requestAnimationFrame(() => {
@@ -247,10 +262,13 @@ export function ScrollSequence({
 
     drawFrame(target);
 
-    if (wrap) {
-      wrap.style.setProperty("--p", p.toFixed(4));
+    if (Math.abs(p - lastProgressRef.current) > 0.0002) {
+      lastProgressRef.current = p;
+      if (wrap) {
+        wrap.style.setProperty("--p", p.toFixed(4));
+      }
+      onProgressRef.current?.(p);
     }
-    onProgressRef.current?.(p);
   }, [getProgress, drawFrame]);
 
   const kick = useCallback(() => {
@@ -275,13 +293,16 @@ export function ScrollSequence({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Frames are at most 1600px wide, so a 2x canvas adds no detail but costs
+    // ~1.8x the pixels per paint. 1.5x keeps it sharp and much lighter.
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
     if (w === 0 || h === 0) return;
 
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
+    lastKeyRef.current = -1; // canvas was cleared by the resize: force a repaint
 
     if (ease && ease > 0) {
       drawFrame(shownRef.current);
@@ -318,6 +339,7 @@ export function ScrollSequence({
 
       const stillImg = new Image();
       stillImg.onload = () => {
+        decodedRef.current.add(stillImg);
         framesRef.current = [stillImg];
         resize();
         paint(stillImg, 1);
@@ -349,17 +371,20 @@ export function ScrollSequence({
         const img = new Image();
         img.decoding = "async";
         img.src = getSrc(i, folderPath);
-        if (i === 0) {
-          img.onload = () => {
-            resize();
-            kick();
-          };
-          if (img.complete && img.naturalWidth > 0) {
+        frames[i] = img;
+        // decode() decodes off the main thread; only then is the frame drawable.
+        const markReady = () => {
+          if (framesRef.current !== frames) return; // superseded (breakpoint change)
+          decodedRef.current.add(img);
+          if (i === 0) {
             resize();
             kick();
           }
-        }
-        frames[i] = img;
+        };
+        img.decode().then(markReady, () => {
+          if (img.complete && img.naturalWidth > 0) markReady();
+          else img.addEventListener("load", markReady, { once: true });
+        });
       }
     };
 
@@ -374,6 +399,20 @@ export function ScrollSequence({
       { rootMargin: "150% 0px" }
     );
     io.observe(wrap);
+
+    // Track on-screen state so off-screen sequences do no work while scrolling.
+    const visibilityIo = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      visibleRef.current = entry.isIntersecting;
+      // Run once on enter and on exit so the canvas settles on its first/last frame.
+      kick();
+    });
+    visibilityIo.observe(wrap);
+
+    const onScroll = () => {
+      if (visibleRef.current) kick();
+    };
 
     const handleResize = () => {
       const currentMob = mediaQueryMobile.matches;
@@ -391,12 +430,13 @@ export function ScrollSequence({
       resize();
     };
 
-    window.addEventListener("scroll", kick, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", handleResize);
 
     return () => {
       io.disconnect();
-      window.removeEventListener("scroll", kick);
+      visibilityIo.disconnect();
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", handleResize);
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);

@@ -93,6 +93,7 @@ export async function POST(request: Request) {
     concern: clean(input.concern, 500),
     discussionTopic: clean(input.discussionTopic, 500),
     contactMethod: clean(input.contactMethod, 100),
+    preferredDoctor: clean(input.preferredDoctor, 120),
     caesareanCount: clean(input.caesareanCount, 50),
     message: clean(input.message, 5_000),
     page: clean(input.page, 500),
