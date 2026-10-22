@@ -1,0 +1,529 @@
+/* The Birthwave — check-in confirmation and waiting page.
+   Tokens from src/styles/tokens.css; calm paper surfaces, terracotta accents. */
+
+.page {
+  --ty-field: #fffdfc;
+  --ty-card-radius: var(--radius-md) var(--radius-md) var(--radius-md) var(--radius-panel);
+
+  position: relative;
+  min-height: 100dvh;
+  overflow-x: clip;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.wash {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 32rem;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 22rem at 50% -6rem, color-mix(in srgb, var(--color-terracotta) 26%, transparent), transparent 70%),
+    radial-gradient(28rem 16rem at 90% 8rem, color-mix(in srgb, var(--color-sky) 9%, transparent), transparent 70%);
+}
+
+.wrap {
+  position: relative;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 1.25rem var(--space-gutter) 4rem;
+}
+
+/* ------------------------------------------------------------------- hero */
+
+.hero,
+.closing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 0 2.25rem;
+  animation: rise 420ms var(--ease-signature) both;
+}
+
+.closing {
+  min-height: 55dvh;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-terracotta-deep);
+}
+
+.title {
+  margin: 0 0 0.75rem;
+  max-width: 18ch;
+  font-size: var(--text-h2);
+  line-height: 1.1;
+}
+
+.title:focus,
+.title:focus-visible {
+  outline: none;
+}
+
+.accent {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.14em;
+  color: var(--color-terracotta-deep);
+}
+
+.lead {
+  margin: 0 0 1.25rem;
+  max-width: 38rem;
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}
+
+.heartbeat {
+  width: min(22rem, 78%);
+  height: auto;
+  margin-bottom: 0.75rem;
+  overflow: visible;
+}
+
+.heartbeatLine {
+  stroke: var(--color-terracotta);
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: draw 1400ms var(--ease-signature) 120ms both;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ cards */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+    align-items: start;
+  }
+}
+
+.card {
+  position: relative;
+  padding: 1.5rem;
+  background: var(--ty-field);
+  border: 1px solid var(--color-border);
+  border-radius: var(--ty-card-radius);
+  box-shadow: 0 18px 40px -28px rgb(36 26 23 / 0.35);
+  animation: rise 460ms var(--ease-signature) 90ms both;
+}
+
+.card + .card,
+.grid > .card:last-child {
+  animation-delay: 160ms;
+}
+
+.cardTitle {
+  margin: 0 0 1rem;
+  font-size: var(--text-xl);
+  line-height: 1.25;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0 0 1.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-terracotta-deep);
+  background: color-mix(in srgb, var(--color-terracotta) 16%, var(--ty-field));
+  border-radius: 999px;
+}
+
+.number {
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  /* ticket-style perforation between the number and the details */
+  border-bottom: 2px dashed color-mix(in srgb, var(--color-terracotta) 55%, transparent);
+}
+
+.numberLabel {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.numberValue {
+  margin: 0.25rem 0;
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(2.75rem, 2.2rem + 3vw, 4.25rem);
+  line-height: 1.05;
+  letter-spacing: var(--tracking-tight);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.numberNo {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.55em;
+  color: var(--color-terracotta-deep);
+}
+
+.numberNote {
+  margin: 0;
+  color: var(--color-ink-soft);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 1rem 1.25rem;
+  margin: 0;
+}
+
+.facts dt {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.facts dd {
+  margin: 0.125rem 0 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.total {
+  margin: 1.25rem 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+}
+
+/* ---------------------------------------------------------------- waiting */
+
+.stages {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stages li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  min-height: 1.5rem;
+}
+
+.stages li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  top: 1.5rem;
+  width: 2px;
+  height: 0.75rem;
+  background: var(--color-border-strong);
+}
+
+.stageDot {
+  flex: none;
+  width: 1.0625rem;
+  height: 1.0625rem;
+  border-radius: 50%;
+  border: 2px solid var(--color-border-strong);
+  background: var(--ty-field);
+}
+
+.stageDone .stageDot {
+  background: var(--color-terracotta-deep);
+  border-color: var(--color-terracotta-deep);
+}
+
+.stageActive {
+  color: var(--color-ink);
+}
+
+.stageActive .stageDot {
+  border-color: var(--color-terracotta-deep);
+  background: color-mix(in srgb, var(--color-terracotta) 40%, var(--ty-field));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-terracotta) 28%, transparent);
+}
+
+.stagePending {
+  color: var(--color-ink-soft);
+  font-weight: 500;
+}
+
+.guidance {
+  margin: 0 0 1rem;
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-lg);
+  line-height: 1.4;
+}
+
+.waitBox {
+  margin-bottom: 1rem;
+  padding: 0.875rem 1rem;
+  background: color-mix(in srgb, var(--color-terracotta) 9%, var(--color-paper));
+  border-radius: var(--radius-sm);
+}
+
+.waitBox p {
+  margin: 0;
+}
+
+.ahead {
+  font-weight: 700;
+}
+
+.waitEstimate {
+  margin-top: 0.125rem !important;
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: var(--text-xl);
+}
+
+.waitFallback {
+  font-weight: 600;
+}
+
+.ahead + .waitFallback,
+.ahead + .waitEstimate {
+  margin-top: 0.25rem !important;
+}
+
+.consult {
+  margin: 0 0 0.5rem;
+  color: var(--color-ink);
+}
+
+.fine {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+}
+
+.updated {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 1rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+}
+
+.pulse {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-terracotta-deep);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2.75rem;
+  margin-left: auto;
+  padding: 0 0.875rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-terracotta-deep);
+  background: transparent;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.refresh:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* ------------------------------------------------------ while you're here */
+
+.while {
+  margin-top: 1.25rem;
+  padding: 1.5rem;
+  background: color-mix(in srgb, var(--color-terracotta) 9%, var(--color-paper));
+  border-radius: var(--ty-card-radius);
+  animation: rise 460ms var(--ease-signature) 220ms both;
+}
+
+.while p {
+  margin: 0 0 0.5rem;
+  max-width: 40rem;
+}
+
+.nextTitle {
+  margin: 1.25rem 0 0.5rem;
+  font-size: var(--text-base);
+}
+
+.next {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style: decimal;
+  color: var(--color-ink-soft);
+}
+
+.next li {
+  padding: 0.125rem 0;
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  padding: 0 1.5rem;
+  font: inherit;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.primary {
+  color: var(--color-on-brand);
+  background: var(--color-terracotta);
+  border: 0;
+}
+
+.primary:hover {
+  background: color-mix(in srgb, var(--color-terracotta) 84%, var(--color-ink));
+}
+
+.secondary {
+  margin-top: 0.5rem;
+  color: var(--color-ink);
+  background: transparent;
+  border: 1.5px solid var(--color-border-strong);
+}
+
+.secondary:hover {
+  background: var(--color-paper-dim);
+}
+
+.doneRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.75rem;
+}
+
+/* ----------------------------------------------------------------- kiosk */
+
+.kiosk {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: center;
+  margin: 0 0 1.25rem;
+  padding: 1.5rem;
+  background: var(--ty-field);
+  border: 1px solid var(--color-border);
+  border-radius: var(--ty-card-radius);
+}
+
+.kiosk p {
+  margin: 0 0 0.5rem;
+}
+
+.kiosk .primary {
+  margin-top: 0.75rem;
+}
+
+.qr {
+  width: min(11rem, 60%);
+  padding: 0.5rem;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+@media (min-width: 640px) {
+  .kiosk {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero,
+  .closing,
+  .card,
+  .while,
+  .heartbeatLine,
+  .pulse {
+    animation: none !important;
+  }
+}
