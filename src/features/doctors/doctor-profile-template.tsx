@@ -31,6 +31,7 @@ export function DoctorProfileTemplate({ doctor }: { doctor: DoctorContent }) {
             <p className="eyebrow">{doctor.role}</p>
             <h1 className="mt-4 text-display font-semibold text-ink">{doctor.name}</h1>
             {doctor.credentials ? <p className="mt-3 text-lg font-medium text-terracotta-deep">{doctor.credentials}</p> : null}
+            {doctor.experience ? <p className="mt-2 font-body text-base text-ink-soft">Experience: {doctor.experience}</p> : null}
             {doctor.specialFocus ? <p className="mt-2 text-base text-ink-soft">{doctor.specialFocus}</p> : null}
 
             {doctor.careAreas && doctor.careAreas.length > 0 ? (

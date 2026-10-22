@@ -58,7 +58,7 @@ export function useEnquirySubmission(serviceCode: string) {
           throw new Error(result.error || "We could not send your enquiry. Please try again.");
         }
 
-        setStatus("submitted");
+        window.location.assign("/thank-you");
         return true;
       } catch (submissionError) {
         setError(

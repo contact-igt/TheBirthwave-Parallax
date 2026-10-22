@@ -30,6 +30,8 @@ export interface DoctorContent {
    * confirmed team member has a qualification on record (Dr Adithi Nair,
    * Rakshitha, Coach Tilak) — omitted, never invented. */
   credentials?: string;
+  /** Experience supplied by the clinic, displayed without inferring a start date. */
+  experience?: string;
   role: string;
   /** A secondary descriptor beyond the main role — the Founder's own
    * "Special focus" and Sheethal Sathya's own "Additional" line are the
@@ -206,6 +208,22 @@ export const doctors: DoctorContent[] = [
       src: "/images/doctors/Dr_Adithi_Nair.jpg",
       alt: "Dr. Adithi Nair",
       placeholderLabel: "Dr. Adithi Nair",
+    },
+    team: "medical",
+  },
+  {
+    slug: "dr-sarvesh-sattanathan",
+    name: "Dr. Sarvesh Sattanathan",
+    credentials: "MBBS, MD",
+    experience: "11 years",
+    role: "Consultant Anaesthesiologist & Critical Care Physician",
+    specialFocus: "Anaesthesia · Critical Care · Pain and Palliative Medicine",
+    description: "He specialises in interventional pain management and palliative care.",
+    bio: "Dr. Sarvesh Sattanathan is a Consultant Anaesthesiologist and Critical Care Physician with more than 10 years of experience. He specialises in interventional pain management and palliative care. He completed his post-graduation at Kasturba Medical College, Mangalore, Manipal University. He specialises in labour analgesia, paediatric and transplant anaesthesia. His areas of interest include difficult airway, paediatrics and perioperative optimisation.",
+    photo: {
+      src: null,
+      alt: "Portrait of Dr. Sarvesh Sattanathan — photograph to be added",
+      placeholderLabel: "Portrait to be added",
     },
     team: "medical",
   },
