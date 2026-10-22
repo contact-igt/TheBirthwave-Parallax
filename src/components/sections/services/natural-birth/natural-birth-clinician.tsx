@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 /**
  * Section 08 — YOUR OBSTETRICIAN:
- * Dr. Santoshini Nandigam — Natural Birth & VBAC Care specialist.
+ * Dr. Santoshi Nandigam — Natural Birth & VBAC Care specialist.
  */
 export function NaturalBirthClinician() {
   const { doctor } = naturalBirthClinician;

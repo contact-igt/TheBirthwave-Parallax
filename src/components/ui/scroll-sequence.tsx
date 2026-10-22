@@ -190,7 +190,7 @@ export function ScrollSequence({
 
       const b = a + 1;
       const imgB = frames[b];
-      const blend = crossfade && t > 0.01 && b < count && ok(imgB);
+      const blend = crossfade && a === Math.floor(val) && t > 0.01 && b < count && ok(imgB);
       // Same frame (and same blend step) as last paint: nothing to redraw.
       const key = a * 1000 + (blend ? Math.round(t * 32) + 1 : 0);
       if (key === lastKeyRef.current) return;
@@ -317,6 +317,12 @@ export function ScrollSequence({
     if (!wrap || !canvas) return;
 
     const mediaQueryMobile = window.matchMedia("(max-width: 767px)");
+    let disposed = false;
+    startedRef.current = false;
+    runningRef.current = false;
+    tickingRef.current = false;
+    lastKeyRef.current = -1;
+    lastProgressRef.current = -1;
     const isMob = mediaQueryMobile.matches;
 
     isMobileRef.current = isMob;
@@ -339,6 +345,7 @@ export function ScrollSequence({
 
       const stillImg = new Image();
       stillImg.onload = () => {
+        if (disposed) return;
         decodedRef.current.add(stillImg);
         framesRef.current = [stillImg];
         resize();
@@ -349,7 +356,10 @@ export function ScrollSequence({
       const pVal = reducedMotionFrame === "last" ? 1 : 0;
       wrap.style.setProperty("--p", String(pVal));
       onProgressRef.current?.(pVal);
-      return;
+      return () => {
+        disposed = true;
+        stillImg.onload = null;
+      };
     }
 
     // Initialize progress & canvas sizing
@@ -364,28 +374,47 @@ export function ScrollSequence({
       if (startedRef.current) return;
       startedRef.current = true;
 
+      // Read the active configuration here, not the effect's initial breakpoint.
+      const count = activeCountRef.current;
+      const folderPath = activeFolderRef.current;
       const frames = new Array<HTMLImageElement>(count);
       framesRef.current = frames;
+      lastKeyRef.current = -1;
+      shownRef.current = getProgress() * (count - 1);
+      targetRef.current = shownRef.current;
+      const pending = new Set(Array.from({ length: count }, (_, i) => i));
+      let inFlight = 0;
 
-      for (let i = 0; i < count; i++) {
-        const img = new Image();
-        img.decoding = "async";
-        img.src = getSrc(i, folderPath);
-        frames[i] = img;
-        // decode() decodes off the main thread; only then is the frame drawable.
-        const markReady = () => {
-          if (framesRef.current !== frames) return; // superseded (breakpoint change)
-          decodedRef.current.add(img);
-          if (i === 0) {
-            resize();
-            kick();
-          }
-        };
-        img.decode().then(markReady, () => {
-          if (img.complete && img.naturalWidth > 0) markReady();
-          else img.addEventListener("load", markReady, { once: true });
-        });
-      }
+      const pump = () => {
+        if (disposed || framesRef.current !== frames) return;
+        // Bound downloads AND decodes; re-evaluate priority after every completion
+        // so a fast scroll does not wait for every earlier frame to arrive.
+        while (inFlight < 4 && pending.size > 0) {
+          const target = Math.floor(getProgress() * (count - 1));
+          const i = pending.has(0) ? 0 : [...pending].reduce((best, next) =>
+            Math.abs(next - target) < Math.abs(best - target) ? next : best
+          );
+          pending.delete(i);
+          inFlight++;
+          const img = new Image();
+          img.decoding = "async";
+          frames[i] = img;
+          img.src = getSrc(i, folderPath);
+          void img.decode().then(() => {
+            if (disposed || framesRef.current !== frames) return;
+            decodedRef.current.add(img);
+            // Refresh even after scrolling stops: a missing target must not
+            // leave an older fallback frame frozen on screen.
+            if (visibleRef.current) kick();
+          }).catch(() => {
+            // A failed frame keeps the last drawable frame; continue the queue.
+          }).finally(() => {
+            inFlight--;
+            pump();
+          });
+        }
+      };
+      pump();
     };
 
     // Preload when within ~1.5 screens of viewport
@@ -434,6 +463,7 @@ export function ScrollSequence({
     window.addEventListener("resize", handleResize);
 
     return () => {
+      disposed = true;
       io.disconnect();
       visibilityIo.disconnect();
       window.removeEventListener("scroll", onScroll);
@@ -441,6 +471,9 @@ export function ScrollSequence({
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);
       }
+      runningRef.current = false;
+      tickingRef.current = false;
+      startedRef.current = false;
     };
   }, [
     getSrc,

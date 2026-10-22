@@ -246,12 +246,12 @@ export const naturalBirthClinician = {
   eyebrow: "THE PEOPLE BEHIND YOUR CARE",
   heading: "Birth preparation begins with a conversation.",
   doctor: {
-    name: "Dr. Santoshini Nandigam",
+    name: "Dr. Santoshi Nandigam",
     role: "Founder · Obstetrician & Gynaecologist",
     credentials: "MBBS, DNB – Obstetrics & Gynaecology",
     specialtyBadge: "Natural Birth, VBAC and Pregnancy Care",
     paragraphs: [
-      "Dr. Santoshini discusses your pregnancy, birth preferences and available care options to help you make informed decisions.",
+      "Dr. Santoshi discusses your pregnancy, birth preferences and available care options to help you make informed decisions.",
       "Birth planning considers both your preferences and the medical needs of you and your newborn.",
     ],
     photo: "/images/doctors/dr-santoshi-web.jpg",
@@ -269,7 +269,7 @@ export const naturalBirthPractical = {
     },
     {
       label: "Consulting Obstetrician",
-      lines: ["Dr. Santoshini Nandigam"],
+      lines: ["Dr. Santoshi Nandigam"],
     },
     {
       label: "Delivery Location",
