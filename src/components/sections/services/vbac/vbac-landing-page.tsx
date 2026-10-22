@@ -21,7 +21,7 @@ import { VbacRelatedCare } from "./vbac-related-care";
  * 05. WHAT MAY INFLUENCE THE DISCUSSION?
  * 06. PLANNING LABOUR AFTER A CAESAREAN
  * 07. YOUR FIRST CONSULTATION
- * 08. YOUR OBSTETRICIAN (Dr. Santoshini Nandigam)
+ * 08. YOUR OBSTETRICIAN (Dr. Santoshi Nandigam)
  * 09. IF THE BIRTH PLAN CHANGES
  * 10. PRACTICAL INFORMATION
  * 11. FAQs (8 questions)

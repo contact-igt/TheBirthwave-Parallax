@@ -58,7 +58,7 @@ export const vbacHero = {
   supportingLine: "A previous caesarean doesn't always mean your next birth must be the same.",
   body: [
     "VBAC (Vaginal Birth After Caesarean) may be an option for some women who have previously had a C-section.",
-    "At The Birthwave, Dr. Santoshini Nandigam helps you understand your previous birth, assess your current pregnancy and explore the birth options that may be appropriate for you.",
+    "At The Birthwave, Dr. Santoshi Nandigam helps you understand your previous birth, assess your current pregnancy and explore the birth options that may be appropriate for you.",
   ],
   primaryCta: { label: "DISCUSS VBAC WITH DR. SANTOSHINI ↗", href: "#vbac-enquiry" },
   secondaryCta: { label: "UNDERSTAND VBAC ↓", href: "#vbac-story" },
@@ -210,13 +210,13 @@ export const vbacClinician = {
   heading: "Your previous birth matters. So does your next one.",
   doctor: {
     slug: "dr-santoshi-nandigam",
-    name: "Dr. Santoshini Nandigam",
+    name: "Dr. Santoshi Nandigam",
     credentials: "MBBS, DNB – Obstetrics & Gynaecology",
     role: "Founder · Obstetrician & Gynaecologist",
     specialtyBadge: "Natural Birth & VBAC Care",
     paragraphs: [
       "A previous caesarean may leave you with questions about your next pregnancy and delivery.",
-      "Dr. Santoshini's approach focuses on understanding your previous experience, reviewing your current pregnancy and discussing your birth options with you.",
+      "Dr. Santoshi's approach focuses on understanding your previous experience, reviewing your current pregnancy and discussing your birth options with you.",
     ],
     photo: "/images/doctors/dr-santoshi-web.jpg",
     primaryCta: { label: "BOOK A CONSULTATION ↗", href: "/contact" },
@@ -248,7 +248,7 @@ export const vbacPractical = {
     {
       label: "Consulting doctor",
       lines: [
-        "Dr. Santoshini Nandigam",
+        "Dr. Santoshi Nandigam",
         "Obstetrician & Gynaecologist",
       ],
     },
@@ -322,7 +322,7 @@ export const vbacEnquiry = {
   heading: "Thinking about vaginal birth after a C-section?",
   body: [
     "Your previous birth is part of your story, but it doesn't have to determine every decision about your next one.",
-    "Meet Dr. Santoshini Nandigam to discuss your pregnancy, previous caesarean and the birth options that may be appropriate for you.",
+    "Meet Dr. Santoshi Nandigam to discuss your pregnancy, previous caesarean and the birth options that may be appropriate for you.",
   ],
   primaryCta: "BOOK A VBAC CONSULTATION ↗",
   whatsappCta: "CHAT ON WHATSAPP ↗",

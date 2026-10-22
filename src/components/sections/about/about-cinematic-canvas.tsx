@@ -184,6 +184,8 @@ function ExteriorScrollScene() {
     <ScrollSequence
       frameCount={{ desktop: 158, mobile: 79 }}
       folder={{ desktop: "/frames/desktop", mobile: "/frames/mobile" }}
+      ease={0.2}
+      crossfade
       height="h-[300vh] md:h-[400vh]"
       onProgress={handleProgress}
       ariaLabel="The Birthwave clinic walk-up exterior sequence"
