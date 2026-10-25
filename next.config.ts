@@ -14,6 +14,20 @@ const nextConfig: NextConfig = {
   // Lets the marketing build and the check-in build live side by side locally.
   distDir: process.env.NEXT_DIST_DIR || ".next",
 
+  async redirects() {
+    if (isCheckinApp()) return [];
+
+    // Preserve links to the former top-level service pages.
+    return [
+      { source: "/birth-preparation", destination: "/services/birth-preparation", permanent: true },
+      { source: "/fertility-preconception", destination: "/services/fertility-preconception", permanent: true },
+      { source: "/vaginismus", destination: "/services/vaginismus", permanent: true },
+      { source: "/vbac", destination: "/services/vbac", permanent: true },
+      { source: "/pregnancy-antenatal-care", destination: "/services/pregnancy-antenatal-care", permanent: true },
+      { source: "/normal-birth-delivery", destination: "/services/natural-birth", permanent: true },
+    ];
+  },
+
   async headers() {
     const rules = [
       { source: "/registration", headers: privateHeaders },

@@ -441,6 +441,7 @@ export const footer = {
   exploreLinks: [
     { label: "About Us", href: "/about" },
     { label: "Our Care Team", href: "/doctors" },
+    { label: "Blog", href: "/blog" },
     { label: "FAQ", href: "/faq" },
     { label: "Contact Us", href: "/contact" },
   ],

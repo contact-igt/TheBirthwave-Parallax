@@ -4,6 +4,10 @@ import { doctors } from "@/content/doctors-content";
 import { siteOrigin } from "@/lib/seo";
 import { isCheckinApp } from "@/lib/app-mode";
 import { INDEXABLE_SERVICE_SLUGS } from "@/lib/service-indexing-policy";
+import { blogConfigured, blogDesignPreview, getBlogIndex } from "@/lib/blog/api";
+import { safeBlogUrl } from "@/lib/blog/contract";
+
+export const revalidate = 60;
 
 /**
  * Next.js's native sitemap convention (`src/app/sitemap.ts`) — served at
@@ -14,7 +18,7 @@ import { INDEXABLE_SERVICE_SLUGS } from "@/lib/service-indexing-policy";
  * Privacy, Terms and Experience remain noindex, so they are omitted until
  * approved for search indexing.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (isCheckinApp()) return [];
 
   const corePages: MetadataRoute.Sitemap = [
@@ -40,5 +44,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...corePages, ...servicePages, ...doctorPages];
+  const blogPages: MetadataRoute.Sitemap = [];
+  if (blogConfigured() && !blogDesignPreview()) {
+    // Fail regeneration on outage, rather than publish a truncated sitemap.
+    const articles = await getBlogIndex();
+    if (articles.length) blogPages.push({ url: `${siteOrigin}/blog`, changeFrequency: "weekly", priority: 0.7 });
+    for (const article of articles) {
+      const url = `${siteOrigin}/blog/${article.slug}`;
+      const override = safeBlogUrl(article.seo.canonical_url);
+      if (override && new URL(override, siteOrigin).href !== url) continue;
+      blogPages.push({ url, lastModified: article.updated_at, changeFrequency: "monthly", priority: 0.6 });
+    }
+  }
+  return [...corePages, ...servicePages, ...doctorPages, ...blogPages];
 }

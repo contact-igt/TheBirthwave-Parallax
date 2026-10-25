@@ -42,4 +42,5 @@ next-env.d.ts
 
 # registration QA screenshots (regenerate with npm run test:e2e)
 /docs/registration-qa/
+/docs/blog-qa/
 /.next-*/

@@ -19,6 +19,7 @@ export const navigation = {
     { label: "About Us", href: "/about" },
     { label: "Our Care", href: "/services" },
     { label: "Doctors", href: "/doctors" },
+    { label: "Blog", href: "/blog" },
     { label: "Contact Us", href: "/contact" },
   ],
   cta: {
