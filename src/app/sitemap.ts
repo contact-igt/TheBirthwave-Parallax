@@ -7,7 +7,9 @@ import { INDEXABLE_SERVICE_SLUGS } from "@/lib/service-indexing-policy";
 import { blogConfigured, blogDesignPreview, getBlogIndex } from "@/lib/blog/api";
 import { safeBlogUrl } from "@/lib/blog/contract";
 
-export const revalidate = 60;
+// The external CMS must not be required to deploy the website.
+// Generate XML on request; the blog adapter caches validated reads for 60 seconds.
+export const dynamic = "force-dynamic";
 
 /**
  * Next.js's native sitemap convention (`src/app/sitemap.ts`) — served at
@@ -46,7 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const blogPages: MetadataRoute.Sitemap = [];
   if (blogConfigured() && !blogDesignPreview()) {
-    // Fail regeneration on outage, rather than publish a truncated sitemap.
+    // Fail the request on outage, rather than publish a truncated sitemap.
     const articles = await getBlogIndex();
     if (articles.length) blogPages.push({ url: `${siteOrigin}/blog`, changeFrequency: "weekly", priority: 0.7 });
     for (const article of articles) {
