@@ -365,7 +365,7 @@ export function SiteHeader() {
 
               const linkClassName = cx(
                 "rounded-full px-4 py-2 font-body text-sm font-medium tracking-[0.02em] transition-colors duration-[var(--duration-fast)] hover:bg-paper hover:text-ink",
-                pathname === link.href ? "text-ink font-semibold" : "text-ink-soft",
+                pathname === link.href || (link.href === "/blog" && pathname.startsWith("/blog/")) ? "text-ink font-semibold" : "text-ink-soft",
               );
 
               return isCrossPageHash(link.href) ? (
@@ -489,7 +489,7 @@ export function SiteHeader() {
 
             const linkClassName = cx(
               "flex min-h-[44px] items-center rounded-xs px-2 py-3.5 font-body text-base font-medium transition-colors duration-[var(--duration-fast)] hover:bg-paper-dim",
-              pathname === link.href ? "text-ink font-semibold" : "text-ink",
+              pathname === link.href || (link.href === "/blog" && pathname.startsWith("/blog/")) ? "text-ink font-semibold" : "text-ink",
             );
 
             return isCrossPageHash(link.href) ? (
