@@ -391,7 +391,7 @@ export const fertilityEnquiry = {
     "A consultation can help you understand your health and the options that may be relevant to your individual circumstances.",
   ],
   callLabel: "Call",
-  phone: "+91 93630 31925",
+  phone: "+91 79042 51378",
   whatsappLabel: "CHAT ON WHATSAPP →",
   dropdownOptions: [
     "Preconception care",

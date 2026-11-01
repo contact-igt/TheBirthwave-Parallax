@@ -436,7 +436,7 @@ export const ourServicesFinalCta = {
     label: "CHAT ON WHATSAPP →",
     href: "https://wa.me/917904251378",
   },
-  phone: "+91 93630 31925",
-  phoneHref: "tel:+919363031925",
+  phone: "+91 79042 51378",
+  phoneHref: "tel:+917904251378",
   location: "Mahalingapuram Main Road, Nungambakkam, Chennai – 600034",
 } as const;

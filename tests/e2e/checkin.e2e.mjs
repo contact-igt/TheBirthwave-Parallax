@@ -482,7 +482,7 @@ test("without a receipt or with a bad link the page shows a safe fallback, never
     await page.getByRole("heading", { name: /We can’t show this/ }).waitFor();
     assert.equal(await page.getByTestId("registration-number").count(), 0, hash);
     assert.equal(await page.getByRole("heading", { name: /all checked in/ }).count(), 0, hash);
-    await page.getByRole("link", { name: /\+91 93630 31925/ }).waitFor();
+    await page.getByRole("link", { name: /\+91 79042 51378/ }).waitFor();
     await context.close();
   }
 });
@@ -503,7 +503,7 @@ for (const viewport of VIEWPORTS) {
     // header: logo, label, date, assistance
     await page.getByText("Clinic Check-in", { exact: true }).waitFor();
     await page.getByRole("button", { name: "Need assistance?" }).click();
-    await page.getByRole("link", { name: /\+91 93630 31925/ }).first().waitFor();
+    await page.getByRole("link", { name: /\+91 79042 51378/ }).first().waitFor();
     await context.close();
   });
 }

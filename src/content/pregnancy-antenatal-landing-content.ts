@@ -266,7 +266,7 @@ export const pregnancyLandingVisit = {
     ],
   },
   contact: {
-    phone: "+91 93630 31925",
+    phone: "+91 79042 51378",
   },
   appointments: {
     text: "Contact the clinic to enquire about consultation availability and appointment arrangements.",

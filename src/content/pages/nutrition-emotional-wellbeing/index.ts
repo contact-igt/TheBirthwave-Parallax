@@ -213,7 +213,7 @@ export const nutritionPractical = {
     },
     {
       label: "Booking",
-      lines: ["Call or WhatsApp", "+91 93630 31925"],
+      lines: ["Call or WhatsApp", "+91 79042 51378"],
     },
   ],
 } as const;

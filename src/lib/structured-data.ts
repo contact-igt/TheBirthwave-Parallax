@@ -18,7 +18,7 @@ export const siteStructuredData = {
       logo: absoluteUrl("/brand/wordmark-mauve.png"),
       image: absoluteUrl("/images/clinic/birthwave.JPG"),
       description: homeDescription,
-      telephone: "+91 93630 31925",
+      telephone: "+91 79042 51378",
       email: "thebirthwave@gmail.com",
       address: {
         "@type": "PostalAddress",

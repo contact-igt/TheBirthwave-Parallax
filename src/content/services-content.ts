@@ -787,7 +787,7 @@ export const servicesFinalCta = {
     href: "https://wa.me/917904251378",
   },
   phoneLabel: "Call",
-  phoneNumber: "+91 93630 31925",
-  phoneHref: "tel:+919363031925",
+  phoneNumber: "+91 79042 51378",
+  phoneHref: "tel:+917904251378",
   note: "Consultations by appointment · Mahalingapuram, Nungambakkam, Chennai",
 } as const;

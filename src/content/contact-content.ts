@@ -27,7 +27,7 @@ export const contactHero = {
  * Components read directly from this dictionary.
  */
 export const contactPlaceholders = {
-  phone: "+91 93630 31925",
+  phone: "+91 79042 51378",
   whatsapp: "+91 79042 51378",
   email: "thebirthwave@gmail.com",
   clinicAddress:
@@ -50,8 +50,8 @@ export const contactDirectDetails = {
       id: "call",
       label: "Phone",
       confirmed: true,
-      value: "+91 93630 31925",
-      actionHref: "tel:+919363031925" as string | undefined,
+      value: "+91 79042 51378",
+      actionHref: "tel:+917904251378" as string | undefined,
       note: "Primary phone line for patient support and enquiries.",
     },
     {

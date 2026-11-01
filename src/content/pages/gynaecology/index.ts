@@ -224,7 +224,7 @@ export const gynaecologyPractical = {
       lines: ["For appointments or questions before your visit, contact The Birthwave team."],
     },
   ],
-  phone: "+91 93630 31925",
+  phone: "+91 79042 51378",
 } as const;
 
 export const gynaecologyFaq = {
@@ -308,7 +308,7 @@ export const gynaecologyEnquiry = {
   body: "You don't need to have the answers before you book. Start with a gynaecology consultation and talk through your symptoms, questions or reproductive-health concerns with your doctor.",
   primaryCta: "BOOK A GYNAECOLOGY CONSULTATION",
   whatsapp: "CHAT ON WHATSAPP",
-  phone: "+91 93630 31925",
+  phone: "+91 79042 51378",
   fields: {
     name: "Full name",
     contact: "Phone number or email",

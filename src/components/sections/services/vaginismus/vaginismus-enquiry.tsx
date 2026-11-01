@@ -83,7 +83,7 @@ export function VaginismusEnquiry() {
               </a>
             ) : null}
             {vaginismusEnquiry.phone ? (
-              <a href="tel:+919363031925" className="inline-flex items-center gap-1.5 text-terracotta-deep underline hover:text-coral">
+              <a href="tel:+917904251378" className="inline-flex items-center gap-1.5 text-terracotta-deep underline hover:text-coral">
                 {vaginismusEnquiry.phone} ↗
               </a>
             ) : null}

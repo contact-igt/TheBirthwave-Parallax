@@ -102,9 +102,9 @@ export function DoctorProfileContent({
               <p className="text-[10px] font-semibold tracking-wider text-muted uppercase">SPECIALISES IN</p>
               <ul className="mt-1 space-y-1 text-xs font-medium text-espresso">
                 {(doctor.careAreas ?? [doctor.specialFocus]).slice(0, 2).map((area, i) => (
-                  <li key={area} className="flex items-center gap-1.5">
+                  <li key={area} className="flex min-w-0 items-start gap-1.5">
                     <span className={cx("size-1.5 rounded-full shrink-0", i === 0 ? "bg-terracotta" : "bg-sky")} />
-                    <span className="truncate">{area}</span>
+                    <span className="min-w-0 whitespace-normal break-words leading-snug">{area}</span>
                   </li>
                 ))}
               </ul>

@@ -63,7 +63,7 @@ export const aboutClinicStrip = {
   heading: "Find us in Nungambakkam, Chennai.",
   clinicName: "The Birthwave",
   address: "No. 8/15, Mahalingapuram Main Road, Nungambakkam, Chennai \u2013 600034",
-  phone: "+91 93630 31925",
+  phone: "+91 79042 51378",
   email: "thebirthwave@gmail.com",
   directionsLabel: "GET DIRECTIONS",
   directionsHref:

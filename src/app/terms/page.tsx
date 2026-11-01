@@ -150,7 +150,7 @@ export default function TermsPage() {
             </span>
             <div>
               <h2>Questions about these terms</h2>
-              <p>Email <a href={`mailto:${contactPlaceholders.email}`}>{contactPlaceholders.email}</a> or call <a href="tel:+919363031925">{contactPlaceholders.phone}</a>. You can also use the <Link href="/contact">contact page</Link>.</p>
+              <p>Email <a href={`mailto:${contactPlaceholders.email}`}>{contactPlaceholders.email}</a> or call <a href="tel:+917904251378">{contactPlaceholders.phone}</a>. You can also use the <Link href="/contact">contact page</Link>.</p>
             </div>
           </section>
         </div>
