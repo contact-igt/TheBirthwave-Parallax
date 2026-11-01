@@ -519,10 +519,10 @@ export const vaginismusPractical = {
     },
     {
       label: "Contact",
-      lines: ["+91 93630 31925"],
+      lines: ["+91 79042 51378"],
     },
   ],
-  phone: "+91 93630 31925",
+  phone: "+91 79042 51378",
   cta: { label: "BOOK A PRIVATE CONSULTATION", href: "/contact" },
 } as const;
 
@@ -668,7 +668,7 @@ export const vaginismusEnquiry = {
     "If penetration, intimacy or vaginal examinations have been painful or difficult, you do not need to work out the reason on your own before seeking help.\n\nStart by telling us what you are comfortable sharing. The Birthwave team can help you understand the appropriate next step.",
   primaryCta: "BOOK A PRIVATE CONSULTATION",
   whatsapp: "CHAT ON WHATSAPP",
-  phone: "CALL +91 93630 31925",
+  phone: "CALL +91 79042 51378",
   dropdownOptions: [
     "Vaginismus consultation",
     "Pelvic-floor concerns",

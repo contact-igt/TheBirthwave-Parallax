@@ -264,7 +264,7 @@ export const vbacPractical = {
     },
     {
       label: "Contact",
-      lines: ["+91 93630 31925"],
+      lines: ["+91 79042 51378"],
     },
   ],
   cta: { label: "BOOK A CONSULTATION ↗", href: "/contact" },
@@ -327,7 +327,7 @@ export const vbacEnquiry = {
   primaryCta: "BOOK A VBAC CONSULTATION ↗",
   whatsappCta: "CHAT ON WHATSAPP ↗",
   whatsappUrl: "https://wa.me/917904251378",
-  phone: "+91 93630 31925",
+  phone: "+91 79042 51378",
   fields: {
     name: "Full Name",
     phone: "Phone Number",

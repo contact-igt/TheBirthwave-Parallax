@@ -327,7 +327,7 @@ export const finalCta = {
   },
   // Not "WhatsApp Us": the project has two conflicting WhatsApp numbers
   // (contact-content.ts names +91 98407 98472; several service pages give
-  // +91 93630 31925), so no wa.me link is published until the client
+  // +91 79042 51378), so no wa.me link is published until the client
   // confirms which one. This goes to the confirmed contact details instead.
   secondaryCta: {
     label: "Contact Our Team",

@@ -279,10 +279,10 @@ export function NotFoundView() {
                 </strong>{" "}
                 Contact our round-the-clock Triage &amp; Labour Ward at{" "}
                 <a
-                  href="tel:+919363031925"
+                  href="tel:+917904251378"
                   className="font-semibold text-[#8c4d38] hover:text-[#733624] underline underline-offset-4 decoration-[#8c4d38]/50 hover:decoration-[#8c4d38] transition-all"
                 >
-                  +91 93630 31925
+                  +91 79042 51378
                 </a>
                 .
               </p>
@@ -426,11 +426,11 @@ export function NotFoundView() {
 
               <div>
                 <a
-                  href="tel:+919363031925"
+                  href="tel:+917904251378"
                   className="w-full bg-white hover:bg-[#faf3ee] border border-[#eedfd6] text-[#241a17] text-xs sm:text-sm font-semibold py-3 px-5 rounded-xl flex items-center justify-center gap-2.5 transition-all shadow-xs"
                 >
                   <Phone className="w-4 h-4 text-[#8c4d38]" />
-                  <span>+91 93630 31925</span>
+                  <span>+91 79042 51378</span>
                 </a>
                 <p className="text-[11px] text-center text-[#5b4a43]/70 mt-2.5">
                   Nungambakkam Desk • 24/7 Available
@@ -550,7 +550,7 @@ export function NotFoundView() {
               </div>
               <div>
                 <a
-                  href="tel:+919363031925"
+                  href="tel:+917904251378"
                   className="hover:text-[#8c4d38] transition-colors"
                 >
                   Emergency OPD
@@ -680,10 +680,10 @@ export function NotFoundView() {
                 I Feel Grounded Now
               </button>
               <a
-                href="tel:+919363031925"
+                href="tel:+917904251378"
                 className="text-xs font-semibold text-[#8c4d38] hover:underline py-1"
               >
-                Or Call Our 24/7 Midwives at +91 93630 31925
+                Or Call Our 24/7 Midwives at +91 79042 51378
               </a>
             </div>
           </div>

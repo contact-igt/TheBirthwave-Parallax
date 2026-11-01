@@ -295,7 +295,7 @@ export const naturalBirthPractical = {
     },
     {
       label: "Contact",
-      lines: ["+91 93630 31925"],
+      lines: ["+91 79042 51378"],
     },
   ],
 } as const;

@@ -650,8 +650,8 @@ test("clinic header: label, welcome line, IST date, assistance and live step per
   assert.equal(await help.getAttribute("aria-expanded"), "false");
   await help.click();
   assert.equal(await help.getAttribute("aria-expanded"), "true");
-  const tel = page.getByRole("link", { name: /\+91 93630 31925/ });
-  assert.equal(await tel.getAttribute("href"), "tel:+919363031925");
+  const tel = page.getByRole("link", { name: /\+91 79042 51378/ });
+  assert.equal(await tel.getAttribute("href"), "tel:+917904251378");
   await page.keyboard.press("Escape");
   assert.equal(await help.getAttribute("aria-expanded"), "false");
   assert.equal(await page.evaluate(() => document.activeElement?.textContent), "Need assistance?");

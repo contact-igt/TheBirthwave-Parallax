@@ -436,7 +436,7 @@ export const birthPrepEnquiry = {
   primaryCta: "ENQUIRE ABOUT THE NEXT WORKSHOP",
   whatsapp: "CHAT ON WHATSAPP",
   whatsappUrl: "https://wa.me/917904251378",
-  phone: "+91 93630 31925",
+  phone: "+91 79042 51378",
   fields: {
     name: "Full Name",
     phone: "Phone Number",

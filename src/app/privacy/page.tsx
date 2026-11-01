@@ -137,7 +137,7 @@ export default function PrivacyPage() {
             </span>
             <div>
               <h2>Contact The Birthwave</h2>
-              <p>For a question about this website notice, email <a href={`mailto:${contactPlaceholders.email}`}>{contactPlaceholders.email}</a> or call <a href="tel:+919363031925">{contactPlaceholders.phone}</a>. You can also visit the <Link href="/contact">contact page</Link>.</p>
+              <p>For a question about this website notice, email <a href={`mailto:${contactPlaceholders.email}`}>{contactPlaceholders.email}</a> or call <a href="tel:+917904251378">{contactPlaceholders.phone}</a>. You can also visit the <Link href="/contact">contact page</Link>.</p>
             </div>
           </section>
         </div>
