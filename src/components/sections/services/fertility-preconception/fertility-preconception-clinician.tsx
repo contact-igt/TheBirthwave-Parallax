@@ -1,4 +1,4 @@
-﻿import { fertilityClinicians } from "@/content/pages/fertility-preconception";
+import { fertilityClinicians } from "@/content/pages/fertility-preconception";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,7 @@ import styles from "./fertility-preconception.module.css";
 
 /**
  * Section 6 — The People Behind Your Care.
- * Meet your clinicians: Dr. Santoshi Nandigam and Dr. Bharathy Kandasamy.
+ * Meet your clinician: Dr. Santoshi Nandigam.
  */
 export function FertilityClinician() {
   const clinicians = fertilityClinicians.clinicians

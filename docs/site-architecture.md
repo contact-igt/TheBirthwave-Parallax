@@ -16,7 +16,6 @@ THE BIRTHWAVE
 ├── /about                                     About
 ├── /doctors                                   Doctors / Care Team
 │   ├── /doctors/dr-santoshi-nandigam           Founder
-│   ├── /doctors/dr-bharathy-kandasamy          Medical & Clinical Team
 │   ├── /doctors/dr-deepika-sivathanu           Medical & Clinical Team
 │   ├── /doctors/dr-amudha-varshini             Medical & Clinical Team
 │   ├── /doctors/dr-adithi-nair                 Medical & Clinical Team

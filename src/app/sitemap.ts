@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
  * allowlist above, while their URLs and doctor URLs remain derived from the
  * project's content registries.
  *
- * Privacy, Terms and Experience remain noindex, so they are omitted until
+ * Privacy and Experience remain noindex, so they are omitted until
  * approved for search indexing.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -30,6 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteOrigin}/about`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteOrigin}/faq`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${siteOrigin}/contact`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${siteOrigin}/terms`, changeFrequency: "yearly", priority: 0.2 },
   ];
 
   const servicePages: MetadataRoute.Sitemap = services

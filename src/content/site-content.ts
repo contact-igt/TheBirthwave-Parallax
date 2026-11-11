@@ -19,6 +19,9 @@ export const brand = {
   // Approved written brand name: The Birthwave.
   logo: {
     wordmarkMauve: "/brand/wordmark-mauve.png",
+    // Brand-guideline shade one step darker than #CA9585 (#9E6D62): hero + header,
+    // so the logo reads clearly on the light photo hero.
+    wordmarkShade: "/brand/wordmark-shade.png",
     wordmarkCream: "/brand/wordmark-cream.png",
     iconMauve: "/brand/icon-mauve.png",
     iconCream: "/brand/icon-cream.png",

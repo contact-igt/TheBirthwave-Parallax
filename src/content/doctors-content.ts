@@ -127,7 +127,7 @@ function photoFor(name: string, file?: string): DoctorContent["photo"] {
 }
 
 
-/** The confirmed 10-person roster, in page order (Founder, then Medical &
+/** The confirmed 9-person roster, in page order (Founder, then Medical &
  * Clinical Team, then Allied Care Team) — the single source of truth for
  * routing (`generateStaticParams`), the Founder section, both team grids,
  * and (via `doctorsJourneyRoster` below) the horizontal journey. */
@@ -163,21 +163,6 @@ export const doctors: DoctorContent[] = [
       src: "/images/doctors/dr-deepika.PNG",
       alt: "Dr. Deepika Sivathanu",
       placeholderLabel: "Dr. Deepika Sivathanu",
-    },
-    team: "medical",
-  },
-  {
-    slug: "dr-bharathy-kandasamy",
-    name: "Dr. Bharathy Kandasamy",
-    credentials: "MBBS, Fellowship in Reproductive Medicine and Laparoscopy",
-    role: "Gynaecologist · Laparoscopic Surgeon · Advanced Fertility Specialist",
-    relatedCareSlugs: ["fertility-preconception", "gynaecology"],
-    careAreas: ["Fertility & Preconception", "Gynaecology & Women's Wellness"],
-    description: null,
-    photo: {
-      src: "/images/doctors/dr-bharathy-web.jpg",
-      alt: "Dr. Bharathy Kandasamy",
-      placeholderLabel: "Dr. Bharathy Kandasamy",
     },
     team: "medical",
   },
@@ -434,8 +419,7 @@ export const whoCanSupportYourCare = {
   intro:
     "Different needs. Different people to support you. The Birthwave brings medical and allied-care professionals together across women's health, pregnancy, birth, recovery and newborn care.",
   groups: [
-    { label: "Pregnancy, Birth & VBAC", slugs: ["dr-santoshi-nandigam"] },
-    { label: "Gynaecology & Fertility", slugs: ["dr-bharathy-kandasamy"] },
+    { label: "Pregnancy, Birth, Gynaecology & Fertility", slugs: ["dr-santoshi-nandigam"] },
     { label: "Newborn & Pediatric Care", slugs: ["dr-deepika-sivathanu"] },
     { label: "Prenatal & Postpartum Yoga / Naturopathy", slugs: ["dr-amudha-varshini"] },
     { label: "Pelvic Floor & Vaginismus Support", slugs: ["dr-adithi-nair"] },

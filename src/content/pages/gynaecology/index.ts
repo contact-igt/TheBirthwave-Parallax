@@ -150,22 +150,11 @@ export const gynaecologyClinicians = {
       bookLabel: "BOOK CONSULTATION",
       bookHref: "/contact",
     },
-    {
-      doctorSlug: "dr-bharathy-kandasamy",
-      philosophy:
-        "Whether you are visiting with a new symptom, an ongoing concern or questions about your reproductive health, your consultation begins with understanding your history and what matters to you.",
-      highlight:
-        "Clear explanations, thoughtful assessment and care planned around your individual needs.",
-      profileHref: "/doctors/dr-bharathy-kandasamy",
-      viewProfileLabel: "View Full Profile",
-      bookLabel: "BOOK CONSULTATION",
-      bookHref: "/contact",
-    },
   ],
 } as const;
 
 export const gynaecologyClinician = {
-  ...gynaecologyClinicians.clinicians[1],
+  ...gynaecologyClinicians.clinicians[0],
   eyebrow: gynaecologyClinicians.eyebrow,
   heading: gynaecologyClinicians.heading,
 } as const;

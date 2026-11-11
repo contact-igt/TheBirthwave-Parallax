@@ -1,4 +1,4 @@
-﻿import { gynaecologyClinicians } from "@/content/pages/gynaecology";
+import { gynaecologyClinicians } from "@/content/pages/gynaecology";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";
@@ -8,8 +8,7 @@ import { GynaecologyReveal } from "./gynaecology-reveal";
 
 /**
  * Section 5 — The People Behind Your Care.
- * Dr. Santoshi Nandigam (Founder, Obstetrician & Gynaecologist) and
- * Dr. Bharathy Kandasamy (Gynaecologist, Laparoscopic Surgeon, Advanced Fertility Specialist).
+ * Dr. Santoshi Nandigam (Founder, Obstetrician & Gynaecologist).
  */
 export function GynaecologyClinician() {
   const clinicians = gynaecologyClinicians.clinicians

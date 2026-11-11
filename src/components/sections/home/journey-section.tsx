@@ -7,6 +7,7 @@ import { CtaLink } from "@/components/ui/cta-link";
 import { useReducedMotion } from "@/motion/reduced-motion";
 import { cx } from "@/lib/cx";
 import { ensureScrollTriggerRegistered, gsap, ScrollTrigger } from "@/motion/gsap-scroll";
+import { getJourneyThreadEntryX } from "./journey-thread";
 
 /**
  * The BirthWave Journey — six stages in normal document flow (no pin),
@@ -92,6 +93,7 @@ export function JourneySection() {
   const basePathRef = useRef<SVGPathElement>(null);
   const progressPathRef = useRef<SVGPathElement>(null);
   const markerRef = useRef<SVGGElement>(null);
+  const leadInRef = useRef<SVGPathElement>(null);
   const introRef = useRef<HTMLParagraphElement>(null);
   const reducedMotion = useReducedMotion();
 
@@ -108,6 +110,8 @@ export function JourneySection() {
     const desktopMq = window.matchMedia(DESKTOP_QUERY);
 
     let pathLength = 0;
+    let leadLength = 0;
+    let leadProgress = 0;
     let progress = 0;
     let activeIndex = -1;
     let lastSize = "";
@@ -138,6 +142,33 @@ export function JourneySection() {
       pathLength = base.getTotalLength();
       progressPath.style.strokeDasharray = `${pathLength}`;
       apply(reducedMotion ? 1 : progress);
+
+      // Desktop lead-in: picks up the hero's heart-line thread at the top of
+      // the section and carries it past the heading into the route's marker.
+      const lead = leadInRef.current;
+      if (lead) {
+        const entryX = desktop ? getJourneyThreadEntryX() : null;
+        if (entryX === null) {
+          lead.removeAttribute("d");
+          leadLength = 0;
+        } else {
+          const top = wrapper.offsetTop;
+          const sx = entryX - wrapper.getBoundingClientRect().left;
+          lead.setAttribute(
+            "d",
+            `M ${sx.toFixed(1)} ${(-top).toFixed(1)} C ${sx.toFixed(1)} ${(-top * 0.35).toFixed(1)}, ${centerX.toFixed(1)} ${(-top * 0.65).toFixed(1)}, ${centerX.toFixed(1)} 0`,
+          );
+          leadLength = lead.getTotalLength();
+          lead.style.strokeDasharray = `${leadLength}`;
+          applyLead(reducedMotion ? 1 : leadProgress);
+        }
+      }
+    }
+
+    function applyLead(p: number) {
+      leadProgress = p;
+      const lead = leadInRef.current;
+      if (lead && leadLength > 0) lead.style.strokeDashoffset = `${leadLength * (1 - p)}`;
     }
 
     // ── Progress: draw stroke + move marker along the same path ─────────
@@ -197,6 +228,21 @@ export function JourneySection() {
           start: "top 70%",
           end: "bottom 70%",
           scrub: 0.6,
+        },
+      });
+
+      // Lead-in draws as the section rises, finishing as the route starts.
+      const leadState = { p: 0 };
+      gsap.to(leadState, {
+        p: 1,
+        ease: "none",
+        onUpdate: () => applyLead(leadState.p),
+        scrollTrigger: {
+          trigger: wrapper.closest("section") ?? wrapper,
+          start: "top bottom",
+          endTrigger: wrapper,
+          end: "top 70%",
+          scrub: 0.4,
         },
       });
 
@@ -393,7 +439,7 @@ export function JourneySection() {
         </h2>
       </div>
 
-      <div ref={wrapperRef} className="container-birthwave relative pb-[clamp(3rem,2.5rem+3vw,5.5rem)]">
+      <div ref={wrapperRef} data-journey-route className="container-birthwave relative pb-[clamp(3rem,2.5rem+3vw,5.5rem)]">
         {/* The journey route: base path, progress path, marker — one SVG,
             one `d`, drawn in real pixel units (viewBox = wrapper size). */}
         <svg
@@ -413,6 +459,13 @@ export function JourneySection() {
             stroke="var(--color-terracotta)"
             strokeWidth="2"
             strokeLinecap="round"
+          />
+          <path
+            ref={leadInRef}
+            fill="none"
+            stroke="var(--color-terracotta)"
+            strokeWidth="2"
+            className="hidden lg:block"
           />
           {!reducedMotion && (
             <g ref={markerRef}>
