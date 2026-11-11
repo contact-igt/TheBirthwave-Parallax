@@ -21,6 +21,19 @@ try {
   }
   await page.goto(`${base}/blog/sample-article-2`,{waitUntil:'networkidle'});
   assert.ok(await page.getByText('Reviewed by Sample reviewer', {exact:false}).isVisible());
+  const contents=page.getByRole('navigation',{name:'In this article'});
+  if(width<=900){
+   await page.locator('details[data-ready="true"]').waitFor();
+   await page.getByText('Jump to section').click();
+  }
+  assert.equal(await contents.getByRole('link').count(),5);
+  assert.equal(await contents.getByRole('link',{name:'Questions & notes'}).count(),1);
+  assert.equal(await page.locator('#article-body h2[id]').count(),4);
+  assert.equal(await page.locator('#article-body h2[id="article-section-next-steps-2"]').count(),1);
+  await contents.getByRole('link',{name:'Questions & notes'}).click();
+  assert.match(page.url(),/#article-section-questions-notes$/);
+  assert.ok(await page.locator('#article-section-questions-notes').isVisible());
+  if(width<=900)assert.equal(await page.locator('details').filter({hasText:'Jump to section'}).getAttribute('open'),null);
   assert.equal(await page.getByText('MUST NOT RENDER NEWSLETTER').count(),0);assert.equal(await page.getByText('MUST NOT RENDER FEEDBACK').count(),0);
   assert.equal(await page.locator('main aside').getByRole('link',{name:'Book a consultation'}).getAttribute('href'),'/contact?source=blog');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`article overflow ${width}`);

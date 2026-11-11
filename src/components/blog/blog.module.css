@@ -29,3 +29,32 @@
 @media(max-width:900px){.withSidebar{grid-template-columns:1fr}.sidebar{position:static}.grid{gap:16px}.cardCopy{padding:15px}.featureCopy{padding:25px}}
 @media(max-width:640px){.hero{text-align:left;padding-top:calc(var(--header-height) + 3rem);padding-bottom:2rem}.hero h1{font-size:2.05rem;margin-left:0}.hero p:last-child{font-size:1rem}.featured{grid-template-columns:1fr;background:transparent}.featured>.photo{aspect-ratio:16/10;min-height:0;border-radius:var(--radius-sm)}.featureCopy{padding:18px 0 0}.featureCopy h2{font-size:1.4rem;margin:.7rem 0}.grid{grid-template-columns:1fr;gap:12px}.card{display:grid;grid-template-columns:100px minmax(0,1fr)}.card .photo{height:100%;aspect-ratio:auto;min-height:126px}.cardCopy{padding:12px}.card h3{font-size:.98rem;margin:5px 0}.card .eyebrow{font-size:.65rem;letter-spacing:.1em}.card .read{font-size:.8rem;min-height:36px}.filters{gap:8px}.filter{padding:8px 14px;font-size:.77rem}.contact{gap:14px;text-align:center;padding:24px 18px}.contact p{font-size:1rem}.search{gap:8px}.search button{padding:10px 12px}.articleHeader{padding-top:calc(var(--header-height) + 2.5rem)}.articleHeader h1{font-size:2rem}.excerpt{font-size:1.05rem}.cover .photo{aspect-ratio:4/3}.comparison{grid-template-columns:1fr}.body{font-size:1rem}.body h2{font-size:1.45rem}.withSidebar{gap:24px}}
 @media(prefers-reduced-motion:reduce){.photo img{transition:none}.card:hover .photo img{transform:none}}
+
+/* Article section navigation follows the reading column on wide screens. */
+.withToc{max-width:1100px;display:grid;grid-template-columns:minmax(200px,220px) minmax(0,760px);gap:clamp(28px,4vw,60px);align-items:start}
+.withToc.withSidebar{max-width:1160px;grid-template-columns:minmax(185px,210px) minmax(0,1fr) minmax(205px,240px);gap:24px}
+.toc{position:sticky;top:calc(var(--header-height) + 1.5rem);min-width:0;align-self:start}
+.tocTitle{font-family:var(--font-plus-jakarta);font-size:.72rem;font-weight:700;letter-spacing:var(--tracking-wider);text-transform:uppercase;color:var(--color-terracotta-deep);margin:0 0 1rem}
+.tocLinks{max-height:calc(100dvh - var(--header-height) - 5rem);overflow-y:auto;overscroll-behavior:contain;border-left:1px solid var(--color-border-strong)}
+.tocLinks a{display:block;border-left:2px solid transparent;margin-left:-1px;padding:.55rem .75rem .55rem 1rem;color:var(--color-ink-soft);font-family:var(--font-plus-jakarta);font-size:.84rem;line-height:1.45;text-decoration:none;transition:color var(--duration-base) var(--ease-signature),border-color var(--duration-base) var(--ease-signature)}
+.tocLinks a:hover,.tocLinks a[aria-current=location]{color:var(--color-ink);border-left-color:var(--color-terracotta-deep)}
+.tocLinks a[aria-current=location]{font-weight:700}
+.tocLinks a:focus-visible,.tocMobile a:focus-visible,.tocMobile summary:focus-visible{outline:2px solid var(--color-terracotta-deep);outline-offset:2px}
+.tocMobile{display:none}
+.body h2[id]{scroll-margin-top:calc(var(--header-height) + 2rem)}
+@media(max-width:1199px){.withToc.withSidebar{grid-template-columns:200px minmax(0,1fr)}.withToc.withSidebar>.sidebar{grid-column:2;position:static}}
+@media(max-width:900px){
+  .withToc,.withToc.withSidebar{display:block;max-width:760px}
+  .toc{position:static;margin:0 0 1.5rem}
+  .tocDesktop{display:none}
+  .tocMobile{display:block;border:1px solid var(--color-border-strong);border-radius:var(--radius-sm);background:var(--color-paper-dim)}
+  .tocMobile summary{display:flex;align-items:center;gap:.75rem;min-height:52px;padding:.8rem 1rem;cursor:pointer;list-style:none;color:var(--color-ink);font-family:var(--font-plus-jakarta);font-size:.9rem;font-weight:700}
+  .tocMobile summary::-webkit-details-marker{display:none}
+  .tocMobile summary span{margin-left:auto;color:var(--color-terracotta-deep);font-size:.75rem;font-weight:600}
+  .tocMobile summary::after{content:'';width:.45rem;height:.45rem;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(45deg);margin-left:.15rem}
+  .tocMobile[open] summary::after{transform:rotate(225deg)}
+  .tocMobile nav{max-height:48vh;overflow-y:auto;border-top:1px solid var(--color-border);padding:.4rem .7rem .7rem}
+  .tocMobile a{display:block;padding:.6rem .5rem;color:var(--color-ink-soft);font-family:var(--font-plus-jakarta);font-size:.84rem;line-height:1.45;text-decoration:none;border-radius:var(--radius-sm)}
+  .tocMobile a[aria-current=location]{background:var(--color-paper);color:var(--color-terracotta-deep);font-weight:700}
+  .withToc.withSidebar>.sidebar{margin-top:1.5rem}
+}

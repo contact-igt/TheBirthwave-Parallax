@@ -67,7 +67,7 @@ const SEARCHABLE_ITEMS: SearchResultItem[] = [
     title: "Specialist Directory & Midwives",
     category: "Doctor",
     href: "/doctors",
-    hint: "Meet Dr. Santoshi, Dr. Bharathy & our senior midwifery team",
+    hint: "Meet Dr. Santoshi & our senior midwifery team",
   },
   {
     title: "Nungambakkam Sanctuary Tour",

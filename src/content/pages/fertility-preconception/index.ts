@@ -209,21 +209,6 @@ export const fertilityClinicians = {
       viewProfileLabel: "View Full Profile →",
       profileHref: "/doctors/dr-santoshi-nandigam",
     },
-    {
-      doctorSlug: "dr-bharathy-kandasamy",
-      name: "Dr. Bharathy Kandasamy",
-      credentials: "MBBS, Fellowship in Reproductive Medicine and Laparoscopy",
-      role: "Gynaecologist · Laparoscopic Surgeon · Fertility Care",
-      specialFocus: "",
-      description: [
-        "Dr. Bharathy Kandasamy provides gynaecological and fertility-related consultations, including discussions about fertility evaluation and treatment options.",
-        "Depending on your medical history and individual needs, consultations may include guidance on ovulation-related concerns, fertility investigations and assisted reproductive treatments such as IUI or IVF.",
-      ],
-      bookLabel: "BOOK CONSULTATION →",
-      bookHref: "/contact",
-      viewProfileLabel: "View Full Profile →",
-      profileHref: "/doctors/dr-bharathy-kandasamy",
-    },
   ],
 } as const;
 

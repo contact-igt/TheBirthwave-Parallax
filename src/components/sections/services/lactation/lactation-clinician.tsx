@@ -1,4 +1,4 @@
-﻿import { lactationClinician } from "@/content/pages/lactation";
+import { lactationClinician } from "@/content/pages/lactation";
 import { getDoctorBySlug, doctors } from "@/content/doctors-content";
 import { PortraitPlaceholder } from "@/components/ui/portrait-placeholder";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { LactationReveal } from "./lactation-reveal";
  * exactly one confirmed clinician to this slug: Sheethal Sathya, via her own
  * `relatedCareSlugs: ["birth-preparation", "lactation", "pregnancy-antenatal-care"]`
  * — the same confirmed-mapping pattern `gynaecology-clinician.tsx` already
- * uses for Dr. Bharathy Kandasamy. Her name, role and special focus are read
+ * uses for clinicians. Her name, role and special focus are read
  * directly from that single source of truth rather than re-typed, so this
  * section can never drift from the confirmed roster. She is never described
  * as a doctor, paediatrician, obstetrician or IBCLC — none of those are

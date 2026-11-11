@@ -41,6 +41,31 @@ export function SiteHeader() {
   const toggleRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
+  // Below 1024px the header has no bar: just the logo and the menu button over
+  // the page. Once content scrolls under them, a soft paper fade keeps both legible.
+  // On the homepage that waits until the Hero → Philosophy scene has ended.
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const scene = document.querySelector<HTMLElement>('[data-home-scene="hero-philosophy"]');
+      const threshold = scene ? scene.offsetTop + scene.offsetHeight - window.innerHeight : 8;
+      setScrolled(window.scrollY > threshold);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
+
   // Mobile Our Care accordion state
   const [mobileCareExpanded, setMobileCareExpanded] = useState(false);
 
@@ -165,8 +190,8 @@ export function SiteHeader() {
     };
   }, []);
 
-  // One white header bar on every page: logo link, then the nav + CTA from
-  // 1024px, or the menu button below it. On the homepage (motion allowed)
+  // From 1024px: one white header bar (logo link, nav, CTA). Below that: no
+  // bar — the logo on the left and a round menu button on the right. On the homepage (motion allowed)
   // the Hero logo travels into this bar's logo slot on scroll and hands off
   // to the real link here once it settles (hero-philosophy-scroll-scene.tsx),
   // so the link starts hidden there; reduced motion and no-JS show it.
@@ -200,6 +225,14 @@ export function SiteHeader() {
           </style>
         </noscript>
       )}
+      {/* Below 1024px: soft paper fade behind the logo + menu button (no bar). */}
+      <span
+        aria-hidden="true"
+        className={cx(
+          "pointer-events-none absolute inset-x-0 top-0 -z-10 h-[calc(100%+1.25rem)] bg-[linear-gradient(180deg,var(--color-paper)_0%,color-mix(in_srgb,var(--color-paper)_88%,transparent)_55%,transparent_100%)] transition-opacity duration-300 lg:hidden",
+          scrolled || open ? "opacity-100" : "opacity-0",
+        )}
+      />
       <div className="container-birthwave flex h-(--header-height) items-center">
         <div
           data-header-bar=""
@@ -214,7 +247,7 @@ export function SiteHeader() {
           <span
             aria-hidden="true"
             data-header-surface=""
-            className="pointer-events-none absolute inset-y-0 right-0 -z-10 rounded-xl border border-[color-mix(in_srgb,var(--color-ink)_7%,transparent)] bg-white shadow-[0_8px_24px_-16px_rgba(36,26,23,0.35)]"
+            className="pointer-events-none absolute inset-y-0 right-0 -z-10 rounded-xl border transition-[left] duration-500 ease-[var(--ease-signature)] max-lg:hidden border-[color-mix(in_srgb,var(--color-ink)_7%,transparent)] bg-white shadow-[0_8px_24px_-16px_rgba(36,26,23,0.35)]"
             style={{ left: "calc(var(--header-surface-inset, 0px) * (1 - var(--header-surface-reveal, 1)))" }}
           />
 
@@ -223,10 +256,15 @@ export function SiteHeader() {
             href="/"
             aria-label={`${brand.name} — home`}
             data-header-wordmark=""
-            className="inline-flex shrink-0 items-center rounded-lg px-1.5 py-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-ink)]"
+            className={cx(
+              "inline-flex shrink-0 items-center rounded-lg px-1.5 py-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-ink)]",
+              // Homepage: hidden until the Hero's centred logo lands here (the
+              // scene then shows it); reduced motion shows it from the start.
+              isHome && "motion-safe:invisible",
+            )}
           >
             <Image
-              src={brand.logo.wordmarkMauve}
+              src={brand.logo.wordmarkShade}
               alt={brand.logo.alt}
               width={320}
               height={157}
@@ -399,9 +437,8 @@ export function SiteHeader() {
             type="button"
             data-mobile-menu-toggle=""
             className={cx(
-              // 44px target on the bar's white surface (which keeps it legible
-              // over the dark Immersive section).
-              "ml-auto inline-flex size-11 shrink-0 items-center justify-center rounded-lg text-ink transition-colors duration-[var(--duration-fast)] hover:bg-paper-dim lg:hidden",
+              // 44px round button in the site's blush tone — no bar behind it.
+              "ml-auto inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-[#ECD9CE] bg-[#F6ECE7]/90 text-ink shadow-[0_6px_18px_-12px_rgba(36,26,23,0.45)] transition-colors duration-[var(--duration-fast)] hover:bg-[#EFE2DB] lg:hidden",
             )}
             aria-expanded={open}
             aria-controls={menuId}

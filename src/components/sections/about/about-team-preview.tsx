@@ -25,7 +25,6 @@ const SLOTS = [
 
 export function AboutTeamPreview() {
   const preview = doctors
-    .filter((doctor) => doctor.slug !== "dr-bharathy-kandasamy")
     .slice(0, SLOTS.length)
     .map((doctor) =>
       doctor.slug === "dr-santoshi-nandigam"

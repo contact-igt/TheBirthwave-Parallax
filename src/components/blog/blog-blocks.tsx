@@ -22,9 +22,9 @@ export function BlogBlocks({ value, position }: { value: unknown; position: 'bef
     {faq.enabled === true && <section id="article-faq" className={styles.block}><h2>{text(faq.heading) || 'Frequently asked questions'}</h2>{rows(faq.items).map((item,index) => <details key={index}><summary>{text(item.question)}</summary><p>{text(item.answer)}</p></details>)}</section>}
   </>;
 }
-export function BlogSidebar({ value }: { value: unknown }) {
+export function BlogSidebar({ value, showNavigation = true }: { value: unknown; showNavigation?: boolean }) {
   const blocks = articleBlocks(value); const appointment = record(record(record(value).sidebar).appointment_cta);
-  return <aside className={styles.sidebar}><nav aria-label="In this article"><h2>In this article</h2><a href="#article-body">Article</a>{record(blocks.key_takeaways).enabled === true && <a href="#article-takeaways">Key takeaways</a>}{record(blocks.numbered_list).enabled === true && <a href="#article-guide">Practical guide</a>}{record(blocks.faq).enabled === true && <a href="#article-faq">Questions and answers</a>}<a href="#article-disclaimer">Medical disclaimer</a></nav>
+  return <aside className={styles.sidebar}>{showNavigation && <nav aria-label="In this article"><h2>In this article</h2><a href="#article-body">Article</a>{record(blocks.key_takeaways).enabled === true && <a href="#article-takeaways">Key takeaways</a>}{record(blocks.numbered_list).enabled === true && <a href="#article-guide">Practical guide</a>}{record(blocks.faq).enabled === true && <a href="#article-faq">Questions and answers</a>}<a href="#article-disclaimer">Medical disclaimer</a></nav>}
     {appointment.enabled === true && <div className={styles.block}><h2>{text(appointment.heading)}</h2><p>{text(appointment.description)}</p><Link href={safeBlogUrl(record(appointment.book_appointment).url) || '/contact'} className={styles.read}>{text(record(appointment.book_appointment).label) || 'Book a consultation'} ↗</Link>{(() => { const call=record(appointment.call_now); const url=text(call.url); return call.enabled === true && /^tel:\+?[\d ()-]+$/.test(url) ? <a href={url}>{text(call.label) || 'Call us'}</a> : null; })()}</div>}
   </aside>;
 }
