@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 
 const ALLOWED_SERVICE_CODES = new Set([
   "general-contact", "doctor-enquiry", "fertility-preconception", "vaginismus",
-  "pregnancy-antenatal-care", "birth-preparation", "natural-birth", "normal-birth-delivery",
+  "pregnancy-antenatal-care", "birth-preparation", "natural-birth", "normal-birth-delivery", "caesarean-birth",
   "vbac", "postpartum-care", "lactation", "newborn-pediatric-care", "gynaecology",
   "nutrition-emotional-wellbeing",
 ]);

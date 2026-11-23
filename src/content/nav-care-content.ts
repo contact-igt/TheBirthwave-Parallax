@@ -50,6 +50,7 @@ const rawNavCareGroups: NavCareGroup[] = [
     title: "BIRTH",
     services: [
       services.find((s) => s.slug === "normal-birth-delivery")!,
+      services.find((s) => s.slug === "caesarean-birth")!,
       services.find((s) => s.slug === "vbac")!,
     ],
   },

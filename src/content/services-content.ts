@@ -322,6 +322,20 @@ export const services: ServiceContent[] = [
     group: "birth-options",
   },
   {
+    slug: "caesarean-birth",
+    eyebrow: "Birth Options",
+    name: "Caesarean Birth",
+    shortDescription:
+      "Understand planned and unplanned Caesarean Birth, preparation, delivery, recovery and postpartum support.",
+    heroStatement:
+      "Understand Caesarean Birth with care, preparation and individual support.",
+    overview:
+      "Whether a Caesarean is planned during pregnancy or recommended as circumstances change, this care pathway helps you discuss the procedure, your preferences and recovery.",
+    highlights: ["Understanding the procedure", "Preparation and birth preferences", "Recovery and postpartum support"],
+    media: { alt: "Caesarean Birth consultation and delivery care — approved photography pending" },
+    group: "birth-options",
+  },
+  {
     slug: "vbac",
     eyebrow: "Birth Options",
     name: "VBAC — Vaginal Birth After Caesarean",
