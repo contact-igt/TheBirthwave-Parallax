@@ -210,6 +210,9 @@ export const doctors: DoctorContent[] = [
       alt: "Dr. Sarvesh Sattanathan",
       placeholderLabel: "Dr. Sarvesh Sattanathan",
     },
+    // The original is 2:3, while the profile frame is 4:5. Keep the crop
+    // top-biased so the full head sits lower inside the shorter frame.
+    photoPosition: "50% 12%",
     team: "medical",
   },
   {

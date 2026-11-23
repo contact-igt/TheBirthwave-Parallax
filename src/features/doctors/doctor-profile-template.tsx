@@ -25,7 +25,7 @@ export function DoctorProfileTemplate({ doctor }: { doctor: DoctorContent }) {
     <article className="relative [padding-block-start:calc(var(--header-height)+var(--space-section))] [padding-block-end:var(--space-section)]">
       <div className="container-birthwave">
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
-          <PortraitPlaceholder photo={doctor.photo} corner="tr" />
+          <PortraitPlaceholder photo={doctor.photo} corner="tr" objectPosition={doctor.photoPosition} />
 
           <div className="max-w-xl">
             <p className="eyebrow">{doctor.role}</p>
