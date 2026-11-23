@@ -8,6 +8,7 @@ export const INDEXABLE_SERVICE_SLUGS: ReadonlySet<string> = new Set([
   "pregnancy-antenatal-care",
   "birth-preparation",
   "natural-birth",
+  "caesarean-birth",
   "vbac",
 ]);
 

@@ -18,6 +18,7 @@ import { PostpartumLandingPage } from "@/components/sections/services/postpartum
 import { NutritionLandingPage } from "@/components/sections/services/nutrition-emotional-wellbeing/nutrition-emotional-wellbeing-landing-page";
 import { NewbornLandingPage } from "@/components/sections/services/newborn-pediatric-care/newborn-pediatric-care-landing-page";
 import { NaturalBirthLandingPage } from "@/components/sections/services/natural-birth/natural-birth-landing-page";
+import { CaesareanBirthLandingPage } from "@/components/sections/services/caesarean-birth/caesarean-birth-landing-page";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   breadcrumbStructuredData,
@@ -27,7 +28,7 @@ import {
 /** The slugs with their own dedicated landing page — every other slug
  * keeps rendering through the unmodified, shared `ServicePageTemplate`.
  * Route generation, metadata and the shared `services-content.ts` record
- * are unchanged for all 12 services; only these routes' own BODY swaps. */
+ * are unchanged for all registered services; only these routes' own BODY swaps. */
 const DEDICATED_LANDING_SLUGS = new Set([
   "pregnancy-antenatal-care",
   "birth-preparation",
@@ -41,6 +42,7 @@ const DEDICATED_LANDING_SLUGS = new Set([
   "nutrition-emotional-wellbeing",
   "newborn-pediatric-care",
   "natural-birth",
+  "caesarean-birth",
 ]);
 
 /** Fuller, ad-relevant meta descriptions for dedicated landing pages,
@@ -69,6 +71,8 @@ const DEDICATED_LANDING_DESCRIPTIONS: Record<string, string> = {
   // This entry uses the now-approved "The Birthwave" spelling.
   "natural-birth":
     "Explore The Birthwave's Natural Birth support. Discuss birth preferences, preparation and care options while planning for flexibility if circumstances change.",
+  "caesarean-birth":
+    "Explore The Birthwave's Caesarean Birth and delivery care. Understand the procedure, preparation, birth preferences, recovery and postpartum support.",
 };
 
 function getServiceDescription(service: (typeof services)[number]): string {
@@ -159,6 +163,8 @@ export default async function ServiceDetailPage({
         <NewbornLandingPage />
       ) : slug === "natural-birth" ? (
         <NaturalBirthLandingPage />
+      ) : slug === "caesarean-birth" ? (
+        <CaesareanBirthLandingPage />
       ) : (
         <ServicePageTemplate service={service} />
       )}

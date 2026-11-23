@@ -22,6 +22,7 @@ test("only approved service pages are indexable", async () => {
     "pregnancy-antenatal-care",
     "birth-preparation",
     "natural-birth",
+    "caesarean-birth",
     "vbac",
   ]);
   assert.equal(isIndexableServiceSlug("vaginismus"), true);

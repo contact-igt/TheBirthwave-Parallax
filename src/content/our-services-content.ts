@@ -273,7 +273,7 @@ export const birthOptionsSection = {
     {
       title: "Caesarean Birth",
       body: "Caesarean birth is a surgical delivery that may be planned or recommended based on maternal or fetal health considerations. Women can discuss indications, preparation, anaesthesia, recovery and postoperative care.",
-      cta: { label: "ENQUIRE ABOUT CAESAREAN BIRTH →", href: "/contact?service=caesarean-birth" },
+      cta: { label: "EXPLORE CAESAREAN BIRTH →", href: "/services/caesarean-birth" },
     },
     {
       title: "Water Birth",

@@ -41,6 +41,7 @@ THE BIRTHWAVE
 │   │
 │   ├── Birth
 │   │   ├── /services/normal-birth-delivery
+│   │   ├── /services/caesarean-birth
 │   │   └── /services/vbac
 │   │
 │   └── After Birth
@@ -64,7 +65,7 @@ THE BIRTHWAVE
 └── /robots.txt                                  generated (this audit)
 ```
 
-12 confirmed services (11 + Natural Birth, added this pass), 10 confirmed
+13 confirmed services (12 + Caesarean Birth, added this pass), 10 confirmed
 team members, 5 chapter groupings — all read live from
 `services-content.ts` / `doctors-content.ts`, not hand-duplicated here.
 
@@ -102,10 +103,10 @@ Footer adds `footer.secondaryLinks` (footer-only, added this pass): FAQ
 ## Sitemap scope
 
 `/sitemap.xml` (`src/app/sitemap.ts`) includes: `/`, `/services`,
-`/doctors`, `/about`, `/faq`, all 12 `/services/[slug]` routes (Natural
-Birth included automatically — `sitemap.ts` maps over `services` from
+`/doctors`, `/about`, `/faq`, all approved `/services/[slug]` routes
+(Caesarean Birth included automatically — `sitemap.ts` maps over `services` from
 `services-content.ts`, never a hand-typed URL list), all 10
-`/doctors/[slug]` routes — 27 URLs total.
+`/doctors/[slug]` routes — 28 core URLs before any configured blog entries.
 
 Excluded: `/contact`, `/privacy`, `/the-experience` — all three are still
 "page in development" placeholders with no confirmed content (per each
